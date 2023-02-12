@@ -3,6 +3,8 @@ class SceneManager:
         self.scenes = []
 
     def push_scene(self, scene):
+
+        scene.fade_in()
         if len(self.scenes) > 0:
             callback = lambda: self.scenes.append(scene)
             self.get_current_scene().hide_scene(callback)

@@ -10,7 +10,7 @@ MAX_ALPHA = 255
 class Scene:
     def __init__(self):
         self.scene_manager = scene_manager
-        self.fade_in()
+        self.progress = 1.0
         self.veil = pygame.Surface((DESIGN_HEIGHT, DESIGN_WIDTH))
         self.complete_animation_callback = None
 
