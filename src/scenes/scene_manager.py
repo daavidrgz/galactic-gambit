@@ -32,15 +32,6 @@ class SceneManager:
     def get_current_scene(self):
         return self.scenes[-1]
 
-    def update_scene(self, elapsed_time):
-        self.get_current_scene().update(elapsed_time)
-
-    def draw_scene(self, screen):
-        self.get_current_scene().draw(screen)
-
-    def handle_events(self, events):
-        self.get_current_scene().handle_events(events)
-
 
 # Make a singleton of SceneManager
 # TODO: Make a singleton class

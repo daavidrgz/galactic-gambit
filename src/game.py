@@ -28,10 +28,10 @@ def run():
         for event in events:
             if event.type == pygame.QUIT:
                 run = False
-
-        scene_manager.handle_events(events)
-        scene_manager.update_scene(elapsed_time)
-        scene_manager.draw_scene(virtual_screen)
+        current_scene = scene_manager.get_current_scene()
+        current_scene.handle_events(events)
+        current_scene.update(elapsed_time)
+        current_scene.draw(virtual_screen)
 
         # Transform the virtual_screen in the one that the user sees
         frame = pygame.transform.scale(virtual_screen, (USER_WIDTH, USER_HEIGHT))
