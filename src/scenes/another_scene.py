@@ -7,13 +7,13 @@ class AnotherScene(Scene):
         super().__init__()
         self.name = "Another Scene"
 
-    def draw(self, screen):
+    def draw_scene(self, screen):
         BLACK = (0, 0, 0)
         # screen.fill(BLACK)
         # Draw a green rectable in the screen
         pygame.draw.rect(screen, (0, 255, 0), pygame.Rect(30, 30, 60, 60))
 
-    def update(self, elapsed_time):
+    def update_scene(self, elapsed_time):
         print(f"im in {self.name}")
 
     def handle_events(self, events):
@@ -21,4 +21,4 @@ class AnotherScene(Scene):
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:
                     print(f"leaving {self.name}")
-                    self.scene_manager.pop_scene_raw()
+                    self.scene_manager.pop_scene()

@@ -14,12 +14,12 @@ class OneScene(Scene):
         self.player = Player((DESIGN_WIDTH // 2, DESIGN_HEIGHT // 2))
         self.player_group = pygame.sprite.GroupSingle(self.player)
 
-    def draw(self, screen):
+    def draw_scene(self, screen):
         BLACK = (0, 0, 0)
         screen.fill(BLACK)
         self.player_group.draw(screen)
 
-    def update(self, elapsed_time):
+    def update_scene(self, elapsed_time):
         print(f"im in {self.name}")
 
     def handle_events(self, events):
@@ -27,7 +27,7 @@ class OneScene(Scene):
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:
                     print("switching to another scene")
-                    self.scene_manager.push_overlay(AnotherScene())
+                    self.scene_manager.push_scene(AnotherScene())
                 if event.key == pygame.K_a:
                     print("switching to another scene")
                     self.scene_manager.push_scene(FadeExample())

@@ -1,48 +1,24 @@
-from scenes.decorations.fade_scene import FadeInScene, FadeOutScene
-from scenes.decorations.overlayed_scene import OverlayedScene
-
-
 class SceneManager:
     def __init__(self):
         self.scenes = []
 
-    def push_scene_raw(self, scene):
-        self.scenes.append(scene)
-
-    def pop_scene_raw(self):
-        self.scenes.pop()
-
-    def switch_scene_raw(self, scene):
-        self.pop_scene_raw()
-        self.push_scene_raw(scene)
-
     def push_scene(self, scene):
-        previous_scene = None
         if len(self.scenes) > 0:
-            previous_scene = self.get_current_scene()
-
-        self.scenes.append(scene)
-        self.scenes.append(FadeInScene(self, scene))
-
-        if previous_scene is not None:
-            self.scenes.append(FadeOutScene(self, previous_scene))
-
-    def push_overlay(self, scene):
-        background_scene = self.get_current_scene()
-        overlayed_scene = OverlayedScene(self, background_scene, scene)
-        self.push_scene_raw(overlayed_scene)
+            callback = lambda: self.scenes.append(scene)
+            self.get_current_scene().hide_scene(callback)
+        else:
+            self.scenes.append(scene)
 
     def pop_scene(self):
-        previous_scene = self.get_current_scene()
-        self.pop_scene_raw()
-        self.scenes.append(FadeInScene(self, self.get_current_scene()))
-        self.scenes.append(FadeOutScene(self, previous_scene))
+        def callback():
+            self.scenes.pop()
+            self.get_current_scene().fade_in()
+
+        self.get_current_scene().hide_scene(callback)
 
     def switch_scene(self, scene):
-        previous_scene = self.get_current_scene()
-        self.switch_scene_raw(scene)
-        self.scenes.append(FadeInScene(self, scene))
-        self.scenes.append(FadeOutScene(self, previous_scene))
+        self.pop_scene()
+        self.push_scene(scene)
 
     def get_current_scene(self):
         return self.scenes[-1]
