@@ -31,7 +31,6 @@ class Scene:
     def draw(self, screen):
         self.draw_scene(screen)
         # Fade animation
-        # if self.progress < 1.0:
         self.veil.set_alpha(self.alpha)
         screen.blit(self.veil, (0, 0))
 
@@ -41,16 +40,15 @@ class Scene:
     def update(self, elapsed_time):
         if self.progress < 1.0:
             self.progress += elapsed_time / FADE_TIME
+            self.progress = min(self.progress, 1.0)
             self.alpha += self.direction * (elapsed_time / FADE_TIME) * MAX_ALPHA
+            self.alpha = min(self.alpha, MAX_ALPHA)
+            self.alpha = max(self.alpha, 0)
         elif self.complete_animation_callback is not None:
             self.complete_animation_callback()
             self.complete_animation_callback = None
 
         # Ensure values are within bounds
-        self.alpha = max(self.alpha, 0)
-        self.alpha = min(self.alpha, MAX_ALPHA)
-        self.progress = max(self.progress, 0.0)
-        self.progress = min(self.progress, 1.0)
 
         self.update_scene(elapsed_time)
 
