@@ -30,4 +30,4 @@ class OneScene(Scene):
                     self.scene_manager.push_scene(AnotherScene())
                 if event.key == pygame.K_a:
                     print("switching to another scene")
-                    self.scene_manager.push_scene(FadeExample())
+                    self.scene_manager.switch_scene(FadeExample())
