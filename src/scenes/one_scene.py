@@ -27,7 +27,7 @@ class OneScene(Scene):
         self.bullet_group.update(elapsed_time)
         print(f"im in {self.name}")
 
-    def handle_events(self, events):
+    def handle_events_scene(self, events):
         for event in events:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:

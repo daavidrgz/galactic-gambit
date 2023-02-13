@@ -56,4 +56,9 @@ class Scene:
         raise NotImplementedError
 
     def handle_events(self, events):
+        if self.progress < 1.0:
+            return
+        self.handle_events_scene(events)
+
+    def handle_events_scene(self, events):
         raise NotImplementedError
