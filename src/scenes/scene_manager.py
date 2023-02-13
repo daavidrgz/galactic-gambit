@@ -2,6 +2,16 @@ class SceneManager:
     def __init__(self):
         self.scenes = []
 
+    def push_scene_raw(self, scene):
+        self.scenes.append(scene)
+
+    def pop_scene_raw(self):
+        self.scenes.pop()
+
+    def switch_scene_raw(self, scene):
+        self.scenes.pop()
+        self.scenes.append(scene)
+
     def push_scene(self, scene):
 
         scene.fade_in()
