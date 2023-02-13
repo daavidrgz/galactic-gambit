@@ -9,3 +9,19 @@ class Entity(pygame.sprite.Sprite):
         x, y = initial_pos
         self.rect.centerx = x
         self.rect.centery = y
+
+    def update(self, elapsed_time):
+        raise NotImplementedError
+
+    def get_position(self):
+        return self.rect.centerx, self.rect.centery
+
+    def set_position(self, position):
+        x, y = position
+        self.rect.centerx = x
+        self.rect.centery = y
+
+    def move(self, delta_position):
+        x, y = delta_position
+        self.rect.centerx += x
+        self.rect.centery += y

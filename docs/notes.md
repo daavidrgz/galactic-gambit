@@ -62,6 +62,8 @@ Mirar la sección de grupos, es importante. Creo que tenemos que usar RenderPlai
 - Usar spritecollide para detectar los disparos al player
 - Usar groupcollide para detectar los disparos a los enemigos
 
+usar cooldown para disparos y tener en cuenta el elapsed time
+
 # Escene Manager
 
 Fade entre escenas? Crear una escena que se encargue del fade y se modifique
