@@ -16,23 +16,25 @@ class OneScene(Scene):
         self.player_group = pygame.sprite.GroupSingle(self.player)
         self.bullet_group = pygame.sprite.Group()
 
-    def draw_scene(self, screen):
+    def draw(self, screen):
         BLACK = (0, 0, 0)
         screen.fill(BLACK)
         self.player_group.draw(screen)
         self.bullet_group.draw(screen)
 
-    def update_scene(self, elapsed_time):
+    def update(self, elapsed_time):
         self.player_group.update(elapsed_time)
         self.bullet_group.update(elapsed_time)
         print(f"im in {self.name}")
 
-    def handle_events_scene(self, events):
+    def handle_events(self, events):
         for event in events:
+            if event.type == pygame.QUIT:
+                self.director.leave_game()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:
                     print("switching to another scene")
-                    self.scene_manager.push_scene(AnotherScene())
+                    self.director.push_scene(AnotherScene())
                 if event.key == pygame.K_w:
                     x, y = self.player.get_position()
                     new_bullet = Bullet((x, y - 10), 1, Direction.UP)

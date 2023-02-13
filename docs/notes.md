@@ -23,6 +23,8 @@ del disparo y
 
 Obstaculos (que se puedan romper)
 
+Municion infinita
+
 # Tecnologias
 
 Triple disparo, disparo cargado, mucha cadencia
@@ -68,3 +70,19 @@ usar cooldown para disparos y tener en cuenta el elapsed time
 
 Fade entre escenas? Crear una escena que se encargue del fade y se modifique
 el alpha al llamar a update
+
+# Diseño engine
+
+- Modelo
+
+  - Items Jugador (upgrades)
+  - Piso en el que estas
+  - Vida
+  - Experiencia
+  - (nivel maybe)
+
+- Entidades (para dentro de las escenas)
+
+- Sistema controles
+
+- Audio
