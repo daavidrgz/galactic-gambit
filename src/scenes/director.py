@@ -14,7 +14,6 @@ class Director:
         self.__leave_scene = False
         self.clock = pygame.time.Clock()
 
-    # TODO: Singleton implementation is enough this way? or should we use metaclasses?
     def get_instance():
         if Director.__instance is None:
             Director.__instance = Director()
@@ -47,10 +46,6 @@ class Director:
             current_scene = self.scenes[-1]
             self.__loop(current_scene)
 
-    def switch_scene(self, scene):
-        self.pop_scene()
-        self.scenes.append(scene)
-
     def push_scene(self, scene):
         self.__leave_scene = True
         self.scenes.append(scene)
@@ -60,6 +55,10 @@ class Director:
 
         if len(self.scenes) > 0:
             self.scenes.pop()
+
+    def switch_scene(self, scene):
+        self.pop_scene()
+        self.scenes.append(scene)
 
     def leave_game(self):
         self.__leave_scene = True
