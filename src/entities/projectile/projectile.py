@@ -3,8 +3,8 @@ from utils.direction import Direction
 
 
 class Projectile(Entity):
-    def __init__(self, image, initial_pos, speed, direction):
-        super().__init__(image, initial_pos)
+    def __init__(self, image, hitbox, initial_pos, speed, direction):
+        super().__init__(image, hitbox, initial_pos)
         self.speed = speed
         self.direction = direction
 

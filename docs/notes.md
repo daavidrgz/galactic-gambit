@@ -86,3 +86,18 @@ el alpha al llamar a update
 - Sistema controles
 
 - Audio
+
+# Sistema de entidades
+
+Las living tienen que tener para hacerles dano. Las de proyectil ya
+
+# Movimiento camara
+
+Utilizar un singleton para la camara, que se mueva con el player.
+Y crear un nuevo metodo/clase que cambie el codigo del draw del grupo
+para que en el blit, se convierta la posicion de la entidad en la posicion
+de la camara.
+
+Crear folder `camera`, y crear un singleton que se encargue de la camara. Y un grupo
+ScrollingGroup que se encargue de hacer el blit de las entidades con el rectangulo
+modificado segun la camara.

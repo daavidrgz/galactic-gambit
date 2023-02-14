@@ -4,6 +4,7 @@ from enum import Enum
 
 
 class Direction(Enum):
+    # TODO: use velocity vector (speed + direction)
     UP = (0, -1)
     DOWN = (0, 1)
     LEFT = (-1, 0)
