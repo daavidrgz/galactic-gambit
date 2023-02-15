@@ -101,3 +101,9 @@ de la camara.
 Crear folder `camera`, y crear un singleton que se encargue de la camara. Y un grupo
 ScrollingGroup que se encargue de hacer el blit de las entidades con el rectangulo
 modificado segun la camara.
+
+# Scroll parallax y background
+
+poner un background grande, rollo espacio. Y los huecos del mapa que no sean nave,
+que por ejemplo sea una imagen del espacio y asteroides grande, y que se mueva el
+scroll más despacio que con la cámara del personaje

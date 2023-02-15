@@ -26,8 +26,13 @@ class Director:
         while not self.__leave_scene:
             elapsed_time = self.clock.tick(60)
 
+            events = pygame.event.get()
+
+            for event in events:
+                if event.type == pygame.QUIT:
+                    self.leave_game()
             # Handle events in scene
-            scene.handle_events(pygame.event.get())
+            scene.handle_events(events)
 
             # Update scene
             scene.update(elapsed_time)

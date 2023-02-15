@@ -6,22 +6,40 @@ class Entity(pygame.sprite.Sprite):
         super().__init__()
         self.image = image
         self.rect = hitbox
-        x, y = initial_pos
-        self.rect.centerx = x
-        self.rect.centery = y
+        self.x, self.y = initial_pos
+
+        # Do not update relative position on initialization, on scene init we should
+        # call update_relative_position manually. Assume for now that the scroll is
+        # at position (0,0), but this should be modified via update_relative_position
+        # after scroll in the scene is created
+        # TODO: preguntar a suso esto
+        self.rect.centerx = self.x
+        self.rect.centery = self.y
 
     def update(self, elapsed_time):
         raise NotImplementedError
 
-    def get_position(self):
+    def get_absolute_position(self):
+        return self.x, self.y
+
+    def set_absolute_position(self, position):
+        self.x, self.y = position
+
+        scrollx, scrolly = self.x - self.rect.centerx, self.y - self.rect.centery
+        self.__update_relative_position_raw(scrollx, scrolly)
+
+    def get_relative_position(self):
         return self.rect.centerx, self.rect.centery
 
-    def set_position(self, position):
-        x, y = position
-        self.rect.centerx = x
-        self.rect.centery = y
+    def update_relative_position(self, scroll):
+        scrollx, scrolly = scroll.get_scroll()
+        self.__update_relative_position_raw(scrollx, scrolly)
 
-    def move(self, delta_position):
-        x, y = delta_position
-        self.rect.centerx += x
-        self.rect.centery += y
+    def __update_relative_position_raw(self, scrollx, scrolly):
+        self.rect.centerx = self.x - scrollx
+        self.rect.centery = self.y - scrolly
+
+    def move_absolute_position(self, delta_position):
+        deltax, deltay = delta_position
+        currentx, currenty = self.get_absolute_position()
+        self.set_absolute_position((currentx + deltax, currenty + deltay))

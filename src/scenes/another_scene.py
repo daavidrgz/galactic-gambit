@@ -14,12 +14,10 @@ class AnotherScene(Scene):
         pygame.draw.rect(screen, (0, 255, 0), pygame.Rect(30, 30, 60, 60))
 
     def update(self, elapsed_time):
-        print(f"im in {self.name}")
+        pass
 
     def handle_events(self, events):
         for event in events:
-            if event.type == pygame.QUIT:
-                self.director.leave_game()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:
                     print(f"leaving {self.name}")
