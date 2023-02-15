@@ -3,7 +3,7 @@ from enum import Enum
 # Enum de las acciones que hay
 
 
-class Acciones(Enum):
+class Actions(Enum):
     pass
 
 
