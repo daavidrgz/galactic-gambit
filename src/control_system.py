@@ -5,7 +5,7 @@ from enum import Enum, auto
 #   Disparar
 
 
-class ActionsEnum(Enum):
+class Actions(Enum):
     DISPARAR = auto()
     ARRIBA = auto()
     ABAJO = auto()
@@ -14,24 +14,24 @@ class ActionsEnum(Enum):
     PAUSA = auto()
 
 
-class Actions:
+class ControlSystem:
     __instance = None
 
     # Diccionario con el mapeo inicial de acciones a teclas
     def __init__(self):
         self.actions = {
-            ActionsEnum.DISPARAR: "J",
-            ActionsEnum.IZQUIERDA: "A",
-            ActionsEnum.DERECHA: "D",
-            ActionsEnum.ARRIBA: "W",
-            ActionsEnum.ABAJO: "S",
-            ActionsEnum.PAUSA: "P",
+            Actions.DISPARAR: pygame.J,
+            Actions.IZQUIERDA: pygame.A,
+            Actions.DERECHA: pygame.D,
+            Actions.ARRIBA: pygame.W,
+            Actions.ABAJO: pygame.S,
+            Actions.PAUSA: pygame.P,
         }
 
     def get_instance():
-        if Actions.__instance is None:
-            Actions.__instance = Actions()
-        return Actions.__instance
+        if ControlSystem.__instance is None:
+            ControlSystem.__instance = ControlSystem()
+        return ControlSystem.__instance
 
     # Funcion que recibe un valor del enum, y te devuelva si esta pulsado o no
     # Se puede hacer el polling cada vez que se llame a esa funcion
