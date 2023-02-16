@@ -1,10 +1,6 @@
 from enum import Enum, auto
 
 # Enum de las acciones que hay
-# Acciones posibles:
-#   Disparar
-
-
 class Actions(Enum):
     DISPARAR = auto()
     ARRIBA = auto()
