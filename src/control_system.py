@@ -4,13 +4,13 @@ from enum import Enum, auto
 # Acciones posibles:
 #   Disparar
 
-
 class ActionsEnum(Enum):
     DISPARAR = auto()
 
 class Actions:
     __instance = None
 
+    # Diccionario con el mapeo inicial de acciones a teclas
     def __init__(self):
         self.actions = {ActionsEnum.DISPARAR:"A"}
 
