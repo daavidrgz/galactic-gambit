@@ -66,7 +66,7 @@ Mirar la sección de grupos, es importante. Creo que tenemos que usar RenderPlai
 
 usar cooldown para disparos y tener en cuenta el elapsed time
 
-# Escene Manager
+# Scene Manager
 
 Fade entre escenas? Crear una escena que se encargue del fade y se modifique
 el alpha al llamar a update
