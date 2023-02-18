@@ -45,25 +45,25 @@ class OneScene(ScrollableScene):
     def update(self, elapsed_time):
         self.player_group.update(elapsed_time)
         self.bullet_group.update(elapsed_time)
-        if self.control.isActiveAction(Actions.ARRIBA):
+        if self.control.is_active_action(Actions.UP):
             self.scroll.move_scroll((0, -10))
             self.is_scroll_modified = True
             self.player.move_absolute_position((0, -10))
             # new_bullet = Bullet((x, y - 10), 1, Direction.UP)
             # self.bullet_group.add(new_bullet)
-        if self.control.isActiveAction(Actions.IZQUIERDA):
+        if self.control.is_active_action(Actions.LEFT):
             self.scroll.move_scroll((-10, 0))
             self.is_scroll_modified = True
             self.player.move_absolute_position((-10, 0))
             # new_bullet = Bullet((x - 10, y), 1, Direction.LEFT)
             # self.bullet_group.add(new_bullet)
-        if self.control.isActiveAction(Actions.ABAJO):
+        if self.control.is_active_action(Actions.DOWN):
             self.scroll.move_scroll((0, 10))
             self.is_scroll_modified = True
             self.player.move_absolute_position((0, 10))
             # new_bullet = Bullet((x, y + 10), 1, Direction.DOWN)
             # self.bullet_group.add(new_bullet)
-        if self.control.isActiveAction(Actions.DERECHA):
+        if self.control.is_active_action(Actions.RIGHT):
             self.scroll.move_scroll((10, 0))
             self.is_scroll_modified = True
             self.player.move_absolute_position((10, 0))

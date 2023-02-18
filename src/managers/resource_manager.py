@@ -10,6 +10,7 @@ class ResourceManager(object):
 
     # Images
     PLAYER = "sprites/player.png"
+    COBBLESTONE = "sprites/cobblestone.png"
 
     # Sounds (I dont know which ones we will use)
     
@@ -22,7 +23,7 @@ class ResourceManager(object):
         return ResourceManager.__instance
 
     @classmethod
-    def loadImage(self, name):
+    def load_image(self, name):
         if name in self.resources:
             return self.resources[name]
         else:
@@ -36,7 +37,7 @@ class ResourceManager(object):
             return image
 
     @classmethod
-    def loadSound(self, name):
+    def load_sound(self, name):
         if name in self.resources:
             return self.resources[name]
         else:
@@ -50,7 +51,7 @@ class ResourceManager(object):
             return sound
 
     @classmethod
-    def loadCoordinatesFile(self, name):
+    def load_coordinates_file(self, name):
         if name in self.resources:
             return self.resources[name]
         else:

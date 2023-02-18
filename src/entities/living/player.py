@@ -6,7 +6,7 @@ import pygame
 class Player(LivingEntity):
     def __init__(self, initial_pos):
         self.manager = ResourceManager.get_instance()
-        image = self.manager.loadImage(self.manager.PLAYER)
+        image = self.manager.load_image(self.manager.PLAYER)
         hitbox = image.get_rect()
         super().__init__(image, hitbox, initial_pos, 100)
 

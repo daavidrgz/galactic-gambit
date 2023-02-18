@@ -3,26 +3,26 @@ import pygame
 
 # Enum de las acciones que hay
 class Actions(Enum):
-    DISPARAR = auto()
-    ARRIBA = auto()
-    ABAJO = auto()
-    IZQUIERDA = auto()
-    DERECHA = auto()
-    PAUSA = auto()
+    SHOOT = auto()
+    UP = auto()
+    DOWN = auto()
+    LEFT = auto()
+    RIGHT = auto()
+    PAUSE = auto()
 
 
 class ControlSystem:
     __instance = None
 
-    # Diccionario con el mapeo inicial de acciones a teclas
+    # Dict with the initial mapping of actions to keys
     def __init__(self):
         self.actions = {
-            Actions.DISPARAR: pygame.K_j,
-            Actions.IZQUIERDA: pygame.K_a,
-            Actions.DERECHA: pygame.K_d,
-            Actions.ARRIBA: pygame.K_w,
-            Actions.ABAJO: pygame.K_s,
-            Actions.PAUSA: pygame.K_p,
+            Actions.SHOOT: pygame.K_j,
+            Actions.LEFT: pygame.K_a,
+            Actions.RIGHT: pygame.K_d,
+            Actions.UP: pygame.K_w,
+            Actions.DOWN: pygame.K_s,
+            Actions.PAUSE: pygame.K_p,
         }
 
     def get_instance():
@@ -30,11 +30,11 @@ class ControlSystem:
             ControlSystem.__instance = ControlSystem()
         return ControlSystem.__instance
 
-    # Funcion que recibe un valor del enum, y te devuelva si esta pulsado o no
-    # Se puede hacer el polling cada vez que se llame a esa funcion
-    def isActiveAction(self, action):
+    # Function that gets the value of an enum and returns if the key associated
+    # to that action is pressed
+    def is_active_action(self, action):
         return pygame.key.get_pressed()[self.actions[action]]
 
-    # Funcion para bindear una tecla a un enum,y que se guarde en un mapa
-    def rebindAction(self, action, key):
+    # Function to rebind a key to an action
+    def rebind_action(self, action, key):
         self.actions[action] = key
