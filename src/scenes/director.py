@@ -1,5 +1,5 @@
 import pygame
-from constants import USER_HEIGHT, USER_WIDTH, DESIGN_HEIGHT, DESIGN_WIDTH
+from constants import USER_HEIGHT, USER_WIDTH, DESIGN_HEIGHT, DESIGN_WIDTH, TARGET_FRAMERATE
 
 
 class Director:
@@ -24,7 +24,7 @@ class Director:
         pygame.event.clear()
 
         while not self.__leave_scene:
-            elapsed_time = self.clock.tick(60)
+            elapsed_time = self.clock.tick(TARGET_FRAMERATE)
 
             events = pygame.event.get()
 
