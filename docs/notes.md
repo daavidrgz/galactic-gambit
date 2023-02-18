@@ -107,3 +107,8 @@ modificado segun la camara.
 poner un background grande, rollo espacio. Y los huecos del mapa que no sean nave,
 que por ejemplo sea una imagen del espacio y asteroides grande, y que se mueva el
 scroll más despacio que con la cámara del personaje
+
+# Modelo
+
+Donde se hace la inialización del Model? en el init del game? al darle
+a start?

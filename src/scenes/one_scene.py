@@ -46,28 +46,30 @@ class OneScene(ScrollableScene):
         self.player_group.update(elapsed_time)
         self.bullet_group.update(elapsed_time)
 
-        #FIXME: Once we know how are we doing camera stuff, make this not update every frame
-        self.scroll.set_scroll((self.player.x - DESIGN_WIDTH / 2, self.player.y - DESIGN_HEIGHT / 2))
+        # FIXME: Once we know how are we doing camera stuff, make this not update every frame
+        self.scroll.set_scroll(
+            (self.player.x - DESIGN_WIDTH / 2, self.player.y - DESIGN_HEIGHT / 2)
+        )
         self.is_scroll_modified = True
-        #if self.control.is_active_action(Actions.UP):
+        # if self.control.is_active_action(Actions.UP):
         #    self.scroll.move_scroll((0, -10))
         #    self.is_scroll_modified = True
         #    self.player.move_absolute_position((0, -10))
         #    # new_bullet = Bullet((x, y - 10), 1, Direction.UP)
         #    # self.bullet_group.add(new_bullet)
-        #if self.control.is_active_action(Actions.LEFT):
+        # if self.control.is_active_action(Actions.LEFT):
         #    self.scroll.move_scroll((-10, 0))
         #    self.is_scroll_modified = True
         #    self.player.move_absolute_position((-10, 0))
         #    # new_bullet = Bullet((x - 10, y), 1, Direction.LEFT)
         #    # self.bullet_group.add(new_bullet)
-        #if self.control.is_active_action(Actions.DOWN):
+        # if self.control.is_active_action(Actions.DOWN):
         #    self.scroll.move_scroll((0, 10))
         #    self.is_scroll_modified = True
         #    self.player.move_absolute_position((0, 10))
         #    # new_bullet = Bullet((x, y + 10), 1, Direction.DOWN)
         #    # self.bullet_group.add(new_bullet)
-        #if self.control.is_active_action(Actions.RIGHT):
+        # if self.control.is_active_action(Actions.RIGHT):
         #    self.scroll.move_scroll((10, 0))
         #    self.is_scroll_modified = True
         #    self.player.move_absolute_position((10, 0))

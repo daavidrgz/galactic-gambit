@@ -13,7 +13,6 @@ class ResourceManager(object):
     COBBLESTONE = "sprites/cobblestone.png"
 
     # Sounds (I dont know which ones we will use)
-    
 
     # Coordinates (Will we use them?)
 

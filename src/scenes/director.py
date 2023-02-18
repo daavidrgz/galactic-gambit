@@ -1,5 +1,11 @@
 import pygame
-from constants import USER_HEIGHT, USER_WIDTH, DESIGN_HEIGHT, DESIGN_WIDTH, TARGET_FRAMERATE
+from constants import (
+    USER_HEIGHT,
+    USER_WIDTH,
+    DESIGN_HEIGHT,
+    DESIGN_WIDTH,
+    TARGET_FRAMERATE,
+)
 
 
 class Director:

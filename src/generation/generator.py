@@ -1,7 +1,16 @@
 from noise import snoise2
 
-class BaseGenerator():
-    def __init__(self, generation_mask, starting_tile, collide_grp, pass_grp, noise_scale, block_scale):
+
+class BaseGenerator:
+    def __init__(
+        self,
+        generation_mask,
+        starting_tile,
+        collide_grp,
+        pass_grp,
+        noise_scale,
+        block_scale,
+    ):
         self.generation_mask = generation_mask
         self.starting_tile_x, self.starting_tile_y = starting_tile
         self.height, self.width = generation_mask.shape
@@ -13,7 +22,11 @@ class BaseGenerator():
         self.block_scale_x, self.block_scale_y = block_scale
 
         import random
-        self.coord_offset_x, self.coord_offset_y = ((random.random() - 0.5) * 1000000, (random.random() - 0.5) * 1000000) #TODO: Based on seed
+
+        self.coord_offset_x, self.coord_offset_y = (
+            (random.random() - 0.5) * 1000000,
+            (random.random() - 0.5) * 1000000,
+        )  # TODO: Based on seed
 
     def generate(self):
         pos_queue = [(self.starting_tile_x, self.starting_tile_y)]
@@ -22,9 +35,14 @@ class BaseGenerator():
 
             working_pos_x = curr_pos_x - curr_pos_x % self.block_scale_x
             working_pos_y = curr_pos_y - curr_pos_y % self.block_scale_y
-            working_pos_x, working_pos_y = self.coordinate_transform(working_pos_x, working_pos_y)
+            working_pos_x, working_pos_y = self.coordinate_transform(
+                working_pos_x, working_pos_y
+            )
 
-            n = self.noise(working_pos_x / self.noise_scale_x - self.coord_offset_x, working_pos_y / self.noise_scale_y - self.coord_offset_x)
+            n = self.noise(
+                working_pos_x / self.noise_scale_x - self.coord_offset_x,
+                working_pos_y / self.noise_scale_y - self.coord_offset_x,
+            )
 
             if self.noise_wall_condition(n, working_pos_x, working_pos_y):
                 self.collide_grp.add(self.get_wall_sprite(curr_pos_x, curr_pos_y))
@@ -41,7 +59,7 @@ class BaseGenerator():
             push(curr_pos_x, curr_pos_y + 1)
             push(curr_pos_x - 1, curr_pos_y)
             push(curr_pos_x, curr_pos_y - 1)
-            
+
     def noise(self, x, y):
         return snoise2(x, y)
 
@@ -53,9 +71,15 @@ class BaseGenerator():
 
     def get_wall_sprite(self, x, y):
         raise NotImplementedError
-    
+
     def get_ground_sprite(self, x, y):
         raise NotImplementedError
 
     def is_pos_available(self, x, y):
-        return x >= 0 and y >= 0 and x < self.width and y < self.height and not self.generation_mask[y, x]
+        return (
+            x >= 0
+            and y >= 0
+            and x < self.width
+            and y < self.height
+            and not self.generation_mask[y, x]
+        )

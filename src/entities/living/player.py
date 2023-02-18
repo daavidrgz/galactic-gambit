@@ -19,14 +19,22 @@ class Player(LivingEntity):
         super().__init__(image, hitbox, initial_pos, 100)
 
     def update(self, elapsed_time):
-        self.speed /= PLAYER_DRAG**(elapsed_time * TARGET_FRAMERATE / 1000)
+        self.speed /= PLAYER_DRAG ** (elapsed_time * TARGET_FRAMERATE / 1000)
 
-        move_vector = np.array([self.control.is_active_action(Actions.RIGHT) - self.control.is_active_action(Actions.LEFT),
-                                self.control.is_active_action(Actions.DOWN) - self.control.is_active_action(Actions.UP)],
-                                dtype=np.float64)
+        move_vector = np.array(
+            [
+                self.control.is_active_action(Actions.RIGHT)
+                - self.control.is_active_action(Actions.LEFT),
+                self.control.is_active_action(Actions.DOWN)
+                - self.control.is_active_action(Actions.UP),
+            ],
+            dtype=np.float64,
+        )
         vector_length = np.sqrt(np.sum(move_vector**2))
         if vector_length > 0.0:
             move_vector /= np.sqrt(np.sum(move_vector**2))
-        
-        self.speed += move_vector * PLAYER_SPEED * elapsed_time * TARGET_FRAMERATE / 1000
+
+        self.speed += (
+            move_vector * PLAYER_SPEED * elapsed_time * TARGET_FRAMERATE / 1000
+        )
         self.move_absolute_position(self.speed)
