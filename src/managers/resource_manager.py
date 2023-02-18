@@ -12,6 +12,7 @@ class ResourceManager(object):
     PLAYER = "sprites/player.png"
 
     # Sounds (I dont know which ones we will use)
+    
 
     # Coordinates (Will we use them?)
 

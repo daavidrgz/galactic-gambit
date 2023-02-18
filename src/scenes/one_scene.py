@@ -7,6 +7,7 @@ from entities.projectile.bullet import Bullet
 from constants import DESIGN_WIDTH, DESIGN_HEIGHT
 from scenes.scrollable_scene import ScrollableScene
 from utils.direction import Direction
+from control_system import ControlSystem, Actions
 
 
 class OneScene(ScrollableScene):
@@ -32,6 +33,8 @@ class OneScene(ScrollableScene):
         # same as the their global position
         self.update_sprites_relative_position()
 
+        self.control = ControlSystem.get_instance()
+
     def draw(self, screen):
         BLACK = (0, 0, 0)
         screen.fill(BLACK)
@@ -42,6 +45,30 @@ class OneScene(ScrollableScene):
     def update(self, elapsed_time):
         self.player_group.update(elapsed_time)
         self.bullet_group.update(elapsed_time)
+        if self.control.isActiveAction(Actions.ARRIBA):
+            self.scroll.move_scroll((0, -10))
+            self.is_scroll_modified = True
+            self.player.move_absolute_position((0, -10))
+            # new_bullet = Bullet((x, y - 10), 1, Direction.UP)
+            # self.bullet_group.add(new_bullet)
+        if self.control.isActiveAction(Actions.IZQUIERDA):
+            self.scroll.move_scroll((-10, 0))
+            self.is_scroll_modified = True
+            self.player.move_absolute_position((-10, 0))
+            # new_bullet = Bullet((x - 10, y), 1, Direction.LEFT)
+            # self.bullet_group.add(new_bullet)
+        if self.control.isActiveAction(Actions.ABAJO):
+            self.scroll.move_scroll((0, 10))
+            self.is_scroll_modified = True
+            self.player.move_absolute_position((0, 10))
+            # new_bullet = Bullet((x, y + 10), 1, Direction.DOWN)
+            # self.bullet_group.add(new_bullet)
+        if self.control.isActiveAction(Actions.DERECHA):
+            self.scroll.move_scroll((10, 0))
+            self.is_scroll_modified = True
+            self.player.move_absolute_position((10, 0))
+            # new_bullet = Bullet((x + 10, y), 1, Direction.RIGHT)
+            # self.bullet_group.add(new_bullet)
 
     def handle_events(self, events):
         for event in events:
@@ -49,28 +76,5 @@ class OneScene(ScrollableScene):
                 if event.key == pygame.K_SPACE:
                     print("switching to another scene")
                     self.director.push_scene(AnotherScene())
-                if event.key == pygame.K_w:
-                    self.scroll.move_scroll((0, -10))
-                    self.is_scroll_modified = True
-                    self.player.move_absolute_position((0, -10))
-                    # new_bullet = Bullet((x, y - 10), 1, Direction.UP)
-                    # self.bullet_group.add(new_bullet)
-                if event.key == pygame.K_a:
-                    self.scroll.move_scroll((-10, 0))
-                    self.is_scroll_modified = True
-                    self.player.move_absolute_position((-10, 0))
-                    # new_bullet = Bullet((x - 10, y), 1, Direction.LEFT)
-                    # self.bullet_group.add(new_bullet)
-                if event.key == pygame.K_s:
-                    self.scroll.move_scroll((0, 10))
-                    self.is_scroll_modified = True
-                    self.player.move_absolute_position((0, 10))
-                    # new_bullet = Bullet((x, y + 10), 1, Direction.DOWN)
-                    # self.bullet_group.add(new_bullet)
-                if event.key == pygame.K_d:
-                    self.scroll.move_scroll((10, 0))
-                    self.is_scroll_modified = True
-                    self.player.move_absolute_position((10, 0))
-                    # new_bullet = Bullet((x + 10, y), 1, Direction.RIGHT)
-                    # self.bullet_group.add(new_bullet)
+
         self.update_sprites_relative_position()
