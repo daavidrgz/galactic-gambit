@@ -36,6 +36,7 @@ Melee:
 - Health
 - Speed
 - Aggro range
+- Attack speed
 
 Ranged:
 
@@ -43,3 +44,4 @@ Ranged:
 - Speed
 - Aggro range
 - Distance to keep from player
+- Attack speed
