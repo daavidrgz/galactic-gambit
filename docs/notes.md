@@ -1,3 +1,5 @@
+# Specification
+
 1- Diseñar los niveles
 2- Metodologia para el desarrollo (tareas, etc...)
 
@@ -25,15 +27,15 @@ Obstaculos (que se puedan romper)
 
 Municion infinita
 
-# Tecnologias
+## Tecnologias
 
 Triple disparo, disparo cargado, mucha cadencia
 
-# Magias
+## Magias
 
 Modifican el proyectil, se consiguen al subir de nivel al matar enemigos
 
-# Implementacion
+## Implementacion
 
 Arbol de clases
 
@@ -53,25 +55,25 @@ Y se van especializacion
 
 - Clase para las upgrades,
 
-# Documentacion
+## Documentacion
 
-https://www.pygame.org/docs/tut/SpriteIntro.html
+<https://www.pygame.org/docs/tut/SpriteIntro.html>
 
 Mirar la sección de grupos, es importante. Creo que tenemos que usar RenderPlain porque cambiamos el fondo en cada frame cuando movemos al player.
 
-# Notes
+## Notes
 
 - Usar spritecollide para detectar los disparos al player
 - Usar groupcollide para detectar los disparos a los enemigos
 
 usar cooldown para disparos y tener en cuenta el elapsed time
 
-# Scene Manager
+## Scene Manager
 
 Fade entre escenas? Crear una escena que se encargue del fade y se modifique
 el alpha al llamar a update
 
-# Diseño engine
+## Diseño engine
 
 - Modelo
 
@@ -87,11 +89,11 @@ el alpha al llamar a update
 
 - Audio
 
-# Sistema de entidades
+## Sistema de entidades
 
 Las living tienen que tener para hacerles dano. Las de proyectil ya
 
-# Movimiento camara
+## Movimiento camara
 
 Utilizar un singleton para la camara, que se mueva con el player.
 Y crear un nuevo metodo/clase que cambie el codigo del draw del grupo
@@ -102,13 +104,13 @@ Crear folder `camera`, y crear un singleton que se encargue de la camara. Y un g
 ScrollingGroup que se encargue de hacer el blit de las entidades con el rectangulo
 modificado segun la camara.
 
-# Scroll parallax y background
+## Scroll parallax y background
 
 poner un background grande, rollo espacio. Y los huecos del mapa que no sean nave,
 que por ejemplo sea una imagen del espacio y asteroides grande, y que se mueva el
 scroll más despacio que con la cámara del personaje
 
-# Modelo
+## Modelo
 
 Donde se hace la inialización del Model? en el init del game? al darle
 a start?
