@@ -63,7 +63,9 @@ class GenerationScene(ScrollableScene):
         self.ground_group = ScrollableGroup(self.scroll)
         self.wall_group = ScrollableGroup(self.scroll)
         self.control = ControlSystem.get_instance()
-        self.dummy_player = Player((CAMERAX, CAMERAY))
+        self.bullet_group = ScrollableGroup(self.scroll)
+
+        self.dummy_player = Player((CAMERAX, CAMERAY), self.bullet_group)
         self.dummy_player_group = ScrollableGroup(self.scroll, self.dummy_player)
 
     def update(self, elapsed_time):

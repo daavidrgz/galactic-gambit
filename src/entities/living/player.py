@@ -1,4 +1,5 @@
 from entities.living.living_entity import LivingEntity
+from entities.projectile.bullet import Bullet
 from managers.resource_manager import ResourceManager
 from control_system import ControlSystem, Actions
 
@@ -9,10 +10,14 @@ import numpy as np
 
 
 class Player(LivingEntity):
-    def __init__(self, initial_pos):
+    def __init__(self, initial_pos, bullets):
         self.manager = ResourceManager.get_instance()
         self.control = ControlSystem.get_instance()
         self.speed = np.zeros(2)
+
+        self.bullets = bullets
+
+        self.facing_vector = np.array([1, 0], dtype=np.float64)
 
         image = self.manager.load_image(self.manager.PLAYER)
         hitbox = image.get_rect()
@@ -38,4 +43,14 @@ class Player(LivingEntity):
         self.speed += (
             move_vector * PLAYER_SPEED * elapsed_time * TARGET_FRAMERATE / 1000
         )
+
         self.move(self.speed)
+        self.facing_vector = move_vector
+        if self.control.is_active_action(Actions.SHOOT):
+            self.shoot()
+
+    def shoot(self):
+        new_bullet = Bullet(
+            self.rect.center + self.facing_vector * 10, self.facing_vector
+        )
+        self.bullets.add(new_bullet)

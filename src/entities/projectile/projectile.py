@@ -3,13 +3,11 @@ from utils.direction import Direction
 
 
 class Projectile(Entity):
-    def __init__(self, image, hitbox, initial_pos, speed, direction):
+    def __init__(self, image, hitbox, initial_pos, velocity):
         super().__init__(image, hitbox, initial_pos)
-        self.speed = speed
-        self.direction = direction
+
+        self.velocity = velocity
 
     def update(self, elapsed_time):
-        delta_position = Direction.get_displacement(
-            self.direction, self.speed, elapsed_time
-        )
+        delta_position = self.velocity * elapsed_time
         self.move(delta_position)

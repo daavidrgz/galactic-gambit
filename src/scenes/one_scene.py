@@ -12,15 +12,17 @@ class OneScene(ScrollableScene):
     def __init__(self):
         super().__init__()
         self.name = "One Scene"
-        self.player = Player((0, 0))
-        self.player2 = Player((DESIGN_WIDTH // 2, DESIGN_HEIGHT // 2))
+        self.bullet_group = ScrollableGroup(self.scroll)
+
+        self.player = Player((0, 0), self.bullet_group)
+        self.player2 = Player(
+            (DESIGN_WIDTH // 2, DESIGN_HEIGHT // 2), self.bullet_group
+        )
 
         self.player_group = ScrollableGroup(self.scroll, self.player)
         self.player2_group = ScrollableGroup(self.scroll, self.player2)
 
         self.scroll.center_at(self.player)
-
-        self.bullet_group = ScrollableGroup(self.scroll)
 
         self.control = ControlSystem.get_instance()
 
