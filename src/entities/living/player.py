@@ -30,11 +30,12 @@ class Player(LivingEntity):
             ],
             dtype=np.float64,
         )
-        vector_length = np.sqrt(np.sum(move_vector**2))
-        if vector_length > 0.0:
-            move_vector /= np.sqrt(np.sum(move_vector**2))
+
+        vector_norm = np.linalg.norm(move_vector)
+        if vector_norm > 0.0:
+            move_vector /= vector_norm
 
         self.speed += (
             move_vector * PLAYER_SPEED * elapsed_time * TARGET_FRAMERATE / 1000
         )
-        self.move_absolute_position(self.speed)
+        self.move(self.speed)

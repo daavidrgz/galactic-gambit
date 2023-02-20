@@ -1,3 +1,4 @@
+from entities.living.player import Player
 from scenes.scene import Scene
 from generation.generator import BaseGenerator
 from control_system import ControlSystem, Actions
@@ -6,37 +7,10 @@ from managers.resource_manager import ResourceManager
 import pygame
 import numpy as np
 from constants import TILE_SIZE, DESIGN_WIDTH, DESIGN_HEIGHT
+from scenes.scrollable_scene import ScrollableGroup, ScrollableScene
 
 CAMERAX = 114.5 * TILE_SIZE - DESIGN_WIDTH / 2
 CAMERAY = 114.5 * TILE_SIZE - DESIGN_HEIGHT / 2
-
-
-class TestScrollGroup(pygame.sprite.Group):
-    def draw(self, surface):
-        sprites = self.sprites()
-        if hasattr(surface, "blits"):
-
-            def calculate_rect(r: pygame.Rect):
-                copy = r.copy()
-                copy.centerx -= CAMERAX
-                copy.centery -= CAMERAY
-                return copy
-
-            self.spritedict.update(
-                zip(
-                    sprites,
-                    surface.blits(
-                        (spr.image, calculate_rect(spr.rect)) for spr in sprites
-                    ),
-                )
-            )
-        else:
-            for spr in sprites:
-                self.spritedict[spr] = surface.blit(spr.image, spr.rect)
-        self.lostsprites = []
-        dirty = self.lostsprites
-
-        return dirty
 
 
 class TestGenerator(BaseGenerator):
@@ -62,38 +36,39 @@ class TestGenerator(BaseGenerator):
     def get_wall_sprite(self, x, y):
         new_tile = pygame.sprite.Sprite()
         new_tile.image = self.cobble_sprite
+        new_tile.image_rect = new_tile.image.get_rect()
         new_tile.rect = new_tile.image.get_rect()
         new_tile.rect.centerx = x * TILE_SIZE + 16
         new_tile.rect.centery = y * TILE_SIZE + 16
+        new_tile.x = new_tile.rect.centerx
+        new_tile.y = new_tile.rect.centery
         return new_tile
 
     def get_ground_sprite(self, x, y):
         new_tile = pygame.sprite.Sprite()
         new_tile.image = self.player_sprite
+        new_tile.image_rect = new_tile.image.get_rect()
         new_tile.rect = new_tile.image.get_rect()
         new_tile.rect.centerx = x * TILE_SIZE + 16
         new_tile.rect.centery = y * TILE_SIZE + 16
+        new_tile.x = new_tile.rect.centerx
+        new_tile.y = new_tile.rect.centery
         return new_tile
 
 
-class GenerationScene(Scene):
+class GenerationScene(ScrollableScene):
     def __init__(self):
         super().__init__()
         self.name = "Generation Test Scene"
-        self.ground_group = TestScrollGroup()
-        self.wall_group = TestScrollGroup()
+        self.ground_group = ScrollableGroup(self.scroll)
+        self.wall_group = ScrollableGroup(self.scroll)
         self.control = ControlSystem.get_instance()
+        self.dummy_player = Player((CAMERAX, CAMERAY))
+        self.dummy_player_group = ScrollableGroup(self.scroll, self.dummy_player)
 
     def update(self, elapsed_time):
-        global CAMERAX, CAMERAY
-        if self.control.is_active_action(Actions.UP):
-            CAMERAY -= 5
-        if self.control.is_active_action(Actions.DOWN):
-            CAMERAY += 5
-        if self.control.is_active_action(Actions.LEFT):
-            CAMERAX -= 5
-        if self.control.is_active_action(Actions.RIGHT):
-            CAMERAX += 5
+        self.dummy_player.update(elapsed_time)
+        self.scroll.center_at(self.dummy_player)
 
     def handle_events(self, events):
         for event in events:
@@ -114,3 +89,4 @@ class GenerationScene(Scene):
         screen.fill(BLACK)
         self.ground_group.draw(screen)
         self.wall_group.draw(screen)
+        self.dummy_player_group.draw(screen)

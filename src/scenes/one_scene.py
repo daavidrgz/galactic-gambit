@@ -1,12 +1,10 @@
-from scenes.scene import Scene
-from scenes.another_scene import AnotherScene
-
 import pygame
+from scenes.another_scene import AnotherScene
 from entities.living.player import Player
 from entities.projectile.bullet import Bullet
 from constants import DESIGN_WIDTH, DESIGN_HEIGHT
-from scenes.scrollable_scene import ScrollableScene
-from utils.direction import Direction
+from scenes.scrollable_scene import ScrollableScene, ScrollableGroup
+from scenes.generation_test_scene import GenerationScene
 from control_system import ControlSystem, Actions
 
 
@@ -17,21 +15,12 @@ class OneScene(ScrollableScene):
         self.player = Player((0, 0))
         self.player2 = Player((DESIGN_WIDTH // 2, DESIGN_HEIGHT // 2))
 
-        self.player_group = pygame.sprite.GroupSingle(self.player)
-        self.player2_group = pygame.sprite.GroupSingle(self.player2)
+        self.player_group = ScrollableGroup(self.scroll, self.player)
+        self.player2_group = ScrollableGroup(self.scroll, self.player2)
 
         self.scroll.center_at(self.player)
 
-        self.bullet_group = pygame.sprite.Group()
-
-        self.all_sprites.add(self.player_group)
-        self.all_sprites.add(self.player2_group)
-        self.all_sprites.add(self.bullet_group)
-
-        # Update relative position of all sprites corresponding to the scroll,
-        # since the initial relative position of them is the
-        # same as the their global position
-        self.update_sprites_relative_position()
+        self.bullet_group = ScrollableGroup(self.scroll)
 
         self.control = ControlSystem.get_instance()
 
@@ -46,41 +35,24 @@ class OneScene(ScrollableScene):
         self.player_group.update(elapsed_time)
         self.bullet_group.update(elapsed_time)
 
+        # if pygame.sprite.groupcollide(
+        #     self.player_group, self.player2_group, False, False
+        # ):
+        #     print("collided")
+        # else:
+        #     print("not collided")
+
         # FIXME: Once we know how are we doing camera stuff, make this not update every frame
-        self.scroll.set_scroll(
-            (self.player.x - DESIGN_WIDTH / 2, self.player.y - DESIGN_HEIGHT / 2)
-        )
-        self.is_scroll_modified = True
-        # if self.control.is_active_action(Actions.UP):
-        #    self.scroll.move_scroll((0, -10))
-        #    self.is_scroll_modified = True
-        #    self.player.move_absolute_position((0, -10))
-        #    # new_bullet = Bullet((x, y - 10), 1, Direction.UP)
-        #    # self.bullet_group.add(new_bullet)
-        # if self.control.is_active_action(Actions.LEFT):
-        #    self.scroll.move_scroll((-10, 0))
-        #    self.is_scroll_modified = True
-        #    self.player.move_absolute_position((-10, 0))
-        #    # new_bullet = Bullet((x - 10, y), 1, Direction.LEFT)
-        #    # self.bullet_group.add(new_bullet)
-        # if self.control.is_active_action(Actions.DOWN):
-        #    self.scroll.move_scroll((0, 10))
-        #    self.is_scroll_modified = True
-        #    self.player.move_absolute_position((0, 10))
-        #    # new_bullet = Bullet((x, y + 10), 1, Direction.DOWN)
-        #    # self.bullet_group.add(new_bullet)
-        # if self.control.is_active_action(Actions.RIGHT):
-        #    self.scroll.move_scroll((10, 0))
-        #    self.is_scroll_modified = True
-        #    self.player.move_absolute_position((10, 0))
-        #    # new_bullet = Bullet((x + 10, y), 1, Direction.RIGHT)
-        #    # self.bullet_group.add(new_bullet)
+        # possible solution: player update returns boolean whether it moved or not
+        # TODO: This goes here or in scrollable_scene?
+        self.scroll.center_at(self.player)
 
     def handle_events(self, events):
         for event in events:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:
                     print("switching to another scene")
+                    self.director.push_scene(GenerationScene())
+                if event.key == pygame.K_n:
+                    print("switching to another scene")
                     self.director.push_scene(AnotherScene())
-
-        self.update_sprites_relative_position()
