@@ -69,7 +69,10 @@ class GenerationScene(ScrollableScene):
         self.dummy_player_group = ScrollableGroup(self.scroll, self.dummy_player)
 
     def update(self, elapsed_time):
+        
+        # TODO: Collision with player & bullet group
         self.dummy_player.update(elapsed_time)
+        self.bullet_group.update(elapsed_time)
         self.scroll.center_at(self.dummy_player)
 
     def handle_events(self, events):
@@ -91,4 +94,5 @@ class GenerationScene(ScrollableScene):
         screen.fill(BLACK)
         self.ground_group.draw(screen)
         self.wall_group.draw(screen)
+        self.bullet_group.draw(screen)
         self.dummy_player_group.draw(screen)

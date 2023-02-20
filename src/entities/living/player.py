@@ -16,6 +16,7 @@ class Player(LivingEntity):
         self.speed = np.zeros(2)
 
         self.bullets = bullets
+        self.shoot_cooldown = 0.0
 
         self.facing_vector = np.array([1, 0], dtype=np.float64)
 
@@ -24,6 +25,8 @@ class Player(LivingEntity):
         super().__init__(image, hitbox, initial_pos, 100)
 
     def update(self, elapsed_time):
+
+        self.shoot_cooldown = max(0.0, self.shoot_cooldown - elapsed_time)
         self.speed /= PLAYER_DRAG ** (elapsed_time * TARGET_FRAMERATE / 1000)
 
         move_vector = np.array(
@@ -39,18 +42,21 @@ class Player(LivingEntity):
         vector_norm = np.linalg.norm(move_vector)
         if vector_norm > 0.0:
             move_vector /= vector_norm
+            self.facing_vector = move_vector
 
         self.speed += (
             move_vector * PLAYER_SPEED * elapsed_time * TARGET_FRAMERATE / 1000
         )
 
         self.move(self.speed)
-        self.facing_vector = move_vector
         if self.control.is_active_action(Actions.SHOOT):
             self.shoot()
 
     def shoot(self):
+        if self.shoot_cooldown > 0.0:
+            return
         new_bullet = Bullet(
-            self.rect.center + self.facing_vector * 10, self.facing_vector
+            self.rect.center + self.facing_vector * 30, 0.8, self.facing_vector
         )
         self.bullets.add(new_bullet)
+        self.shoot_cooldown = 500.0
