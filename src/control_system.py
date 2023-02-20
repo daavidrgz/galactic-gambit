@@ -14,6 +14,9 @@ class Actions(Enum):
 
 
 class ControlSystem(metaclass=Singleton):
+
+    __pressed_keys = None
+
     # Dict with the initial mapping of actions to keys
     def __init__(self):
         self.actions = {
@@ -28,7 +31,10 @@ class ControlSystem(metaclass=Singleton):
     # Function that gets the value of an enum and returns if the key associated
     # to that action is pressed
     def is_active_action(self, action):
-        return pygame.key.get_pressed()[self.actions[action]]
+        return self.__pressed_keys[self.actions[action]]
+
+    def refresh_pressed_keys(self):
+        self.__pressed_keys = pygame.key.get_pressed()
 
     # Function to rebind a key to an action
     def rebind_action(self, action, key):

@@ -6,6 +6,7 @@ from constants import (
     DESIGN_WIDTH,
     TARGET_FRAMERATE,
 )
+from control_system import ControlSystem
 from utils.singleton import Singleton
 
 
@@ -22,11 +23,13 @@ class Director(metaclass=Singleton):
     def __loop(self, scene):
         self.__leave_scene = False
         pygame.event.clear()
-
+        control_system = ControlSystem.get_instance()
         while not self.__leave_scene:
             elapsed_time = self.clock.tick(TARGET_FRAMERATE)
 
             events = pygame.event.get()
+
+            control_system.refresh_pressed_keys()
 
             for event in events:
                 if event.type == pygame.QUIT:

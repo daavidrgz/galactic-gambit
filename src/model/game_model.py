@@ -1,4 +1,3 @@
-from enum import Enum, auto
 from entities.living.player.player import Player
 from mechanics.magic.magic_level import MagicLevel
 from mechanics.weapons.gun import Gun
@@ -56,7 +55,7 @@ class GameModel(metaclass=Singleton):
 class PlayerModel:
     def __init__(self, hp, weapon, magic_level):
         self.hp = hp
-        self.experience = magic_level
+        self.magic_level = magic_level
         self.weapon = weapon
 
     def from_sprite(player_sprite):
