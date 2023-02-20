@@ -44,8 +44,7 @@ class ScrollableGroup(pygame.sprite.Group):
         sprites = self.sprites()
 
         def calculate_rect(entity: Entity):
-            image_rect = entity.image_rect
-            copy = image_rect.copy()
+            copy = entity.image_rect.copy()
             copy.centerx = entity.x - scrollx
             copy.centery = entity.y - scrolly
             return copy
