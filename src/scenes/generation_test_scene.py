@@ -1,4 +1,5 @@
-from entities.living.player import Player
+from entities.living.player.player import Player
+from model.game_model import GameModel
 from scenes.scene import Scene
 from generation.generator import BaseGenerator
 from control_system import ControlSystem, Actions
@@ -65,7 +66,11 @@ class GenerationScene(ScrollableScene):
         self.control = ControlSystem.get_instance()
         self.bullet_group = ScrollableGroup(self.scroll)
 
-        self.dummy_player = Player((CAMERAX, CAMERAY), self.bullet_group)
+        player_model = GameModel.get_instance().get_player()
+
+        self.dummy_player = Player.from_player_model(
+            player_model, (CAMERAX, CAMERAY), self.bullet_group
+        )
         self.dummy_player_group = ScrollableGroup(self.scroll, self.dummy_player)
 
     def update(self, elapsed_time):

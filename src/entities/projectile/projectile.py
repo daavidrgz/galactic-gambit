@@ -1,5 +1,4 @@
 from entities.entity import Entity
-from utils.direction import Direction
 
 
 class Projectile(Entity):

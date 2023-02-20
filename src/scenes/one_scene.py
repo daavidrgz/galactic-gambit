@@ -1,6 +1,7 @@
 import pygame
+from model.game_model import GameModel
 from scenes.another_scene import AnotherScene
-from entities.living.player import Player
+from entities.living.player.player import Player
 from entities.projectile.bullet import Bullet
 from constants import DESIGN_WIDTH, DESIGN_HEIGHT
 from scenes.scrollable_scene import ScrollableScene, ScrollableGroup
@@ -14,9 +15,11 @@ class OneScene(ScrollableScene):
         self.name = "One Scene"
         self.bullet_group = ScrollableGroup(self.scroll)
 
-        self.player = Player((0, 0), self.bullet_group)
-        self.player2 = Player(
-            (DESIGN_WIDTH // 2, DESIGN_HEIGHT // 2), self.bullet_group
+        player_model = GameModel.get_instance().get_player()
+
+        self.player = Player.from_player_model(player_model, (0, 0), self.bullet_group)
+        self.player2 = Player.from_player_model(
+            player_model, (DESIGN_WIDTH // 2, DESIGN_HEIGHT // 2), self.bullet_group
         )
 
         self.player_group = ScrollableGroup(self.scroll, self.player)
@@ -54,6 +57,8 @@ class OneScene(ScrollableScene):
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:
                     print("switching to another scene")
+                    # update model before leaving scene
+                    GameModel.get_instance().update_player(self.player)
                     self.director.push_scene(GenerationScene())
                 if event.key == pygame.K_n:
                     print("switching to another scene")

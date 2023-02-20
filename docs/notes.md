@@ -114,3 +114,9 @@ scroll más despacio que con la cámara del personaje
 
 Donde se hace la inialización del Model? en el init del game? al darle
 a start?
+
+## HUD
+
+barra de vida encima/debajo de los enemigos?
+
+Barra de vida del player en una esquina, o encima del player?
