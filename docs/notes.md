@@ -131,3 +131,5 @@ Las upgrades tecnológicas, si no se guardan, el orden en el que se obtienen afe
 cada vez que se modifica el arma todo, o simplemente nos da igual?
 
 Usar patrón decorador en upgrades tecnológicas/mágicas?
+
+Efecto de jitter en el disparo, parecido al spread pero aleatorio
