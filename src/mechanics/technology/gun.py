@@ -1,21 +1,30 @@
 import math
 
 import numpy as np
-from mechanics.weapons.weapon import Weapon
+from entities.projectile.bullet import Bullet
 
 
-class SpreadWeapon(Weapon):
+class Gun:
     def __init__(self, damage, cooldown, bullet_speed, gun_offset, spread, n_bullets):
-        super().__init__(
-            damage=50,
-            cooldown=500,
-            bullet_speed=0.7,
-            gun_offset=30,
-        )
-        # Angle for spread.
-        # For example 30 degrees of spread means +-15 degrees of maximum angle offset from initial angle.
+        self.damage = damage
+        self.cooldown = cooldown
+        self.current_cooldown = 0.0
+        self.bullet_speed = bullet_speed
+        self.gun_offset = gun_offset
         self.spread = spread
         self.n_bullets = n_bullets
+
+    def is_ready(self):
+        return self.current_cooldown == 0.0
+
+    def update_cooldown(self, elapsed_time):
+        self.current_cooldown = max(0.0, self.current_cooldown - elapsed_time)
+
+    def shoot(self, shoot_position, facing_vector):
+        # Maybe we do not need to parameter gun_offset, but for snipers may be usefull to simulate
+        # a barrel distance.
+        self.current_cooldown = self.cooldown
+        return self.generate_bullet(shoot_position, facing_vector)
 
     def generate_bullet(self, shoot_position, facing_vector):
         # Generate 3 bullets, each one with 7.5 degrees of separation
@@ -32,5 +41,8 @@ class SpreadWeapon(Weapon):
             new_facingy = -math.sin(vector_angle)
             new_facingx = math.cos(vector_angle)
             new_facing_vector = np.array([new_facingy, new_facingx])
-            bullets.append(super().generate_bullet(shoot_position, new_facing_vector))
+            initial_position = shoot_position + new_facing_vector * self.gun_offset
+            bullets.append(
+                Bullet(initial_position, self.bullet_speed, new_facing_vector)
+            )
         return bullets

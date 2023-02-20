@@ -9,6 +9,5 @@ class Bullet(Projectile):
         image = self.manager.load_image(self.manager.PLAYER)
         scaled_image = pygame.transform.scale(image, (16, 16))
         hitbox = scaled_image.get_rect()
-
         velocity = direction * speed
         super().__init__(scaled_image, hitbox, initial_pos, velocity)

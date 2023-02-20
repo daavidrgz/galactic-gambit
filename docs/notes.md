@@ -120,3 +120,14 @@ a start?
 barra de vida encima/debajo de los enemigos?
 
 Barra de vida del player en una esquina, o encima del player?
+
+## Upgrades
+
+De momento modelarlas solo en código.
+
+Magicas -> Lista de efectos a aplicar ordenada. Cuando se ejecute alguna accion, por ejemplo la muerte, se itera sobre las upgrades
+
+Las upgrades tecnológicas, si no se guardan, el orden en el que se obtienen afecta. Deberíamos tener esto en cuenta, y recalcular
+cada vez que se modifica el arma todo, o simplemente nos da igual?
+
+Usar patrón decorador en upgrades tecnológicas/mágicas?

@@ -1,9 +1,6 @@
 from entities.living.player.player import Player
 from mechanics.magic.magic_level import MagicLevel
-from mechanics.weapons.gun import Gun
-from mechanics.weapons.machine_gun import MachineGun
-from mechanics.weapons.shotgun import ShotGun
-from mechanics.weapons.sniper import Sniper
+from mechanics.technology.gun import Gun
 from rng_system import RngSystem
 
 from utils.singleton import Singleton
@@ -14,9 +11,9 @@ import pickle
 # anterior haya cambiado el modelo y haya que refrescar sprites... si hacemos switch scene no nos afecta
 class GameModel(metaclass=Singleton):
     def __init__(self):
-        initial_weapon = ShotGun()
+        initial_gun = Gun(20, 500, 1, 30, 0.0, 1)
         initial_magic_level = MagicLevel(1, 0)
-        initial_player = PlayerModel(100, initial_weapon, initial_magic_level)
+        initial_player = PlayerModel(100, initial_gun, initial_magic_level)
         self.player = initial_player
         self.level = None
         self.rng_system = RngSystem.get_instance()
@@ -53,13 +50,13 @@ class GameModel(metaclass=Singleton):
 
 
 class PlayerModel:
-    def __init__(self, hp, weapon, magic_level):
+    def __init__(self, hp, gun, magic_level):
         self.hp = hp
         self.magic_level = magic_level
-        self.weapon = weapon
+        self.gun = gun
 
     def from_sprite(player_sprite):
         hp = player_sprite.hp
-        weapon = player_sprite.weapon
+        gun = player_sprite.gun
         magic_level = player_sprite.magic_level
-        return PlayerModel(hp, weapon, magic_level)
+        return PlayerModel(hp, gun, magic_level)

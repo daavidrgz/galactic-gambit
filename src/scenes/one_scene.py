@@ -1,4 +1,5 @@
 import pygame
+from mechanics.technology.upgrade_system import UpgradeSystem
 from model.game_model import GameModel
 from scenes.another_scene import AnotherScene
 from entities.living.player.player import Player
@@ -63,3 +64,9 @@ class OneScene(ScrollableScene):
                 if event.key == pygame.K_n:
                     print("switching to another scene")
                     self.director.push_scene(AnotherScene())
+
+                if event.key == pygame.K_m:
+                    upgrade = UpgradeSystem.get_instance().get_random_upgrade()
+                    print(upgrade)
+                    if upgrade is not None:
+                        self.player.apply_upgrade(upgrade)

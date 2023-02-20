@@ -8,7 +8,7 @@ class Generator(Enum):
     MAP = auto()
     ENEMIES = auto()
     PLAYER = auto()
-    WEAPON = auto()
+    TECHNOLOGY = auto()
     MAGIC = auto()
 
 
