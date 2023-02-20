@@ -21,13 +21,10 @@ class Gun:
         self.current_cooldown = max(0.0, self.current_cooldown - elapsed_time)
 
     def shoot(self, shoot_position, facing_vector):
-        # Maybe we do not need to parameter gun_offset, but for snipers may be usefull to simulate
-        # a barrel distance.
         self.current_cooldown = self.cooldown
-        return self.generate_bullet(shoot_position, facing_vector)
+        return self.generate_bullets(shoot_position, facing_vector)
 
-    def generate_bullet(self, shoot_position, facing_vector):
-        # Generate 3 bullets, each one with 7.5 degrees of separation
+    def generate_bullets(self, shoot_position, facing_vector):
         bullets = []
         half_spread = self.spread / 2
 

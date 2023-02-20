@@ -1,6 +1,7 @@
 from entities.living.player.player import Player
 from mechanics.magic.magic_level import MagicLevel
 from mechanics.technology.gun import Gun
+from mechanics.technology.upgrade_system import UpgradeSystem
 from rng_system import RngSystem
 
 from utils.singleton import Singleton
@@ -17,11 +18,16 @@ class GameModel(metaclass=Singleton):
         self.player = initial_player
         self.level = None
         self.rng_system = RngSystem.get_instance()
+        self.upgrade_system = UpgradeSystem.get_instance()
 
     def __update_model(self, model):
         self.player = model.player
         self.level = model.level
         self.rng_system.set_states(model.rng_system.get_states())
+        self.upgrade_system.set_state(
+            model.upgrade_system.available_upgrades,
+            model.upgrade_system.selected_upgrades,
+        )
 
     def update_player(self, player_sprite: Player):
         self.player = PlayerModel.from_sprite(player_sprite)
