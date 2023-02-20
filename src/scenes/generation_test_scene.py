@@ -69,7 +69,7 @@ class GenerationScene(ScrollableScene):
         self.dummy_player_group = ScrollableGroup(self.scroll, self.dummy_player)
 
     def update(self, elapsed_time):
-        
+
         # TODO: Collision with player & bullet group
         self.dummy_player.update(elapsed_time)
         self.bullet_group.update(elapsed_time)

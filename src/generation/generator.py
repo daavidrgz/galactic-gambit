@@ -1,5 +1,7 @@
 from noise import snoise2
 
+from rng_system import Generator, RngSystem
+
 
 class BaseGenerator:
     def __init__(
@@ -21,12 +23,12 @@ class BaseGenerator:
         self.noise_scale_x, self.noise_scale_y = noise_scale
         self.block_scale_x, self.block_scale_y = block_scale
 
-        import random
+        random_generator = RngSystem.get_instance().get_rng(Generator.MAP)
 
         self.coord_offset_x, self.coord_offset_y = (
-            (random.random() - 0.5) * 1000000,
-            (random.random() - 0.5) * 1000000,
-        )  # TODO: Based on seed
+            (random_generator.random() - 0.5) * 1000000,
+            (random_generator.random() - 0.5) * 1000000,
+        )
 
     def generate(self):
         pos_queue = [(self.starting_tile_x, self.starting_tile_y)]
