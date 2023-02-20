@@ -1,14 +1,8 @@
 from model.player_model import PlayerModel
+from utils.singleton import Singleton
 
 
-class GameModel:
-    _instance = None
-
-    def get_instance():
-        if GameModel._instance is None:
-            GameModel._instance = GameModel()
-        return GameModel._instance
-
+class GameModel(metaclass=Singleton):
     def __init__(self):
         self.player = None
         self.level = None

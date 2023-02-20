@@ -6,11 +6,10 @@ from constants import (
     DESIGN_WIDTH,
     TARGET_FRAMERATE,
 )
+from utils.singleton import Singleton
 
 
-class Director:
-    __instance = None
-
+class Director(metaclass=Singleton):
     def __init__(self):
         self.screen = pygame.display.set_mode((USER_WIDTH, USER_HEIGHT))
         self.virtual_screen = pygame.Surface((DESIGN_WIDTH, DESIGN_HEIGHT))
@@ -19,11 +18,6 @@ class Director:
         self.scenes = []
         self.__leave_scene = False
         self.clock = pygame.time.Clock()
-
-    def get_instance():
-        if Director.__instance is None:
-            Director.__instance = Director()
-        return Director.__instance
 
     def __loop(self, scene):
         self.__leave_scene = False

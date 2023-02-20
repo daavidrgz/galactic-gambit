@@ -1,6 +1,8 @@
 from enum import Enum, auto
 import random
 
+from utils.singleton import Singleton
+
 
 class Generator(Enum):
     MAP = auto()
@@ -10,14 +12,7 @@ class Generator(Enum):
     MAGIC_UPGRADE = auto()
 
 
-class RngSystem:
-    _instance = None
-
-    def get_instance():
-        if RngSystem._instance is None:
-            RngSystem._instance = RngSystem()
-        return RngSystem._instance
-
+class RngSystem(metaclass=Singleton):
     def __init__(self):
         self.__global_rng = random.Random()
         self.__global_rng.seed()

@@ -1,6 +1,8 @@
 from enum import Enum, auto
 import pygame
 
+from utils.singleton import Singleton
+
 # Enum de las acciones que hay
 class Actions(Enum):
     SHOOT = auto()
@@ -11,9 +13,7 @@ class Actions(Enum):
     PAUSE = auto()
 
 
-class ControlSystem:
-    __instance = None
-
+class ControlSystem(metaclass=Singleton):
     # Dict with the initial mapping of actions to keys
     def __init__(self):
         self.actions = {
@@ -24,11 +24,6 @@ class ControlSystem:
             Actions.DOWN: pygame.K_s,
             Actions.PAUSE: pygame.K_p,
         }
-
-    def get_instance():
-        if ControlSystem.__instance is None:
-            ControlSystem.__instance = ControlSystem()
-        return ControlSystem.__instance
 
     # Function that gets the value of an enum and returns if the key associated
     # to that action is pressed
