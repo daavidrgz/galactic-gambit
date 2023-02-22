@@ -1,27 +1,23 @@
+from utils.singleton import Singleton
+
 import pygame
 import os
 
 
-class ResourceManager(object):
-    __instance = None
-    resources = {}
+class ResourceManager(metaclass=Singleton):
+    def __init__(self):
+        self.resources = {}
 
-    BASE_PATH = "assets"
+        self.BASE_PATH = "assets"
 
-    # Images
-    PLAYER = "sprites/player.png"
-    COBBLESTONE = "sprites/cobblestone.png"
+        # Images
+        self.PLAYER = "sprites/player.png"
+        self.COBBLESTONE = "sprites/cobblestone.png"
 
-    # Sounds (I dont know which ones we will use)
+        # Sounds (I dont know which ones we will use)
 
-    # Coordinates (Will we use them?)
+        # Coordinates (Will we use them?)
 
-    def get_instance():
-        if ResourceManager.__instance is None:
-            ResourceManager.__instance = ResourceManager()
-        return ResourceManager.__instance
-
-    @classmethod
     def load_image(self, name):
         if name in self.resources:
             return self.resources[name]
@@ -35,7 +31,6 @@ class ResourceManager(object):
             self.resources[name] = image
             return image
 
-    @classmethod
     def load_sound(self, name):
         if name in self.resources:
             return self.resources[name]
@@ -49,7 +44,6 @@ class ResourceManager(object):
             self.resources[name] = sound
             return sound
 
-    @classmethod
     def load_coordinates_file(self, name):
         if name in self.resources:
             return self.resources[name]
