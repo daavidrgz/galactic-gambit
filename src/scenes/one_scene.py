@@ -1,20 +1,22 @@
-import pygame
+from scenes.scene import Scene
 from mechanics.technology.upgrade_system import UpgradeSystem
 from model.game_model import GameModel
 from scenes.another_scene import AnotherScene
 from entities.living.player.player import Player
 from entities.projectile.bullet import Bullet
-from constants import DESIGN_WIDTH, DESIGN_HEIGHT
-from scenes.scrollable_scene import ScrollableScene, ScrollableGroup
+from managers.camera_manager import CameraManager, ScrollableGroup
 from scenes.generation_test_scene import GenerationScene
-from control_system import ControlSystem, Actions
+from control_system import ControlSystem
 
+import pygame
+from constants import DESIGN_WIDTH, DESIGN_HEIGHT
 
-class OneScene(ScrollableScene):
+class OneScene(Scene):
     def __init__(self):
         super().__init__()
         self.name = "One Scene"
-        self.bullet_group = ScrollableGroup(self.scroll)
+        self.camera_mgr = CameraManager()
+        self.bullet_group = ScrollableGroup()
 
         player_model = GameModel.get_instance().get_player()
 
@@ -23,10 +25,10 @@ class OneScene(ScrollableScene):
             player_model, (DESIGN_WIDTH // 2, DESIGN_HEIGHT // 2), self.bullet_group
         )
 
-        self.player_group = ScrollableGroup(self.scroll, self.player)
-        self.player2_group = ScrollableGroup(self.scroll, self.player2)
+        self.player_group = ScrollableGroup(self.player)
+        self.player2_group = ScrollableGroup(self.player2)
 
-        self.scroll.center_at(self.player)
+        self.camera_mgr.set_center(self.player.get_position())
 
         self.control = ControlSystem.get_instance()
 
@@ -47,11 +49,6 @@ class OneScene(ScrollableScene):
         #     print("collided")
         # else:
         #     print("not collided")
-
-        # FIXME: Once we know how are we doing camera stuff, make this not update every frame
-        # possible solution: player update returns boolean whether it moved or not
-        # TODO: This goes here or in scrollable_scene?
-        self.scroll.center_at(self.player)
 
     def handle_events(self, events):
         for event in events:

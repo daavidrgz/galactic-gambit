@@ -7,6 +7,7 @@ from constants import (
     TARGET_FRAMERATE,
 )
 from control_system import ControlSystem
+from managers.camera_manager import CameraManager
 from utils.singleton import Singleton
 
 
@@ -23,7 +24,10 @@ class Director(metaclass=Singleton):
     def __loop(self, scene):
         self.__leave_scene = False
         pygame.event.clear()
+
         control_system = ControlSystem.get_instance()
+        camera_mgr = CameraManager()
+
         while not self.__leave_scene:
             elapsed_time = self.clock.tick(TARGET_FRAMERATE)
 
@@ -39,6 +43,9 @@ class Director(metaclass=Singleton):
 
             # Update scene
             scene.update(elapsed_time)
+
+            # Update camera
+            camera_mgr.update(elapsed_time)
 
             # Draw scene
             scene.draw(self.virtual_screen)

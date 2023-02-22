@@ -1,9 +1,10 @@
 from entities.living.living_entity import LivingEntity
 from entities.projectile.bullet import Bullet
 from managers.resource_manager import ResourceManager
+from managers.camera_manager import CameraManager
 from control_system import ControlSystem, Actions
 
-from constants import PLAYER_DRAG, PLAYER_SPEED, TARGET_FRAMERATE
+from constants import PLAYER_DRAG, PLAYER_SPEED, TARGET_FRAMERATE, CAMERA_LOOK_AHEAD
 
 import pygame
 import numpy as np
@@ -13,6 +14,7 @@ class Player(LivingEntity):
     def __init__(self, hp, gun, magic_level, initial_pos, bullets):
         self.manager = ResourceManager.get_instance()
         self.control = ControlSystem.get_instance()
+        self.camera = CameraManager()
         self.speed = np.zeros(2)
 
         self.bullets = bullets
@@ -36,9 +38,7 @@ class Player(LivingEntity):
         return player
 
     def update(self, elapsed_time):
-
-        self.gun.update_cooldown(elapsed_time)
-
+        # Movement
         self.speed /= PLAYER_DRAG ** (elapsed_time * TARGET_FRAMERATE / 1000)
 
         move_vector = np.array(
@@ -64,6 +64,13 @@ class Player(LivingEntity):
             self.facing_vector = self.speed / speed_norm
 
         self.move(self.speed)
+
+        # Camera
+        self.camera.set_target_center(self.get_position() + self.speed * CAMERA_LOOK_AHEAD)
+
+        # Attack        
+        self.gun.update_cooldown(elapsed_time)
+
         if self.control.is_active_action(Actions.SHOOT):
             self.shoot()
 

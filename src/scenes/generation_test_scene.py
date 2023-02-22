@@ -4,11 +4,11 @@ from scenes.scene import Scene
 from generation.generator import BaseGenerator
 from control_system import ControlSystem, Actions
 from managers.resource_manager import ResourceManager
+from managers.camera_manager import CameraManager, ScrollableGroup
 
 import pygame
 import numpy as np
 from constants import TILE_SIZE, DESIGN_WIDTH, DESIGN_HEIGHT
-from scenes.scrollable_scene import ScrollableGroup, ScrollableScene
 
 CAMERAX = 114.5 * TILE_SIZE - DESIGN_WIDTH / 2
 CAMERAY = 114.5 * TILE_SIZE - DESIGN_HEIGHT / 2
@@ -57,28 +57,27 @@ class TestGenerator(BaseGenerator):
         return new_tile
 
 
-class GenerationScene(ScrollableScene):
+class GenerationScene(Scene):
     def __init__(self):
         super().__init__()
         self.name = "Generation Test Scene"
-        self.ground_group = ScrollableGroup(self.scroll)
-        self.wall_group = ScrollableGroup(self.scroll)
+        self.ground_group = ScrollableGroup()
+        self.wall_group = ScrollableGroup()
         self.control = ControlSystem.get_instance()
-        self.bullet_group = ScrollableGroup(self.scroll)
+        self.bullet_group = ScrollableGroup()
+        self.camera_mgr = CameraManager()
 
         player_model = GameModel.get_instance().get_player()
 
         self.dummy_player = Player.from_player_model(
             player_model, (CAMERAX, CAMERAY), self.bullet_group
         )
-        self.dummy_player_group = ScrollableGroup(self.scroll, self.dummy_player)
+        self.dummy_player_group = ScrollableGroup(self.dummy_player)
 
     def update(self, elapsed_time):
-
         # TODO: Collision with player & bullet group
         self.dummy_player.update(elapsed_time)
         self.bullet_group.update(elapsed_time)
-        self.scroll.center_at(self.dummy_player)
 
     def handle_events(self, events):
         for event in events:
