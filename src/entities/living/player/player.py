@@ -3,11 +3,13 @@ from entities.projectile.bullet import Bullet
 from managers.resource_manager import ResourceManager
 from managers.camera_manager import CameraManager
 from control_system import ControlSystem, Actions
+from scenes.director import Director
 
 from constants import PLAYER_DRAG, PLAYER_SPEED, DESIGN_FRAMERATE, CAMERA_LOOK_AHEAD
 
 import pygame
 import numpy as np
+import utils.math
 
 
 class Player(LivingEntity):
@@ -64,6 +66,21 @@ class Player(LivingEntity):
             self.facing_vector = self.speed / speed_norm
         else:
             self.speed = np.zeros(2)
+
+        collision_circle = (self.x + self.speed[0], self.y + 19.0 + self.speed[1], 20.0)
+        def collide(_, b):
+           return utils.math.circle_rect_collision(collision_circle, b.rect)
+
+        self.scene = Director().get_scene()
+        if pygame.sprite.spritecollideany(self, self.scene.wall_group, collide) is not None:
+            collision_circle = (self.x, self.y + 19.0 + self.speed[1], 20.0)
+            if pygame.sprite.spritecollideany(self, self.scene.wall_group, collide) is None:
+                self.speed[0] = 0.0
+            else:
+                collision_circle = (self.x + self.speed[0], self.y + 19.0, 20.0)
+                if pygame.sprite.spritecollideany(self, self.scene.wall_group, collide) is None:
+                    self.speed[1] = 0.0
+                else: self.speed = np.zeros(2)
 
         self.move(self.speed * elapsed_units)
 

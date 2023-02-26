@@ -80,3 +80,6 @@ class Director(metaclass=Singleton):
     def leave_game(self):
         self.__leave_scene = True
         self.scenes = []
+
+    def get_scene(self):
+        return self.scenes[-1]
