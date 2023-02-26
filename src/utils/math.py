@@ -3,8 +3,7 @@ import numpy as np
 def point_rect_distance(point, rect):
     dx = abs(point[0] - rect.centerx) - rect.width
     dy = abs(point[1] - rect.centery) - rect.height
-    negative_dist = min(max(dx, dy), 0.0)
-    return np.sqrt(max(dx, 0.0)**2 + max(dy, 0.0)**2) + negative_dist
+    return np.sqrt(max(dx, 0.0)**2 + max(dy, 0.0)**2) + min(max(dx, dy), 0.0)
 
 def circle_rect_distance(circle, rect):
     return point_rect_distance(circle[:2], rect) - circle[2]

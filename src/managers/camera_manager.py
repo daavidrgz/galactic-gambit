@@ -3,7 +3,7 @@ from entities.entity import Entity
 
 import pygame
 import numpy as np
-from constants import DESIGN_WIDTH, DESIGN_HEIGHT, TARGET_FRAMERATE, CAMERA_LAG_BEHIND
+from constants import DESIGN_WIDTH, DESIGN_HEIGHT, DESIGN_FRAMERATE, CAMERA_LAG_BEHIND
 
 class CameraManager(metaclass=Singleton):
     def __init__(self):
@@ -14,7 +14,7 @@ class CameraManager(metaclass=Singleton):
 
     def update(self, elapsed_time):
         direction = np.array([self.target_x - self.x, self.target_y - self.y], dtype=np.float64)
-        direction /= CAMERA_LAG_BEHIND * elapsed_time * TARGET_FRAMERATE / 1000
+        direction *= elapsed_time * DESIGN_FRAMERATE / 1000.0 / CAMERA_LAG_BEHIND
 
         self.x = self.x + direction[0]
         self.y = self.y + direction[1]

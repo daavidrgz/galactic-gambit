@@ -4,7 +4,7 @@ from managers.resource_manager import ResourceManager
 from managers.camera_manager import CameraManager
 from control_system import ControlSystem, Actions
 
-from constants import PLAYER_DRAG, PLAYER_SPEED, TARGET_FRAMERATE, CAMERA_LOOK_AHEAD
+from constants import PLAYER_DRAG, PLAYER_SPEED, DESIGN_FRAMERATE, CAMERA_LOOK_AHEAD
 
 import pygame
 import numpy as np
@@ -15,13 +15,13 @@ class Player(LivingEntity):
         self.manager = ResourceManager.get_instance()
         self.control = ControlSystem.get_instance()
         self.camera = CameraManager()
-        self.speed = np.zeros(2)
 
         self.bullets = bullets
         self.shoot_cooldown = 0.0
         self.gun = gun
         self.magic_level = magic_level
 
+        self.speed = np.zeros(2)
         self.facing_vector = np.array([1, 0], dtype=np.float64)
 
         image = self.manager.load_image(self.manager.PLAYER)
@@ -38,8 +38,10 @@ class Player(LivingEntity):
         return player
 
     def update(self, elapsed_time):
+        elapsed_units = elapsed_time * DESIGN_FRAMERATE / 1000
+
         # Movement
-        self.speed /= PLAYER_DRAG ** (elapsed_time * TARGET_FRAMERATE / 1000)
+        self.speed -= PLAYER_DRAG * elapsed_units * self.speed
 
         move_vector = np.array(
             [
@@ -55,15 +57,15 @@ class Player(LivingEntity):
         if vector_norm > 0.0:
             move_vector /= vector_norm
 
-        self.speed += (
-            move_vector * PLAYER_SPEED * elapsed_time * TARGET_FRAMERATE / 1000
-        )
+        self.speed += move_vector * PLAYER_SPEED * elapsed_units
 
         speed_norm = np.linalg.norm(self.speed)
-        if speed_norm > 0.0:
+        if speed_norm > 0.05:
             self.facing_vector = self.speed / speed_norm
+        else:
+            self.speed = np.zeros(2)
 
-        self.move(self.speed)
+        self.move(self.speed * elapsed_units)
 
         # Camera
         self.camera.set_target_center(self.get_position() + self.speed * CAMERA_LOOK_AHEAD)
