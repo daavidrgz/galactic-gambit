@@ -74,6 +74,8 @@ class GenerationScene(Scene):
         )
         self.dummy_player_group = ScrollableGroup(self.dummy_player)
 
+        self.camera_mgr.set_center(self.dummy_player.get_position())
+
     def update(self, elapsed_time):
         # TODO: Collision with player & bullet group
         self.dummy_player.update(elapsed_time)
