@@ -83,8 +83,6 @@ class GenerationScene(Scene):
 
     def handle_events(self, events):
         for event in events:
-            if event.type == pygame.QUIT:
-                self.director.leave_game()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:
                     self.ground_group.empty()
