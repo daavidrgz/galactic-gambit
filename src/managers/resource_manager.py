@@ -13,6 +13,7 @@ class ResourceManager(metaclass=Singleton):
         # Images
         self.PLAYER = "sprites/player.png"
         self.COBBLESTONE = "sprites/cobblestone.png"
+        self.DIRT = "sprites/dirt.png"
 
         # Sounds (I dont know which ones we will use)
 
@@ -51,10 +52,10 @@ class ResourceManager(metaclass=Singleton):
             fullname = os.path.join(self.BASE_PATH, name)
             try:
                 pfile = open(fullname, "r")
-                datos = pfile.read()
+                data = pfile.read()
                 pfile.close()
             except (pygame.error):
                 print("Error loading coord file: ", fullname)
                 raise SystemExit
-            self.resources[name] = datos
-            return datos
+            self.resources[name] = data
+            return data

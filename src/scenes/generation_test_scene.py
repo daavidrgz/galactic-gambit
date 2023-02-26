@@ -17,8 +17,8 @@ CAMERAY = 114.5 * TILE_SIZE - DESIGN_HEIGHT / 2
 class TestGenerator(BaseGenerator):
     def __init__(self, collide_grp, pass_grp):
         self.resource_manager = ResourceManager.get_instance()
-        self.player_sprite = pygame.transform.scale(
-            self.resource_manager.load_image(self.resource_manager.PLAYER), (32, 32)
+        self.dirt_sprite = pygame.transform.scale(
+            self.resource_manager.load_image(self.resource_manager.DIRT), (32, 32)
         )
         self.cobble_sprite = pygame.transform.scale(
             self.resource_manager.load_image(self.resource_manager.COBBLESTONE),
@@ -47,7 +47,7 @@ class TestGenerator(BaseGenerator):
 
     def get_ground_sprite(self, x, y):
         new_tile = pygame.sprite.Sprite()
-        new_tile.image = self.player_sprite
+        new_tile.image = self.dirt_sprite
         new_tile.image_rect = new_tile.image.get_rect()
         new_tile.rect = new_tile.image.get_rect()
         new_tile.rect.centerx = x * TILE_SIZE + 16
