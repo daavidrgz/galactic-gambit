@@ -133,3 +133,35 @@ cada vez que se modifica el arma todo, o simplemente nos da igual?
 Usar patrón decorador en upgrades tecnológicas/mágicas?
 
 Efecto de jitter en el disparo, parecido al spread pero aleatorio
+
+# Notas para la entrega
+
+En el director usamos el patrón plantilla (y el composite?)
+
+## Menu de pausa
+
+en vez de pintar de negro sobre la escena anterior, pinta una cortina con cierto alpha,
+y después pintar la pantall de pausa por encima
+
+## misc
+
+Usar librería abstract class python para forzar implementacion de metodos
+
+Patron fachada para ocultar la lógica de negocio. Sirve para encapsular cualquier tipo de comportamiento
+Así desacoplo la lógica del menu de la parte del director
+Se usa en los metodos propios del menu: salirPrograma, ejecutarJuego, etc...
+
+## Minimapa
+
+Añadir minimapa con lo de clipping de los apuntes
+
+## Mejoras mágicas
+
+Que se haga más grande el disparo, se puede hacer con un apply upgrade, pero las balas tienen que guardar una referencia a la gun, que tiene las upgrades y se pueden aplicar sobre el proyectil en el init por ejemplo.
+
+Crear metodos setup y oncollide en las balas...
+
+Puedo tener 3 listas con los distintos tipos de las updates,
+
+Que las updates tengan un metodo attach al player, y tener una jerarquia de clases de forma que cada tipo de update, en su attach al player, llame
+al append de la lista correspondiente

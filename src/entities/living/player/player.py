@@ -5,7 +5,13 @@ from systems.camera_manager import CameraManager
 from systems.control_system import ControlSystem, Actions
 from scenes.director import Director
 
-from constants import PLAYER_DRAG, PLAYER_SPEED, DESIGN_FRAMERATE, CAMERA_LOOK_AHEAD
+from constants import (
+    PLAYER_DRAG,
+    PLAYER_SPEED,
+    DESIGN_FRAMERATE,
+    CAMERA_LOOK_AHEAD,
+    SPEED_EPSILON,
+)
 
 import pygame
 import numpy as np
@@ -62,32 +68,45 @@ class Player(LivingEntity):
         self.speed += move_vector * PLAYER_SPEED * elapsed_units
 
         speed_norm = np.linalg.norm(self.speed)
-        if speed_norm > 0.05:
+        if speed_norm > SPEED_EPSILON:
             self.facing_vector = self.speed / speed_norm
         else:
             self.speed = np.zeros(2)
 
         collision_circle = (self.x + self.speed[0], self.y + 19.0 + self.speed[1], 20.0)
+
         def collide(_, b):
-           return utils.math.circle_rect_collision(collision_circle, b.rect)
+            return utils.math.circle_rect_collision(collision_circle, b.rect)
 
         self.scene = Director().get_scene()
-        if pygame.sprite.spritecollideany(self, self.scene.wall_group, collide) is not None:
+        if (
+            pygame.sprite.spritecollideany(self, self.scene.wall_group, collide)
+            is not None
+        ):
             collision_circle = (self.x, self.y + 19.0 + self.speed[1], 20.0)
-            if pygame.sprite.spritecollideany(self, self.scene.wall_group, collide) is None:
+            if (
+                pygame.sprite.spritecollideany(self, self.scene.wall_group, collide)
+                is None
+            ):
                 self.speed[0] = 0.0
             else:
                 collision_circle = (self.x + self.speed[0], self.y + 19.0, 20.0)
-                if pygame.sprite.spritecollideany(self, self.scene.wall_group, collide) is None:
+                if (
+                    pygame.sprite.spritecollideany(self, self.scene.wall_group, collide)
+                    is None
+                ):
                     self.speed[1] = 0.0
-                else: self.speed = np.zeros(2)
+                else:
+                    self.speed = np.zeros(2)
 
         self.move(self.speed * elapsed_units)
 
         # Camera
-        self.camera.set_target_center(self.get_position() + self.speed * CAMERA_LOOK_AHEAD)
+        self.camera.set_target_center(
+            self.get_position() + self.speed * CAMERA_LOOK_AHEAD
+        )
 
-        # Attack        
+        # Attack
         self.gun.update_cooldown(elapsed_time)
 
         if self.control.is_active_action(Actions.SHOOT):
