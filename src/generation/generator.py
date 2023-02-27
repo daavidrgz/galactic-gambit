@@ -1,6 +1,6 @@
 from noise import snoise2
 
-from rng_system import Generator, RngSystem
+from systems.rng_system import Generator, RngSystem
 
 
 class BaseGenerator:

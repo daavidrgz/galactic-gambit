@@ -4,9 +4,9 @@ from model.game_model import GameModel
 from scenes.another_scene import AnotherScene
 from entities.living.player.player import Player
 from entities.projectile.bullet import Bullet
-from managers.camera_manager import CameraManager, ScrollableGroup
+from systems.camera_manager import CameraManager, ScrollableGroup
 from scenes.generation_test_scene import GenerationScene
-from control_system import ControlSystem
+from systems.control_system import ControlSystem
 
 import pygame
 from constants import DESIGN_WIDTH, DESIGN_HEIGHT

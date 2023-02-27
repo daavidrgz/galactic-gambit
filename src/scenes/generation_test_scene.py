@@ -2,9 +2,9 @@ from entities.living.player.player import Player
 from model.game_model import GameModel
 from scenes.scene import Scene
 from generation.generator import BaseGenerator
-from control_system import ControlSystem, Actions
-from managers.resource_manager import ResourceManager
-from managers.camera_manager import CameraManager, ScrollableGroup
+from systems.control_system import ControlSystem, Actions
+from systems.resource_manager import ResourceManager
+from systems.camera_manager import CameraManager, ScrollableGroup
 from mechanics.technology.upgrade_system import UpgradeSystem
 
 import pygame

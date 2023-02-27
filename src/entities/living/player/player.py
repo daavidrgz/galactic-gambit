@@ -1,8 +1,8 @@
 from entities.living.living_entity import LivingEntity
 from entities.projectile.bullet import Bullet
-from managers.resource_manager import ResourceManager
-from managers.camera_manager import CameraManager
-from control_system import ControlSystem, Actions
+from systems.resource_manager import ResourceManager
+from systems.camera_manager import CameraManager
+from systems.control_system import ControlSystem, Actions
 from scenes.director import Director
 
 from constants import PLAYER_DRAG, PLAYER_SPEED, DESIGN_FRAMERATE, CAMERA_LOOK_AHEAD

@@ -1,4 +1,4 @@
-from rng_system import Generator, RngSystem
+from systems.rng_system import Generator, RngSystem
 
 
 class MagicLevel:

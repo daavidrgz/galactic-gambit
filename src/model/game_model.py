@@ -2,8 +2,7 @@ from entities.living.player.player import Player
 from mechanics.magic.magic_level import MagicLevel
 from mechanics.technology.gun import Gun
 from mechanics.technology.upgrade_system import UpgradeSystem
-from rng_system import RngSystem
-
+from systems.rng_system import RngSystem
 from utils.singleton import Singleton
 import pickle
 

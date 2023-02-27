@@ -2,7 +2,7 @@ import pygame, sys
 from pygame.locals import *
 from entities.living.player.player import Player
 from model.game_model import GameModel
-from rng_system import Generator, RngSystem
+from systems.rng_system import Generator, RngSystem
 from scenes.generation_test_scene import GenerationScene
 
 from scenes.director import Director

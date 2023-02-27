@@ -6,8 +6,8 @@ from constants import (
     DESIGN_WIDTH,
     TARGET_FRAMERATE,
 )
-from control_system import ControlSystem
-from managers.camera_manager import CameraManager
+from systems.control_system import ControlSystem
+from systems.camera_manager import CameraManager
 from utils.singleton import Singleton
 
 

@@ -1,5 +1,5 @@
 from entities.projectile.projectile import Projectile
-from managers.resource_manager import ResourceManager
+from systems.resource_manager import ResourceManager
 import pygame
 
 
