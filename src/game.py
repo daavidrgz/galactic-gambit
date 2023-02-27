@@ -3,13 +3,12 @@ from pygame.locals import *
 from entities.living.player.player import Player
 from model.game_model import GameModel
 from rng_system import Generator, RngSystem
-from scenes.one_scene import OneScene
+from scenes.generation_test_scene import GenerationScene
 
 from scenes.director import Director
 
 
 def run():
-
     pygame.init()
 
     RngSystem.get_instance().seed(420)
@@ -18,7 +17,7 @@ def run():
     # Load savegame
     # game_model.load()
 
-    initial_scene = OneScene()
+    initial_scene = GenerationScene()
     director = Director.get_instance()
     director.push_scene(initial_scene)
     director.run()

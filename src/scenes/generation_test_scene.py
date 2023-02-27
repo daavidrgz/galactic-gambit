@@ -5,6 +5,7 @@ from generation.generator import BaseGenerator
 from control_system import ControlSystem, Actions
 from managers.resource_manager import ResourceManager
 from managers.camera_manager import CameraManager, ScrollableGroup
+from mechanics.technology.upgrade_system import UpgradeSystem
 
 import pygame
 import numpy as np
@@ -92,6 +93,11 @@ class GenerationScene(Scene):
                     a = time.time()
                     TestGenerator(self.wall_group, self.ground_group).generate()
                     print(time.time() - a)
+                if event.key == pygame.K_m:
+                    upgrade = UpgradeSystem.get_instance().get_random_upgrade()
+                    print(upgrade)
+                    if upgrade is not None:
+                        self.dummy_player.apply_upgrade(upgrade)
 
     def draw(self, screen):
         BLACK = (0, 0, 0)
