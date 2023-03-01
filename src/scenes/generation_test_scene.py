@@ -5,6 +5,7 @@ from generation.generator import BaseGenerator
 from systems.control_system import ControlSystem, Actions
 from systems.resource_manager import ResourceManager
 from systems.camera_manager import CameraManager, ScrollableGroup
+from systems.sound_controller import SoundController
 from mechanics.technology.upgrade_system import UpgradeSystem
 
 import pygame
@@ -64,6 +65,8 @@ class GenerationScene(Scene):
         self.name = "Generation Test Scene"
         self.ground_group = ScrollableGroup()
         self.wall_group = ScrollableGroup()
+        self.sound_controller = SoundController.get_instance()
+        self.resource_manager = ResourceManager.get_instance()
         self.control = ControlSystem.get_instance()
         self.bullet_group = ScrollableGroup()
         self.camera_mgr = CameraManager()
@@ -98,6 +101,8 @@ class GenerationScene(Scene):
                     print(upgrade)
                     if upgrade is not None:
                         self.dummy_player.apply_upgrade(upgrade)
+                if event.key == pygame.K_c:
+                    self.sound_controller.play_music(self.resource_manager.ALIEN_SOUND)
 
     def draw(self, screen):
         BLACK = (0, 0, 0)
