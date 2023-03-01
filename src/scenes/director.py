@@ -38,16 +38,12 @@ class Director(metaclass=Singleton):
             for event in events:
                 if event.type == pygame.QUIT:
                     self.leave_game()
-                    return
 
             # Handle events in scene
             scene.handle_events(events)
 
             # Update scene
             scene.update(elapsed_time)
-
-            # Update camera
-            camera_mgr.update(elapsed_time)
 
             # Draw scene
             scene.draw(self.virtual_screen)

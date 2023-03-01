@@ -36,29 +36,16 @@ class TestGenerator(BaseGenerator):
             (7, 5),
         )
 
-    def get_wall_sprite(self, x, y):
-        new_tile = pygame.sprite.Sprite()
-        new_tile.image = self.cobble_sprite
-        new_tile.image_rect = new_tile.image.get_rect()
-        new_tile.rect = new_tile.image.get_rect()
-        new_tile.rect.centerx = x * TILE_SIZE + 16
-        new_tile.rect.centery = y * TILE_SIZE + 16
-        new_tile.x = new_tile.rect.centerx
-        new_tile.y = new_tile.rect.centery
-        return new_tile
+    def get_wall_sprite(self):
+        return self.cobble_sprite
 
-    def get_ground_sprite(self, x, y):
-        new_tile = pygame.sprite.Sprite()
-        new_tile.image = self.dirt_sprite
-        new_tile.image_rect = new_tile.image.get_rect()
-        new_tile.rect = new_tile.image.get_rect()
-        new_tile.rect.centerx = x * TILE_SIZE + 16
-        new_tile.rect.centery = y * TILE_SIZE + 16
-        new_tile.x = new_tile.rect.centerx
-        new_tile.y = new_tile.rect.centery
-        return new_tile
+    def get_ground_sprite(self):
+        return self.dirt_sprite
 
 
+
+
+# THIS CLASS IS BROKEN DUE TO REFACTOR, USE ONLY AS REFERENCE
 class GenerationScene(Scene):
     def __init__(self):
         super().__init__()

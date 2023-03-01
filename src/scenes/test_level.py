@@ -1,64 +1,61 @@
+import time
+from mechanics.technology.upgrade_system import UpgradeSystem
 from scenes.level import Level
-from generation.terrain import Terrain
+from generation.base_terrain import BaseTerrain
 from generation.generator import BaseGenerator
 from systems.resource_manager import ResourceManager
-from systems.camera_manager import ScrollableGroup
-from model.game_model import GameModel
-from entities.living.player.player import Player
-
-from constants import TILE_SIZE
 
 import pygame
-import numpy as np
+
 
 class TestGenerator(BaseGenerator):
-    def __init__(self, terrain):
-        self.resource_manager = ResourceManager.get_instance()
-        self.dirt_sprite = pygame.transform.scale(
-            self.resource_manager.load_image(self.resource_manager.DIRT), (32, 32)
-        )
-        self.cobble_sprite = pygame.transform.scale(
-            self.resource_manager.load_image(self.resource_manager.COBBLESTONE),
-            (32, 32),
-        )
-
+    def __init__(self):
         super().__init__(
-            terrain,
             (10.0, 20.0),
             (7, 5),
         )
 
-    def get_wall_sprite(self, x, y):
-        new_tile = pygame.sprite.Sprite()
-        new_tile.image = self.cobble_sprite
-        new_tile.image_rect = new_tile.image.get_rect()
-        new_tile.rect = new_tile.image.get_rect()
-        new_tile.rect.centerx = x * TILE_SIZE + 16
-        new_tile.rect.centery = y * TILE_SIZE + 16
-        new_tile.x = new_tile.rect.centerx
-        new_tile.y = new_tile.rect.centery
-        return new_tile
 
-    def get_ground_sprite(self, x, y):
-        new_tile = pygame.sprite.Sprite()
-        new_tile.image = self.dirt_sprite
-        new_tile.image_rect = new_tile.image.get_rect()
-        new_tile.rect = new_tile.image.get_rect()
-        new_tile.rect.centerx = x * TILE_SIZE + 16
-        new_tile.rect.centery = y * TILE_SIZE + 16
-        new_tile.x = new_tile.rect.centerx
-        new_tile.y = new_tile.rect.centery
-        return new_tile
+class TestTerrain(BaseTerrain):
+    def __init__(self, terrain_size, starting_tile):
+        super().__init__(terrain_size, starting_tile)
+        self.resource_manager = ResourceManager.get_instance()
+        self.dirt_sprite = self.resource_manager.load_tile(self.resource_manager.DIRT)
+        self.cobble_sprite = self.resource_manager.load_tile(
+            self.resource_manager.COBBLESTONE
+        )
+
+    def get_wall_sprite(self):
+        return self.cobble_sprite
+
+    def get_ground_sprite(self):
+        return self.dirt_sprite
+
 
 class TestLevel(Level):
     def __init__(self):
-        self.bullet_group = ScrollableGroup() #TODO
-        player_model = GameModel.get_instance().get_player()
-        player = Player.from_player_model(
-            player_model, (114 * TILE_SIZE, 114 * TILE_SIZE), self.bullet_group
-        )
+        player_starting_position = (114, 114)
+        terrain_size = (231, 231)
+        terrain = TestTerrain(terrain_size, player_starting_position)
+        generator = TestGenerator()
+        background_color = (0, 0, 0)
+        super().__init__(generator, terrain, player_starting_position, background_color)
 
-        terrain = Terrain(ScrollableGroup(), np.full((231, 231), False), (114, 114))
-        generator = TestGenerator(terrain)
-
-        super().__init__(generator, terrain, player, (0, 0, 0))
+    def handle_events(self, events):
+        for event in events:
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE:
+                    a = time.time()
+                    self.generator.generate(self.terrain)
+                    print(time.time() - a)
+                if event.key == pygame.K_m:
+                    upgrade = UpgradeSystem.get_instance().get_random_upgrade()
+                    print(upgrade)
+                    if upgrade is not None:
+                        self.player.apply_upgrade(upgrade)
+                if event.key == pygame.K_c:
+                    self.sound_controller.play_music(self.resource_manager.MUSIC_TEST)
+                if event.key == pygame.K_v:
+                    self.sound_controller.update_music_volume(50)
+                if event.key == pygame.K_b:
+                    self.sound_controller.play_sound(self.resource_manager.SOUND_TEST)

@@ -1,3 +1,4 @@
+from constants import TILE_SIZE
 from utils.singleton import Singleton
 
 import pygame
@@ -16,8 +17,8 @@ class ResourceManager(metaclass=Singleton):
         self.DIRT = "sprites/dirt.png"
 
         # Sounds (I dont know which ones we will use)
-        self.MUSIC_TEST = ("sounds/music_test.ogg",1)
-        self.SOUND_TEST = ("sounds/sound_test.ogg",1)
+        self.MUSIC_TEST = ("sounds/music_test.ogg", 1)
+        self.SOUND_TEST = ("sounds/sound_test.ogg", 1)
 
         # Coordinates (Will we use them?)
 
@@ -34,30 +35,30 @@ class ResourceManager(metaclass=Singleton):
             self.resources[name] = image
             return image
 
-    def load_sound(self, sound):
-        if sound[0] in self.resources:
-            return self.resources[sound[0]]
+    def load_sound(self, sound_name):
+        if sound_name in self.resources:
+            return self.resources[sound_name]
         else:
-            fullname = os.path.join(self.BASE_PATH, sound[0])
+            fullname = os.path.join(self.BASE_PATH, sound_name)
             try:
                 loaded_sound = pygame.mixer.Sound(fullname)
             except (pygame.error):
                 print("Error loading sound: ", fullname)
                 raise SystemExit
-            self.resources[sound[0]] = loaded_sound
+            self.resources[sound_name] = loaded_sound
             return loaded_sound
 
-    def load_coordinates_file(self, name):
+    def load_tile(self, name):
         if name in self.resources:
             return self.resources[name]
         else:
             fullname = os.path.join(self.BASE_PATH, name)
             try:
-                pfile = open(fullname, "r")
-                data = pfile.read()
-                pfile.close()
+                tile = pygame.transform.scale(
+                    pygame.image.load(fullname), (TILE_SIZE, TILE_SIZE)
+                )
             except (pygame.error):
-                print("Error loading coord file: ", fullname)
+                print("Error loading tile: ", fullname)
                 raise SystemExit
-            self.resources[name] = data
-            return data
+            self.resources[name] = tile
+            return tile

@@ -76,15 +76,15 @@ class Player(LivingEntity):
         else:
             self.speed = np.zeros(2)
 
-        #collision_circle = (self.x + self.speed[0], self.y + 19.0 + self.speed[1], 20.0)
+        # collision_circle = (self.x + self.speed[0], self.y + 19.0 + self.speed[1], 20.0)
 
-        #def collide(_, b):
+        # def collide(_, b):
         #    return utils.math.circle_rect_collision(collision_circle, b.rect)
 
-        #if (
+        # if (
         #    pygame.sprite.spritecollideany(self, self.scene.wall_group, collide)
         #    is not None
-        #):
+        # ):
         #    collision_circle = (self.x, self.y + 19.0 + self.speed[1], 20.0)
         #    if (
         #        pygame.sprite.spritecollideany(self, self.scene.wall_group, collide)

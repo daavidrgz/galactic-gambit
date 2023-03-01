@@ -9,7 +9,6 @@ class Entity(pygame.sprite.Sprite):
         self.rect = hitbox
         self.x, self.y = initial_pos
 
-        # Set to absolute position, for collisions
         self.rect.centerx = self.x
         self.rect.centery = self.y
 
@@ -23,8 +22,6 @@ class Entity(pygame.sprite.Sprite):
         return self.x, self.y
 
     def set_position(self, position):
-        # TODO: Está bien setear tambien el rect? para las colisiones...
-        # pero también queremos tener el self.x y self.y
         self.x, self.y = position
         self.rect.centerx, self.rect.centery = position
 
