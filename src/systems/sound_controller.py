@@ -4,8 +4,8 @@ from systems.resource_manager import ResourceManager
 import os
 
 class SoundController(metaclass=Singleton):
-    music_volume = 50
-    effects_volume = 50
+    music_volume = 100
+    effects_volume = 100
     relative_volume = 1
 
     @classmethod
@@ -25,7 +25,7 @@ class SoundController(metaclass=Singleton):
     @classmethod
     def update_music_volume(self, volume):
         self.music_volume = volume
-        self.set_relative_volume_music(self)
+        self.set_relative_volume_music()
         
     @classmethod
     def update_effects_volume(self, volume):
@@ -43,7 +43,7 @@ class SoundController(metaclass=Singleton):
     def set_relative_volume_music(self, rel_volume = -1):
         if rel_volume != -1:                        # This is done to maintain the relative volume when changing the music volume
             self.relative_volume = rel_volume
-        pg.mixer.music.set_volume(rel_volume * self.music_volume/100)
+        pg.mixer.music.set_volume(self.relative_volume * self.music_volume/100)
 
     @classmethod
     def set_relative_volume_sound(self, loaded_sound, rel_volume = 1):
@@ -52,12 +52,12 @@ class SoundController(metaclass=Singleton):
     @classmethod
     def play_music(self, music):
         pg.mixer.music.load(os.path.join(self.resource_manager.BASE_PATH, music[0]))
-        self.set_relative_volume(music[1])
+        self.set_relative_volume_music(music[1])
         pg.mixer.music.play(-1)
 
     @classmethod
     def play_sound(self, sound):
         loaded_sound = self.resource_manager.load_sound(sound)
         self.set_relative_volume_sound(loaded_sound, sound[1])
-        loaded_sound.play
+        loaded_sound.play()
     

@@ -102,7 +102,11 @@ class GenerationScene(Scene):
                     if upgrade is not None:
                         self.dummy_player.apply_upgrade(upgrade)
                 if event.key == pygame.K_c:
-                    self.sound_controller.play_music(self.resource_manager.ALIEN_SOUND)
+                    self.sound_controller.play_music(self.resource_manager.MUSIC_TEST)
+                if event.key == pygame.K_v:
+                    self.sound_controller.update_music_volume(50)
+                if event.key == pygame.K_b:
+                    self.sound_controller.play_sound(self.resource_manager.SOUND_TEST)
 
     def draw(self, screen):
         BLACK = (0, 0, 0)

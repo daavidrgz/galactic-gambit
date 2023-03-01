@@ -16,7 +16,8 @@ class ResourceManager(metaclass=Singleton):
         self.DIRT = "sprites/dirt.png"
 
         # Sounds (I dont know which ones we will use)
-        self.ALIEN_SOUND = ("sounds/test.ogg",0.2)
+        self.MUSIC_TEST = ("sounds/music_test.ogg",1)
+        self.SOUND_TEST = ("sounds/sound_test.ogg",1)
 
         # Coordinates (Will we use them?)
 
