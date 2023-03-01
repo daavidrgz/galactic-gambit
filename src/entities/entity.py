@@ -13,8 +13,11 @@ class Entity(pygame.sprite.Sprite):
         self.rect.centerx = self.x
         self.rect.centery = self.y
 
+    def setup(self):
+        pass
+
     def update(self, elapsed_time):
-        raise NotImplementedError
+        pass
 
     def get_position(self):
         return self.x, self.y

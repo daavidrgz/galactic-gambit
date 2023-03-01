@@ -1,9 +1,8 @@
-import pygame, sys
+import pygame
 from pygame.locals import *
-from entities.living.player.player import Player
 from model.game_model import GameModel
-from systems.rng_system import Generator, RngSystem
-from scenes.generation_test_scene import GenerationScene
+from systems.rng_system import RngSystem
+from scenes.test_level import TestLevel
 
 from scenes.director import Director
 
@@ -17,7 +16,7 @@ def run():
     # Load savegame
     # game_model.load()
 
-    initial_scene = GenerationScene()
+    initial_scene = TestLevel()
     director = Director.get_instance()
     director.push_scene(initial_scene)
     director.run()

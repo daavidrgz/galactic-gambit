@@ -45,6 +45,9 @@ class Player(LivingEntity):
         player = Player(hp, gun, magic_level, initial_pos, bullets)
         return player
 
+    def setup(self):
+        self.scene = Director().get_scene()
+
     def update(self, elapsed_time):
         elapsed_units = elapsed_time * DESIGN_FRAMERATE / 1000
 
@@ -73,31 +76,30 @@ class Player(LivingEntity):
         else:
             self.speed = np.zeros(2)
 
-        collision_circle = (self.x + self.speed[0], self.y + 19.0 + self.speed[1], 20.0)
+        #collision_circle = (self.x + self.speed[0], self.y + 19.0 + self.speed[1], 20.0)
 
-        def collide(_, b):
-            return utils.math.circle_rect_collision(collision_circle, b.rect)
+        #def collide(_, b):
+        #    return utils.math.circle_rect_collision(collision_circle, b.rect)
 
-        self.scene = Director().get_scene()
-        if (
-            pygame.sprite.spritecollideany(self, self.scene.wall_group, collide)
-            is not None
-        ):
-            collision_circle = (self.x, self.y + 19.0 + self.speed[1], 20.0)
-            if (
-                pygame.sprite.spritecollideany(self, self.scene.wall_group, collide)
-                is None
-            ):
-                self.speed[0] = 0.0
-            else:
-                collision_circle = (self.x + self.speed[0], self.y + 19.0, 20.0)
-                if (
-                    pygame.sprite.spritecollideany(self, self.scene.wall_group, collide)
-                    is None
-                ):
-                    self.speed[1] = 0.0
-                else:
-                    self.speed = np.zeros(2)
+        #if (
+        #    pygame.sprite.spritecollideany(self, self.scene.wall_group, collide)
+        #    is not None
+        #):
+        #    collision_circle = (self.x, self.y + 19.0 + self.speed[1], 20.0)
+        #    if (
+        #        pygame.sprite.spritecollideany(self, self.scene.wall_group, collide)
+        #        is None
+        #    ):
+        #        self.speed[0] = 0.0
+        #    else:
+        #        collision_circle = (self.x + self.speed[0], self.y + 19.0, 20.0)
+        #        if (
+        #            pygame.sprite.spritecollideany(self, self.scene.wall_group, collide)
+        #            is None
+        #        ):
+        #            self.speed[1] = 0.0
+        #        else:
+        #            self.speed = np.zeros(2)
 
         self.move(self.speed * elapsed_units)
 

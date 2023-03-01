@@ -66,12 +66,14 @@ class Director(metaclass=Singleton):
     def push_scene(self, scene):
         self.__leave_scene = True
         self.scenes.append(scene)
+        scene.setup()
 
     def pop_scene(self):
         self.__leave_scene = True
 
         if len(self.scenes) > 0:
             self.scenes.pop()
+            self.scenes[-1].pop_back()
 
     def switch_scene(self, scene):
         self.pop_scene()

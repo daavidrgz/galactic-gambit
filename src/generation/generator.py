@@ -6,19 +6,15 @@ from systems.rng_system import Generator, RngSystem
 class BaseGenerator:
     def __init__(
         self,
-        generation_mask,
-        starting_tile,
-        collide_grp,
-        pass_grp,
+        terrain,
         noise_scale,
         block_scale,
     ):
-        self.generation_mask = generation_mask
-        self.starting_tile_x, self.starting_tile_y = starting_tile
-        self.height, self.width = generation_mask.shape
+        self.generation_mask = terrain.generation_mask
+        self.starting_tile_x, self.starting_tile_y = terrain.starting_tile
+        self.height, self.width = terrain.generation_mask.shape
 
-        self.collide_grp = collide_grp
-        self.pass_grp = pass_grp
+        self.sprites = terrain.sprites
 
         self.noise_scale_x, self.noise_scale_y = noise_scale
         self.block_scale_x, self.block_scale_y = block_scale
@@ -47,10 +43,10 @@ class BaseGenerator:
             )
 
             if self.noise_wall_condition(n, working_pos_x, working_pos_y):
-                self.collide_grp.add(self.get_wall_sprite(curr_pos_x, curr_pos_y))
+                self.sprites.add(self.get_wall_sprite(curr_pos_x, curr_pos_y))
                 continue
 
-            self.pass_grp.add(self.get_ground_sprite(curr_pos_x, curr_pos_y))
+            self.sprites.add(self.get_ground_sprite(curr_pos_x, curr_pos_y)) #TODO
 
             def push(x, y):
                 if self.is_pos_available(x, y):

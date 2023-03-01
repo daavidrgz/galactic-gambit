@@ -5,6 +5,9 @@ class Scene:
     def __init__(self):
         self.director = Director.get_instance()
 
+    def setup(self):
+        raise NotImplementedError
+
     def update(self, elapsed_time):
         raise NotImplementedError
 
@@ -12,4 +15,7 @@ class Scene:
         raise NotImplementedError
 
     def draw(self, screen):
+        raise NotImplementedError
+
+    def pop_back(self):
         raise NotImplementedError
