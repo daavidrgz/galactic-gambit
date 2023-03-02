@@ -22,19 +22,6 @@ class BaseTerrain:
     def draw(self, screen):
         self.sprites.draw(screen)
 
-    # Template pattern
-    def get_wall_tile(self, x, y):
-        return Tile(x, y, self.get_wall_sprite())
-
-    def get_ground_tile(self, x, y):
-        return Tile(x, y, self.get_ground_sprite())
-
-    def get_wall_sprite(self):
-        raise NotImplementedError
-
-    def get_ground_sprite(self):
-        raise NotImplementedError
-
     def on_ground(self, rect):
         starting_x, starting_y = rect.topleft
         rect_width, rect_height = rect.size

@@ -9,35 +9,35 @@ import pygame
 
 
 class TestGenerator(BaseGenerator):
-    def __init__(self):
-        super().__init__(
-            (10.0, 20.0),
-            (7, 5),
-        )
-
-
-class TestTerrain(BaseTerrain):
-    def __init__(self, terrain_size, starting_tile):
-        super().__init__(terrain_size, starting_tile)
+    def __init__(self, terrain):
         self.resource_manager = ResourceManager.get_instance()
         self.dirt_sprite = self.resource_manager.load_tile(self.resource_manager.DIRT)
         self.cobble_sprite = self.resource_manager.load_tile(
             self.resource_manager.COBBLESTONE
         )
 
-    def get_wall_sprite(self):
+        super().__init__(
+            (10.0, 20.0),
+            (7, 5),
+            terrain
+        )
+
+    def get_wall_sprite(self, x, y):
         return self.cobble_sprite
 
-    def get_ground_sprite(self):
+    def get_ground_sprite(self, x, y):
         return self.dirt_sprite
 
+class TestTerrain(BaseTerrain):
+    def __init__(self, terrain_size, starting_tile):
+        super().__init__(terrain_size, starting_tile)
 
 class TestLevel(Level):
     def __init__(self):
         player_starting_position = (114, 114)
         terrain_size = (231, 231)
         terrain = TestTerrain(terrain_size, player_starting_position)
-        generator = TestGenerator()
+        generator = TestGenerator(terrain)
         background_color = (0, 0, 0)
         super().__init__(generator, terrain, player_starting_position, background_color)
 

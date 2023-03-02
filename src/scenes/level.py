@@ -30,7 +30,7 @@ class Level(Scene):
 
     def setup(self):
         self.player.setup()
-        self.generator.generate(self.terrain)
+        self.generator.generate()
 
     def update(self, elapsed_time):
         self.player.update(elapsed_time)

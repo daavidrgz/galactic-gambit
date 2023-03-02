@@ -1,5 +1,4 @@
 from noise import snoise2
-import pygame
 from generation.tile import Tile
 
 from systems.rng_system import Generator, RngSystem
@@ -10,21 +9,19 @@ class BaseGenerator:
         self,
         noise_scale,
         block_scale,
+        terrain
     ):
         self.noise_scale_x, self.noise_scale_y = noise_scale
         self.block_scale_x, self.block_scale_y = block_scale
+        self.terrain = terrain
         self.random_generator = RngSystem.get_instance().get_rng(Generator.MAP)
 
-    def generate(self, terrain):
-        # TODO: clear terrain here or in Level class? This way we dont have to remember the call
-        # to clear in order to generate a new map. Useful if we do a map level reset like isaac's
-        # on level one.
-        terrain.clear()
+    def generate(self):
         self.coord_offset_x, self.coord_offset_y = (
             (self.random_generator.random() - 0.5) * 1000000,
             (self.random_generator.random() - 0.5) * 1000000,
         )
-        pos_queue = [terrain.starting_tile]
+        pos_queue = [self.terrain.starting_tile]
         while len(pos_queue) > 0:
             curr_pos_x, curr_pos_y = pos_queue.pop()
 
@@ -40,16 +37,16 @@ class BaseGenerator:
             )
 
             if self.noise_wall_condition(n, working_pos_x, working_pos_y):
-                terrain.sprites.add(terrain.get_wall_tile(curr_pos_x, curr_pos_y))
+                self.terrain.sprites.add(self.get_wall_tile(curr_pos_x, curr_pos_y))
                 continue
 
-            terrain.sprites.add(terrain.get_ground_tile(curr_pos_x, curr_pos_y))  # TODO
-            terrain.ground_mask[curr_pos_y, curr_pos_x] = True
+            self.terrain.sprites.add(self.get_ground_tile(curr_pos_x, curr_pos_y))  # TODO
+            self.terrain.ground_mask[curr_pos_y, curr_pos_x] = True
 
             def push(x, y):
-                if self.is_pos_available(x, y, terrain):
+                if self.is_pos_available(x, y):
                     pos_queue.append((x, y))
-                    terrain.generation_mask[y, x] = True
+                    self.terrain.generation_mask[y, x] = True
 
             push(curr_pos_x + 1, curr_pos_y)
             push(curr_pos_x, curr_pos_y + 1)
@@ -65,11 +62,24 @@ class BaseGenerator:
     def coordinate_transform(self, x, y):
         return (x, y)
 
-    def is_pos_available(self, x, y, terrain):
+    def is_pos_available(self, x, y):
         return (
             x >= 0
             and y >= 0
-            and x < terrain.width
-            and y < terrain.height
-            and not terrain.generation_mask[y, x]
+            and x < self.terrain.width
+            and y < self.terrain.height
+            and not self.terrain.generation_mask[y, x]
         )
+    
+    # Template pattern
+    def get_wall_tile(self, x, y):
+        return Tile(x, y, self.get_wall_sprite(x, y))
+
+    def get_ground_tile(self, x, y):
+        return Tile(x, y, self.get_ground_sprite(x, y))
+
+    def get_wall_sprite(self, x, y):
+        raise NotImplementedError
+
+    def get_ground_sprite(self, x, y):
+        raise NotImplementedError
