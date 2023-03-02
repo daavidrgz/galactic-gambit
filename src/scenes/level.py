@@ -35,7 +35,6 @@ class Level(Scene):
     def update(self, elapsed_time):
         self.player.update(elapsed_time)
         self.bullet_group.update(elapsed_time)
-        self.camera_mgr.update(elapsed_time)
         self.__check_bullet_colission()
 
     def __check_bullet_colission(self):
