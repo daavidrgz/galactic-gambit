@@ -46,7 +46,8 @@ class TestLevel(Level):
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:
                     a = time.time()
-                    self.generator.generate(self.terrain)
+                    self.terrain.clear()
+                    self.generator.generate()
                     print(time.time() - a)
                 if event.key == pygame.K_m:
                     upgrade = UpgradeSystem.get_instance().get_random_upgrade()
