@@ -57,3 +57,6 @@ class Level(Scene):
 
     def pop_back(self):
         pass
+
+    def get_terrain(self):
+        return self.terrain

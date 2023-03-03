@@ -1,10 +1,11 @@
-import numpy as np
-import pygame
 from generation.tile import Tile
-
 from systems.camera_manager import ScrollableGroup
+import utils.math
+
 from constants import TILE_SIZE
 
+import numpy as np
+import pygame
 
 class BaseTerrain:
     def __init__(self, terrain_size, starting_tile):
@@ -35,4 +36,16 @@ class BaseTerrain:
             logical_starting_x : logical_end_x + 1,
         ].all()
 
+    def get_collision_vector(self, point, distance):
+        tile_pos_x, tile_pos_y = Tile.tile_to_logical_position(point)
+        tile_pos_x = int(tile_pos_x)
+        tile_pos_y = int(tile_pos_y)
+        pos = np.array(point, dtype=np.float64)
+        for x in range(tile_pos_x - 1, tile_pos_x + 2):
+            for y in range(tile_pos_y - 1, tile_pos_y + 2):
+                if self.ground_mask[y, x]: continue
+                r = pygame.Rect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE)
+                pos += utils.math.circle_rect_collision_vector((pos[0], pos[1], distance), r)
+        return pos - point
+    
     # TODO

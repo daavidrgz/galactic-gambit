@@ -19,3 +19,12 @@ def circle_rect_collision(circle, rect):
     if dx <= w or dy <= h: return True
 
     return circle_rect_distance(circle, rect) <= 0.0
+
+def circle_rect_collision_vector(circle, rect):
+    closest_x = rect.left if circle[0] < rect.left else rect.right if circle[0] > rect.right else circle[0]
+    closest_y = rect.top if circle[1] < rect.top else rect.bottom if circle[1] > rect.bottom else circle[1]
+
+    v = np.array([circle[0] - closest_x, circle[1] - closest_y])
+    l = np.linalg.norm(v)
+
+    return np.zeros(2) if circle[2] < l or l == 0.0 else v / l * (circle[2] - l)
