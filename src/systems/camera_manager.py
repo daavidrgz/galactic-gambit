@@ -16,6 +16,8 @@ class CameraManager(metaclass=Singleton):
         direction = np.array([self.target_x - self.x, self.target_y - self.y], dtype=np.float64)
         direction *= elapsed_time * DESIGN_FRAMERATE / 1000.0 / CAMERA_LAG_BEHIND
 
+        if np.linalg.norm(direction) < 0.2: direction = np.zeros(2)
+
         self.x = self.x + direction[0]
         self.y = self.y + direction[1]
 
