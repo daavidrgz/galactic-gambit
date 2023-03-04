@@ -56,4 +56,5 @@ class BaseTerrain:
                 pos += utils.math.circle_rect_collision_vector((pos[0], pos[1], distance), r)
         return pos - point
     
-    # TODO
+    def in_bounds(self, x, y):
+        return x >= 0 and y >= 0 and x < self.width and y < self.height

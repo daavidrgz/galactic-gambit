@@ -45,9 +45,13 @@ class BaseGenerator:
             self.terrain.data[curr_pos_y, curr_pos_x] = TerrainType.GROUND
 
             def push(x, y):
-                if self.is_pos_available(x, y):
-                    pos_queue.append((x, y))
-                    self.terrain.data[y, x] = TerrainType.GENERATING
+                if self.terrain.in_bounds(x, y):
+                    if self.terrain.data[y, x] == TerrainType.NONE:
+                        pos_queue.append((x, y))
+                        self.terrain.data[y, x] = TerrainType.GENERATING
+                    elif self.terrain.data[y, x] == TerrainType.BOUND:
+                        self.terrain.sprites.add(self.get_wall_tile(curr_pos_x, curr_pos_y))
+                        self.terrain.data[y, x] = TerrainType.WALL
 
             push(curr_pos_x + 1, curr_pos_y)
             push(curr_pos_x, curr_pos_y + 1)
@@ -62,15 +66,6 @@ class BaseGenerator:
 
     def coordinate_transform(self, x, y):
         return (x, y)
-
-    def is_pos_available(self, x, y):
-        return (
-            x >= 0
-            and y >= 0
-            and x < self.terrain.width
-            and y < self.terrain.height
-            and self.terrain.data[y, x] == TerrainType.NONE
-        )
     
     # Template pattern
     def get_wall_tile(self, x, y):

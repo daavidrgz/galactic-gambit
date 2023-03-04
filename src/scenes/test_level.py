@@ -31,7 +31,9 @@ class TestGenerator(BaseGenerator):
 
 class TestTerrain(BaseTerrain):
     def __init__(self, terrain_size, starting_tile):
-        super().__init__(np.full(terrain_size, TerrainType.NONE, dtype=np.int16), starting_tile)
+        data = np.full(tuple(x - 2 for x in terrain_size), TerrainType.NONE, dtype=np.int16)
+        data = np.pad(data, ((1,1),(1,1)), mode="constant", constant_values=TerrainType.BOUND)
+        super().__init__(data, starting_tile)
 
 class TestLevel(Level):
     def __init__(self):
