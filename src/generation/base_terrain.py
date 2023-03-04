@@ -49,8 +49,8 @@ class BaseTerrain:
         tile_pos_x = int(tile_pos_x)
         tile_pos_y = int(tile_pos_y)
         pos = np.array(point, dtype=np.float64)
-        for x in range(tile_pos_x - 1, tile_pos_x + 2):
-            for y in range(tile_pos_y - 1, tile_pos_y + 2):
+        for x in range(max(0, tile_pos_x - 1), min(self.width, tile_pos_x + 2)):
+            for y in range(max(0, tile_pos_y - 1), min(self.height, tile_pos_y + 2)):
                 if self.data[y, x] == TerrainType.GROUND: continue
                 r = pygame.Rect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE)
                 pos += utils.math.circle_rect_collision_vector((pos[0], pos[1], distance), r)
