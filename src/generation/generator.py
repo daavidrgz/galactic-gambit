@@ -1,6 +1,6 @@
 from noise import snoise2
 from generation.tile import Tile
-
+from generation.base_terrain import TerrainType
 from systems.rng_system import Generator, RngSystem
 
 
@@ -38,15 +38,16 @@ class BaseGenerator:
 
             if self.noise_wall_condition(n, working_pos_x, working_pos_y):
                 self.terrain.sprites.add(self.get_wall_tile(curr_pos_x, curr_pos_y))
+                self.terrain.data[curr_pos_y, curr_pos_x] = TerrainType.WALL
                 continue
 
             self.terrain.sprites.add(self.get_ground_tile(curr_pos_x, curr_pos_y))  # TODO
-            self.terrain.ground_mask[curr_pos_y, curr_pos_x] = True
+            self.terrain.data[curr_pos_y, curr_pos_x] = TerrainType.GROUND
 
             def push(x, y):
                 if self.is_pos_available(x, y):
                     pos_queue.append((x, y))
-                    self.terrain.generation_mask[y, x] = True
+                    self.terrain.data[y, x] = TerrainType.GENERATING
 
             push(curr_pos_x + 1, curr_pos_y)
             push(curr_pos_x, curr_pos_y + 1)
@@ -68,7 +69,7 @@ class BaseGenerator:
             and y >= 0
             and x < self.terrain.width
             and y < self.terrain.height
-            and not self.terrain.generation_mask[y, x]
+            and self.terrain.data[y, x] == TerrainType.NONE
         )
     
     # Template pattern

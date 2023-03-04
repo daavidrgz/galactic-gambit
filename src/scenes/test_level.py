@@ -1,11 +1,12 @@
 import time
 from mechanics.technology.upgrade_system import UpgradeSystem
 from scenes.level import Level
-from generation.base_terrain import BaseTerrain
+from generation.base_terrain import BaseTerrain, TerrainType
 from generation.generator import BaseGenerator
 from systems.resource_manager import ResourceManager
 
 import pygame
+import numpy as np
 
 
 class TestGenerator(BaseGenerator):
@@ -30,7 +31,7 @@ class TestGenerator(BaseGenerator):
 
 class TestTerrain(BaseTerrain):
     def __init__(self, terrain_size, starting_tile):
-        super().__init__(terrain_size, starting_tile)
+        super().__init__(np.full(terrain_size, TerrainType.NONE, dtype=np.int16), starting_tile)
 
 class TestLevel(Level):
     def __init__(self):

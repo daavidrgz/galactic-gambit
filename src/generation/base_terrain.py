@@ -4,21 +4,29 @@ import utils.math
 
 from constants import TILE_SIZE
 
+from enum import IntEnum
 import numpy as np
 import pygame
 
+class TerrainType(IntEnum):
+    NONE = 0
+
+    GROUND = 1
+    WALL = 2
+
+    GENERATING = -1
+    BOUND = -2
+
 class BaseTerrain:
-    def __init__(self, terrain_size, starting_tile):
+    def __init__(self, data, starting_tile):
         self.sprites = ScrollableGroup()
-        self.generation_mask = np.full(terrain_size, False)
-        self.ground_mask = np.full(terrain_size, False)
+        self.data = data
         self.starting_tile = starting_tile
-        self.height, self.width = terrain_size
+        self.height, self.width = data.shape
 
     def clear(self):
         self.sprites.empty()
-        self.generation_mask.fill(False)
-        self.ground_mask.fill(False)
+        self.data.fill(0)
 
     def draw(self, screen):
         self.sprites.draw(screen)
@@ -31,10 +39,10 @@ class BaseTerrain:
             (starting_x, starting_y)
         )
         logical_end_x, logical_end_y = Tile.tile_to_logical_position((end_x, end_y))
-        return self.ground_mask[
+        return (self.data[
             logical_starting_y : logical_end_y + 1,
             logical_starting_x : logical_end_x + 1,
-        ].all()
+        ] == TerrainType.GROUND).all()
 
     def get_collision_vector(self, point, distance):
         tile_pos_x, tile_pos_y = Tile.tile_to_logical_position(point)
@@ -43,7 +51,7 @@ class BaseTerrain:
         pos = np.array(point, dtype=np.float64)
         for x in range(tile_pos_x - 1, tile_pos_x + 2):
             for y in range(tile_pos_y - 1, tile_pos_y + 2):
-                if self.ground_mask[y, x]: continue
+                if self.data[y, x] == TerrainType.GROUND: continue
                 r = pygame.Rect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE)
                 pos += utils.math.circle_rect_collision_vector((pos[0], pos[1], distance), r)
         return pos - point
