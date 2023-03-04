@@ -58,7 +58,7 @@ class BaseTerrain:
                 if self.data[y, x] == TerrainType.GROUND: continue
                 r = pygame.Rect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE)
                 pos += utils.math.circle_rect_collision_vector((pos[0], pos[1], distance), r)
-        return pos - point
+        return pos
     
     def in_bounds(self, x, y):
         return x >= 0 and y >= 0 and x < self.width and y < self.height

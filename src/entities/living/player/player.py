@@ -78,9 +78,8 @@ class Player(LivingEntity):
             self.x + self.speed[0] * elapsed_units,
             self.y + self.speed[1] * elapsed_units + 19.0
         ], dtype=np.float64)
-        self.speed += self.terrain.get_collision_vector(final_position, 20.0)
-
-        self.move(self.speed * elapsed_units)
+        pos = self.terrain.get_collision_vector(final_position, 20.0)
+        self.set_position((pos[0], pos[1] - 19.0))
 
         # Camera
         self.camera.set_target_center(
