@@ -52,8 +52,8 @@ class ScrollableGroup(pygame.sprite.Group):
 
         def calculate_rect(entity: Entity):
             copy = entity.image_rect.copy()
-            copy.centerx = entity.x - scrollx
-            copy.centery = entity.y - scrolly
+            copy.centerx = round(entity.x) - round(scrollx)
+            copy.centery = round(entity.y) - round(scrolly)
             return copy
 
         if hasattr(surface, "blits"):
