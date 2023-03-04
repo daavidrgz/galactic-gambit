@@ -3,7 +3,7 @@ from entities.entity import Entity
 
 import pygame
 import numpy as np
-from constants import DESIGN_WIDTH, DESIGN_HEIGHT, DESIGN_FRAMERATE, CAMERA_LAG_BEHIND
+from constants import DESIGN_WIDTH, DESIGN_HEIGHT, DESIGN_FRAMERATE, CAMERA_LAG_BEHIND, SCROLL_CLIPPING_LENIANCY
 
 class CameraManager(metaclass=Singleton):
     def __init__(self):
@@ -60,7 +60,7 @@ class ScrollableGroup(pygame.sprite.Group):
             self.spritedict.update(
                 zip(
                     sprites,
-                    surface.blits((spr.image, calculate_rect(spr)) for spr in sprites if abs(spr.x - (scrollx + DESIGN_WIDTH // 2)) < DESIGN_WIDTH // 1.8 and abs(spr.y - (scrolly + DESIGN_HEIGHT // 2)) < DESIGN_HEIGHT // 1.8),
+                    surface.blits((spr.image, calculate_rect(spr)) for spr in sprites if abs(spr.x - (scrollx + DESIGN_WIDTH // 2)) < DESIGN_WIDTH // (2 - SCROLL_CLIPPING_LENIANCY) and abs(spr.y - (scrolly + DESIGN_HEIGHT // 2)) < DESIGN_HEIGHT // (2 - SCROLL_CLIPPING_LENIANCY)),
                 )
             )
         else:
