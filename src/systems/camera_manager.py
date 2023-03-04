@@ -60,7 +60,7 @@ class ScrollableGroup(pygame.sprite.Group):
             self.spritedict.update(
                 zip(
                     sprites,
-                    surface.blits((spr.image, calculate_rect(spr)) for spr in sprites),
+                    surface.blits((spr.image, calculate_rect(spr)) for spr in sprites if abs(spr.x - (scrollx + DESIGN_WIDTH // 2)) < DESIGN_WIDTH // 1.8 and abs(spr.y - (scrolly + DESIGN_HEIGHT // 2)) < DESIGN_HEIGHT // 1.8),
                 )
             )
         else:
