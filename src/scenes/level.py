@@ -10,7 +10,7 @@ class Level(Scene):
 
         self.bullet_group = ScrollableGroup()
 
-        player_model = GameModel.get_instance().get_player()
+        player_model = GameModel().get_player()
         self.player = Player.from_player_model(
             player_model,
             Tile.get_tile_position(player_starting_position),
@@ -60,3 +60,6 @@ class Level(Scene):
 
     def get_terrain(self):
         return self.terrain
+
+    def get_player(self):
+        return self.player

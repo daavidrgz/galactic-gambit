@@ -16,4 +16,4 @@ class Tile(Sprite):
         return (logical_position[0] * TILE_SIZE, logical_position[1] * TILE_SIZE)
 
     def tile_to_logical_position(tile_position):
-        return (tile_position[0] // TILE_SIZE, tile_position[1] // TILE_SIZE)
+        return (int(tile_position[0] // TILE_SIZE), int(tile_position[1] // TILE_SIZE))

@@ -4,6 +4,8 @@ from scenes.level import Level
 from generation.base_terrain import BaseTerrain, TerrainType
 from generation.generator import BaseGenerator
 from systems.resource_manager import ResourceManager
+from entities.living.enemies.test_enemy import TestEnemy
+from systems.camera_manager import ScrollableGroup
 
 import pygame
 import numpy as np
@@ -43,6 +45,9 @@ class TestLevel(Level):
         generator = TestGenerator(terrain)
         background_color = (0, 0, 0)
         super().__init__(generator, terrain, player_starting_position, background_color)
+        test_enemy_starting_position = (124 * 32, 127 * 32)
+        self.test_enemy = TestEnemy(test_enemy_starting_position)
+        self.enemy_grp = ScrollableGroup(self.test_enemy)
 
     def handle_events(self, events):
         for event in events:
@@ -63,3 +68,15 @@ class TestLevel(Level):
                     self.sound_controller.update_music_volume(50)
                 if event.key == pygame.K_b:
                     self.sound_controller.play_sound(self.resource_manager.SOUND_TEST)
+
+    def setup(self):
+        super().setup()
+        self.test_enemy.setup()
+
+    def update(self, elapsed_time):
+        super().update(elapsed_time)
+        self.test_enemy.update(elapsed_time)
+
+    def draw(self, screen):
+        super().draw(screen)
+        self.enemy_grp.draw(screen)

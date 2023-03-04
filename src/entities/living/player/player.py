@@ -13,15 +13,13 @@ from constants import (
     SPEED_EPSILON,
 )
 
-import pygame
 import numpy as np
-import utils.math
 
 
 class Player(LivingEntity):
     def __init__(self, hp, gun, magic_level, initial_pos, bullets):
-        self.manager = ResourceManager.get_instance()
-        self.control = ControlSystem.get_instance()
+        self.manager = ResourceManager()
+        self.control = ControlSystem()
         self.camera = CameraManager()
 
         self.bullets = bullets

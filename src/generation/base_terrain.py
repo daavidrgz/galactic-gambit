@@ -44,6 +44,10 @@ class BaseTerrain:
             logical_starting_x : logical_end_x + 1,
         ] == TerrainType.GROUND).all()
 
+    def on_ground_point(self, point):
+        x, y = Tile.tile_to_logical_position(point)
+        return self.data[y, x] == TerrainType.GROUND
+
     def get_collision_vector(self, point, distance):
         tile_pos_x, tile_pos_y = Tile.tile_to_logical_position(point)
         tile_pos_x = int(tile_pos_x)

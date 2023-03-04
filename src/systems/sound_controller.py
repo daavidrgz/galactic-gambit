@@ -10,7 +10,7 @@ class SoundController(metaclass=Singleton):
     relative_volume = 1
 
     def __init__(self):
-        self.resource_manager = ResourceManager.get_instance()
+        self.resource_manager = ResourceManager()
         pg.mixer.pre_init(44100, -16, 2, 512)  # Default values used by PyGame
         pg.mixer.init()
 
