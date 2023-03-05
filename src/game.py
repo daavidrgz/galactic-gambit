@@ -1,6 +1,7 @@
 import pygame
 from pygame.locals import *
 from model.game_model import GameModel
+from scenes.menu.start_menu import StartMenu
 from systems.rng_system import RngSystem
 from scenes.test_level import TestLevel
 
@@ -16,7 +17,7 @@ def run():
     # Load savegame
     # game_model.load()
 
-    initial_scene = TestLevel()
+    initial_scene = StartMenu()
     director = Director.get_instance()
     director.push_scene(initial_scene)
     director.run()

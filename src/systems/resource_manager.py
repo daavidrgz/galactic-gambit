@@ -21,6 +21,11 @@ class ResourceManager(metaclass=Singleton):
         self.MUSIC_TEST = ("sounds/music_test.ogg", 1)
         self.SOUND_TEST = ("sounds/sound_test.ogg", 1)
 
+        # Fonts
+        self.FONT_SM = ("fonts/GalacticaGrid.ttf", 10)
+        self.FONT_MD = ("fonts/GalacticaGrid.ttf", 20)
+        self.FONT_LG = ("fonts/GalacticaGrid.ttf", 40)
+
         # Coordinates (Will we use them?)
 
     def load_image(self, name):
@@ -63,3 +68,17 @@ class ResourceManager(metaclass=Singleton):
                 raise SystemExit
             self.resources[name] = tile
             return tile
+
+    def load_font(self, name):
+        if name in self.resources:
+            return self.resources[name]
+        else:
+            (fontName, fontSize) = name
+            fullFontName = os.path.join(self.BASE_PATH, fontName)
+            try:
+                font = pygame.font.Font(fullFontName, fontSize)
+            except (pygame.error):
+                print("Error loading font: ", fontName)
+                raise SystemExit
+            self.resources[name] = font
+            return font

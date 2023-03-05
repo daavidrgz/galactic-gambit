@@ -5,6 +5,7 @@ from mechanics.technology.upgrade_system import UpgradeSystem
 from systems.rng_system import RngSystem
 from utils.singleton import Singleton
 import pickle
+import os
 
 
 # TODO: Cuidado con pushear escenas... Al volver de otra escena, hay que tener en cuenta que en la escena
@@ -18,6 +19,7 @@ class GameModel(metaclass=Singleton):
         self.level = None
         self.rng_system = RngSystem.get_instance()
         self.upgrade_system = UpgradeSystem.get_instance()
+        self.save_file_name = "savegame_ciie"
 
     def __update_model(self, model):
         self.player = model.player
@@ -42,16 +44,19 @@ class GameModel(metaclass=Singleton):
 
     # Serialize with pickle
     def save(self):
-        target_file = open("/tmp/save_file", "wb")
+        target_file = open(f"/tmp/{self.save_file_name}", "wb")
         pickle.dump(self, target_file)
         target_file.close()
 
     # Deserialize with pickle
     def load(self):
-        source_file = open("/tmp/save_file", "rb")
+        source_file = open(f"/tmp/{self.save_file_name}", "rb")
         previous_model = pickle.load(source_file)
         source_file.close()
         self.__update_model(previous_model)
+
+    def save_exists(self):
+        return os.path.exists(f"/tmp/{self.save_file_name}")
 
 
 class PlayerModel:

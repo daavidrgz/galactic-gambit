@@ -1,16 +1,16 @@
 from entities.living.player.player import Player
 from generation.tile import Tile
-from model.game_model import GameModel
 from scenes.scene import Scene
 from systems.camera_manager import CameraManager, ScrollableGroup
 
 
 class Level(Scene):
     def __init__(self, generator, terrain, player_starting_position, background_color):
+        super().__init__()
 
         self.bullet_group = ScrollableGroup()
 
-        player_model = GameModel().get_player()
+        player_model = self.game_model.get_player()
         self.player = Player.from_player_model(
             player_model,
             Tile.get_tile_position(player_starting_position),
@@ -25,8 +25,6 @@ class Level(Scene):
 
         self.camera_mgr = CameraManager.get_instance()
         self.camera_mgr.set_center(self.player.get_position())
-
-        super().__init__()
 
     def setup(self):
         self.player.setup()
