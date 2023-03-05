@@ -71,6 +71,7 @@ class Woobly(UpdateMagicUpgrade):
         modify_vector = modify_vector_module * modify_vector_direction
         delta = modify_vector - self.previous_modify_vector
         self.previous_modify_vector = modify_vector
+        # TODO: modify direction vector or move it with deltas? It should be the same
         bullet.move(delta)
 
 
@@ -109,3 +110,29 @@ class ShrinkAndGrow(UpdateMagicUpgrade):
         bullet.image_rect = scaled_rect
         bullet.rect = scaled_rect
         bullet.rect.center = previous_position
+
+
+class SlowAndFast(UpdateMagicUpgrade):
+    def __init__(self):
+        super().__init__()
+        self.state = 0.0
+        self.original_speed = None
+        self.frequency = 1 / 500
+        self.amplitude = 0.75
+        self.amplitude_delta = 0.25
+        self.phase = np.pi
+
+    def apply(self, bullet, elapsed_time):
+        self.state += elapsed_time
+        self.state %= 1 / self.frequency
+        scale = (
+            self.amplitude
+            * math.sin(2 * np.pi * self.frequency * self.state + self.phase)
+            + self.amplitude_delta
+        )
+
+        if self.original_speed is None:
+            self.original_speed = bullet.speed
+
+        bullet.speed = self.original_speed * (1 + scale)
+        bullet.velocity = bullet.speed * bullet.direction

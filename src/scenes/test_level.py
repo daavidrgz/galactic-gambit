@@ -1,5 +1,5 @@
 import time
-from mechanics.magic.magic_upgrade import DoubleSize, ShrinkAndGrow, Woobly
+from mechanics.magic.magic_upgrade import DoubleSize, ShrinkAndGrow, SlowAndFast, Woobly
 from mechanics.technology.tech_upgrade_system import TechUpgradeSystem
 from scenes.level import Level
 from generation.base_terrain import BaseTerrain, TerrainType
@@ -92,7 +92,7 @@ class TestLevel(Level):
                 if event.key == pygame.K_b:
                     self.sound_controller.play_sound(self.resource_manager.SOUND_TEST)
                 if event.key == pygame.K_n:
-                    self.player.apply_magical_upgrade(ShrinkAndGrow)
+                    self.player.apply_magical_upgrade(SlowAndFast)
 
     def setup(self):
         super().setup()
