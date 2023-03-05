@@ -74,10 +74,13 @@ class Player(LivingEntity):
         else:
             self.speed = np.zeros(2)
 
-        final_position = np.array([
-            self.x + self.speed[0] * elapsed_units,
-            self.y + self.speed[1] * elapsed_units + 19.0
-        ], dtype=np.float64)
+        final_position = np.array(
+            [
+                self.x + self.speed[0] * elapsed_units,
+                self.y + self.speed[1] * elapsed_units + 19.0,
+            ],
+            dtype=np.float64,
+        )
         pos = self.terrain.get_collision_vector(final_position, 20.0)
         self.set_position((pos[0], pos[1] - 19.0))
 
@@ -92,8 +95,11 @@ class Player(LivingEntity):
         if self.control.is_active_action(Actions.SHOOT):
             self.shoot()
 
-    def apply_upgrade(self, upgrade):
-        upgrade.modify_gun(self.gun)
+    def apply_tech_upgrade(self, upgrade):
+        upgrade.apply(self.gun)
+
+    def apply_magical_upgrade(self, upgrade):
+        self.gun.add_magical_upgrade(upgrade)
 
     def shoot(self):
         if not self.gun.is_ready():

@@ -1,5 +1,6 @@
 import time
-from mechanics.technology.upgrade_system import UpgradeSystem
+from mechanics.magic.magic_upgrade import DoubleSize, ShrinkAndGrow, Woobly
+from mechanics.technology.tech_upgrade_system import TechUpgradeSystem
 from scenes.level import Level
 from generation.base_terrain import BaseTerrain, TerrainType
 from generation.generator import BaseGenerator
@@ -19,11 +20,7 @@ class TestGenerator(BaseGenerator):
             self.resource_manager.COBBLESTONE
         )
 
-        super().__init__(
-            (10.0, 20.0),
-            (7, 5),
-            terrain
-        )
+        super().__init__((10.0, 20.0), (7, 5), terrain)
 
     def get_wall_sprite(self, x, y):
         return self.cobble_sprite
@@ -31,11 +28,17 @@ class TestGenerator(BaseGenerator):
     def get_ground_sprite(self, x, y):
         return self.dirt_sprite
 
+
 class TestTerrain(BaseTerrain):
     def __init__(self, terrain_size, starting_tile):
-        data = np.full(tuple(x - 2 for x in terrain_size), TerrainType.NONE, dtype=np.int16)
-        data = np.pad(data, ((1,1),(1,1)), mode="constant", constant_values=TerrainType.BOUND)
+        data = np.full(
+            tuple(x - 2 for x in terrain_size), TerrainType.NONE, dtype=np.int16
+        )
+        data = np.pad(
+            data, ((1, 1), (1, 1)), mode="constant", constant_values=TerrainType.BOUND
+        )
         super().__init__(data, starting_tile)
+
 
 class TestLevel(Level):
     def __init__(self):
@@ -56,8 +59,18 @@ class TestLevel(Level):
         self.test_enemy_7 = TestEnemy((125 * 32, 129 * 32))
         self.test_enemy_8 = TestEnemy((123 * 32, 126 * 32))
         self.test_enemy_9 = TestEnemy((123 * 32, 127 * 32))
-        self.enemy_grp = ScrollableGroup(self.test_enemy_0, self.test_enemy_1, self.test_enemy_2, self.test_enemy_3, self.test_enemy_4, self.test_enemy_5, self.test_enemy_6, self.test_enemy_7, self.test_enemy_8, self.test_enemy_9)
-
+        self.enemy_grp = ScrollableGroup(
+            self.test_enemy_0,
+            self.test_enemy_1,
+            self.test_enemy_2,
+            self.test_enemy_3,
+            self.test_enemy_4,
+            self.test_enemy_5,
+            self.test_enemy_6,
+            self.test_enemy_7,
+            self.test_enemy_8,
+            self.test_enemy_9,
+        )
 
     def handle_events(self, events):
         for event in events:
@@ -68,26 +81,29 @@ class TestLevel(Level):
                     self.generator.generate()
                     print(time.time() - a)
                 if event.key == pygame.K_m:
-                    upgrade = UpgradeSystem.get_instance().get_random_upgrade()
+                    upgrade = TechUpgradeSystem.get_instance().get_random_upgrade()
                     print(upgrade)
                     if upgrade is not None:
-                        self.player.apply_upgrade(upgrade)
+                        self.player.apply_tech_upgrade(upgrade)
                 if event.key == pygame.K_c:
                     self.sound_controller.play_music(self.resource_manager.MUSIC_TEST)
                 if event.key == pygame.K_v:
                     self.sound_controller.update_music_volume(50)
                 if event.key == pygame.K_b:
                     self.sound_controller.play_sound(self.resource_manager.SOUND_TEST)
+                if event.key == pygame.K_n:
+                    self.player.apply_magical_upgrade(ShrinkAndGrow)
 
     def setup(self):
         super().setup()
-        for enemy in self.enemy_grp: enemy.setup()
-        #self.test_enemy.setup()
+        for enemy in self.enemy_grp:
+            enemy.setup()
+        # self.test_enemy.setup()
 
     def update(self, elapsed_time):
         super().update(elapsed_time)
         self.enemy_grp.update(elapsed_time)
-        #self.test_enemy.update(elapsed_time)
+        # self.test_enemy.update(elapsed_time)
 
     def draw(self, screen):
         super().draw(screen)

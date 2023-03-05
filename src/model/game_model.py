@@ -1,7 +1,15 @@
+from constants import (
+    INITIAL_GUN_COOLDOWN,
+    INITIAL_GUN_DAMAGE,
+    INITIAL_GUN_N_BULLETS,
+    INITIAL_GUN_OFFSET,
+    INITIAL_GUN_SPEED,
+    INITIAL_GUN_SPREAD,
+)
 from entities.living.player.player import Player
 from mechanics.magic.magic_level import MagicLevel
-from mechanics.technology.gun import Gun
-from mechanics.technology.upgrade_system import UpgradeSystem
+from mechanics.gun import Gun
+from mechanics.technology.tech_upgrade_system import TechUpgradeSystem
 from systems.rng_system import RngSystem
 from utils.singleton import Singleton
 import pickle
@@ -12,14 +20,23 @@ import os
 # anterior haya cambiado el modelo y haya que refrescar sprites... si hacemos switch scene no nos afecta
 class GameModel(metaclass=Singleton):
     def __init__(self):
-        initial_gun = Gun(20, 500, 1, 30, 0.0, 1)
+        # TODO: Guardar esto aquí o en constants?
+
+        initial_gun = Gun(
+            INITIAL_GUN_DAMAGE,
+            INITIAL_GUN_COOLDOWN,
+            INITIAL_GUN_SPEED,
+            INITIAL_GUN_OFFSET,
+            INITIAL_GUN_SPREAD,
+            INITIAL_GUN_N_BULLETS,
+        )
         initial_magic_level = MagicLevel(1, 0)
         initial_player = PlayerModel(100, initial_gun, initial_magic_level)
         self.player = initial_player
         self.level = None
         self.rng_system = RngSystem.get_instance()
-        self.upgrade_system = UpgradeSystem.get_instance()
         self.save_file_name = "savegame_ciie"
+        self.upgrade_system = TechUpgradeSystem.get_instance()
 
     def __update_model(self, model):
         self.player = model.player

@@ -1,4 +1,4 @@
-from mechanics.technology.upgrade import *
+from mechanics.technology.tech_upgrade import *
 from systems.rng_system import Generator, RngSystem
 from utils.singleton import Singleton
 
@@ -6,7 +6,7 @@ from utils.singleton import Singleton
 UPGRADES = [TripleShot, DoubleShot, NarrowVision, ReinforcedBullets, NumberOne]
 
 
-class UpgradeSystem(metaclass=Singleton):
+class TechUpgradeSystem(metaclass=Singleton):
     def __init__(self):
         self.available_upgrades = UPGRADES
         self.selected_upgrades = set()
