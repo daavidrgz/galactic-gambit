@@ -1,14 +1,17 @@
 from ai.base_ai import BaseAI, EnemyState
-from utils.singleton import Singleton
 
 import numpy as np
 
-class MeleeAI(BaseAI, metaclass=Singleton):
+import utils.math
+from constants import TILE_SIZE, ENEMY_TRACKING_ROTATION
+
+class MeleeAI(BaseAI):
     def __init__(self, vision_range, tracking_range, melee_range):
         super().__init__()
         self.vision_range = vision_range
         self.tracking_range = tracking_range
         self.melee_range = melee_range
+        self.previous_direction = None
         
         self.actions[EnemyState.IDLE] = self.idle
         self.actions[EnemyState.PREPARING] = self.preparing
@@ -17,21 +20,24 @@ class MeleeAI(BaseAI, metaclass=Singleton):
     
     def idle(self, enemy, player, terrain):
         # Compute distance to player, if the player is in vision range
-        # and there's direct line of sight change to preparing state
+        # and there's direct line of sight change to PREPARING state
         player_pos = np.array(player.get_position(), dtype=np.float64)
         enemy_pos = np.array(enemy.get_position(), dtype=np.float64)
         
         if self.search_player(enemy_pos, player_pos, terrain, self.vision_range):
             self.state = EnemyState.PREPARING
+            self.previous_direction = None
             return
         
+        # Stop following the player
         enemy.set_target(None)
+
         # TODO: If the distance to the player is too big or
         # there is no line of sight wander around
         
     def preparing(self, enemy, player, terrain):
-        # Compute distance to player, if in tracking range keep preparing
-        # and if in melee range change to attack state
+        # Compute distance to player, if out of tracking range change to ALERT
+        # and if in melee range change to ATTACK state
         player_pos = np.array(player.get_position(), dtype=np.float64)
         enemy_pos = np.array(enemy.get_position(), dtype=np.float64)
         
@@ -45,11 +51,30 @@ class MeleeAI(BaseAI, metaclass=Singleton):
             self.state = EnemyState.ALERT
             return
         
-        enemy.set_target(player_pos)
+        # Track player and avoid walls
+        player_direction = diff_vector / distance * 2.0 * TILE_SIZE
+
+        if self.previous_direction is None:
+            self.previous_direction = player_direction
+
+        if terrain.on_ground_point(enemy_pos + self.previous_direction):
+            while utils.math.square_norm(self.previous_direction - player_direction) > TILE_SIZE**2:
+                next_direction = (self.previous_direction + player_direction) / 2
+                if terrain.on_ground_point(enemy_pos + next_direction):
+                    self.previous_direction = (self.previous_direction + player_direction) / 2
+                else: 
+                    break
+        else:
+            for i in range(360 // ENEMY_TRACKING_ROTATION):
+                self.previous_direction = utils.math.rotate_vector(self.previous_direction, i * ENEMY_TRACKING_ROTATION * (1 - 2 * (i & 1)))
+                if terrain.on_ground_point(enemy_pos + self.previous_direction):
+                    break
+
+        enemy.set_target(enemy_pos + self.previous_direction)
     
     def attack(self, enemy, player, terrain):
         # Compute distance to player, if in attack range attack 
-        # else change back to preparing state
+        # else change back to PREPARING state
         player_pos = np.array(player.get_position(), dtype=np.float64)
         enemy_pos = np.array(enemy.get_position(), dtype=np.float64)
         
@@ -60,12 +85,15 @@ class MeleeAI(BaseAI, metaclass=Singleton):
             self.state = EnemyState.PREPARING
             return
         
+        # Stop following the player
         enemy.set_target(None)
+
         # Attack player
+        enemy.trigger_attack()
 
     def alert(self, enemy, player, terrain):
         # Compute distance to player, if in tracking range change 
-        # to preparing state 
+        # to PREPARING state 
         player_pos = np.array(player.get_position(), dtype=np.float64)
         enemy_pos = np.array(enemy.get_position(), dtype=np.float64)
         
@@ -76,8 +104,10 @@ class MeleeAI(BaseAI, metaclass=Singleton):
             self.state = EnemyState.PREPARING
             return
         
+        # Stop following the player
         enemy.set_target(None)
-        # Moves a lot randomly
+
+        # TODO: Moves a lot randomly
         
     def search_player(self, enemy_pos, player_pos, terrain, vision_range):
         diff_vector = player_pos - enemy_pos

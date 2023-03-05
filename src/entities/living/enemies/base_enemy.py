@@ -23,15 +23,25 @@ class BaseEnemy(LivingEntity):
 
         self.ai.run(self, self.player, self.terrain)
 
+        # Movement
+        self.speed -= 0.25 * elapsed_units * self.speed
         if self.targeting:
-            direction = self.target - np.array(self.get_position(), dtype=np.float64)
-            l = np.linalg.norm(direction)
-            direction /= l if l > 0.0 else 1.0
-            self.speed = direction * 2.0
+            move_vector = self.target - np.array(self.get_position(), dtype=np.float64)
         else:
-            self.speed = np.zeros(2)
+            move_vector = np.zeros(2)
 
-        self.move(self.speed * elapsed_units)
+        vector_norm = np.linalg.norm(move_vector)
+        if vector_norm > 0.0:
+            move_vector /= vector_norm
+
+        self.speed += move_vector * 0.7 * elapsed_units
+
+        final_position = np.array([
+            self.x + self.speed[0] * elapsed_units,
+            self.y + self.speed[1] * elapsed_units
+        ], dtype=np.float64)
+        pos = self.terrain.get_collision_vector(final_position, 20.0)
+        self.set_position((pos[0], pos[1]))
 
     def trigger_attack(self):
         pass
@@ -46,3 +56,6 @@ class BaseEnemy(LivingEntity):
 
         self.target = point
         self.targeting = True
+
+    def attack(self):
+        pass

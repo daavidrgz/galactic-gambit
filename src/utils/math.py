@@ -1,5 +1,8 @@
 import numpy as np
 
+def square_norm(v):
+    return np.inner(v, v)
+
 def point_rect_distance(point, rect):
     dx = abs(point[0] - rect.centerx) - rect.width
     dy = abs(point[1] - rect.centery) - rect.height
@@ -28,3 +31,11 @@ def circle_rect_collision_vector(circle, rect):
     l = np.linalg.norm(v)
 
     return np.zeros(2) if circle[2] < l or l == 0.0 else v / l * (circle[2] - l)
+
+def rotate_vector(v, alpha):
+    alpha = np.deg2rad(alpha)
+    transformation = np.array(
+        [[np.cos(alpha), -np.sin(alpha)],
+          [np.sin(alpha), np.cos(alpha)]]
+    )
+    return np.dot(transformation, v)
