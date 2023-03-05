@@ -5,6 +5,7 @@ from constants import (
     DESIGN_HEIGHT,
     DESIGN_WIDTH,
     TARGET_FRAMERATE,
+    DESIGN_FRAMERATE,
 )
 from systems.control_system import ControlSystem
 from systems.camera_manager import CameraManager
@@ -30,6 +31,9 @@ class Director(metaclass=Singleton):
 
         while not self.__leave_scene:
             elapsed_time = self.clock.tick(TARGET_FRAMERATE)
+
+            # Intentional slowdown when under half the design framerate
+            elapsed_time = min(2000 / DESIGN_FRAMERATE, elapsed_time)
 
             events = pygame.event.get()
 
