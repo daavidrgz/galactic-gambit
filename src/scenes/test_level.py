@@ -45,9 +45,19 @@ class TestLevel(Level):
         generator = TestGenerator(terrain)
         background_color = (0, 0, 0)
         super().__init__(generator, terrain, player_starting_position, background_color)
-        test_enemy_starting_position = (124 * 32, 127 * 32)
-        self.test_enemy = TestEnemy(test_enemy_starting_position)
-        self.enemy_grp = ScrollableGroup(self.test_enemy)
+
+        self.test_enemy_0 = TestEnemy((124 * 32, 126 * 32))
+        self.test_enemy_1 = TestEnemy((124 * 32, 127 * 32))
+        self.test_enemy_2 = TestEnemy((124 * 32, 128 * 32))
+        self.test_enemy_3 = TestEnemy((124 * 32, 129 * 32))
+        self.test_enemy_4 = TestEnemy((125 * 32, 126 * 32))
+        self.test_enemy_5 = TestEnemy((125 * 32, 127 * 32))
+        self.test_enemy_6 = TestEnemy((125 * 32, 128 * 32))
+        self.test_enemy_7 = TestEnemy((125 * 32, 129 * 32))
+        self.test_enemy_8 = TestEnemy((123 * 32, 126 * 32))
+        self.test_enemy_9 = TestEnemy((123 * 32, 127 * 32))
+        self.enemy_grp = ScrollableGroup(self.test_enemy_0, self.test_enemy_1, self.test_enemy_2, self.test_enemy_3, self.test_enemy_4, self.test_enemy_5, self.test_enemy_6, self.test_enemy_7, self.test_enemy_8, self.test_enemy_9)
+
 
     def handle_events(self, events):
         for event in events:
@@ -71,11 +81,13 @@ class TestLevel(Level):
 
     def setup(self):
         super().setup()
-        self.test_enemy.setup()
+        for enemy in self.enemy_grp: enemy.setup()
+        #self.test_enemy.setup()
 
     def update(self, elapsed_time):
         super().update(elapsed_time)
-        self.test_enemy.update(elapsed_time)
+        self.enemy_grp.update(elapsed_time)
+        #self.test_enemy.update(elapsed_time)
 
     def draw(self, screen):
         super().draw(screen)

@@ -1,4 +1,5 @@
 from ai.base_ai import BaseAI, EnemyState
+from systems.rng_system import RngSystem, Generator
 
 import numpy as np
 
@@ -12,6 +13,8 @@ class MeleeAI(BaseAI):
         self.tracking_range = tracking_range
         self.melee_range = melee_range
         self.previous_direction = None
+        self.attack_from = None
+        self.rng = RngSystem().get_rng(Generator.ENEMIES)
         
         self.actions[EnemyState.IDLE] = self.idle
         self.actions[EnemyState.PREPARING] = self.preparing
@@ -27,6 +30,7 @@ class MeleeAI(BaseAI):
         if self.search_player(enemy_pos, player_pos, terrain, self.vision_range):
             self.state = EnemyState.PREPARING
             self.previous_direction = None
+            self.attack_from = None
             return
         
         # Stop following the player
@@ -36,9 +40,13 @@ class MeleeAI(BaseAI):
         # there is no line of sight wander around
         
     def preparing(self, enemy, player, terrain):
+        # If we haven't decided a direction from which to attack
+        if self.attack_from is None:
+            self.attack_from = utils.math.rotate_vector(np.array((self.melee_range, 0.0)), self.rng.random() * 360)
+
         # Compute distance to player, if out of tracking range change to ALERT
         # and if in melee range change to ATTACK state
-        player_pos = np.array(player.get_position(), dtype=np.float64)
+        player_pos = np.array(player.get_position(), dtype=np.float64) + self.attack_from
         enemy_pos = np.array(enemy.get_position(), dtype=np.float64)
         
         diff_vector = player_pos - enemy_pos
@@ -83,6 +91,8 @@ class MeleeAI(BaseAI):
         distance = np.linalg.norm(diff_vector)
         if distance > self.melee_range:
             self.state = EnemyState.PREPARING
+            self.previous_direction = None
+            self.attack_from = None
             return
         
         # Stop following the player
@@ -102,6 +112,8 @@ class MeleeAI(BaseAI):
         distance = np.linalg.norm(diff_vector)
         if distance < self.tracking_range:
             self.state = EnemyState.PREPARING
+            self.previous_direction = None
+            self.attack_from = None
             return
         
         # Stop following the player

@@ -1,6 +1,7 @@
 from entities.living.living_entity import LivingEntity
 from scenes.director import Director
 from constants import DESIGN_FRAMERATE
+from systems.rng_system import RngSystem, Generator
 
 import numpy as np
 
