@@ -2,6 +2,7 @@ import itertools
 import pygame
 from constants import DESIGN_HEIGHT, DESIGN_WIDTH
 from gui.button import Button
+from gui.title import Title
 from scenes.scene import Scene
 from scenes.test_level import TestLevel
 
@@ -9,7 +10,19 @@ from scenes.test_level import TestLevel
 class StartMenu(Scene):
     def __init__(self):
         super().__init__()
-        self.background = (0, 0, 0)
+
+        self.background = self.resource_manager.load_image(
+            self.resource_manager.SPACE_BACKGROUND
+        )
+        bg_width, bg_height = self.background.get_size()
+        self.background = pygame.transform.scale(
+            self.background,
+            (
+                (DESIGN_HEIGHT / bg_height) * bg_width,
+                DESIGN_HEIGHT,
+            ),
+        )
+
         self.gui_group = pygame.sprite.Group()
         self.buttons = []
         self.current_button = 0
@@ -32,6 +45,13 @@ class StartMenu(Scene):
         subtle = (100, 100, 100)
         bright = (255, 255, 255)
         font = self.resource_manager.load_font(self.resource_manager.FONT_LG)
+
+        self.title = Title(
+            text="Space Mission",
+            font=self.resource_manager.load_font(self.resource_manager.FONT_XL),
+            color=bright,
+            position=(DESIGN_WIDTH / 2, 100),
+        )
 
         self.continue_game_button = Button(
             text="Continue Game",
@@ -86,7 +106,7 @@ class StartMenu(Scene):
         self.buttons_len = len(self.buttons)
         self.buttons[0].select()
 
-        self.gui_group.add(self.buttons)
+        self.gui_group.add(self.title, self.buttons)
 
     def handle_events(self, events):
         for event in events:
@@ -120,5 +140,8 @@ class StartMenu(Scene):
         self.gui_group.update(elapsed_time)
 
     def draw(self, screen):
-        screen.fill(self.background)
+        screen.blit(self.background, (0, 0))
+        veil = pygame.Surface((DESIGN_HEIGHT, DESIGN_WIDTH))
+        veil.set_alpha(140)
+        screen.blit(veil, (0, 0))
         self.gui_group.draw(screen)

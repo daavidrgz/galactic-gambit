@@ -16,6 +16,7 @@ class ResourceManager(metaclass=Singleton):
         self.COBBLESTONE = "sprites/cobblestone.png"
         self.DIRT = "sprites/dirt.png"
         self.POLISHED_ANDESITE = "sprites/polished_andesite.png"
+        self.SPACE_BACKGROUND = "sprites/space_bg.png"
 
         # Sounds (I dont know which ones we will use)
         self.MUSIC_TEST = ("sounds/music_test.ogg", 1)
@@ -25,6 +26,7 @@ class ResourceManager(metaclass=Singleton):
         self.FONT_SM = ("fonts/GalacticaGrid.ttf", 10)
         self.FONT_MD = ("fonts/GalacticaGrid.ttf", 20)
         self.FONT_LG = ("fonts/GalacticaGrid.ttf", 40)
+        self.FONT_XL = ("fonts/GalacticaGrid.ttf", 50)
 
         # Coordinates (Will we use them?)
 
