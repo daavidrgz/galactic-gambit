@@ -1,8 +1,8 @@
-from noise import snoise2
 from generation.tile import Tile
 from generation.base_terrain import TerrainType
 from systems.rng_system import Generator, RngSystem
 
+from noise import snoise2
 
 class BaseGenerator:
     def __init__(
@@ -17,11 +17,14 @@ class BaseGenerator:
         self.random_generator = RngSystem.get_instance().get_rng(Generator.MAP)
 
     def generate(self):
+        self.terrain.clear()
+        self.terrain.populate()
+
         self.coord_offset_x, self.coord_offset_y = (
             (self.random_generator.random() - 0.5) * 1000000,
             (self.random_generator.random() - 0.5) * 1000000,
         )
-        pos_queue = [self.terrain.starting_tile]
+        pos_queue = list(self.terrain.starting_tiles)
         while len(pos_queue) > 0:
             curr_pos_x, curr_pos_y = pos_queue.pop()
 
@@ -50,7 +53,7 @@ class BaseGenerator:
                         pos_queue.append((x, y))
                         self.terrain.data[y, x] = TerrainType.GENERATING
                     elif self.terrain.data[y, x] == TerrainType.BOUND:
-                        self.terrain.sprites.add(self.get_wall_tile(curr_pos_x, curr_pos_y))
+                        self.terrain.sprites.add(self.get_wall_tile(x, y))
                         self.terrain.data[y, x] = TerrainType.WALL
 
             push(curr_pos_x + 1, curr_pos_y)

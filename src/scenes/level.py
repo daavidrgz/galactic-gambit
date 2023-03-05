@@ -6,14 +6,14 @@ from systems.camera_manager import CameraManager, ScrollableGroup
 
 
 class Level(Scene):
-    def __init__(self, generator, terrain, player_starting_position, background_color):
+    def __init__(self, generator, terrain, background_color):
 
         self.bullet_group = ScrollableGroup()
 
         player_model = GameModel().get_player()
         self.player = Player.from_player_model(
             player_model,
-            Tile.get_tile_position(player_starting_position),
+            (0, 0),
             self.bullet_group,
         )
 
@@ -23,14 +23,12 @@ class Level(Scene):
 
         self.player_group = ScrollableGroup(self.player)
 
-        self.camera_mgr = CameraManager.get_instance()
-        self.camera_mgr.set_center(self.player.get_position())
-
         super().__init__()
 
     def setup(self):
-        self.player.setup()
         self.generator.generate()
+        self.player.set_position(self.terrain.get_player_starting_position())
+        self.player.setup()
 
     def update(self, elapsed_time):
         self.player.update(elapsed_time)

@@ -18,15 +18,20 @@ class TerrainType(IntEnum):
     BOUND = -2
 
 class BaseTerrain:
-    def __init__(self, data, starting_tile):
+    def __init__(self):
         self.sprites = ScrollableGroup()
-        self.data = data
-        self.starting_tile = starting_tile
-        self.height, self.width = data.shape
+
+    def populate(self):
+        raise NotImplementedError
 
     def clear(self):
         self.sprites.empty()
-        self.data.fill(0)
+        self.data = None
+        self.starting_tiles = None
+        self.height = self.width = 0
+
+    def get_player_starting_position(self):
+        return self.player_starting_position
 
     def draw(self, screen):
         self.sprites.draw(screen)
