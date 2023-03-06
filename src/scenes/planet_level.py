@@ -1,11 +1,12 @@
 from scenes.level import Level
-from generation.base_terrain import BaseTerrain, TerrainType
-from generation.generator import BaseGenerator
-from systems.resource_manager import ResourceManager
-from systems.rng_system import RngSystem, Generator
 from generation.tile import Tile
+from generation.generator import BaseGenerator
+from systems.camera_manager import ParallaxGroup
+from systems.resource_manager import ResourceManager
+from generation.base_terrain import BaseTerrain, TerrainType
 
 import numpy as np
+import pygame
 
 from constants import TILE_SIZE
 
@@ -61,4 +62,18 @@ class PlanetLevel(Level):
         terrain = PlanetTerrain()
         generator = PlanetGenerator(terrain)
         background_color = (40, 30, 20)
+
+        rmgr = ResourceManager()
+        dust_sprite = pygame.sprite.Sprite()
+        dust_sprite.image = pygame.transform.smoothscale(rmgr.load_image(rmgr.DIRT), (TILE_SIZE * 100.0, TILE_SIZE * 100.0))
+        dust_sprite.image.set_alpha(100)
+        dust_sprite.rect = dust_sprite.image.get_rect()
+        dust_sprite.image_rect = dust_sprite.image.get_rect()
+        dust_sprite.x = dust_sprite.y = TILE_SIZE * 45.5
+        self.dust = ParallaxGroup((0.5, 0.5), dust_sprite)
+
         super().__init__(generator, terrain, background_color)
+
+    def draw(self, screen):
+        super().draw(screen)
+        self.dust.draw(screen)
