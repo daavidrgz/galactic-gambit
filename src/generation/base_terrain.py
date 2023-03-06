@@ -1,5 +1,5 @@
 from generation.tile import Tile
-from systems.camera_manager import ScrollableGroup
+from systems.camera_manager import CameraManager
 import utils.math
 
 from constants import TILE_SIZE
@@ -19,7 +19,8 @@ class TerrainType(IntEnum):
 
 class BaseTerrain:
     def __init__(self):
-        self.sprites = ScrollableGroup()
+        self.sprites = pygame.sprite.Group()
+        self.buffer = None
 
     def populate(self):
         raise NotImplementedError
@@ -29,12 +30,24 @@ class BaseTerrain:
         self.data = None
         self.starting_tiles = None
         self.height = self.width = 0
+        self.buffer = None
 
     def get_player_starting_position(self):
         return self.player_starting_position
 
     def draw(self, screen):
-        self.sprites.draw(screen)
+        if self.buffer is None:
+            self.generate_buffer()
+
+        draw_area = self.buffer.get_rect().copy()
+        scrollx, scrolly = CameraManager().get_coords()
+        draw_area.centerx = round(self.width * TILE_SIZE / 2) - round(scrollx)
+        draw_area.centery = round(self.height * TILE_SIZE / 2) - round(scrolly)
+        screen.blit(self.buffer, draw_area)
+
+    def generate_buffer(self):
+        self.buffer = pygame.Surface((TILE_SIZE * self.width, TILE_SIZE * self.height))
+        self.sprites.draw(self.buffer)
 
     def on_ground(self, rect):
         starting_x, starting_y = rect.topleft
