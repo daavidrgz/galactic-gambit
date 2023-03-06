@@ -59,13 +59,17 @@ class ScrollableGroup(pygame.sprite.Group):
             return copy
 
         if hasattr(surface, "blits"):
+            half_width = DESIGN_WIDTH // 2
+            half_height = DESIGN_HEIGHT // 2
+            width_clip = DESIGN_WIDTH // (2 - SCROLL_CLIPPING_LENIANCY) 
+            height_clip = DESIGN_HEIGHT // (2 - SCROLL_CLIPPING_LENIANCY)
             self.spritedict.update(
                 zip(
                     sprites,
                     surface.blits(
                         (spr.image, calculate_rect(spr)) for spr in sprites if
-                        abs(spr.x - (scrollx + DESIGN_WIDTH // 2)) < DESIGN_WIDTH // (2 - SCROLL_CLIPPING_LENIANCY) 
-                        and abs(spr.y - (scrolly + DESIGN_HEIGHT // 2)) < DESIGN_HEIGHT // (2 - SCROLL_CLIPPING_LENIANCY)
+                        abs(spr.x - (scrollx + half_width)) < width_clip
+                        and abs(spr.y - (scrolly + half_height)) < height_clip
                     ) if self.cull else surface.blits((spr.image, calculate_rect(spr)) for spr in sprites),
                 )
             )
