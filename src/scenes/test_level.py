@@ -4,6 +4,7 @@ from mechanics.technology.tech_upgrade_system import TechUpgradeSystem
 from scenes.level import Level
 from generation.base_terrain import BaseTerrain, TerrainType
 from generation.generator import BaseGenerator
+from scenes.menu.pause_menu import PauseMenu
 from systems.resource_manager import ResourceManager
 from entities.living.enemies.test_enemy import TestEnemy
 from systems.camera_manager import ScrollableGroup
@@ -92,7 +93,9 @@ class TestLevel(Level):
                 if event.key == pygame.K_b:
                     self.sound_controller.play_sound(self.resource_manager.SOUND_TEST)
                 if event.key == pygame.K_n:
-                    self.player.apply_magical_upgrade(SlowAndFast)
+                    self.player.apply_magical_upgrade(DoubleSize)
+                if event.key == pygame.K_ESCAPE:
+                    self.director.push_scene(PauseMenu())
 
     def setup(self):
         super().setup()

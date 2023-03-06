@@ -1,32 +1,35 @@
-import itertools
 import pygame
 from constants import DESIGN_HEIGHT, DESIGN_WIDTH
 from gui.button import Button
 from gui.title import Title
-from scenes.scene import Scene
+from scenes.menu.menu import Menu
 from scenes.test_level import TestLevel
 
 
-class StartMenu(Scene):
+class StartMenu(Menu):
     def __init__(self):
         super().__init__()
-
-        self.background = self.resource_manager.load_image(
+        background_image = self.resource_manager.load_image(
             self.resource_manager.SPACE_BACKGROUND
         )
-        bg_width, bg_height = self.background.get_size()
-        self.background = pygame.transform.scale(
-            self.background,
+        bg_width, bg_height = background_image.get_size()
+        background_image = pygame.transform.scale(
+            background_image,
             (
                 (DESIGN_HEIGHT / bg_height) * bg_width,
                 DESIGN_HEIGHT,
             ),
         )
 
-        self.gui_group = pygame.sprite.Group()
-        self.buttons = []
-        self.current_button = 0
-        self.buttons_len = 0
+        veil = pygame.Surface((DESIGN_WIDTH, DESIGN_HEIGHT))
+        veil.set_alpha(10)
+
+        background = pygame.Surface((DESIGN_WIDTH, DESIGN_HEIGHT))
+        background.blit(background_image, (0, 0))
+        background.blit(veil, (0, 0))
+        self.background = background
+
+        self.first_draw = True
 
     def __new_game(self):
         self.director.push_scene(TestLevel())
@@ -107,41 +110,3 @@ class StartMenu(Scene):
         self.buttons[0].select()
 
         self.gui_group.add(self.title, self.buttons)
-
-    def handle_events(self, events):
-        for event in events:
-            # Uncomment if you want mouse interaction
-            # if event.type == pygame.MOUSEBUTTONDOWN:
-            #     self.clicked_element = None
-            #     for element in self.gui_group:
-            #         if element.is_inside(event.pos):
-            #             self.clicked_element = element
-            #             break
-            # if event.type == pygame.MOUSEBUTTONUP:
-            #     for element in self.gui_group:
-            #         if element.is_inside(event.pos) and element == self.clicked_element:
-            #             element.action()
-            #             break
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_UP:
-                    if self.current_button != 0:
-                        self.buttons[self.current_button].deselect()
-                        self.current_button -= 1
-                        self.buttons[self.current_button].select()
-                if event.key == pygame.K_DOWN:
-                    if self.current_button != self.buttons_len - 1:
-                        self.buttons[self.current_button].deselect()
-                        self.current_button += 1
-                        self.buttons[self.current_button].select()
-                if event.key == pygame.K_RETURN:
-                    self.buttons[self.current_button].action()
-
-    def update(self, elapsed_time):
-        self.gui_group.update(elapsed_time)
-
-    def draw(self, screen):
-        screen.blit(self.background, (0, 0))
-        veil = pygame.Surface((DESIGN_HEIGHT, DESIGN_WIDTH))
-        veil.set_alpha(140)
-        screen.blit(veil, (0, 0))
-        self.gui_group.draw(screen)
