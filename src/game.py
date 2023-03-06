@@ -3,6 +3,7 @@ from pygame.locals import *
 from model.game_model import GameModel
 from systems.rng_system import RngSystem
 from scenes.ship_level import ShipLevel
+from scenes.planet_level import PlanetLevel
 
 from scenes.director import Director
 
@@ -16,7 +17,7 @@ def run():
     # Load savegame
     # game_model.load()
 
-    initial_scene = ShipLevel()
+    initial_scene = PlanetLevel()
     director = Director.get_instance()
     director.push_scene(initial_scene)
     director.run()

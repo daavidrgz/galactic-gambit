@@ -5,7 +5,6 @@ from systems.resource_manager import ResourceManager
 from systems.rng_system import RngSystem, Generator
 from generation.tile import Tile
 
-import pygame
 import numpy as np
 
 from constants import TILE_SIZE
