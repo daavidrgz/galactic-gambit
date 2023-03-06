@@ -17,6 +17,7 @@ class ResourceManager(metaclass=Singleton):
         self.DIRT = "sprites/dirt.png"
         self.POLISHED_ANDESITE = "sprites/polished_andesite.png"
         self.SPACE_BACKGROUND = "sprites/space_bg.png"
+        self.LASER = "sprites/laser/11.png"
 
         # Sounds (I dont know which ones we will use)
         self.MUSIC_TEST = ("sounds/music_test.ogg", 1)
