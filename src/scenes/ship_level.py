@@ -1,4 +1,5 @@
 from scenes.level import Level
+from scenes.director import Director
 from generation.base_terrain import BaseTerrain, TerrainType
 from generation.generator import BaseGenerator
 from systems.resource_manager import ResourceManager
@@ -6,6 +7,7 @@ from systems.rng_system import RngSystem, Generator
 from generation.tile import Tile
 
 import numpy as np
+import pygame
 
 from constants import TILE_SIZE
 
@@ -76,3 +78,11 @@ class ShipLevel(Level):
         generator = ShipGenerator(terrain)
         background_color = (0, 0, 0)
         super().__init__(generator, terrain, background_color)
+
+    def handle_events(self, events):
+        for event in events:
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE:
+                    Director().switch_scene(ShipLevel())
+
+        super().handle_events(events)

@@ -1,5 +1,6 @@
 from scenes.level import Level
 from generation.tile import Tile
+from scenes.director import Director
 from generation.generator import BaseGenerator
 from systems.camera_manager import ParallaxGroup
 from systems.resource_manager import ResourceManager
@@ -77,3 +78,11 @@ class PlanetLevel(Level):
     def draw(self, screen):
         super().draw(screen)
         self.dust.draw(screen)
+
+    def handle_events(self, events):
+        for event in events:
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE:
+                    Director().switch_scene(PlanetLevel())
+
+        super().handle_events(events)
