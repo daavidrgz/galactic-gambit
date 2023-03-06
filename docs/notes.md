@@ -165,3 +165,9 @@ Puedo tener 3 listas con los distintos tipos de las updates,
 
 Que las updates tengan un metodo attach al player, y tener una jerarquia de clases de forma que cada tipo de update, en su attach al player, llame
 al append de la lista correspondiente
+
+## 
+Justificar patron visitador para el jugador en el minimapa, igual es mejor usar el observer? Para los enemigos igual es mejor el observer
+Igual va mejor el patrón observer
+
+Para la barra de vida usar un observer

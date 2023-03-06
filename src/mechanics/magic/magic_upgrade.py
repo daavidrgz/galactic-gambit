@@ -16,7 +16,7 @@ class MagicUpgrade:
     def __init__(self):
         pass
 
-    def apply(bullet):
+    def apply(self, bullet):
         raise NotImplementedError
 
 
@@ -104,7 +104,6 @@ class ShrinkAndGrow(UpdateMagicUpgrade):
             self.original_image, (original_image_size * (1 + scale_delta)).astype(int)
         )
         scaled_rect = scaled_img.get_rect()
-        print(scale + 1)
         previous_position = bullet.rect.center
         bullet.image = scaled_img
         bullet.image_rect = scaled_rect
@@ -127,10 +126,9 @@ class SlowAndFast(UpdateMagicUpgrade):
         self.state %= 1 / self.frequency
         scale = (
             self.amplitude
-            * math.sin(2 * np.pi * self.frequency * self.state + self.phase)
+            * np.cbrt(math.sin(2 * np.pi * self.frequency * self.state + self.phase))
             + self.amplitude_delta
         )
-
         if self.original_speed is None:
             self.original_speed = bullet.speed
 
