@@ -46,7 +46,7 @@ class BaseTerrain:
         screen.blit(self.buffer, draw_area)
 
     def generate_buffer(self):
-        self.buffer = pygame.Surface((TILE_SIZE * self.width, TILE_SIZE * self.height))
+        self.buffer = pygame.Surface((TILE_SIZE * self.width, TILE_SIZE * self.height), flags=pygame.SRCALPHA)
         self.sprites.draw(self.buffer)
 
     def on_ground(self, rect):
