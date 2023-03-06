@@ -52,6 +52,7 @@ class Level(Scene):
         self.terrain.draw(screen)
         self.player_group.draw(screen)
         self.bullet_group.draw(screen)
+        self.terrain.draw_minimap(screen)
 
     def pop_back(self):
         pass

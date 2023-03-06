@@ -46,9 +46,13 @@ class BaseTerrain:
         draw_area.centery -= round(scrolly)
         screen.blit(self.buffer, draw_area)
 
+    def draw_minimap(self, screen):
+        screen.blit(self.minimap, (-20,-20,236,236))
+
     def generate_buffer(self):
         self.buffer = pygame.Surface((TILE_SIZE * self.width, TILE_SIZE * self.height), flags=pygame.SRCALPHA)
         self.sprites.draw(self.buffer)
+        self.minimap = pygame.transform.scale(self.buffer, (256,256))
 
     def on_ground(self, rect):
         starting_x, starting_y = rect.topleft

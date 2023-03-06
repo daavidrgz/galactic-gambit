@@ -76,8 +76,12 @@ class PlanetLevel(Level):
         super().__init__(generator, terrain, background_color)
 
     def draw(self, screen):
-        super().draw(screen)
+        screen.fill(self.background_color)
+        self.terrain.draw(screen)
+        self.player_group.draw(screen)
+        self.bullet_group.draw(screen)
         self.dust.draw(screen)
+        self.terrain.draw_minimap(screen)
 
     def handle_events(self, events):
         for event in events:
