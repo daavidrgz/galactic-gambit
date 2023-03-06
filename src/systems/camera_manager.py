@@ -44,6 +44,8 @@ class CameraManager(metaclass=Singleton):
 class ScrollableGroup(pygame.sprite.Group):
     def __init__(self, *sprites):
         self.camera_mgr = CameraManager()
+        self.parallax_x = self.parallax_y = 1.0
+        self.cull = True
         super().__init__(sprites)
 
     def draw(self, surface):
@@ -52,15 +54,19 @@ class ScrollableGroup(pygame.sprite.Group):
 
         def calculate_rect(entity: Entity):
             copy = entity.image_rect.copy()
-            copy.centerx = round(entity.x) - round(scrollx)
-            copy.centery = round(entity.y) - round(scrolly)
+            copy.centerx = round(entity.x) - round(scrollx * self.parallax_x)
+            copy.centery = round(entity.y) - round(scrolly * self.parallax_y)
             return copy
 
         if hasattr(surface, "blits"):
             self.spritedict.update(
                 zip(
                     sprites,
-                    surface.blits((spr.image, calculate_rect(spr)) for spr in sprites if abs(spr.x - (scrollx + DESIGN_WIDTH // 2)) < DESIGN_WIDTH // (2 - SCROLL_CLIPPING_LENIANCY) and abs(spr.y - (scrolly + DESIGN_HEIGHT // 2)) < DESIGN_HEIGHT // (2 - SCROLL_CLIPPING_LENIANCY)),
+                    surface.blits(
+                        (spr.image, calculate_rect(spr)) for spr in sprites if
+                        abs(spr.x - (scrollx + DESIGN_WIDTH // 2)) < DESIGN_WIDTH // (2 - SCROLL_CLIPPING_LENIANCY) 
+                        and abs(spr.y - (scrolly + DESIGN_HEIGHT // 2)) < DESIGN_HEIGHT // (2 - SCROLL_CLIPPING_LENIANCY)
+                    ) if self.cull else surface.blits((spr.image, calculate_rect(spr)) for spr in sprites),
                 )
             )
         else:
@@ -69,3 +75,9 @@ class ScrollableGroup(pygame.sprite.Group):
                 
         self.lostsprites = []
         return self.lostsprites
+    
+class ParallaxGroup(ScrollableGroup):
+    def __init__(self, parallax, *sprites):
+        super().__init__(*sprites)
+        self.parallax_x, self.parallax_y = parallax
+        self.cull = False
