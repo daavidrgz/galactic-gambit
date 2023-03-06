@@ -1,4 +1,3 @@
-import itertools
 import pygame
 from constants import DESIGN_HEIGHT, DESIGN_WIDTH
 from gui.button import Button
