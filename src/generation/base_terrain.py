@@ -21,6 +21,7 @@ class BaseTerrain:
     def __init__(self):
         self.sprites = pygame.sprite.Group()
         self.buffer = None
+        self.camera_mgr = CameraManager()
 
     def populate(self):
         raise NotImplementedError
@@ -40,9 +41,9 @@ class BaseTerrain:
             self.generate_buffer()
 
         draw_area = self.buffer.get_rect().copy()
-        scrollx, scrolly = CameraManager().get_coords()
-        draw_area.centerx = round(self.width * TILE_SIZE / 2) - round(scrollx)
-        draw_area.centery = round(self.height * TILE_SIZE / 2) - round(scrolly)
+        scrollx, scrolly = self.camera_mgr.get_coords()
+        draw_area.centerx -= round(scrollx)
+        draw_area.centery -= round(scrolly)
         screen.blit(self.buffer, draw_area)
 
     def generate_buffer(self):
