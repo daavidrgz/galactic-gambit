@@ -2,20 +2,21 @@ import numpy as np
 
 from ai.base_ai import BaseAI, EnemyState
 
+
 class RangedAI(BaseAI):
     def __init__(self, vision_range, tracking_range):
         super().__init__()
         self.vision_range = vision_range
         self.tracking_range = tracking_range
-        
+
         self.actions[EnemyState.IDLE] = self.idle
         self.actions[EnemyState.PREPARING] = self.preparing
-    
+
     def idle(self, enemy, player, terrain):
         # Compute distance to player
         player_pos = np.array(player.get_position(), dtype=np.float64)
         enemy_pos = np.array(enemy.get_position(), dtype=np.float64)
-        
+
         diff_vector = player_pos - enemy_pos
 
         distance = np.linalg.norm(diff_vector)
@@ -32,9 +33,9 @@ class RangedAI(BaseAI):
             else:
                 self.state = EnemyState.PREPARING
                 return
-            
+
         # TODO: If the distance to the player is too big or
         # there is no line of sight wander around
-        
+
     def preparing(self, enemy, player, terrain):
         print("I am preparing!")

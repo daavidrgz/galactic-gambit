@@ -1,12 +1,14 @@
 from enum import Enum, auto
 
+
 class EnemyState(Enum):
     IDLE = auto()
     PREPARING = auto()
     ATTACKING = auto()
     ALERT = auto()
 
-class BaseAI():
+
+class BaseAI:
     def __init__(self):
         self.state = EnemyState.IDLE
         self.actions = dict()

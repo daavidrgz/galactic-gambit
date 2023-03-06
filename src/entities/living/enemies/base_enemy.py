@@ -5,8 +5,9 @@ from systems.rng_system import RngSystem, Generator
 
 import numpy as np
 
+
 class BaseEnemy(LivingEntity):
-    def __init__(self, hp, initial_pos, image, ai): 
+    def __init__(self, hp, initial_pos, image, ai):
         hitbox = image.get_rect()
         self.ai = ai
         self.speed = np.zeros(2)
@@ -37,10 +38,13 @@ class BaseEnemy(LivingEntity):
 
         self.speed += move_vector * 0.7 * elapsed_units
 
-        final_position = np.array([
-            self.x + self.speed[0] * elapsed_units,
-            self.y + self.speed[1] * elapsed_units
-        ], dtype=np.float64)
+        final_position = np.array(
+            [
+                self.x + self.speed[0] * elapsed_units,
+                self.y + self.speed[1] * elapsed_units,
+            ],
+            dtype=np.float64,
+        )
         pos = self.terrain.get_collision_vector(final_position, 20.0)
         self.set_position((pos[0], pos[1]))
 
