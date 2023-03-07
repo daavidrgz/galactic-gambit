@@ -1,3 +1,4 @@
+from enum import Enum
 from constants import TILE_SIZE
 from utils.singleton import Singleton
 
@@ -5,83 +6,100 @@ import pygame
 import os
 
 
+class Resource(Enum):
+    PLAYER = "sprites/player.png"
+    COBBLESTONE = "sprites/cobblestone.png"
+    DIRT = "sprites/dirt.png"
+    POLISHED_ANDESITE = "sprites/polished_andesite.png"
+    SPACE_BACKGROUND = "sprites/space_bg.png"
+    LASER = "sprites/laser/11.png"
+
+    # Sounds (I dont know which ones we will use)
+    MUSIC_TEST = ("sounds/music_test.ogg", 1)
+    SOUND_TEST = ("sounds/sound_test.ogg", 1)
+
+    # Fonts
+    FONT_SM = ("fonts/GalacticaGrid.ttf", 10)
+    FONT_MD = ("fonts/GalacticaGrid.ttf", 20)
+    FONT_LG = ("fonts/GalacticaGrid.ttf", 40)
+    FONT_XL = ("fonts/GalacticaGrid.ttf", 50)
+
+    # Animations
+    EXPLOSION = [
+        "sprites/animations/explosion/01.jpg",
+        "sprites/animations/explosion/02.jpg",
+        "sprites/animations/explosion/03.jpg",
+        "sprites/animations/explosion/04.jpg",
+        "sprites/animations/explosion/05.jpg",
+        "sprites/animations/explosion/06.jpg",
+        "sprites/animations/explosion/07.jpg",
+    ]
+
+
 class ResourceManager(metaclass=Singleton):
     def __init__(self):
         self.resources = {}
-
         self.BASE_PATH = "assets"
 
-        # Images
-        self.PLAYER = "sprites/player.png"
-        self.COBBLESTONE = "sprites/cobblestone.png"
-        self.DIRT = "sprites/dirt.png"
-        self.POLISHED_ANDESITE = "sprites/polished_andesite.png"
-        self.SPACE_BACKGROUND = "sprites/space_bg.png"
-        self.LASER = "sprites/laser/11.png"
+    def __load_sprite(self, rel_path):
+        path = os.path.join(self.BASE_PATH, rel_path)
+        try:
+            image = pygame.image.load(path)
+        except (pygame.error):
+            print("Error loading image: ", path)
+            raise SystemExit
+        return image
 
-        # Sounds (I dont know which ones we will use)
-        self.MUSIC_TEST = ("sounds/music_test.ogg", 1)
-        self.SOUND_TEST = ("sounds/sound_test.ogg", 1)
-
-        # Fonts
-        self.FONT_SM = ("fonts/GalacticaGrid.ttf", 10)
-        self.FONT_MD = ("fonts/GalacticaGrid.ttf", 20)
-        self.FONT_LG = ("fonts/GalacticaGrid.ttf", 40)
-        self.FONT_XL = ("fonts/GalacticaGrid.ttf", 50)
-
-        # Coordinates (Will we use them?)
-
-    def load_image(self, name):
-        if name in self.resources:
-            return self.resources[name]
+    def load_image(self, image_resource):
+        if image_resource in self.resources:
+            return self.resources[image_resource]
         else:
-            fullname = os.path.join(self.BASE_PATH, name)
-            try:
-                image = pygame.image.load(fullname)
-            except (pygame.error):
-                print("Error loading image: ", fullname)
-                raise SystemExit
-            self.resources[name] = image
+            image = self.__load_sprite(image_resource.value)
+            self.resources[image_resource] = image
             return image
 
-    def load_sound(self, sound_name):
-        if sound_name in self.resources:
-            return self.resources[sound_name]
+    def load_sound(self, sound_resource):
+        if sound_resource in self.resources:
+            return self.resources[sound_resource]
         else:
-            fullname = os.path.join(self.BASE_PATH, sound_name)
+            path = os.path.join(self.BASE_PATH, sound_resource.value[0])
             try:
-                loaded_sound = pygame.mixer.Sound(fullname)
+                loaded_sound = pygame.mixer.Sound(path)
             except (pygame.error):
-                print("Error loading sound: ", fullname)
+                print("Error loading sound: ", path)
                 raise SystemExit
-            self.resources[sound_name] = loaded_sound
+            self.resources[sound_resource] = loaded_sound
             return loaded_sound
 
-    def load_tile(self, name):
-        if name in self.resources:
-            return self.resources[name]
+    def load_tile(self, tile_resource):
+        if tile_resource in self.resources:
+            return self.resources[tile_resource]
         else:
-            fullname = os.path.join(self.BASE_PATH, name)
-            try:
-                tile = pygame.transform.scale(
-                    pygame.image.load(fullname), (TILE_SIZE, TILE_SIZE)
-                )
-            except (pygame.error):
-                print("Error loading tile: ", fullname)
-                raise SystemExit
-            self.resources[name] = tile
-            return tile
+            image = self.__load_sprite(tile_resource.value)
+            tile_image = pygame.transform.scale(image, (TILE_SIZE, TILE_SIZE))
+            self.resources[tile_resource] = tile_image
+            return tile_image
 
-    def load_font(self, name):
-        if name in self.resources:
-            return self.resources[name]
+    def load_font(self, font_resource):
+        if font_resource in self.resources:
+            return self.resources[font_resource]
         else:
-            (fontName, fontSize) = name
-            fullFontName = os.path.join(self.BASE_PATH, fontName)
+            (fontName, fontSize) = font_resource.value
+            path = os.path.join(self.BASE_PATH, fontName)
             try:
-                font = pygame.font.Font(fullFontName, fontSize)
+                font = pygame.font.Font(path, fontSize)
             except (pygame.error):
                 print("Error loading font: ", fontName)
                 raise SystemExit
-            self.resources[name] = font
+            self.resources[font_resource] = font
             return font
+
+    def load_animation(self, animation_resource):
+        if animation_resource in self.resources:
+            return self.resources[animation_resource]
+        else:
+            animation = [
+                self.__load_sprite(rel_path) for rel_path in animation_resource.value
+            ]
+            self.resources[animation_resource] = animation
+            return animation

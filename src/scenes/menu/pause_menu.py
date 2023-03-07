@@ -3,6 +3,7 @@ from constants import DESIGN_HEIGHT, DESIGN_WIDTH
 from gui.button import Button
 from gui.title import Title
 from scenes.menu.menu import Menu
+from systems.resource_manager import Resource
 
 
 class PauseMenu(Menu):
@@ -24,11 +25,11 @@ class PauseMenu(Menu):
     def setup(self):
         subtle = (100, 100, 100)
         bright = (255, 255, 255)
-        font = self.resource_manager.load_font(self.resource_manager.FONT_LG)
+        font = self.resource_manager.load_font(Resource.FONT_LG)
 
         self.title = Title(
             text="Pause",
-            font=self.resource_manager.load_font(self.resource_manager.FONT_XL),
+            font=self.resource_manager.load_font(Resource.FONT_XL),
             color=bright,
             position=(DESIGN_WIDTH / 2, 100),
         )

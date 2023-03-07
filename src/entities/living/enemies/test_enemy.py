@@ -1,6 +1,6 @@
 from entities.living.enemies.base_enemy import BaseEnemy
 from ai.melee_ai import MeleeAI
-from systems.resource_manager import ResourceManager
+from systems.resource_manager import Resource, ResourceManager
 
 
 class TestEnemy(BaseEnemy):
@@ -8,7 +8,5 @@ class TestEnemy(BaseEnemy):
         self.resource_manager = ResourceManager()
         self.hp = 10
         self.ai = MeleeAI(300, 400, 50)
-        image = self.resource_manager.load_image(
-            self.resource_manager.POLISHED_ANDESITE
-        )
+        image = self.resource_manager.load_image(Resource.POLISHED_ANDESITE)
         super().__init__(self.hp, initial_pos, image, self.ai)

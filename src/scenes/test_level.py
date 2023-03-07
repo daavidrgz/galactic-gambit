@@ -5,7 +5,7 @@ from scenes.level import Level
 from generation.base_terrain import BaseTerrain, TerrainType
 from generation.generator import BaseGenerator
 from scenes.menu.pause_menu import PauseMenu
-from systems.resource_manager import ResourceManager
+from systems.resource_manager import Resource, ResourceManager
 from entities.living.enemies.test_enemy import TestEnemy
 from systems.camera_manager import ScrollableGroup
 
@@ -16,10 +16,8 @@ import numpy as np
 class TestGenerator(BaseGenerator):
     def __init__(self, terrain):
         self.resource_manager = ResourceManager.get_instance()
-        self.dirt_sprite = self.resource_manager.load_tile(self.resource_manager.DIRT)
-        self.cobble_sprite = self.resource_manager.load_tile(
-            self.resource_manager.COBBLESTONE
-        )
+        self.dirt_sprite = self.resource_manager.load_tile(Resource.DIRT)
+        self.cobble_sprite = self.resource_manager.load_tile(Resource.COBBLESTONE)
 
         super().__init__((10.0, 20.0), (7, 5), terrain)
 
@@ -87,13 +85,13 @@ class TestLevel(Level):
                     if upgrade is not None:
                         self.player.apply_tech_upgrade(upgrade)
                 if event.key == pygame.K_c:
-                    self.sound_controller.play_music(self.resource_manager.MUSIC_TEST)
+                    self.sound_controller.play_music(Resource.MUSIC_TEST)
                 if event.key == pygame.K_v:
                     self.sound_controller.update_music_volume(50)
                 if event.key == pygame.K_b:
-                    self.sound_controller.play_sound(self.resource_manager.SOUND_TEST)
+                    self.sound_controller.play_sound(Resource.SOUND_TEST)
                 if event.key == pygame.K_n:
-                    self.player.apply_magical_upgrade(DoubleSize)
+                    self.player.apply_magical_upgrade(Woobly)
                 if event.key == pygame.K_ESCAPE:
                     self.director.push_scene(PauseMenu())
 

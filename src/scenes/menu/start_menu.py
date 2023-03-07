@@ -4,14 +4,13 @@ from gui.button import Button
 from gui.title import Title
 from scenes.menu.menu import Menu
 from scenes.test_level import TestLevel
+from systems.resource_manager import Resource
 
 
 class StartMenu(Menu):
     def __init__(self):
         super().__init__()
-        background_image = self.resource_manager.load_image(
-            self.resource_manager.SPACE_BACKGROUND
-        )
+        background_image = self.resource_manager.load_image(Resource.SPACE_BACKGROUND)
         bg_width, bg_height = background_image.get_size()
         background_image = pygame.transform.scale(
             background_image,
@@ -47,11 +46,11 @@ class StartMenu(Menu):
     def setup(self):
         subtle = (100, 100, 100)
         bright = (255, 255, 255)
-        font = self.resource_manager.load_font(self.resource_manager.FONT_LG)
+        font = self.resource_manager.load_font(Resource.FONT_LG)
 
         self.title = Title(
             text="Space Mission",
-            font=self.resource_manager.load_font(self.resource_manager.FONT_XL),
+            font=self.resource_manager.load_font(Resource.FONT_XL),
             color=bright,
             position=(DESIGN_WIDTH / 2, 100),
         )

@@ -1,6 +1,6 @@
 import pygame as pg
 from utils.singleton import Singleton
-from systems.resource_manager import ResourceManager
+from systems.resource_manager import Resource, ResourceManager
 import os
 
 
@@ -44,11 +44,11 @@ class SoundController(metaclass=Singleton):
         loaded_sound.set_volume(rel_volume * self.effects_volume / 100)
 
     def play_music(self, music):
-        pg.mixer.music.load(os.path.join(self.resource_manager.BASE_PATH, music[0]))
-        self.set_relative_volume_music(music[1])
+        pg.mixer.music.load(os.path.join(self.resource_manager.BASE_PATH, music.value[0]))
+        self.set_relative_volume_music(music.value[1])
         pg.mixer.music.play(-1)
 
     def play_sound(self, sound):
-        loaded_sound = self.resource_manager.load_sound(sound[0])
-        self.set_relative_volume_sound(loaded_sound, sound[1])
+        loaded_sound = self.resource_manager.load_sound(sound)
+        self.set_relative_volume_sound(loaded_sound, sound.value[1])
         loaded_sound.play()

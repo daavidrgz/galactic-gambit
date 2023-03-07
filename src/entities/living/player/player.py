@@ -1,6 +1,6 @@
 from entities.living.living_entity import LivingEntity
 from entities.projectile.bullet import Bullet
-from systems.resource_manager import ResourceManager
+from systems.resource_manager import Resource, ResourceManager
 from systems.camera_manager import CameraManager
 from systems.control_system import ControlSystem, Actions
 from scenes.director import Director
@@ -18,7 +18,7 @@ import numpy as np
 
 class Player(LivingEntity):
     def __init__(self, hp, gun, magic_level, initial_pos, bullets):
-        self.manager = ResourceManager()
+        self.resource_manager = ResourceManager()
         self.control = ControlSystem()
         self.camera = CameraManager()
 
@@ -30,7 +30,7 @@ class Player(LivingEntity):
         self.speed = np.zeros(2)
         self.facing_vector = np.array([1, 0], dtype=np.float64)
 
-        image = self.manager.load_image(self.manager.PLAYER)
+        image = self.resource_manager.load_image(Resource.PLAYER)
         hitbox = image.get_rect()
 
         super().__init__(image, hitbox, initial_pos, hp)
