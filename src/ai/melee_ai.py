@@ -65,18 +65,18 @@ class MeleeAI(BaseAI):
             return
 
         # Track player and avoid walls
-        player_direction = diff_vector / distance * 2.0 * TILE_SIZE
+        player_direction = diff_vector / distance * TILE_SIZE
 
         if self.previous_direction is None:
             self.previous_direction = player_direction
 
-        if terrain.on_ground_point(enemy_pos + self.previous_direction):
+        if self.check_path(terrain, enemy_pos, self.previous_direction):
             while (
                 utils.math.square_norm(self.previous_direction - player_direction)
                 > TILE_SIZE**2
             ):
                 next_direction = (self.previous_direction + player_direction) / 2
-                if terrain.on_ground_point(enemy_pos + next_direction):
+                if self.check_path(terrain, enemy_pos, next_direction):
                     self.previous_direction = (
                         self.previous_direction + player_direction
                     ) / 2
@@ -88,7 +88,7 @@ class MeleeAI(BaseAI):
                     self.previous_direction,
                     i * ENEMY_TRACKING_ROTATION * (1 - 2 * (i & 1)),
                 )
-                if terrain.on_ground_point(enemy_pos + self.previous_direction):
+                if self.check_path(terrain, enemy_pos, self.previous_direction):
                     break
 
         enemy.set_target(enemy_pos + self.previous_direction)
@@ -150,3 +150,7 @@ class MeleeAI(BaseAI):
                     return False
             else:
                 return True
+
+    def check_path(self, terrain, enemy_pos, direction):
+        return (terrain.on_ground_point(enemy_pos + direction) 
+        and terrain.on_ground_point(enemy_pos + direction * 3))
