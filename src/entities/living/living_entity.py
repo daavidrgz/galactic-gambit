@@ -1,9 +1,9 @@
-from entities.entity import Entity
+from entities.kinematic_entity import KinematicEntity
 
 
-class LivingEntity(Entity):
-    def __init__(self, image, hitbox, initial_pos, hp):
-        super().__init__(image, hitbox, initial_pos)
+class LivingEntity(KinematicEntity):
+    def __init__(self, image, hitbox, initial_pos, drag, collision, hp):
+        super().__init__(image, hitbox, initial_pos, drag, collision)
         self.hp = hp
 
     def hit(self, damage):

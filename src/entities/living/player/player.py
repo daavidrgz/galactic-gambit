@@ -18,7 +18,6 @@ import numpy as np
 
 class Player(LivingEntity):
     def __init__(self, hp, gun, magic_level, initial_pos, bullets):
-        self.resource_manager = ResourceManager()
         self.control = ControlSystem()
         self.camera = CameraManager()
 
@@ -27,13 +26,12 @@ class Player(LivingEntity):
         self.gun = gun
         self.magic_level = magic_level
 
-        self.speed = np.zeros(2)
         self.facing_vector = np.array([1, 0], dtype=np.float64)
 
-        image = self.resource_manager.load_image(Resource.PLAYER)
+        image = ResourceManager().load_image(Resource.PLAYER)
         hitbox = image.get_rect()
 
-        super().__init__(image, hitbox, initial_pos, hp)
+        super().__init__(image, hitbox, initial_pos, PLAYER_DRAG, (0, 19, 20), hp)
 
     # Transform the model of the player into the entity
     def from_player_model(player_model, initial_pos, bullets):
@@ -43,15 +41,10 @@ class Player(LivingEntity):
         player = Player(hp, gun, magic_level, initial_pos, bullets)
         return player
 
-    def setup(self):
-        self.terrain = Director().get_scene().get_terrain()
-
     def update(self, elapsed_time):
         elapsed_units = elapsed_time * DESIGN_FRAMERATE / 1000
 
         # Movement
-        self.speed -= PLAYER_DRAG * elapsed_units * self.speed
-
         move_vector = np.array(
             [
                 self.control.is_active_action(Actions.RIGHT)
@@ -66,27 +59,17 @@ class Player(LivingEntity):
         if vector_norm > 0.0:
             move_vector /= vector_norm
 
-        self.speed += move_vector * PLAYER_SPEED * elapsed_units
+        self.velocity += move_vector * PLAYER_SPEED * elapsed_units
 
-        speed_norm = np.linalg.norm(self.speed)
-        if speed_norm > SPEED_EPSILON:
-            self.facing_vector = self.speed / speed_norm
+        velocity_norm = np.linalg.norm(self.velocity)
+        if velocity_norm > SPEED_EPSILON:
+            self.facing_vector = self.velocity / velocity_norm
         else:
-            self.speed = np.zeros(2)
-
-        final_position = np.array(
-            [
-                self.x + self.speed[0] * elapsed_units,
-                self.y + self.speed[1] * elapsed_units + 19.0,
-            ],
-            dtype=np.float64,
-        )
-        pos = self.terrain.get_collision_vector(final_position, 20.0)
-        self.set_position((pos[0], pos[1] - 19.0))
+            self.velocity = np.zeros(2)
 
         # Camera
         self.camera.set_target_center(
-            self.get_position() + self.speed * CAMERA_LOOK_AHEAD
+            self.get_position() + self.velocity * CAMERA_LOOK_AHEAD
         )
 
         # Attack
@@ -94,6 +77,8 @@ class Player(LivingEntity):
 
         if self.control.is_active_action(Actions.SHOOT):
             self.shoot()
+
+        super().update(elapsed_time)
 
     def apply_tech_upgrade(self, upgrade):
         upgrade.apply(self.gun)

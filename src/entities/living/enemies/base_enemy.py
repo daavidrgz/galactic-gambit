@@ -13,7 +13,7 @@ class BaseEnemy(LivingEntity):
         self.speed = np.zeros(2)
         self.target = np.zeros(2)
         self.targeting = False
-        super().__init__(image, hitbox, initial_pos, hp)
+        super().__init__(image, hitbox, initial_pos, 0.25, (0, 0, 20), hp)
 
     def setup(self):
         scene = Director().get_scene()
@@ -26,7 +26,6 @@ class BaseEnemy(LivingEntity):
         self.ai.run(self, self.player, self.terrain)
 
         # Movement
-        self.speed -= 0.25 * elapsed_units * self.speed
         if self.targeting:
             move_vector = self.target - np.array(self.get_position(), dtype=np.float64)
         else:
@@ -36,17 +35,9 @@ class BaseEnemy(LivingEntity):
         if vector_norm > 0.0:
             move_vector /= vector_norm
 
-        self.speed += move_vector * 0.7 * elapsed_units
+        self.velocity += move_vector * 0.7 * elapsed_units
 
-        final_position = np.array(
-            [
-                self.x + self.speed[0] * elapsed_units,
-                self.y + self.speed[1] * elapsed_units,
-            ],
-            dtype=np.float64,
-        )
-        pos = self.terrain.get_collision_vector(final_position, 20.0)
-        self.set_position((pos[0], pos[1]))
+        super().update(elapsed_time)
 
     def trigger_attack(self):
         pass
