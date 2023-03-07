@@ -1,14 +1,14 @@
-import pygame
+from animations.animated_sprite import AnimatedSprite
+from animations.animation_frame import AnimationFrame
 
 
-class Entity(pygame.sprite.Sprite):
-    def __init__(self, image, hitbox, initial_pos):
-        super().__init__()
-        self.image = image
-        self.image_rect = self.image.get_rect()
+class Entity(AnimatedSprite):
+    def __init__(self, frames, hitbox, initial_pos):
+        if not isinstance(frames, list):
+            frames = [AnimationFrame(frames, 0.1)]
+        super().__init__(frames, initial_pos)
+
         self.rect = hitbox
-        self.x, self.y = initial_pos
-
         self.rect.centerx = self.x
         self.rect.centery = self.y
 
@@ -16,7 +16,7 @@ class Entity(pygame.sprite.Sprite):
         pass
 
     def update(self, elapsed_time):
-        pass
+        super().update(elapsed_time)
 
     def get_position(self):
         return self.x, self.y

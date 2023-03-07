@@ -1,4 +1,5 @@
 import time
+from constants import TILE_SIZE
 from mechanics.magic.magic_upgrade import DoubleSize, ShrinkAndGrow, SlowAndFast, Woobly
 from mechanics.technology.tech_upgrade_system import TechUpgradeSystem
 from scenes.level import Level
@@ -16,7 +17,7 @@ import numpy as np
 class TestGenerator(BaseGenerator):
     def __init__(self, terrain):
         self.resource_manager = ResourceManager.get_instance()
-        self.dirt_sprite = self.resource_manager.load_tile(Resource.DIRT)
+        self.ship_floor = self.resource_manager.load_tile(Resource.SHIP_FLOOR)
         self.cobble_sprite = self.resource_manager.load_tile(Resource.COBBLESTONE)
 
         super().__init__((10.0, 20.0), (7, 5), terrain)
@@ -25,7 +26,7 @@ class TestGenerator(BaseGenerator):
         return self.cobble_sprite
 
     def get_ground_sprite(self, x, y):
-        return self.dirt_sprite
+        return self.ship_floor
 
 
 class TestTerrain(BaseTerrain):

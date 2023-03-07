@@ -1,3 +1,5 @@
+import pygame
+from animations.animation_frame import AnimationFrame
 from entities.living.living_entity import LivingEntity
 from entities.projectile.bullet import Bullet
 from systems.resource_manager import Resource, ResourceManager
@@ -11,6 +13,7 @@ from constants import (
     DESIGN_FRAMERATE,
     CAMERA_LOOK_AHEAD,
     SPEED_EPSILON,
+    TILE_SIZE,
 )
 
 import numpy as np

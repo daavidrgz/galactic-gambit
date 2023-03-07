@@ -1,5 +1,5 @@
 import numpy as np
-from animations.explosion_animation import ExplosionAnimaton
+from animations.explosion_effect import ExplosionEffect
 from entities.projectile.projectile import Projectile
 from mechanics.magic.magic_upgrade import DoubleSize
 from systems.resource_manager import Resource, ResourceManager
@@ -17,10 +17,9 @@ class Bullet(Projectile):
         # Apply init upgrades
         [upgrade.apply(self) for upgrade in init_upgrades]
 
-    def collide(self, animations):
-        explosion_animation = ExplosionAnimaton(self.get_position())
-        explosion_animation.play()
-        animations.append(explosion_animation)
+    def collide(self, animation_group):
+        explosion_animation = ExplosionEffect(self.get_position())
+        animation_group.add(explosion_animation)
         super().collide()
 
     def update(self, elapsed_time):

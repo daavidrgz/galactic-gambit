@@ -7,9 +7,8 @@ import os
 
 
 class Resource(Enum):
-    PLAYER = "sprites/player.png"
     COBBLESTONE = "sprites/cobblestone.png"
-    DIRT = "sprites/dirt.png"
+    SHIP_FLOOR = "sprites/ship-floor-sm.jpg"
     POLISHED_ANDESITE = "sprites/polished_andesite.png"
     SPACE_BACKGROUND = "sprites/space_bg.png"
     LASER = "sprites/laser/11.png"
@@ -26,16 +25,20 @@ class Resource(Enum):
 
     # Animations
     EXPLOSION = [
-        "sprites/animations/explosion/01.jpg",
-        "sprites/animations/explosion/02.jpg",
-        "sprites/animations/explosion/03.jpg",
-        "sprites/animations/explosion/04.jpg",
-        "sprites/animations/explosion/05.jpg",
-        "sprites/animations/explosion/06.jpg",
-        "sprites/animations/explosion/07.jpg",
+        "sprites/effects/explosion/01.png",
+        "sprites/effects/explosion/02.png",
+        "sprites/effects/explosion/03.png",
+        "sprites/effects/explosion/04.png",
+        "sprites/effects/explosion/05.png",
+        "sprites/effects/explosion/06.png",
+        "sprites/effects/explosion/07.png",
     ]
 
+    PLAYER = "sprites/player.png"
 
+
+# TODO: Initialize beforehand big assets like animations \
+# (now there is a micro lag when the animation is first loaded)
 class ResourceManager(metaclass=Singleton):
     def __init__(self):
         self.resources = {}
