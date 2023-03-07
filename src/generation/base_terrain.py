@@ -1,5 +1,6 @@
 from generation.tile import Tile
 from systems.camera_manager import CameraManager
+from scenes.director import Director
 import utils.math
 
 from constants import TILE_SIZE
@@ -47,12 +48,30 @@ class BaseTerrain:
         screen.blit(self.buffer, draw_area)
 
     def draw_minimap(self, screen):
-        screen.blit(self.minimap, (-20,-20,236,236))
+        screen.blit(self.minimap, (0,0,256,256))
+        marker = pygame.Surface((4,4))
+        marker.fill((0,255,0))
+        x,y=Director().get_scene().get_player().get_position()
+        x = x * 256 // (TILE_SIZE * self.width)
+        y = y * 256 // (TILE_SIZE * self.height)
+        screen.blit(marker, (x-1,y-1,x+2,y+2))
 
     def generate_buffer(self):
         self.buffer = pygame.Surface((TILE_SIZE * self.width, TILE_SIZE * self.height), flags=pygame.SRCALPHA)
         self.sprites.draw(self.buffer)
-        self.minimap = pygame.transform.scale(self.buffer, (256,256))
+
+        self.minimap = pygame.transform.smoothscale(self.buffer, (256,256))
+        temp_map = self.minimap.copy()
+        w = self.minimap.get_width()
+        h = self.minimap.get_height()
+        def get(x, y):
+            if x < 0 or y < 0 or x >= w or y >= h: return False
+            return temp_map.get_at((x, y))[3] > 0.5
+        for x in range(w):
+            for y in range(h):
+                if not get(x, y):
+                    if get(x + 1, y) or get(x, y + 1) or get(x - 1, y) or get(x, y - 1):
+                        self.minimap.set_at((x, y), (0,0,0,255))
 
     def on_ground(self, rect):
         starting_x, starting_y = rect.topleft

@@ -4,6 +4,7 @@ from model.game_model import GameModel
 from systems.rng_system import RngSystem
 from scenes.ship_level import ShipLevel
 from scenes.planet_level import PlanetLevel
+from scenes.cave_level import CaveLevel
 
 from scenes.director import Director
 
