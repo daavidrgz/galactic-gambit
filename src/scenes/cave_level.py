@@ -2,7 +2,6 @@ from scenes.level import Level
 from generation.tile import Tile
 from scenes.director import Director
 from generation.generator import BaseGenerator
-from systems.camera_manager import ParallaxGroup
 from systems.resource_manager import ResourceManager
 from generation.base_terrain import BaseTerrain, TerrainType
 
@@ -22,12 +21,12 @@ class CaveGenerator(BaseGenerator):
 
         super().__init__(
             (6.0, 6.0),
-            (2, 4),
+            (2, 2),
             terrain
         )
 
     def coordinate_transform(self, x, y):
-        return (x + snoise2(x * 10.0, y * 10.0) * y / 40, y + snoise2(x * 10.0, y * 10.0) * y / 40)
+        return (x + snoise2(x*10 + 2711, y*10 - 14144) * y/10, y + snoise2(x*10 + 6789, y*10 + 10001) * y/10)
 
     def get_wall_sprite(self, x, y):
         return self.cobble_sprite
@@ -36,7 +35,10 @@ class CaveGenerator(BaseGenerator):
         return self.dirt_sprite
     
     def noise_wall_condition(self, n, x, y):
-        return n > 0.0
+        x_dist = abs(x - 85) / 85
+        y_dist = y / 170
+        x_factor = n - x_dist
+        return x_factor < y_dist - 1.0 or x_dist / 5.0 - 0.005 > y_dist**2
 
 class CaveTerrain(BaseTerrain):
     def populate(self):
