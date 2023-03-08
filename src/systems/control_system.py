@@ -3,7 +3,7 @@ import pygame
 
 from utils.singleton import Singleton
 
-# Enum de las acciones que hay
+
 class Actions(Enum):
     SHOOT = auto()
     UP = auto()
@@ -39,3 +39,6 @@ class ControlSystem(metaclass=Singleton):
     # Function to rebind a key to an action
     def rebind_action(self, action, key):
         self.actions[action] = key
+
+    def get_action_key(self, action):
+        return self.actions[action]

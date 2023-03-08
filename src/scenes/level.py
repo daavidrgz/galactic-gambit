@@ -33,6 +33,9 @@ class Level(Scene):
         self.generator.generate()
 
     def update(self, elapsed_time):
+        # Update camera
+        self.camera_mgr.update(elapsed_time)
+
         self.player.update(elapsed_time)
         self.bullet_group.update(elapsed_time)
         self.animation_group.update(elapsed_time)

@@ -2,6 +2,8 @@ import pygame
 from constants import DESIGN_HEIGHT, DESIGN_WIDTH
 from gui.button import Button
 from gui.title import Title
+from gui_constants import COLOR_BRIGHT, COLOR_SUBTLE
+from scenes.menu.configuration_menu import ConfigurationMenu
 from scenes.menu.menu import Menu
 from scenes.test_level import TestLevel
 from systems.resource_manager import Resource
@@ -28,8 +30,6 @@ class StartMenu(Menu):
         background.blit(veil, (0, 0))
         self.background = background
 
-        self.first_draw = True
-
     def __new_game(self):
         self.director.push_scene(TestLevel())
 
@@ -41,25 +41,23 @@ class StartMenu(Menu):
         self.director.leave_game()
 
     def __config_game(self):
-        pass
+        self.director.push_scene(ConfigurationMenu())
 
     def setup(self):
-        subtle = (100, 100, 100)
-        bright = (255, 255, 255)
         font = self.resource_manager.load_font(Resource.FONT_LG)
 
         self.title = Title(
             text="Space Mission",
             font=self.resource_manager.load_font(Resource.FONT_XL),
-            color=bright,
+            color=COLOR_BRIGHT,
             position=(DESIGN_WIDTH / 2, 100),
         )
 
         self.continue_game_button = Button(
             text="Continue Game",
             font=font,
-            color=subtle,
-            color_hover=bright,
+            color=COLOR_SUBTLE,
+            color_hover=COLOR_BRIGHT,
             action=self.__continue_game,
             position=(DESIGN_WIDTH / 2, DESIGN_HEIGHT / 2),
         )
@@ -67,8 +65,8 @@ class StartMenu(Menu):
         self.new_game_button = Button(
             text="New Game",
             font=font,
-            color=subtle,
-            color_hover=bright,
+            color=COLOR_SUBTLE,
+            color_hover=COLOR_BRIGHT,
             action=self.__new_game,
             position=(DESIGN_WIDTH / 2, DESIGN_HEIGHT / 2),
         )
@@ -76,8 +74,8 @@ class StartMenu(Menu):
         self.config_game_button = Button(
             text="Configuration",
             font=font,
-            color=subtle,
-            color_hover=bright,
+            color=COLOR_SUBTLE,
+            color_hover=COLOR_BRIGHT,
             action=self.__config_game,
             position=(DESIGN_WIDTH / 2, DESIGN_HEIGHT / 2),
         )
@@ -85,18 +83,19 @@ class StartMenu(Menu):
         self.quit_game_button = Button(
             text="Quit Game",
             font=font,
-            color=subtle,
-            color_hover=bright,
+            color=COLOR_SUBTLE,
+            color_hover=COLOR_BRIGHT,
             action=self.__leave_game,
             position=(DESIGN_WIDTH / 2, DESIGN_HEIGHT / 2),
         )
 
         if self.game_model.save_exists():
+            self.buttons.append(self.continue_game_button)
+
             self.continue_game_button.set_position_rel((0, -150))
             self.new_game_button.set_position_rel((0, -50))
             self.config_game_button.set_position_rel((0, 50))
             self.quit_game_button.set_position_rel((0, 150))
-            self.buttons.append(self.continue_game_button)
         else:
             self.new_game_button.set_position_rel((0, -100))
             self.quit_game_button.set_position_rel((0, 100))
@@ -105,7 +104,5 @@ class StartMenu(Menu):
         self.buttons.append(self.config_game_button)
         self.buttons.append(self.quit_game_button)
 
-        self.buttons_len = len(self.buttons)
-        self.buttons[0].select()
-
         self.gui_group.add(self.title, self.buttons)
+        super().setup()

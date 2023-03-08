@@ -30,11 +30,17 @@ class Button(BaseGui):
 
         super().__init__(self.text_surface, position)
 
-    def action(self):
+    def execute_action(self):
         self.action()
 
     def __render_font(self, text, color, background):
         return self.font.render(text, True, color, background)
+
+    def set_text(self, text):
+        self.text = text
+        self.image = self.__render_font(
+            text, self.current_color, self.current_background
+        )
 
     def set_color(self, color):
         self.current_color = color

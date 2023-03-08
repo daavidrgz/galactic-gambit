@@ -24,4 +24,4 @@ class Scene:
         raise NotImplementedError
 
     def pop_back(self):
-        raise NotImplementedError
+        pass
