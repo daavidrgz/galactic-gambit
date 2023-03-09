@@ -33,6 +33,9 @@ class ControlSystem(metaclass=Singleton):
     def is_active_action(self, action):
         return self.__pressed_keys[self.actions[action]]
 
+    def is_key_pressed(self, key):
+        return self.__pressed_keys[key]
+
     def refresh_pressed_keys(self):
         self.__pressed_keys = pygame.key.get_pressed()
 

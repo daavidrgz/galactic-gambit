@@ -6,15 +6,15 @@ from gui.volume_button import VolumeButton
 from gui_constants import COLOR_BRIGHT, COLOR_SUBTLE
 from scenes.menus.menu import Menu
 from systems.resource_manager import Resource
-from systems.sound_controller import SoundController
 
 
 class VolumeMenu(Menu):
     def __init__(self, background=pygame.Surface((DESIGN_WIDTH, DESIGN_HEIGHT))):
         super().__init__()
-        self.sound_controller = SoundController.get_instance()
         self.background = background
         self.is_changing_volume = False
+        self.input_timeout = 150
+        self.current_timeout = 0
 
     def __change_volume_state(self):
         self.is_changing_volume = True
@@ -73,6 +73,17 @@ class VolumeMenu(Menu):
         self.gui_group.add(self.title, self.buttons)
         super().setup()
 
+    def __volume_change_ready(self):
+        return self.current_timeout >= self.input_timeout
+
+    def __update_timeout(self, elapsed_time):
+        self.current_timeout = self.current_timeout + elapsed_time
+
+    def update(self, elapsed_time):
+        if self.is_changing_volume:
+            self.__update_timeout(elapsed_time)
+        super().update(elapsed_time)
+
     def handle_events(self, events):
         if not self.is_changing_volume:
             super().handle_events(events)
@@ -82,13 +93,19 @@ class VolumeMenu(Menu):
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE or event.key == pygame.K_RETURN:
                     self.get_selected_button().reset_color()
+                    self.current_timeout = 0
                     self.is_changing_volume = False
                     return
 
-                if event.key == pygame.K_UP:
-                    self.get_selected_button().increase_volume()
-                    return
+        if not self.__volume_change_ready():
+            return
 
-                if event.key == pygame.K_DOWN:
-                    self.get_selected_button().decrease_volume()
-                    return
+        if self.control_system.is_key_pressed(pygame.K_UP):
+            self.current_timeout = 0
+            self.get_selected_button().increase_volume()
+            return
+
+        if self.control_system.is_key_pressed(pygame.K_DOWN):
+            self.current_timeout = 0
+            self.get_selected_button().decrease_volume()
+            return

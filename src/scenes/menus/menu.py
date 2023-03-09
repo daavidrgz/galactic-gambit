@@ -1,16 +1,17 @@
 import pygame
 from scenes.scene import Scene
+from systems.control_system import ControlSystem
 
 
 class Menu(Scene):
     def __init__(self):
         super().__init__()
+        self.control_system = ControlSystem.get_instance()
         self.gui_group = pygame.sprite.Group()
         self.buttons = []
         self.current_button = 0
         self.buttons_len = 0
         self.background = None
-        self.is_first_draw = True
 
     def get_selected_button(self):
         return self.buttons[self.current_button]
