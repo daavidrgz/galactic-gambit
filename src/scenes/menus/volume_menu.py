@@ -1,19 +1,19 @@
 import pygame
 from constants import DESIGN_HEIGHT, DESIGN_WIDTH
-from gui.button import Button
+from gui.text_button import TextButton
 from gui.title import Title
 from gui.volume_button import VolumeButton
 from gui_constants import COLOR_BRIGHT, COLOR_SUBTLE
-from scenes.menus.menu import Menu
+from scenes.menus.vertical_menu import VerticalMenu
 from systems.resource_manager import Resource
 
 
-class VolumeMenu(Menu):
+class VolumeMenu(VerticalMenu):
     def __init__(self, background=pygame.Surface((DESIGN_WIDTH, DESIGN_HEIGHT))):
         super().__init__()
         self.background = background
         self.is_changing_volume = False
-        self.input_timeout = 150
+        self.input_timeout = 50
         self.current_timeout = 0
 
     def __change_volume_state(self):
@@ -60,7 +60,7 @@ class VolumeMenu(Menu):
             )
         )
 
-        self.go_back_button = Button(
+        self.go_back_button = TextButton(
             text="Go back",
             font=self.resource_manager.load_font(Resource.FONT_LG),
             color=COLOR_SUBTLE,

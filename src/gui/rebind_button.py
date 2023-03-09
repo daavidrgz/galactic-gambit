@@ -1,9 +1,9 @@
 import pygame
-from gui.button import Button
+from gui.text_button import TextButton
 from systems.control_system import ControlSystem
 
 
-class RebindButton(Button):
+class RebindButton(TextButton):
     def __init__(
         self,
         action_text,
@@ -22,16 +22,23 @@ class RebindButton(Button):
         self.previous_color = color
 
         full_text = self.__get_full_text(bind_key)
-        super().__init__(full_text, font, color, color_hover, action, position)
+        super().__init__(
+            text=full_text,
+            font=font,
+            color=color,
+            color_hover=color_hover,
+            action=lambda: self.__action(action),
+            position=position,
+        )
 
     def __get_full_text(self, bind_key):
         key_name = pygame.key.name(bind_key)
         return f"{self.action_text} - {key_name}"
 
-    def execute_action(self):
+    def __action(self, action):
         self.previous_color = self.current_color
         self.set_color((255, 255, 0))
-        super().execute_action()
+        action()
 
     def reset_color(self):
         self.set_color(self.previous_color)

@@ -12,6 +12,10 @@ class BaseGui(pygame.sprite.Sprite):
     def set_position(self, position):
         self.rect.center = position
 
+    def set_position_rel(self, position):
+        deltax, deltay = position
+        self.rect.center = (self.rect.center[0] + deltax, self.rect.center[1] + deltay)
+
     def is_inside(self, position):
         return self.rect.collidepoint(position)
 

@@ -1,14 +1,15 @@
 import pygame
 from constants import DESIGN_HEIGHT, DESIGN_WIDTH
-from gui.button import Button
+from gui.text_button import TextButton
 from gui.title import Title
 from gui_constants import COLOR_BRIGHT, COLOR_SUBTLE
 from scenes.menus.configuration_menu import ConfigurationMenu
-from scenes.menus.menu import Menu
+from scenes.menus.upgrade_menu import UpgradeMenu
+from scenes.menus.vertical_menu import VerticalMenu
 from systems.resource_manager import Resource
 
 
-class PauseMenu(Menu):
+class PauseMenu(VerticalMenu):
     def __init__(self):
         super().__init__()
         background = self.director.virtual_screen.copy()
@@ -28,7 +29,7 @@ class PauseMenu(Menu):
 
     def __create_button(self, text, action, offset):
         font = self.resource_manager.load_font(Resource.FONT_LG)
-        return Button(
+        return TextButton(
             text=text,
             font=font,
             color=COLOR_SUBTLE,
@@ -36,6 +37,9 @@ class PauseMenu(Menu):
             action=action,
             position=(DESIGN_WIDTH / 2, DESIGN_HEIGHT / 2 + offset),
         )
+
+    def __upgrade_button(self):
+        self.director.push_scene(UpgradeMenu(self.background))
 
     def setup(self):
         self.title = Title(
@@ -50,6 +54,7 @@ class PauseMenu(Menu):
             self.__create_button("Configuration", self.__config_game, 0)
         )
         self.buttons.append(self.__create_button("Quit Game", self.__leave_game, 100))
+        self.buttons.append(self.__create_button("Upgrade", self.__upgrade_button, 200))
 
         self.gui_group.add(self.title, self.buttons)
         super().setup()

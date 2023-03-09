@@ -1,22 +1,23 @@
 import pygame
 from constants import DESIGN_HEIGHT, DESIGN_WIDTH
 from gui.button import Button
+from gui.text_button import TextButton
 from gui.title import Title
 from gui_constants import COLOR_BRIGHT, COLOR_SUBTLE
 from scenes.menus.keybinds_menu import KeybindingsMenu
-from scenes.menus.menu import Menu
+from scenes.menus.vertical_menu import VerticalMenu
 from scenes.menus.volume_menu import VolumeMenu
 from systems.resource_manager import Resource
 
 
-class ConfigurationMenu(Menu):
-    def __init__(self, background=pygame.Surface((DESIGN_WIDTH, DESIGN_HEIGHT))):
+class ConfigurationMenu(VerticalMenu):
+    def __init__(self, background):
         super().__init__()
         self.background = background
 
     def __create_button(self, text, action, offset):
         font = self.resource_manager.load_font(Resource.FONT_LG)
-        return Button(
+        return TextButton(
             text=text,
             font=font,
             color=COLOR_SUBTLE,

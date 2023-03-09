@@ -1,15 +1,15 @@
 import pygame
 from constants import DESIGN_HEIGHT, DESIGN_WIDTH
-from gui.button import Button
+from gui.text_button import TextButton
 from gui.title import Title
 from gui_constants import COLOR_BRIGHT, COLOR_SUBTLE
 from scenes.menus.configuration_menu import ConfigurationMenu
-from scenes.menus.menu import Menu
+from scenes.menus.vertical_menu import VerticalMenu
 from scenes.test_level import TestLevel
 from systems.resource_manager import Resource
 
 
-class StartMenu(Menu):
+class StartMenu(VerticalMenu):
     def __init__(self):
         super().__init__()
         background_image = self.resource_manager.load_image(Resource.SPACE_BACKGROUND)
@@ -53,7 +53,7 @@ class StartMenu(Menu):
             position=(DESIGN_WIDTH / 2, 100),
         )
 
-        self.continue_game_button = Button(
+        self.continue_game_button = TextButton(
             text="Continue Game",
             font=font,
             color=COLOR_SUBTLE,
@@ -62,7 +62,7 @@ class StartMenu(Menu):
             position=(DESIGN_WIDTH / 2, DESIGN_HEIGHT / 2),
         )
 
-        self.new_game_button = Button(
+        self.new_game_button = TextButton(
             text="New Game",
             font=font,
             color=COLOR_SUBTLE,
@@ -71,7 +71,7 @@ class StartMenu(Menu):
             position=(DESIGN_WIDTH / 2, DESIGN_HEIGHT / 2),
         )
 
-        self.config_game_button = Button(
+        self.config_game_button = TextButton(
             text="Configuration",
             font=font,
             color=COLOR_SUBTLE,
@@ -80,7 +80,7 @@ class StartMenu(Menu):
             position=(DESIGN_WIDTH / 2, DESIGN_HEIGHT / 2),
         )
 
-        self.quit_game_button = Button(
+        self.quit_game_button = TextButton(
             text="Quit Game",
             font=font,
             color=COLOR_SUBTLE,

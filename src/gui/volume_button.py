@@ -1,8 +1,8 @@
-from gui.button import Button
+from gui.text_button import TextButton
 from systems.sound_controller import SoundController
 
 
-class VolumeButton(Button):
+class VolumeButton(TextButton):
     def __init__(
         self,
         volume_text,
@@ -23,15 +23,22 @@ class VolumeButton(Button):
         self.previous_color = color
 
         full_text = self.__get_full_text(volume_level)
-        super().__init__(full_text, font, color, color_hover, action, position)
+        super().__init__(
+            text=full_text,
+            font=font,
+            color=color,
+            color_hover=color_hover,
+            action=lambda: self.__action(action),
+            position=position,
+        )
+
+    def __action(self, action):
+        self.previous_color = self.current_color
+        self.set_color((255, 255, 0))
+        action()
 
     def __get_full_text(self, volume_level):
         return f"{self.volume_text} - {volume_level}"
-
-    def execute_action(self):
-        self.previous_color = self.current_color
-        self.set_color((255, 255, 0))
-        super().execute_action()
 
     def reset_color(self):
         self.set_color(self.previous_color)

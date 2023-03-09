@@ -1,16 +1,16 @@
 import pygame
 from constants import DESIGN_HEIGHT, DESIGN_WIDTH
+from gui.text_button import TextButton
 from gui_constants import COLOR_BRIGHT, COLOR_SUBTLE
 from gui.rebind_button import RebindButton
-from gui.button import Button
 from gui.title import Title
-from scenes.menus.menu import Menu
+from scenes.menus.vertical_menu import VerticalMenu
 from systems.control_system import Actions, ControlSystem
 from systems.resource_manager import Resource
 
 
-class KeybindingsMenu(Menu):
-    def __init__(self, background=pygame.Surface((DESIGN_WIDTH, DESIGN_HEIGHT))):
+class KeybindingsMenu(VerticalMenu):
+    def __init__(self, background):
         super().__init__()
         self.background = background
         self.control_system = ControlSystem.get_instance()
@@ -29,7 +29,6 @@ class KeybindingsMenu(Menu):
 
     def create_action_button(self, text, action, offset):
         font = self.resource_manager.load_font(Resource.FONT_MD)
-
         return RebindButton(
             action_text=text,
             bind_action=action,
@@ -54,7 +53,7 @@ class KeybindingsMenu(Menu):
         self.buttons.append(self.create_action_button("Move Down", Actions.DOWN, 0))
         self.buttons.append(self.create_action_button("Move Right", Actions.RIGHT, 50))
 
-        self.go_back_button = Button(
+        self.go_back_button = TextButton(
             text="Go back",
             font=self.resource_manager.load_font(Resource.FONT_MD),
             color=COLOR_SUBTLE,
