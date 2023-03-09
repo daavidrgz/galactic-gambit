@@ -11,6 +11,6 @@ class HorizontalMenu(Menu):
         for event in events:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LEFT:
-                    self.__previous_button()
+                    self.previous_button()
                 if event.key == pygame.K_RIGHT:
-                    self.__next_button()
+                    self.next_button()

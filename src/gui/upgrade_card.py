@@ -1,37 +1,67 @@
 import pygame
 from gui.button import Button
-from gui_constants import COLOR_BRIGHT
+from gui_constants import COLOR_BRIGHT, TRANSPARENT
 from systems.resource_manager import Resource, ResourceManager
 
 
 class UpgradeCard(Button):
-    def __init__(self, title, icons, description, position, width, height, action):
+    ICON_SIZE = 64
+
+    def __init__(self, title, icon, position, width, height, action):
         self.resource_manager = ResourceManager.get_instance()
         self.title = title
-        self.icons = icons
-        self.description = description
+        self.icon = pygame.transform.scale(icon, (self.ICON_SIZE, self.ICON_SIZE))
         self.width = width
         self.height = height
 
-        self.card = pygame.Surface((width, height))
-        self.card.fill((0, 0, 0))
-        title_surface = self.__get_title(title)
-        self.card.blit(title_surface, (width // 2 - title_surface.get_width() // 2, 25))
+        self.border_color = TRANSPARENT
+        self.border_width = 6
 
         super().__init__(
-            surface=self.card,
+            surface=self.__render_card(),
             position=position,
             action=action,
             on_select=self.on_select,
             on_deselect=self.on_deselect,
         )
 
+    def __render_card(self):
+        container = pygame.Surface(
+            (self.width + self.border_width, self.height + self.border_width)
+        )
+        container.fill(self.border_color)
+
+        self.card = pygame.Surface((self.width, self.height))
+        self.card.fill((0, 0, 0))
+
+        title_surface = self.__get_title(self.title)
+        self.card.blit(
+            title_surface, (self.width // 2 - title_surface.get_width() // 2, 25)
+        )
+
+        self.card.blit(
+            self.icon,
+            (
+                self.width // 2 - self.ICON_SIZE // 2,
+                self.height // 2 - self.ICON_SIZE // 2,
+            ),
+        )
+
+        container.blit(self.card, (self.border_width / 2, self.border_width / 2))
+        return container
+
     def on_select(self):
-        pass
+        self.border_color = COLOR_BRIGHT
+        self.image = self.__render_card()
 
     def on_deselect(self):
-        pass
+        self.border_color = TRANSPARENT
+        self.image = self.__render_card()
 
     def __get_title(self, title):
         font = self.resource_manager.load_font(Resource.FONT_MD)
         return font.render(title, True, COLOR_BRIGHT)
+
+    def _get_description(self, description):
+        font = self.resource_manager.load_font(Resource.FONT_SM)
+        return font.render(description, True, COLOR_BRIGHT)

@@ -11,11 +11,10 @@ class UpgradeMenu(HorizontalMenu):
         super().__init__()
         self.background = background
 
-    def __create_upgrade_card(self, title, icons, description, action, offset):
+    def __create_upgrade_card(self, title, icon, action, offset):
         return UpgradeCard(
             title=title,
-            icons=icons,
-            description=description,
+            icon=icon,
             position=(DESIGN_WIDTH // 2 + offset, DESIGN_HEIGHT // 2 + 20),
             width=200,
             height=320,
@@ -35,18 +34,16 @@ class UpgradeMenu(HorizontalMenu):
 
         self.buttons.append(
             self.__create_upgrade_card(
-                title="First Upgrade",
-                icons=[],
-                description="Your first upgade",
+                title="Woobly Bullet",
+                icon=self.resource_manager.load_image(Resource.PLAYER),
                 action=self.__action,
-                offset=-220,
+                offset=-240,
             )
         )
         self.buttons.append(
             self.__create_upgrade_card(
                 title="First Upgrade",
-                icons=[],
-                description="Your first upgade",
+                icon=self.resource_manager.load_image(Resource.PLAYER),
                 action=self.__action,
                 offset=0,
             )
@@ -54,10 +51,9 @@ class UpgradeMenu(HorizontalMenu):
         self.buttons.append(
             self.__create_upgrade_card(
                 title="First Upgrade",
-                icons=[],
-                description="Your first upgade",
+                icon=self.resource_manager.load_image(Resource.PLAYER),
                 action=self.__action,
-                offset=220,
+                offset=240,
             )
         )
 
