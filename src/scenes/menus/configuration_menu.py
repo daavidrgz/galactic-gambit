@@ -1,0 +1,52 @@
+import pygame
+from constants import DESIGN_HEIGHT, DESIGN_WIDTH
+from gui.button import Button
+from gui.title import Title
+from gui_constants import COLOR_BRIGHT, COLOR_SUBTLE
+from scenes.menus.keybinds_menu import KeybindingsMenu
+from scenes.menus.menu import Menu
+from scenes.menus.volume_menu import VolumeMenu
+from systems.resource_manager import Resource
+
+
+class ConfigurationMenu(Menu):
+    def __init__(self, background=pygame.Surface((DESIGN_WIDTH, DESIGN_HEIGHT))):
+        super().__init__()
+        self.background = background
+
+    def __create_button(self, text, action, offset):
+        font = self.resource_manager.load_font(Resource.FONT_LG)
+        return Button(
+            text=text,
+            font=font,
+            color=COLOR_SUBTLE,
+            color_hover=COLOR_BRIGHT,
+            action=action,
+            position=(DESIGN_WIDTH / 2, DESIGN_HEIGHT / 2 + offset),
+        )
+
+    def __keybindings_config(self):
+        self.director.push_scene(KeybindingsMenu(self.background))
+
+    def __volume_config(self):
+        self.director.push_scene(VolumeMenu(self.background))
+
+    def __go_back(self):
+        self.director.pop_scene()
+
+    def setup(self):
+        self.title = Title(
+            text="Configuration",
+            font=self.resource_manager.load_font(Resource.FONT_XL),
+            color=COLOR_BRIGHT,
+            position=(DESIGN_WIDTH // 2, 100),
+        )
+
+        self.buttons.append(self.__create_button("Volume", self.__volume_config, -100))
+        self.buttons.append(
+            self.__create_button("Keybindings", self.__keybindings_config, 0)
+        )
+        self.buttons.append(self.__create_button("Go back", self.__go_back, 100))
+
+        self.gui_group.add(self.title, self.buttons)
+        super().setup()

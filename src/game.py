@@ -1,7 +1,7 @@
 import pygame
 from pygame.locals import *
 from model.game_model import GameModel
-from scenes.menu.start_menu import StartMenu
+from scenes.menus.start_menu import StartMenu
 from systems.rng_system import RngSystem
 from scenes.test_level import TestLevel
 

@@ -3,8 +3,8 @@ from constants import DESIGN_HEIGHT, DESIGN_WIDTH
 from gui.button import Button
 from gui.title import Title
 from gui_constants import COLOR_BRIGHT, COLOR_SUBTLE
-from scenes.menu.configuration_menu import ConfigurationMenu
-from scenes.menu.menu import Menu
+from scenes.menus.configuration_menu import ConfigurationMenu
+from scenes.menus.menu import Menu
 from scenes.test_level import TestLevel
 from systems.resource_manager import Resource
 
@@ -41,7 +41,7 @@ class StartMenu(Menu):
         self.director.leave_game()
 
     def __config_game(self):
-        self.director.push_scene(ConfigurationMenu())
+        self.director.push_scene(ConfigurationMenu(self.background))
 
     def setup(self):
         font = self.resource_manager.load_font(Resource.FONT_LG)

@@ -8,6 +8,7 @@ class SoundController(metaclass=Singleton):
     music_volume = 100
     effects_volume = 100
     relative_volume = 1
+    volume_step = 1
 
     def __init__(self):
         self.resource_manager = ResourceManager()
@@ -20,17 +21,35 @@ class SoundController(metaclass=Singleton):
     def pause(self):
         pg.mixer.music.pause()
 
-    def update_music_volume(self, volume):
+    def set_music_volume(self, volume):
         self.music_volume = volume
         self.set_relative_volume_music()
 
-    def update_effects_volume(self, volume):
+    def set_effects_volume(self, volume):
         self.effects_volume = volume
 
     def get_music_volume(self):
         return self.music_volume
 
     def get_effects_volume(self):
+        return self.effects_volume
+
+    def increase_music_volume(self):
+        self.music_volume = min(100, self.music_volume + self.volume_step)
+        self.set_relative_volume_music()
+        return self.music_volume
+
+    def decrease_music_volume(self):
+        self.music_volume = max(0, self.music_volume - self.volume_step)
+        self.set_relative_volume_music()
+        return self.music_volume
+
+    def increase_effects_volume(self):
+        self.effects_volume = min(100, self.effects_volume + self.volume_step)
+        return self.effects_volume
+
+    def decrease_effects_volume(self):
+        self.effects_volume = max(0, self.effects_volume - self.volume_step)
         return self.effects_volume
 
     def set_relative_volume_music(self, rel_volume=-1):
@@ -44,7 +63,9 @@ class SoundController(metaclass=Singleton):
         loaded_sound.set_volume(rel_volume * self.effects_volume / 100)
 
     def play_music(self, music):
-        pg.mixer.music.load(os.path.join(self.resource_manager.BASE_PATH, music.value[0]))
+        pg.mixer.music.load(
+            os.path.join(self.resource_manager.BASE_PATH, music.value[0])
+        )
         self.set_relative_volume_music(music.value[1])
         pg.mixer.music.play(-1)
 

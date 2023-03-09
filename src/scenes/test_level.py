@@ -5,7 +5,7 @@ from mechanics.technology.tech_upgrade_system import TechUpgradeSystem
 from scenes.level import Level
 from generation.base_terrain import BaseTerrain, TerrainType
 from generation.generator import BaseGenerator
-from scenes.menu.pause_menu import PauseMenu
+from scenes.menus.pause_menu import PauseMenu
 from systems.resource_manager import Resource, ResourceManager
 from entities.living.enemies.test_enemy import TestEnemy
 from systems.camera_manager import ScrollableGroup
@@ -88,7 +88,7 @@ class TestLevel(Level):
                 if event.key == pygame.K_c:
                     self.sound_controller.play_music(Resource.MUSIC_TEST)
                 if event.key == pygame.K_v:
-                    self.sound_controller.update_music_volume(50)
+                    self.sound_controller.set_music_volume(50)
                 if event.key == pygame.K_b:
                     self.sound_controller.play_sound(Resource.SOUND_TEST)
                 if event.key == pygame.K_n:

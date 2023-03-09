@@ -1,21 +1,18 @@
 import pygame
 from constants import DESIGN_HEIGHT, DESIGN_WIDTH
+from gui_constants import COLOR_BRIGHT, COLOR_SUBTLE
 from gui.rebind_button import RebindButton
 from gui.button import Button
 from gui.title import Title
-from scenes.menu.menu import Menu
+from scenes.menus.menu import Menu
 from systems.control_system import Actions, ControlSystem
 from systems.resource_manager import Resource
 
 
-class ConfigurationMenu(Menu):
-    COLOR_SUBTLE = (100, 100, 100)
-    COLOR_BRIGHT = (255, 255, 255)
-
-    def __init__(self):
+class KeybindingsMenu(Menu):
+    def __init__(self, background=pygame.Surface((DESIGN_WIDTH, DESIGN_HEIGHT))):
         super().__init__()
-        veil = pygame.Surface((DESIGN_WIDTH, DESIGN_HEIGHT))
-        self.background = veil
+        self.background = background
         self.control_system = ControlSystem.get_instance()
         self.is_rebinding = False
 
@@ -30,7 +27,7 @@ class ConfigurationMenu(Menu):
         if not self.is_rebinding:
             return
 
-    def __create_action_button(self, text, action, offset):
+    def create_action_button(self, text, action, offset):
         font = self.resource_manager.load_font(Resource.FONT_MD)
 
         return RebindButton(
@@ -38,32 +35,30 @@ class ConfigurationMenu(Menu):
             bind_action=action,
             bind_key=self.control_system.get_action_key(action),
             font=font,
-            color=self.COLOR_SUBTLE,
-            color_hover=self.COLOR_BRIGHT,
+            color=COLOR_SUBTLE,
+            color_hover=COLOR_BRIGHT,
             action=self.__select_rebind_button,
             position=(DESIGN_WIDTH // 2, DESIGN_HEIGHT // 2 + offset),
         )
 
     def setup(self):
         self.title = Title(
-            text="Configuration",
+            text="Keybindings",
             font=self.resource_manager.load_font(Resource.FONT_XL),
-            color=self.COLOR_BRIGHT,
+            color=COLOR_BRIGHT,
             position=(DESIGN_WIDTH // 2, 100),
         )
 
-        self.buttons.append(self.__create_action_button("Move Up", Actions.UP, -100))
-        self.buttons.append(self.__create_action_button("Move Left", Actions.LEFT, -50))
-        self.buttons.append(self.__create_action_button("Move Down", Actions.DOWN, 0))
-        self.buttons.append(
-            self.__create_action_button("Move Right", Actions.RIGHT, 50)
-        )
+        self.buttons.append(self.create_action_button("Move Up", Actions.UP, -100))
+        self.buttons.append(self.create_action_button("Move Left", Actions.LEFT, -50))
+        self.buttons.append(self.create_action_button("Move Down", Actions.DOWN, 0))
+        self.buttons.append(self.create_action_button("Move Right", Actions.RIGHT, 50))
 
         self.go_back_button = Button(
             text="Go back",
             font=self.resource_manager.load_font(Resource.FONT_MD),
-            color=self.COLOR_SUBTLE,
-            color_hover=self.COLOR_BRIGHT,
+            color=COLOR_SUBTLE,
+            color_hover=COLOR_BRIGHT,
             action=self.__go_back,
             position=(DESIGN_WIDTH // 2, DESIGN_HEIGHT // 2 + 100),
         )
@@ -86,7 +81,3 @@ class ConfigurationMenu(Menu):
 
                 self.get_selected_button().rebind_action(event.key)
                 self.is_rebinding = False
-
-    def draw(self, screen):
-        screen.fill((0, 0, 0))
-        super().draw(screen)

@@ -3,8 +3,8 @@ from constants import DESIGN_HEIGHT, DESIGN_WIDTH
 from gui.button import Button
 from gui.title import Title
 from gui_constants import COLOR_BRIGHT, COLOR_SUBTLE
-from scenes.menu.configuration_menu import ConfigurationMenu
-from scenes.menu.menu import Menu
+from scenes.menus.configuration_menu import ConfigurationMenu
+from scenes.menus.menu import Menu
 from systems.resource_manager import Resource
 
 
@@ -13,7 +13,7 @@ class PauseMenu(Menu):
         super().__init__()
         background = self.director.virtual_screen.copy()
         veil = pygame.Surface((DESIGN_WIDTH, DESIGN_HEIGHT))
-        veil.set_alpha(200)
+        veil.set_alpha(220)
         background.blit(veil, (0, 0))
         self.background = background
 
@@ -24,7 +24,7 @@ class PauseMenu(Menu):
         self.director.leave_game()
 
     def __config_game(self):
-        self.director.push_scene(ConfigurationMenu())
+        self.director.push_scene(ConfigurationMenu(self.background))
 
     def __create_button(self, text, action, offset):
         font = self.resource_manager.load_font(Resource.FONT_LG)

@@ -26,7 +26,7 @@ class RebindButton(Button):
 
     def __get_full_text(self, bind_key):
         key_name = pygame.key.name(bind_key)
-        return f"{self.action_text} -- {key_name}"
+        return f"{self.action_text} - {key_name}"
 
     def execute_action(self):
         self.previous_color = self.current_color

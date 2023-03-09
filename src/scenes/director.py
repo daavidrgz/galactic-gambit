@@ -85,3 +85,6 @@ class Director(metaclass=Singleton):
 
     def get_scene(self):
         return self.scenes[-1]
+
+    def clear_scenes(self):
+        self.scenes = []
