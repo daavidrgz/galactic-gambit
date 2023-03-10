@@ -14,7 +14,7 @@ from utils.singleton import Singleton
 
 class Director(metaclass=Singleton):
     def __init__(self):
-        self.screen = pygame.display.set_mode((USER_WIDTH, USER_HEIGHT))
+        self.screen = pygame.display.set_mode((USER_WIDTH, USER_HEIGHT), vsync=True)
         self.virtual_screen = pygame.Surface((DESIGN_WIDTH, DESIGN_HEIGHT))
         pygame.display.set_caption("Game")
         # Scenes stack
