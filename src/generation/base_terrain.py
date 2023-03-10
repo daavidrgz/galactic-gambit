@@ -50,12 +50,12 @@ class BaseTerrain:
 
     def draw_minimap(self, screen):
         screen.blit(self.minimap, (0,0,256,256))
-        marker = pygame.Surface((4,4))
-        marker.fill((0,255,0))
-        x, y = Director().get_scene().get_player().get_position()
-        x = x * 256 // (TILE_SIZE * self.width)
-        y = y * 256 // (TILE_SIZE * self.height)
-        screen.blit(marker, (x-1,y-1,x+2,y+2))
+        #marker = pygame.Surface((4,4))
+        #marker.fill((0,255,0))
+        #x, y = Director().get_scene().get_player().get_position()
+        #x = x * 256 // (TILE_SIZE * self.width)
+        #y = y * 256 // (TILE_SIZE * self.height)
+        #screen.blit(marker, (x-1,y-1,x+2,y+2))
 
     def generate_buffer(self):
         self.buffer = pygame.Surface((TILE_SIZE * self.width, TILE_SIZE * self.height), flags=pygame.SRCALPHA)
