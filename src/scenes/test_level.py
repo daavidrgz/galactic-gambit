@@ -1,6 +1,5 @@
 import time
-from constants import TILE_SIZE
-from mechanics.magic.magic_upgrade import DoubleSize, ShrinkAndGrow, SlowAndFast, Woobly
+from mechanics.magic.magic_upgrade_system import MagicUpgradeSystem
 from mechanics.technology.tech_upgrade_system import TechUpgradeSystem
 from scenes.level import Level
 from generation.base_terrain import BaseTerrain, TerrainType
@@ -55,14 +54,17 @@ class TestLevel(Level):
                     print(upgrade)
                     if upgrade is not None:
                         self.player.apply_tech_upgrade(upgrade)
+                if event.key == pygame.K_n:
+                    upgrade = MagicUpgradeSystem.get_instance().get_random_upgrade()
+                    print(upgrade)
+                    if upgrade is not None:
+                        self.player.apply_magical_upgrade(upgrade)
                 if event.key == pygame.K_c:
                     self.sound_controller.play_music(Resource.MUSIC_TEST)
                 if event.key == pygame.K_v:
                     self.sound_controller.set_music_volume(50)
                 if event.key == pygame.K_b:
                     self.sound_controller.play_sound(Resource.SOUND_TEST)
-                if event.key == pygame.K_n:
-                    self.player.apply_magical_upgrade(Woobly)
                 if event.key == pygame.K_ESCAPE:
                     self.director.push_scene(PauseMenu())
 

@@ -176,3 +176,7 @@ Para la barra de vida usar un observer
 ##
 
 Idea para que sea más entretenido volver a jugar: Un timer que cuente el tiempo que llevas jugando. Guardar el mejor tiempo o 
+
+## 
+
+Justificar en la memoria por qué el sistema de upgrades es un singleton externo y no se gestiona dentro del player

@@ -9,6 +9,7 @@ from constants import (
 from entities.living.player.player import Player
 from mechanics.magic.magic_level import MagicLevel
 from mechanics.gun import Gun
+from mechanics.magic.magic_upgrade_system import MagicUpgradeSystem
 from mechanics.technology.tech_upgrade_system import TechUpgradeSystem
 from systems.rng_system import RngSystem
 from utils.singleton import Singleton
@@ -18,6 +19,10 @@ import os
 
 # TODO: Cuidado con pushear escenas... Al volver de otra escena, hay que tener en cuenta que en la escena
 # anterior haya cambiado el modelo y haya que refrescar sprites... si hacemos switch scene no nos afecta
+
+SAVE_FILE_NAME = "savegame_ciie"
+
+
 class GameModel(metaclass=Singleton):
     def __init__(self):
         # TODO: Guardar esto aquí o en constants?
@@ -35,17 +40,15 @@ class GameModel(metaclass=Singleton):
         self.player = initial_player
         self.level = None
         self.rng_system = RngSystem.get_instance()
-        self.save_file_name = "savegame_ciie"
-        self.upgrade_system = TechUpgradeSystem.get_instance()
+        self.tech_upgrade_system = TechUpgradeSystem.get_instance()
+        self.magic_upgrade_system = MagicUpgradeSystem.get_instance()
 
     def __update_model(self, model):
         self.player = model.player
         self.level = model.level
-        self.rng_system.set_states(model.rng_system.get_states())
-        self.upgrade_system.set_state(
-            model.upgrade_system.available_upgrades,
-            model.upgrade_system.selected_upgrades,
-        )
+        self.rng_system.set_state(model.rng_system.get_state())
+        self.tech_upgrade_system.set_state(model.tech_upgrade_system.get_state())
+        self.magic_upgrade_system.set_state(model.magic_upgrade_system.get_state())
 
     def update_player(self, player_sprite: Player):
         self.player = PlayerModel.from_sprite(player_sprite)
@@ -61,19 +64,19 @@ class GameModel(metaclass=Singleton):
 
     # Serialize with pickle
     def save(self):
-        target_file = open(f"/tmp/{self.save_file_name}", "wb")
+        target_file = open(f"/tmp/{SAVE_FILE_NAME}", "wb")
         pickle.dump(self, target_file)
         target_file.close()
 
     # Deserialize with pickle
     def load(self):
-        source_file = open(f"/tmp/{self.save_file_name}", "rb")
+        source_file = open(f"/tmp/{SAVE_FILE_NAME}", "rb")
         previous_model = pickle.load(source_file)
         source_file.close()
         self.__update_model(previous_model)
 
     def save_exists(self):
-        return os.path.exists(f"/tmp/{self.save_file_name}")
+        return os.path.exists(f"/tmp/{SAVE_FILE_NAME}")
 
 
 class PlayerModel:

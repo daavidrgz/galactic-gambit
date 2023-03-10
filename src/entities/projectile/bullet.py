@@ -1,7 +1,6 @@
 import numpy as np
 from animations.explosion_effect import ExplosionEffect
 from entities.projectile.projectile import Projectile
-from mechanics.magic.magic_upgrade import DoubleSize
 from systems.resource_manager import Resource, ResourceManager
 import pygame
 

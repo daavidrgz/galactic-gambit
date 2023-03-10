@@ -37,7 +37,7 @@ class StartMenu(VerticalMenu):
 
     def __continue_game(self):
         current_level = self.game_model.get_level()
-        self.director.push_scene(current_level)
+        self.director.push_scene(current_level())
 
     def __leave_game(self):
         self.director.leave_game()
