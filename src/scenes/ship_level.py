@@ -13,23 +13,36 @@ from constants import TILE_SIZE
 
 class ShipGenerator(BaseGenerator):
     def __init__(self, terrain):
-        self.resource_manager = ResourceManager.get_instance()
-        self.dirt_sprite = self.resource_manager.load_tile(self.resource_manager.DIRT)
-        self.cobble_sprite = self.resource_manager.load_tile(
-            self.resource_manager.COBBLESTONE
-        )
+        super().__init__((10,20),(7,5),terrain)
 
-        super().__init__(
-            (10.0, 20.0),
-            (7, 5),
-            terrain
+        rmgr = ResourceManager.get_instance()
+        self.floor_sprite = rmgr.load_tile(rmgr.SHIP_FLOOR)
+        self.floor_spriteD1 = rmgr.load_tile(rmgr.SHIP_FLOOR_D1)
+        self.floor_spriteD2 = rmgr.load_tile(rmgr.SHIP_FLOOR_D2)
+        self.floor_spriteD3 = rmgr.load_tile(rmgr.SHIP_FLOOR_D3)
+        self.floor_spriteC1 = rmgr.load_tile(rmgr.SHIP_FLOOR_C1)
+        self.floor_spriteC2 = rmgr.load_tile(rmgr.SHIP_FLOOR_C2)
+        self.cobble_sprite = rmgr.load_tile(rmgr.COBBLESTONE)
+
+        self.var_offset_x, self.var_offset_y = (
+            (self.rng.random() - 0.5) * 1000000,
+            (self.rng.random() - 0.5) * 1000000,
         )
 
     def get_wall_sprite(self, x, y):
         return self.cobble_sprite
 
     def get_ground_sprite(self, x, y):
-        return self.dirt_sprite
+        n = self.noise(x / 10 + self.var_offset_x, y / 10 + self.var_offset_y)
+        
+        if n > 0.90: return self.floor_spriteD3
+        if n > 0.75: return self.floor_spriteD2
+        if n > 0.60: return self.floor_spriteD1
+
+        if self.rng.random() > 0.995: return self.floor_spriteC1
+        if self.rng.random() > 0.990: return self.floor_spriteC2
+
+        return self.floor_sprite
     
     def noise_wall_condition(self, n, x, y):
         return n > 0.0

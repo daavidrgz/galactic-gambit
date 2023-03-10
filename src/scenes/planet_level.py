@@ -15,16 +15,16 @@ from constants import TILE_SIZE
 
 class PlanetGenerator(BaseGenerator):
     def __init__(self, terrain):
-        self.resource_manager = ResourceManager.get_instance()
-        self.dirt_sprite = self.resource_manager.load_tile(self.resource_manager.DIRT)
-        self.cobble_sprite = self.resource_manager.load_tile(
-            self.resource_manager.COBBLESTONE
-        )
+        super().__init__((10,10),(2,2),terrain)
 
-        super().__init__(
-            (10.0, 10.0),
-            (2, 2),
-            terrain
+        rmgr = ResourceManager.get_instance()
+        self.floor_sprite = rmgr.load_tile(rmgr.PLANET_FLOOR)
+        self.floor_spriteD1 = rmgr.load_tile(rmgr.PLANET_FLOOR_D1)
+        self.cobble_sprite = rmgr.load_tile(rmgr.COBBLESTONE)
+
+        self.var_offset_x, self.var_offset_y = (
+            (self.rng.random() - 0.5) * 1000000,
+            (self.rng.random() - 0.5) * 1000000,
         )
 
     def coordinate_transform(self, x, y):
@@ -36,7 +36,11 @@ class PlanetGenerator(BaseGenerator):
         return self.cobble_sprite
 
     def get_ground_sprite(self, x, y):
-        return self.dirt_sprite
+        n = self.noise(x / 60 + self.var_offset_x, y / 60 + self.var_offset_y)
+        
+        if n > 0.70: return self.floor_spriteD1
+
+        return self.floor_sprite
     
     def noise_wall_condition(self, n, x, y):
         return n < (x / 114)**3
@@ -68,12 +72,12 @@ class PlanetLevel(Level):
 
         rmgr = ResourceManager()
         dust_sprite = pygame.sprite.Sprite()
-        dust_sprite.image = pygame.transform.smoothscale(rmgr.load_image(rmgr.DIRT), (TILE_SIZE * 100.0, TILE_SIZE * 100.0))
-        dust_sprite.image.set_alpha(100)
+        dust_sprite.image = pygame.transform.smoothscale(rmgr.load_image(rmgr.DUST), (TILE_SIZE * 100.0, TILE_SIZE * 100.0))
+        dust_sprite.image.set_alpha(150)
         dust_sprite.rect = dust_sprite.image.get_rect()
         dust_sprite.image_rect = dust_sprite.image.get_rect()
-        dust_sprite.x = dust_sprite.y = TILE_SIZE * 45.5
-        self.dust = ParallaxGroup((0.5, 0.5), dust_sprite)
+        dust_sprite.x = dust_sprite.y = TILE_SIZE * 128.25
+        self.dust = ParallaxGroup((1.5, 1.5), dust_sprite)
         self.enemy_grp = ScrollableGroup()
 
         super().__init__(generator, terrain, background_color)
@@ -97,6 +101,16 @@ class PlanetLevel(Level):
         self.bullet_group.draw(screen)
         self.dust.draw(screen)
         self.terrain.draw_minimap(screen)
+        
+        for enemy in self.enemy_grp.sprites():
+            marker = pygame.Surface((4,4))
+            marker.fill((255,0,255))
+            x = enemy.target[0]
+            y = enemy.target[1]
+            from systems.camera_manager import CameraManager
+            x -= CameraManager().get_coords()[0]
+            y -= CameraManager().get_coords()[1]
+            screen.blit(marker, (x-1,y-1,x+2,y+2))
 
     def update(self, elapsed_time):
         super().update(elapsed_time)

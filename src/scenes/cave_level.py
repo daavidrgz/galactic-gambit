@@ -59,7 +59,7 @@ class CaveLevel(Level):
     def __init__(self):
         terrain = CaveTerrain()
         generator = CaveGenerator(terrain)
-        background_color = (40, 30, 20)
+        background_color = (10, 0, 0)
 
         super().__init__(generator, terrain, background_color)
 

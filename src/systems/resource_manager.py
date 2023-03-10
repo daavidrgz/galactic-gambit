@@ -12,9 +12,21 @@ class ResourceManager(metaclass=Singleton):
         self.BASE_PATH = "assets"
 
         # Images
+        self.SHIP_FLOOR = "sprites/tiles/ship_floor.png"
+        self.SHIP_FLOOR_D1 = "sprites/tiles/ship_floord1.png"
+        self.SHIP_FLOOR_D2 = "sprites/tiles/ship_floord2.png"
+        self.SHIP_FLOOR_D3 = "sprites/tiles/ship_floord3.png"
+        self.SHIP_FLOOR_C1 = "sprites/tiles/ship_floorc1.png"
+        self.SHIP_FLOOR_C2 = "sprites/tiles/ship_floorc2.png"
+
+        self.PLANET_FLOOR = "sprites/tiles/planet_floor.png"
+        self.PLANET_FLOOR_D1 = "sprites/tiles/planet_floord1.png"
+
+        self.DUST = "sprites/dust.png"
+
         self.PLAYER = "sprites/player.png"
-        self.COBBLESTONE = "sprites/cobblestone.png"
         self.DIRT = "sprites/dirt.png"
+        self.COBBLESTONE = "sprites/cobblestone.png"
         self.POLISHED_ANDESITE = "sprites/polished_andesite.png"
 
         # Sounds (I dont know which ones we will use)

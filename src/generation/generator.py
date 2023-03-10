@@ -14,15 +14,15 @@ class BaseGenerator:
         self.noise_scale_x, self.noise_scale_y = noise_scale
         self.block_scale_x, self.block_scale_y = block_scale
         self.terrain = terrain
-        self.random_generator = RngSystem.get_instance().get_rng(Generator.MAP)
+        self.rng = RngSystem.get_instance().get_rng(Generator.MAP)
 
     def generate(self):
         self.terrain.clear()
         self.terrain.populate()
 
         self.coord_offset_x, self.coord_offset_y = (
-            (self.random_generator.random() - 0.5) * 1000000,
-            (self.random_generator.random() - 0.5) * 1000000,
+            (self.rng.random() - 0.5) * 1000000,
+            (self.rng.random() - 0.5) * 1000000,
         )
         pos_queue = list(self.terrain.starting_tiles)
         while len(pos_queue) > 0:
