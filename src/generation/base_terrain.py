@@ -22,6 +22,7 @@ class TerrainType(IntEnum):
 class BaseTerrain:
     def __init__(self):
         self.sprites = pygame.sprite.Group()
+        self.sprites_top = pygame.sprite.Group()
         self.buffer = None
         self.camera_mgr = CameraManager()
 
@@ -30,6 +31,7 @@ class BaseTerrain:
 
     def clear(self):
         self.sprites.empty()
+        self.sprites_top.empty()
         self.data = None
         self.starting_tiles = None
         self.height = self.width = 0
@@ -60,6 +62,7 @@ class BaseTerrain:
     def generate_buffer(self):
         self.buffer = pygame.Surface((TILE_SIZE * self.width, TILE_SIZE * self.height), flags=pygame.SRCALPHA)
         self.sprites.draw(self.buffer)
+        self.sprites_top.draw(self.buffer)
 
         self.minimap = pygame.transform.smoothscale(self.buffer, (256,256))
         utils.misc.add_border(self.minimap, (0, 0, 0, 255))

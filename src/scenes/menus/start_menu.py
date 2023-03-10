@@ -6,6 +6,8 @@ from gui_constants import COLOR_BRIGHT, COLOR_SUBTLE
 from scenes.menus.configuration_menu import ConfigurationMenu
 from scenes.menus.vertical_menu import VerticalMenu
 from scenes.test_level import TestLevel
+from scenes.planet_level import PlanetLevel
+from scenes.cave_level import CaveLevel
 from systems.resource_manager import Resource
 
 
@@ -31,7 +33,7 @@ class StartMenu(VerticalMenu):
         self.background = background
 
     def __new_game(self):
-        self.director.push_scene(TestLevel())
+        self.director.push_scene(CaveLevel())
 
     def __continue_game(self):
         current_level = self.game_model.get_level()

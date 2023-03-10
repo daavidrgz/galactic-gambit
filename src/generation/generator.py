@@ -3,6 +3,7 @@ from generation.base_terrain import TerrainType
 from systems.rng_system import Generator, RngSystem
 
 from noise import snoise2
+import numpy as np
 
 class BaseGenerator:
     def __init__(
@@ -19,11 +20,17 @@ class BaseGenerator:
     def generate(self):
         self.terrain.clear()
         self.terrain.populate()
+        self.explore_graph()
+        #TODO: Fix imperfections
+        #TODO: Place level end
+        self.place_sprites()
 
+    def explore_graph(self):
         self.coord_offset_x, self.coord_offset_y = (
             (self.rng.random() - 0.5) * 1000000,
             (self.rng.random() - 0.5) * 1000000,
         )
+
         pos_queue = list(self.terrain.starting_tiles)
         while len(pos_queue) > 0:
             curr_pos_x, curr_pos_y = pos_queue.pop()
@@ -40,11 +47,9 @@ class BaseGenerator:
             )
 
             if self.noise_wall_condition(n, working_pos_x, working_pos_y):
-                self.terrain.sprites.add(self.get_wall_tile(curr_pos_x, curr_pos_y))
                 self.terrain.data[curr_pos_y, curr_pos_x] = TerrainType.WALL
                 continue
 
-            self.terrain.sprites.add(self.get_ground_tile(curr_pos_x, curr_pos_y))  # TODO
             self.terrain.data[curr_pos_y, curr_pos_x] = TerrainType.GROUND
 
             def push(x, y):
@@ -53,13 +58,22 @@ class BaseGenerator:
                         pos_queue.append((x, y))
                         self.terrain.data[y, x] = TerrainType.GENERATING
                     elif self.terrain.data[y, x] == TerrainType.BOUND:
-                        self.terrain.sprites.add(self.get_wall_tile(x, y))
                         self.terrain.data[y, x] = TerrainType.WALL
 
             push(curr_pos_x + 1, curr_pos_y)
             push(curr_pos_x, curr_pos_y + 1)
             push(curr_pos_x - 1, curr_pos_y)
             push(curr_pos_x, curr_pos_y - 1)
+
+    def place_sprites(self):
+        stride = np.lib.stride_tricks.sliding_window_view(self.terrain.data, (3, 3))
+        for y, y_view in enumerate(stride):
+            for x, w in enumerate(y_view):
+                tile = self.get_tile(x + 1, y + 1, w)
+                if tile is None:
+                    continue
+
+                self.terrain.sprites.add(tile)
 
     def noise(self, x, y):
         return snoise2(x, y)
@@ -71,14 +85,12 @@ class BaseGenerator:
         return (x, y)
     
     # Template pattern
-    def get_wall_tile(self, x, y):
-        return Tile(x, y, self.get_wall_sprite(x, y))
+    def get_tile(self, x, y, surroundings):
+        sprite = self.get_sprite(x, y, surroundings)
+        if sprite is None:
+            return None
 
-    def get_ground_tile(self, x, y):
-        return Tile(x, y, self.get_ground_sprite(x, y))
+        return Tile(x, y, self.get_sprite(x, y, surroundings))
 
-    def get_wall_sprite(self, x, y):
-        raise NotImplementedError
-
-    def get_ground_sprite(self, x, y):
+    def get_sprite(self, x, y, surroundings):
         raise NotImplementedError
