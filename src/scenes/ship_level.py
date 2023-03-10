@@ -2,7 +2,7 @@ from scenes.level import Level
 from scenes.director import Director
 from generation.base_terrain import BaseTerrain, TerrainType
 from generation.generator import BaseGenerator
-from systems.resource_manager import ResourceManager
+from systems.resource_manager import ResourceManager, Resource
 from systems.rng_system import RngSystem, Generator
 from generation.tile import Tile
 
@@ -16,13 +16,13 @@ class ShipGenerator(BaseGenerator):
         super().__init__((10,20),(7,5),terrain)
 
         rmgr = ResourceManager.get_instance()
-        self.floor_sprite = rmgr.load_tile(rmgr.SHIP_FLOOR)
-        self.floor_spriteD1 = rmgr.load_tile(rmgr.SHIP_FLOOR_D1)
-        self.floor_spriteD2 = rmgr.load_tile(rmgr.SHIP_FLOOR_D2)
-        self.floor_spriteD3 = rmgr.load_tile(rmgr.SHIP_FLOOR_D3)
-        self.floor_spriteC1 = rmgr.load_tile(rmgr.SHIP_FLOOR_C1)
-        self.floor_spriteC2 = rmgr.load_tile(rmgr.SHIP_FLOOR_C2)
-        self.cobble_sprite = rmgr.load_tile(rmgr.COBBLESTONE)
+        self.floor_sprite = rmgr.load_tile(Resource.SHIP_FLOOR)
+        self.floor_spriteD1 = rmgr.load_tile(Resource.SHIP_FLOOR_D1)
+        self.floor_spriteD2 = rmgr.load_tile(Resource.SHIP_FLOOR_D2)
+        self.floor_spriteD3 = rmgr.load_tile(Resource.SHIP_FLOOR_D3)
+        self.floor_spriteC1 = rmgr.load_tile(Resource.SHIP_FLOOR_C1)
+        self.floor_spriteC2 = rmgr.load_tile(Resource.SHIP_FLOOR_C2)
+        self.cobble_sprite = rmgr.load_tile(Resource.COBBLESTONE)
 
         self.var_offset_x, self.var_offset_y = (
             (self.rng.random() - 0.5) * 1000000,
@@ -57,8 +57,8 @@ class ShipTerrain(BaseTerrain):
         start_room_x = rng.randint(1, 154 // 7 - 1)
 
         resource_manager = ResourceManager.get_instance()
-        andesite_sprite = resource_manager.load_tile(resource_manager.POLISHED_ANDESITE)
-        cobble_sprite = resource_manager.load_tile(resource_manager.COBBLESTONE)
+        andesite_sprite = resource_manager.load_tile(Resource.POLISHED_ANDESITE)
+        cobble_sprite = resource_manager.load_tile(Resource.COBBLESTONE)
         for x in range(start_room_x * 7, start_room_x * 7 + 7):
             for y in range(150 - 10, 150 - 5):
                 self.data[y, x] = TerrainType.GROUND

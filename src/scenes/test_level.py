@@ -9,45 +9,18 @@ from scenes.menus.pause_menu import PauseMenu
 from systems.resource_manager import Resource, ResourceManager
 from entities.living.enemies.test_enemy import TestEnemy
 from systems.camera_manager import ScrollableGroup
+from scenes.ship_level import ShipGenerator, ShipTerrain
+from scenes.director import Director
 
 import pygame
-import numpy as np
-
-
-class TestGenerator(BaseGenerator):
-    def __init__(self, terrain):
-        self.resource_manager = ResourceManager.get_instance()
-        self.ship_floor = self.resource_manager.load_tile(Resource.SHIP_FLOOR)
-        self.cobble_sprite = self.resource_manager.load_tile(Resource.COBBLESTONE)
-
-        super().__init__((10.0, 20.0), (7, 5), terrain)
-
-    def get_wall_sprite(self, x, y):
-        return self.cobble_sprite
-
-    def get_ground_sprite(self, x, y):
-        return self.ship_floor
-
-
-class TestTerrain(BaseTerrain):
-    def __init__(self, terrain_size, starting_tile):
-        data = np.full(
-            tuple(x - 2 for x in terrain_size), TerrainType.NONE, dtype=np.int16
-        )
-        data = np.pad(
-            data, ((1, 1), (1, 1)), mode="constant", constant_values=TerrainType.BOUND
-        )
-        super().__init__(data, starting_tile)
 
 
 class TestLevel(Level):
     def __init__(self):
-        player_starting_position = (114, 114)
-        terrain_size = (231, 231)
-        terrain = TestTerrain(terrain_size, player_starting_position)
-        generator = TestGenerator(terrain)
+        terrain = ShipTerrain()
+        generator = ShipGenerator(terrain)
         background_color = (0, 0, 0)
-        super().__init__(generator, terrain, player_starting_position, background_color)
+        super().__init__(generator, terrain, background_color)
 
         self.test_enemy_0 = TestEnemy((124 * 32, 126 * 32))
         self.test_enemy_1 = TestEnemy((124 * 32, 127 * 32))
@@ -76,10 +49,7 @@ class TestLevel(Level):
         for event in events:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:
-                    a = time.time()
-                    self.terrain.clear()
-                    self.generator.generate()
-                    print(time.time() - a)
+                    Director().switch_scene(TestLevel())
                 if event.key == pygame.K_m:
                     upgrade = TechUpgradeSystem.get_instance().get_random_upgrade()
                     print(upgrade)
