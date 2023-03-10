@@ -3,7 +3,7 @@ from generation.tile import Tile
 from scenes.director import Director
 from generation.generator import BaseGenerator
 from systems.camera_manager import ParallaxGroup, ScrollableGroup
-from systems.resource_manager import ResourceManager
+from systems.resource_manager import ResourceManager, Resource
 from systems.rng_system import RngSystem, Generator
 from generation.base_terrain import BaseTerrain, TerrainType
 from entities.living.enemies.test_enemy import TestEnemy
@@ -18,9 +18,9 @@ class PlanetGenerator(BaseGenerator):
         super().__init__((10,10),(2,2),terrain)
 
         rmgr = ResourceManager.get_instance()
-        self.floor_sprite = rmgr.load_tile(rmgr.PLANET_FLOOR)
-        self.floor_spriteD1 = rmgr.load_tile(rmgr.PLANET_FLOOR_D1)
-        self.cobble_sprite = rmgr.load_tile(rmgr.COBBLESTONE)
+        self.floor_sprite = rmgr.load_tile(Resource.PLANET_FLOOR)
+        self.floor_spriteD1 = rmgr.load_tile(Resource.PLANET_FLOOR_D1)
+        self.cobble_sprite = rmgr.load_tile(Resource.COBBLESTONE)
 
         self.var_offset_x, self.var_offset_y = (
             (self.rng.random() - 0.5) * 1000000,
@@ -52,7 +52,7 @@ class PlanetTerrain(BaseTerrain):
         self.starting_tiles = []
 
         resource_manager = ResourceManager.get_instance()
-        andesite_sprite = resource_manager.load_tile(resource_manager.POLISHED_ANDESITE)
+        andesite_sprite = resource_manager.load_tile(Resource.POLISHED_ANDESITE)
         for x in range(85 - 15, 85 + 16):
             for y in range(85 - 15, 85 + 16):
                 distance_sqr = (x - 85)**2 + (y - 85)**2
@@ -72,7 +72,7 @@ class PlanetLevel(Level):
 
         rmgr = ResourceManager()
         dust_sprite = pygame.sprite.Sprite()
-        dust_sprite.image = pygame.transform.smoothscale(rmgr.load_image(rmgr.DUST), (TILE_SIZE * 100.0, TILE_SIZE * 100.0))
+        dust_sprite.image = pygame.transform.smoothscale(rmgr.load_image(Resource.DUST), (TILE_SIZE * 100.0, TILE_SIZE * 100.0))
         dust_sprite.image.set_alpha(150)
         dust_sprite.rect = dust_sprite.image.get_rect()
         dust_sprite.image_rect = dust_sprite.image.get_rect()
@@ -99,18 +99,18 @@ class PlanetLevel(Level):
         self.player_group.draw(screen)
         self.enemy_grp.draw(screen)
         self.bullet_group.draw(screen)
-        self.dust.draw(screen)
+        #self.dust.draw(screen)
         self.terrain.draw_minimap(screen)
         
-        for enemy in self.enemy_grp.sprites():
-            marker = pygame.Surface((4,4))
-            marker.fill((255,0,255))
-            x = enemy.target[0]
-            y = enemy.target[1]
-            from systems.camera_manager import CameraManager
-            x -= CameraManager().get_coords()[0]
-            y -= CameraManager().get_coords()[1]
-            screen.blit(marker, (x-1,y-1,x+2,y+2))
+        #for enemy in self.enemy_grp.sprites():
+        #    marker = pygame.Surface((4,4))
+        #    marker.fill((255,0,255))
+        #    x = enemy.target[0]
+        #    y = enemy.target[1]
+        #    from systems.camera_manager import CameraManager
+        #    x -= CameraManager().get_coords()[0]
+        #    y -= CameraManager().get_coords()[1]
+        #    screen.blit(marker, (x-1,y-1,x+2,y+2))
 
     def update(self, elapsed_time):
         super().update(elapsed_time)

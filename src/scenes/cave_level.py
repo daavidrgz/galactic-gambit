@@ -2,7 +2,7 @@ from scenes.level import Level
 from generation.tile import Tile
 from scenes.director import Director
 from generation.generator import BaseGenerator
-from systems.resource_manager import ResourceManager
+from systems.resource_manager import ResourceManager, Resource
 from generation.base_terrain import BaseTerrain, TerrainType
 
 from noise import snoise2
@@ -13,11 +13,9 @@ from constants import TILE_SIZE
 
 class CaveGenerator(BaseGenerator):
     def __init__(self, terrain):
-        self.resource_manager = ResourceManager.get_instance()
-        self.dirt_sprite = self.resource_manager.load_tile(self.resource_manager.DIRT)
-        self.cobble_sprite = self.resource_manager.load_tile(
-            self.resource_manager.COBBLESTONE
-        )
+        rmgr = ResourceManager.get_instance()
+        self.dirt_sprite = rmgr.load_tile(Resource.DIRT)
+        self.cobble_sprite = rmgr.load_tile(Resource.COBBLESTONE)
 
         super().__init__(
             (6.0, 6.0),
@@ -47,7 +45,7 @@ class CaveTerrain(BaseTerrain):
         self.starting_tiles = [(84, 3), (85, 3), (86, 3)]
 
         resource_manager = ResourceManager.get_instance()
-        andesite_sprite = resource_manager.load_tile(resource_manager.POLISHED_ANDESITE)
+        andesite_sprite = resource_manager.load_tile(Resource.POLISHED_ANDESITE)
         for x in range(85 - 1, 85 + 2):
             for y in range(0, 3):
                 self.data[y, x] = TerrainType.GROUND
