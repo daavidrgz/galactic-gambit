@@ -21,13 +21,24 @@ class MagicUpgrade:
 
 
 class InitMagicUpgrade(MagicUpgrade):
+    # This class applies an upgrade to a bullet when it is created
     type = MagicUpgradeType.INIT
 
     def __init__(self):
         super().__init__()
 
 
-class DoubleSize(InitMagicUpgrade):
+class UpdateMagicUpgrade(MagicUpgrade):
+    # This class applies an upgrade to a bullet every frame
+    type = MagicUpgradeType.UPDATE
+
+    def __init__(self):
+        super().__init__()
+        self.type = MagicUpgradeType.UPDATE
+
+
+# INIT UPGRADES
+class BiggerSize(InitMagicUpgrade):
     def __init__(self):
         super().__init__()
 
@@ -37,19 +48,13 @@ class DoubleSize(InitMagicUpgrade):
         size = previous_image.get_size()
         # scale the image
         bullet.image = pygame.transform.scale(
-            previous_image, (size[0] * 5, size[1] * 5)
+            previous_image, (size[0] * 1.3, size[1] * 1.3)
         )
         bullet.image_rect = bullet.image.get_rect()
         bullet.rect = bullet.image.get_rect()
 
 
-class UpdateMagicUpgrade(MagicUpgrade):
-    type = MagicUpgradeType.UPDATE
-
-    def __init__(self):
-        super().__init__()
-
-
+# UPDATE UPGRADES
 class Woobly(UpdateMagicUpgrade):
     def __init__(self):
         super().__init__()
@@ -83,10 +88,14 @@ class ShrinkAndGrow(UpdateMagicUpgrade):
         self.original_rect = None
         self.previous_scale = 0
         self.frequency = 1 / 750
-        self.amplitude = 0.75
-        self.amplitude_delta = 0.5
+        self.amplitude = 0.3
+        self.amplitude_delta = 1.2
 
     def apply(self, bullet, elapsed_time):
+        if self.original_image is None:
+            self.original_image = bullet.image
+            self.original_rect = bullet.image_rect
+
         self.state += elapsed_time
         self.state %= 1 / self.frequency
         scale = (
@@ -94,14 +103,10 @@ class ShrinkAndGrow(UpdateMagicUpgrade):
             + self.amplitude_delta
         )
 
-        if self.original_image is None:
-            self.original_image = bullet.image
-            self.original_rect = bullet.image_rect
-
         scale_delta = scale - self.previous_scale
         original_image_size = np.array(self.original_image.get_size())
         scaled_img = pygame.transform.scale(
-            self.original_image, (original_image_size * (1 + scale_delta)).astype(int)
+            self.original_image, (original_image_size * scale_delta).astype(int)
         )
         scaled_rect = scaled_img.get_rect()
         previous_position = bullet.rect.center
@@ -122,6 +127,8 @@ class SlowAndFast(UpdateMagicUpgrade):
         self.phase = np.pi
 
     def apply(self, bullet, elapsed_time):
+        if self.original_speed is None:
+            self.original_speed = bullet.speed
         self.state += elapsed_time
         self.state %= 1 / self.frequency
         scale = (
@@ -129,8 +136,6 @@ class SlowAndFast(UpdateMagicUpgrade):
             * np.cbrt(math.sin(2 * np.pi * self.frequency * self.state + self.phase))
             + self.amplitude_delta
         )
-        if self.original_speed is None:
-            self.original_speed = bullet.speed
 
         bullet.speed = self.original_speed * (1 + scale)
         bullet.velocity = bullet.speed * bullet.direction

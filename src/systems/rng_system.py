@@ -24,11 +24,11 @@ class RngSystem(metaclass=Singleton):
         for generator in Generator:
             self.rngs[generator] = random.Random(self.__global_rng.randbytes(32))
 
-    def set_states(self, states):
+    def set_state(self, states):
         for generator, state in states.items():
             self.rngs[generator].setstate(state)
 
-    def get_states(self):
+    def get_state(self):
         return {generator: self.rngs[generator].getstate() for generator in Generator}
 
     def seed(self, seed):
