@@ -44,6 +44,10 @@ class Player(LivingEntity):
         player = Player(hp, gun, magic_level, initial_pos, bullets)
         return player
 
+    def setup(self):
+        self.terrain = Director().get_scene().get_terrain()
+        self.camera.set_center(self.get_position())
+
     def update(self, elapsed_time):
         elapsed_units = elapsed_time * DESIGN_FRAMERATE / 1000
 

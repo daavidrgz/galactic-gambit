@@ -3,7 +3,9 @@ from pygame.locals import *
 from model.game_model import GameModel
 from scenes.menus.start_menu import StartMenu
 from systems.rng_system import RngSystem
-from scenes.test_level import TestLevel
+from scenes.ship_level import ShipLevel
+from scenes.planet_level import PlanetLevel
+from scenes.cave_level import CaveLevel
 
 from scenes.director import Director
 
@@ -11,7 +13,7 @@ from scenes.director import Director
 def run():
     pygame.init()
 
-    RngSystem.get_instance().seed(420)
+    #RngSystem.get_instance().seed(420)
     game_model = GameModel.get_instance()
 
     # Load savegame

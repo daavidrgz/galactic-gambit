@@ -8,10 +8,19 @@ import os
 
 class Resource(Enum):
     COBBLESTONE = "sprites/cobblestone.png"
-    SHIP_FLOOR = "sprites/ship-floor-sm.jpg"
     POLISHED_ANDESITE = "sprites/polished_andesite.png"
     SPACE_BACKGROUND = "sprites/space_bg.png"
     LASER = "sprites/laser/11.png"
+    SHIP_FLOOR = "sprites/tiles/ship_floor.png"
+    SHIP_FLOOR_D1 = "sprites/tiles/ship_floord1.png"
+    SHIP_FLOOR_D2 = "sprites/tiles/ship_floord2.png"
+    SHIP_FLOOR_D3 = "sprites/tiles/ship_floord3.png"
+    SHIP_FLOOR_C1 = "sprites/tiles/ship_floorc1.png"
+    SHIP_FLOOR_C2 = "sprites/tiles/ship_floorc2.png"
+    PLANET_FLOOR = "sprites/tiles/planet_floor.png"
+    PLANET_FLOOR_D1 = "sprites/tiles/planet_floord1.png"
+    DUST = "sprites/dust.png"
+    DIRT = "sprites/dirt.png"
 
     # Sounds (I dont know which ones we will use)
     MUSIC_TEST = ("sounds/music_test.ogg", 1)
@@ -75,12 +84,13 @@ class ResourceManager(metaclass=Singleton):
             return loaded_sound
 
     def load_tile(self, tile_resource):
-        if tile_resource in self.resources:
-            return self.resources[tile_resource]
+        tile_identifier = tile_resource.value + "_tile"
+        if tile_identifier in self.resources:
+            return self.resources[tile_identifier]
         else:
             image = self.__load_sprite(tile_resource.value)
             tile_image = pygame.transform.scale(image, (TILE_SIZE, TILE_SIZE))
-            self.resources[tile_resource] = tile_image
+            self.resources[tile_identifier] = tile_image
             return tile_image
 
     def load_font(self, font_resource):
