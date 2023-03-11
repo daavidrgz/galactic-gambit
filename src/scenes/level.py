@@ -73,8 +73,7 @@ class Level(Scene):
             for enemy in self.enemy_group:
                 if bullet.rect.colliderect(enemy.rect):
                     enemy.hit(bullet.damage)
-                    bullet.collide(self.animation_group.add)
-                    print(enemy.hp)
+                    bullet.kill()
                     break
 
     def handle_events(self, events):

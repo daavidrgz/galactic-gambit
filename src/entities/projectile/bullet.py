@@ -18,7 +18,7 @@ class Bullet(Projectile):
         [upgrade.apply(self) for upgrade in init_upgrades]
 
     def collide(self, add_animation_func):
-        # add_animation_func(ExplosionEffect(self.get_position()))
+        add_animation_func(ExplosionEffect(self.get_position()))
         super().collide()
 
     def update(self, elapsed_time):
