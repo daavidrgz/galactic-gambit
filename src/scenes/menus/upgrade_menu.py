@@ -1,3 +1,4 @@
+import pygame
 from constants import DESIGN_HEIGHT, DESIGN_WIDTH
 from gui.title import Title
 from gui.upgrade_card import UpgradeCard
@@ -7,9 +8,15 @@ from systems.resource_manager import Resource
 
 
 class UpgradeMenu(HorizontalMenu):
-    def __init__(self, background):
+    def __init__(self, upgrades, apply_upgrade):
         super().__init__()
+        background = self.director.virtual_screen.copy()
+        veil = pygame.Surface((DESIGN_WIDTH, DESIGN_HEIGHT))
+        veil.set_alpha(220)
+        background.blit(veil, (0, 0))
         self.background = background
+        self.upgrades = upgrades
+        self.apply_upgrade = apply_upgrade
 
     def __create_upgrade_card(self, title, icon, action, offset):
         return UpgradeCard(
@@ -21,8 +28,17 @@ class UpgradeMenu(HorizontalMenu):
             action=action,
         )
 
-    def __action(self):
-        print("Upgrade chosen")
+    def __select_upgrade(self, upgrade):
+        self.apply_upgrade(upgrade)
+        self.director.pop_scene()
+
+    def __get_offsets(self):
+        if len(self.upgrades) == 3:
+            return [-240, 0, 240]
+        elif len(self.upgrades) == 2:
+            return [-120, 120]
+        elif len(self.upgrades) == 1:
+            return [0]
 
     def setup(self):
         self.title = Title(
@@ -32,30 +48,16 @@ class UpgradeMenu(HorizontalMenu):
             position=(DESIGN_WIDTH // 2, 100),
         )
 
-        self.buttons.append(
-            self.__create_upgrade_card(
-                title="Woobly Bullet",
-                icon=self.resource_manager.load_image(Resource.PLAYER),
-                action=self.__action,
-                offset=-240,
+        offsets = self.__get_offsets()
+        for i, upgrade in enumerate(self.upgrades):
+            self.buttons.append(
+                self.__create_upgrade_card(
+                    title=upgrade.name,
+                    icon=self.resource_manager.load_image(Resource.PLAYER),
+                    action=lambda: self.__select_upgrade(upgrade),
+                    offset=offsets[i],
+                )
             )
-        )
-        self.buttons.append(
-            self.__create_upgrade_card(
-                title="First Upgrade",
-                icon=self.resource_manager.load_image(Resource.PLAYER),
-                action=self.__action,
-                offset=0,
-            )
-        )
-        self.buttons.append(
-            self.__create_upgrade_card(
-                title="First Upgrade",
-                icon=self.resource_manager.load_image(Resource.PLAYER),
-                action=self.__action,
-                offset=240,
-            )
-        )
 
         self.gui_group.add(self.title, self.buttons)
         super().setup()

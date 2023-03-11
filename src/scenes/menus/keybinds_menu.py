@@ -5,7 +5,7 @@ from gui_constants import COLOR_BRIGHT, COLOR_SUBTLE
 from gui.rebind_button import RebindButton
 from gui.title import Title
 from scenes.menus.vertical_menu import VerticalMenu
-from systems.control_system import Actions, ControlSystem
+from systems.control_system import Action, ControlSystem
 from systems.resource_manager import Resource
 
 
@@ -48,10 +48,10 @@ class KeybindingsMenu(VerticalMenu):
             position=(DESIGN_WIDTH // 2, 100),
         )
 
-        self.buttons.append(self.create_action_button("Move Up", Actions.UP, -100))
-        self.buttons.append(self.create_action_button("Move Left", Actions.LEFT, -50))
-        self.buttons.append(self.create_action_button("Move Down", Actions.DOWN, 0))
-        self.buttons.append(self.create_action_button("Move Right", Actions.RIGHT, 50))
+        self.buttons.append(self.create_action_button("Move Up", Action.UP, -100))
+        self.buttons.append(self.create_action_button("Move Left", Action.LEFT, -50))
+        self.buttons.append(self.create_action_button("Move Down", Action.DOWN, 0))
+        self.buttons.append(self.create_action_button("Move Right", Action.RIGHT, 50))
 
         self.go_back_button = TextButton(
             text="Go back",

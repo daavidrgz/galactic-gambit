@@ -4,7 +4,7 @@ import pygame
 from utils.singleton import Singleton
 
 
-class Actions(Enum):
+class Action(Enum):
     SHOOT = auto()
     UP = auto()
     DOWN = auto()
@@ -20,12 +20,12 @@ class ControlSystem(metaclass=Singleton):
     # Dict with the initial mapping of actions to keys
     def __init__(self):
         self.actions = {
-            Actions.SHOOT: pygame.K_j,
-            Actions.LEFT: pygame.K_a,
-            Actions.RIGHT: pygame.K_d,
-            Actions.UP: pygame.K_w,
-            Actions.DOWN: pygame.K_s,
-            Actions.PAUSE: pygame.K_p,
+            Action.SHOOT: pygame.K_j,
+            Action.LEFT: pygame.K_a,
+            Action.RIGHT: pygame.K_d,
+            Action.UP: pygame.K_w,
+            Action.DOWN: pygame.K_s,
+            Action.PAUSE: pygame.K_ESCAPE,
         }
 
     # Function that gets the value of an enum and returns if the key associated
