@@ -18,6 +18,8 @@ class AnimatedSprite(pygame.sprite.Sprite):
         self.modifiers = []
         super().__init__()
         self.x, self.y = initial_pos
+        # Use first frame size as image size
+        self.image = pygame.Surface(frames[0].get_image().get_size(), pygame.SRCALPHA)
         self.setup_frames(frames)
 
     def on_animation_finished(self):
@@ -45,7 +47,7 @@ class AnimatedSprite(pygame.sprite.Sprite):
         next_frame_idx = self.__binary_search_time(self.total_elapsed_time)
         self.current_frame = self.frames[next_frame_idx]
         # TODO: Checkear si este copy es un problema de rendimiento
-        self.image = self.current_frame.get_image().copy()
+        self.image.blit(self.current_frame.get_image(), (0, 0))
         self.__apply_image_modifiers()
 
     def add_image_modifier(self, modifier):
@@ -64,7 +66,7 @@ class AnimatedSprite(pygame.sprite.Sprite):
 
         self.current_frame_idx = 0
         self.current_frame = self.frames[0]
-        self.image = self.current_frame.get_image()
+        self.image.blit(self.current_frame.get_image(), (0, 0))
         self.image_rect = self.image.get_rect()
         self.rect = self.image_rect
         self.rect.center = (self.x, self.y)
