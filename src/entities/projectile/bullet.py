@@ -10,9 +10,8 @@ class Bullet(Projectile):
         self.resource_manager = ResourceManager.get_instance()
         image = self.resource_manager.load_image(Resource.LASER)
         image = pygame.transform.scale(image, (60, 20))
-        hitbox = image.get_rect()
         self.update_upgrades = update_upgrades
-        super().__init__(image, hitbox, initial_pos, speed, direction)
+        super().__init__(image, initial_pos, speed, direction)
         # Apply init upgrades
         [upgrade.apply(self) for upgrade in init_upgrades]
 

@@ -1,12 +1,14 @@
 from enum import Enum
 from constants import TILE_SIZE
 from utils.singleton import Singleton
+from animations.animation_frame import AnimationFrame
 
 import pygame
 import os
 
 
 class Resource(Enum):
+    PLAYER = "sprites/player.png"
     COBBLESTONE = "sprites/cobblestone.png"
     POLISHED_ANDESITE = "sprites/polished_andesite.png"
     SPACE_BACKGROUND = "sprites/space_bg.png"
@@ -75,16 +77,110 @@ class Resource(Enum):
 
     # Animations
     EXPLOSION = [
-        "sprites/effects/explosion/01.png",
-        "sprites/effects/explosion/02.png",
-        "sprites/effects/explosion/03.png",
-        "sprites/effects/explosion/04.png",
-        "sprites/effects/explosion/05.png",
-        "sprites/effects/explosion/06.png",
-        "sprites/effects/explosion/07.png",
+        ("sprites/effects/explosion/01.png", 0.1, 50, False),
+        ("sprites/effects/explosion/02.png", 0.1, 50, False),
+        ("sprites/effects/explosion/03.png", 0.1, 50, False),
+        ("sprites/effects/explosion/04.png", 0.1, 50, False),
+        ("sprites/effects/explosion/05.png", 0.1, 50, False),
+        ("sprites/effects/explosion/06.png", 0.1, 50, False),
+        ("sprites/effects/explosion/07.png", 0.1, 50, False),
     ]
 
-    PLAYER = "sprites/player.png"
+    PLAYER_IDLE_DOWN = [
+        ("sprites/player/player_idle_down1.png", 3, 200, False),
+        ("sprites/player/player_idle_down2.png", 3, 200, False),
+        ("sprites/player/player_idle_down3.png", 3, 200, False),
+        ("sprites/player/player_idle_down4.png", 3, 200, False),
+    ]
+
+    PLAYER_IDLE_RIGHT = [
+        ("sprites/player/player_idle_side1.png", 3, 200, False),
+        ("sprites/player/player_idle_side2.png", 3, 200, False),
+        ("sprites/player/player_idle_side3.png", 3, 200, False),
+        ("sprites/player/player_idle_side4.png", 3, 200, False),
+    ]
+
+    PLAYER_IDLE_LEFT = [
+        ("sprites/player/player_idle_side1.png", 3, 200, True),
+        ("sprites/player/player_idle_side2.png", 3, 200, True),
+        ("sprites/player/player_idle_side3.png", 3, 200, True),
+        ("sprites/player/player_idle_side4.png", 3, 200, True),
+    ]
+
+    PLAYER_IDLE_UP = [
+        ("sprites/player/player_idle_up1.png", 3, 200, False),
+        ("sprites/player/player_idle_up2.png", 3, 200, False),
+        ("sprites/player/player_idle_up3.png", 3, 200, False),
+        ("sprites/player/player_idle_up4.png", 3, 200, False),
+    ]
+
+    PLAYER_IDLE_UPRIGHT = [
+        ("sprites/player/player_idle_updiag1.png", 3, 200, False),
+        ("sprites/player/player_idle_updiag2.png", 3, 200, False),
+        ("sprites/player/player_idle_updiag3.png", 3, 200, False),
+        ("sprites/player/player_idle_updiag4.png", 3, 200, False),
+    ]
+
+    PLAYER_IDLE_UPLEFT = [
+        ("sprites/player/player_idle_updiag1.png", 3, 200, True),
+        ("sprites/player/player_idle_updiag2.png", 3, 200, True),
+        ("sprites/player/player_idle_updiag3.png", 3, 200, True),
+        ("sprites/player/player_idle_updiag4.png", 3, 200, True),
+    ]
+
+    PLAYER_WALK_DOWN = [
+        ("sprites/player/player_walk_down1.png", 3, 200, False),
+        ("sprites/player/player_walk_down2.png", 3, 200, False),
+        ("sprites/player/player_walk_down3.png", 3, 200, False),
+        ("sprites/player/player_walk_down4.png", 3, 200, False),
+        ("sprites/player/player_walk_down5.png", 3, 200, False),
+        ("sprites/player/player_walk_down6.png", 3, 200, False),
+    ]
+
+    PLAYER_WALK_RIGHT = [
+        ("sprites/player/player_walk_side1.png", 3, 200, False),
+        ("sprites/player/player_walk_side2.png", 3, 200, False),
+        ("sprites/player/player_walk_side3.png", 3, 200, False),
+        ("sprites/player/player_walk_side4.png", 3, 200, False),
+        ("sprites/player/player_walk_side5.png", 3, 200, False),
+        ("sprites/player/player_walk_side6.png", 3, 200, False),
+    ]
+
+    PLAYER_WALK_LEFT = [
+        ("sprites/player/player_walk_side1.png", 3, 200, True),
+        ("sprites/player/player_walk_side2.png", 3, 200, True),
+        ("sprites/player/player_walk_side3.png", 3, 200, True),
+        ("sprites/player/player_walk_side4.png", 3, 200, True),
+        ("sprites/player/player_walk_side5.png", 3, 200, True),
+        ("sprites/player/player_walk_side6.png", 3, 200, True),
+    ]
+
+    PLAYER_WALK_UP = [
+        ("sprites/player/player_walk_up1.png", 3, 200, False),
+        ("sprites/player/player_walk_up2.png", 3, 200, False),
+        ("sprites/player/player_walk_up3.png", 3, 200, False),
+        ("sprites/player/player_walk_up4.png", 3, 200, False),
+        ("sprites/player/player_walk_up5.png", 3, 200, False),
+        ("sprites/player/player_walk_up6.png", 3, 200, False),
+    ]
+
+    PLAYER_WALK_UPRIGHT = [
+        ("sprites/player/player_walk_updiag1.png", 3, 200, False),
+        ("sprites/player/player_walk_updiag2.png", 3, 200, False),
+        ("sprites/player/player_walk_updiag3.png", 3, 200, False),
+        ("sprites/player/player_walk_updiag4.png", 3, 200, False),
+        ("sprites/player/player_walk_updiag5.png", 3, 200, False),
+        ("sprites/player/player_walk_updiag6.png", 3, 200, False),
+    ]
+
+    PLAYER_WALK_UPLEFT = [
+        ("sprites/player/player_walk_updiag1.png", 3, 200, True),
+        ("sprites/player/player_walk_updiag2.png", 3, 200, True),
+        ("sprites/player/player_walk_updiag3.png", 3, 200, True),
+        ("sprites/player/player_walk_updiag4.png", 3, 200, True),
+        ("sprites/player/player_walk_updiag5.png", 3, 200, True),
+        ("sprites/player/player_walk_updiag6.png", 3, 200, True),
+    ]
 
 
 # TODO: Initialize beforehand big assets like animations \
@@ -94,10 +190,14 @@ class ResourceManager(metaclass=Singleton):
         self.resources = {}
         self.BASE_PATH = "assets"
 
-    def __load_sprite(self, rel_path):
+    def __load_sprite(self, rel_path, scale=None, flip=None):
         path = os.path.join(self.BASE_PATH, rel_path)
         try:
             image = pygame.image.load(path)
+            if flip is not None and flip:
+                image = pygame.transform.flip(image, True, False)
+            if scale is not None:
+                image = pygame.transform.scale(image, (image.get_width() * scale, image.get_height() * scale))
         except (pygame.error):
             print("Error loading image: ", path)
             raise SystemExit
@@ -153,7 +253,8 @@ class ResourceManager(metaclass=Singleton):
             return self.resources[animation_resource]
         else:
             animation = [
-                self.__load_sprite(rel_path) for rel_path in animation_resource.value
+                AnimationFrame(self.__load_sprite(rel_path, scale, flip), duration)
+                for rel_path, scale, duration, flip in animation_resource.value
             ]
             self.resources[animation_resource] = animation
             return animation

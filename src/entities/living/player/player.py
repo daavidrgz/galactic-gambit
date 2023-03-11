@@ -15,6 +15,7 @@ from constants import (
 
 import numpy as np
 
+PIE = np.pi / 8
 
 class Player(LivingEntity):
     def __init__(self, hp, gun, magic_level, initial_pos, bullets, on_level_up):
@@ -31,10 +32,7 @@ class Player(LivingEntity):
 
         self.facing_vector = np.array([1, 0], dtype=np.float64)
 
-        image = ResourceManager().load_image(Resource.PLAYER)
-        hitbox = image.get_rect()
-
-        super().__init__(image, hitbox, initial_pos, PLAYER_DRAG, (0, 19, 20), hp)
+        super().__init__(Resource.PLAYER_IDLE_DOWN, initial_pos, PLAYER_DRAG, (0, 19, 20), hp)
 
     # Transform the model of the player into the entity
     def from_player_model(player_model, initial_pos, bullets, on_level_up):
@@ -52,28 +50,9 @@ class Player(LivingEntity):
     def update(self, elapsed_time):
         elapsed_units = elapsed_time * DESIGN_FRAMERATE / 1000
 
-        # Movement
-        move_vector = np.array(
-            [
-                self.control.is_active_action(Action.RIGHT)
-                - self.control.is_active_action(Action.LEFT),
-                self.control.is_active_action(Action.DOWN)
-                - self.control.is_active_action(Action.UP),
-            ],
-            dtype=np.float64,
-        )
+        self.update_movement(elapsed_units)
 
-        vector_norm = np.linalg.norm(move_vector)
-        if vector_norm > 0.0:
-            move_vector /= vector_norm
-
-        self.velocity += move_vector * PLAYER_SPEED * elapsed_units
-
-        velocity_norm = np.linalg.norm(self.velocity)
-        if velocity_norm > SPEED_EPSILON:
-            self.facing_vector = self.velocity / velocity_norm
-        else:
-            self.velocity = np.zeros(2)
+        self.update_animation()
 
         # Camera
         self.camera.set_target_center(
@@ -104,3 +83,65 @@ class Player(LivingEntity):
         new_bullets = self.gun.shoot(shoot_position, self.facing_vector)
         self.bullets.add(new_bullets)
         self.increase_experience(10)
+
+    def update_movement(self, elapsed_units):
+        move_vector = np.array(
+            [
+                self.control.is_active_action(Action.RIGHT)
+                - self.control.is_active_action(Action.LEFT),
+                self.control.is_active_action(Action.DOWN)
+                - self.control.is_active_action(Action.UP),
+            ],
+            dtype=np.float64,
+        )
+
+        vector_norm = np.linalg.norm(move_vector)
+        if vector_norm > 0.0:
+            move_vector /= vector_norm
+
+        self.velocity += move_vector * PLAYER_SPEED * elapsed_units
+
+        self.velocity_norm = np.linalg.norm(self.velocity)
+        if self.velocity_norm > SPEED_EPSILON:
+            self.facing_vector = self.velocity / self.velocity_norm
+        else:
+            self.velocity = np.zeros(2)
+            self.velocity_norm = 0.0
+
+
+    def update_animation(self):
+        alpha = np.arctan2(self.facing_vector[1], self.facing_vector[0])
+        if alpha < 0.0:
+            alpha += 2*np.pi
+
+        if self.velocity_norm > 0.0:
+            if alpha > 15*PIE or alpha < 3*PIE:
+                self.set_animation(Resource.PLAYER_WALK_RIGHT)
+            elif alpha < 5*PIE:
+                self.set_animation(Resource.PLAYER_WALK_DOWN)
+            elif alpha < 9*PIE:
+                self.set_animation(Resource.PLAYER_WALK_LEFT)
+            elif alpha < 11*PIE:
+                self.set_animation(Resource.PLAYER_WALK_UPLEFT)
+            elif alpha < 13*PIE:
+                self.set_animation(Resource.PLAYER_WALK_UP)
+            else:
+                self.set_animation(Resource.PLAYER_WALK_UPRIGHT)
+
+            self.set_speed_multiplier(1.0 + self.velocity_norm / 10.0)
+            return
+
+        if alpha > 15*PIE or alpha < 3*PIE:
+            self.set_animation(Resource.PLAYER_IDLE_RIGHT)
+        elif alpha < 5*PIE:
+            self.set_animation(Resource.PLAYER_IDLE_DOWN)
+        elif alpha < 9*PIE:
+            self.set_animation(Resource.PLAYER_IDLE_LEFT)
+        elif alpha < 11*PIE:
+            self.set_animation(Resource.PLAYER_IDLE_UPLEFT)
+        elif alpha < 13*PIE:
+            self.set_animation(Resource.PLAYER_IDLE_UP)
+        else:
+            self.set_animation(Resource.PLAYER_IDLE_UPRIGHT)
+
+        self.set_speed_multiplier(1.0)

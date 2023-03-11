@@ -5,11 +5,11 @@ from entities.entity import Entity
 
 
 class Projectile(Entity):
-    def __init__(self, image, hitbox, initial_pos, speed, direction):
+    def __init__(self, image, initial_pos, speed, direction):
         image = pygame.transform.rotate(
             image, np.rad2deg(np.arctan2(-direction[1], direction[0]))
         )
-        super().__init__(image, hitbox, initial_pos)
+        super().__init__(image, initial_pos)
 
         self.speed = speed
         self.direction = direction

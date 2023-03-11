@@ -6,8 +6,8 @@ import numpy as np
 from constants import DESIGN_FRAMERATE
 
 class KinematicEntity(Entity):
-    def __init__(self, image, hitbox, initial_pos, drag, collision):
-        super().__init__(image, hitbox, initial_pos)
+    def __init__(self, image, initial_pos, drag, collision):
+        super().__init__(image, initial_pos)
         self.drag = drag
         self.collision = collision
         self.velocity = np.zeros(2)
@@ -29,3 +29,5 @@ class KinematicEntity(Entity):
         )
         pos = self.terrain.get_collision_vector(final_position, self.collision[2])
         self.set_position((pos[0] - self.collision[0], pos[1] - self.collision[1]))
+
+        super().update(elapsed_time)

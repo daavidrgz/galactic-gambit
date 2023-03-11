@@ -8,12 +8,11 @@ import numpy as np
 
 class BaseEnemy(LivingEntity):
     def __init__(self, hp, initial_pos, image, ai):
-        hitbox = image.get_rect()
         self.ai = ai
         self.speed = np.zeros(2)
         self.target = np.zeros(2)
         self.targeting = False
-        super().__init__(image, hitbox, initial_pos, 0.25, (0, 0, 20), hp)
+        super().__init__(image, initial_pos, 0.25, (0, 0, 20), hp)
 
     def setup(self):
         scene = Director().get_scene()
