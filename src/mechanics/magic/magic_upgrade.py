@@ -157,16 +157,18 @@ class Rainbow(UpdateMagicUpgrade):
     def __init__(self):
         super().__init__()
         self.state = 0.0
+        self.laps = 2
 
     def apply(self, bullet, elapsed_time):
         self.state += elapsed_time
-        self.state %= 255
+        self.state %= 360 * self.laps
 
     def setup(self, bullet):
         bullet.add_image_modifier(self.__rainbow_modifier)
 
     def __rainbow_modifier(self, image):
-        color = pygame.Color(0).hsva = (self.state, 100, 100, 100)
+        color = pygame.Color(0)
+        color.hsva = ((self.state / self.laps) % 360, 50, 100, 100)
         hit_mask = pygame.Surface(image.get_size(), pygame.SRCALPHA)
         hit_mask.fill(color)
-        image.blit(hit_mask, (0, 0), special_flags=pygame.BLEND_RGBA_MAX)
+        image.blit(hit_mask, (0, 0), special_flags=pygame.BLEND_MULT)
