@@ -144,4 +144,3 @@ class Player(LivingEntity):
             self.set_animation(Resource.PLAYER_IDLE_UPRIGHT)
 
         self.set_speed_multiplier(1.0)
-        self.increase_exp(10)
