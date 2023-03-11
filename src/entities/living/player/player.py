@@ -17,6 +17,7 @@ import numpy as np
 
 PIE = np.pi / 8
 
+
 class Player(LivingEntity):
     def __init__(self, hp, gun, magic_level, initial_pos, bullets):
         self.director = Director.get_instance()
@@ -31,7 +32,9 @@ class Player(LivingEntity):
 
         self.facing_vector = np.array([1, 0], dtype=np.float64)
 
-        super().__init__(Resource.PLAYER_IDLE_DOWN, initial_pos, PLAYER_DRAG, (0, 19, 20), hp)
+        super().__init__(
+            Resource.PLAYER_IDLE_DOWN, initial_pos, PLAYER_DRAG, (0, 19, 20), hp
+        )
 
     # Transform the model of the player into the entity
     def from_player_model(player_model, initial_pos, bullets):
@@ -49,20 +52,15 @@ class Player(LivingEntity):
     def update(self, elapsed_time):
         elapsed_units = elapsed_time * DESIGN_FRAMERATE / 1000
 
-        self.update_movement(elapsed_units)
+        self.__update_movement(elapsed_units)
 
-        self.update_animation()
+        self.__update_animation()
+        self.__update_attack(elapsed_time)
 
         # Camera
         self.camera.set_target_center(
             self.get_position() + self.velocity * CAMERA_LOOK_AHEAD
         )
-
-        # Attack
-        self.gun.update_cooldown(elapsed_time)
-
-        if self.control.is_active_action(Action.SHOOT):
-            self.shoot()
 
         super().update(elapsed_time)
 
@@ -75,15 +73,29 @@ class Player(LivingEntity):
     def apply_magical_upgrade(self, upgrade):
         self.gun.add_magical_upgrade(upgrade)
 
-    def shoot(self):
+    def __get_screen_position(self):
+        scrollx, scrolly = self.camera.get_coords()
+        x = self.x - scrollx
+        y = self.y - scrolly
+        return x, y
+
+    def shoot(self, mouse_pos):
         if not self.gun.is_ready():
             return
         shoot_position = (self.x, self.y)
-        new_bullets = self.gun.shoot(shoot_position, self.facing_vector)
+        shoot_direction = np.array(mouse_pos) - np.array(self.__get_screen_position())
+        shoot_direction /= np.linalg.norm(shoot_direction)
+        new_bullets = self.gun.shoot(shoot_position, shoot_direction)
         self.bullets.add(new_bullets)
         self.increase_exp(10)
 
-    def update_movement(self, elapsed_units):
+    def __update_attack(self, elapsed_time):
+        self.gun.update_cooldown(elapsed_time)
+
+        if self.control.is_mouse_pressed():
+            self.shoot(self.control.get_mouse_pos())
+
+    def __update_movement(self, elapsed_units):
         move_vector = np.array(
             [
                 self.control.is_active_action(Action.RIGHT)
@@ -107,22 +119,21 @@ class Player(LivingEntity):
             self.velocity = np.zeros(2)
             self.velocity_norm = 0.0
 
-
-    def update_animation(self):
+    def __update_animation(self):
         alpha = np.arctan2(self.facing_vector[1], self.facing_vector[0])
         if alpha < 0.0:
-            alpha += 2*np.pi
+            alpha += 2 * np.pi
 
         if self.velocity_norm > 0.0:
-            if alpha > 15*PIE or alpha < 3*PIE:
+            if alpha > 15 * PIE or alpha < 3 * PIE:
                 self.set_animation(Resource.PLAYER_WALK_RIGHT)
-            elif alpha < 5*PIE:
+            elif alpha < 5 * PIE:
                 self.set_animation(Resource.PLAYER_WALK_DOWN)
-            elif alpha < 9*PIE:
+            elif alpha < 9 * PIE:
                 self.set_animation(Resource.PLAYER_WALK_LEFT)
-            elif alpha < 11*PIE:
+            elif alpha < 11 * PIE:
                 self.set_animation(Resource.PLAYER_WALK_UPLEFT)
-            elif alpha < 13*PIE:
+            elif alpha < 13 * PIE:
                 self.set_animation(Resource.PLAYER_WALK_UP)
             else:
                 self.set_animation(Resource.PLAYER_WALK_UPRIGHT)
@@ -130,15 +141,15 @@ class Player(LivingEntity):
             self.set_speed_multiplier(1.0 + self.velocity_norm / 10.0)
             return
 
-        if alpha > 15*PIE or alpha < 3*PIE:
+        if alpha > 15 * PIE or alpha < 3 * PIE:
             self.set_animation(Resource.PLAYER_IDLE_RIGHT)
-        elif alpha < 5*PIE:
+        elif alpha < 5 * PIE:
             self.set_animation(Resource.PLAYER_IDLE_DOWN)
-        elif alpha < 9*PIE:
+        elif alpha < 9 * PIE:
             self.set_animation(Resource.PLAYER_IDLE_LEFT)
-        elif alpha < 11*PIE:
+        elif alpha < 11 * PIE:
             self.set_animation(Resource.PLAYER_IDLE_UPLEFT)
-        elif alpha < 13*PIE:
+        elif alpha < 13 * PIE:
             self.set_animation(Resource.PLAYER_IDLE_UP)
         else:
             self.set_animation(Resource.PLAYER_IDLE_UPRIGHT)

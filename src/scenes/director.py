@@ -42,7 +42,6 @@ class Director(metaclass=Singleton):
                 if event.type == pygame.QUIT:
                     self.leave_game()
                     return
-
             # Handle events in scene
             scene.handle_events(events)
 

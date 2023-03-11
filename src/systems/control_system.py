@@ -45,3 +45,9 @@ class ControlSystem(metaclass=Singleton):
 
     def get_action_key(self, action):
         return self.actions[action]
+
+    def is_mouse_pressed(self):
+        return pygame.mouse.get_pressed()[0]
+
+    def get_mouse_pos(self):
+        return pygame.mouse.get_pos()
