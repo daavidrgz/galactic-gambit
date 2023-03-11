@@ -50,15 +50,14 @@ class Level(Scene):
             self.director.push_scene(PauseMenu())
 
     def __player_level_up(self):
-        upgrades = []
-        for _ in range(3):
-            upgrade = self.magic_upgrade_system.get_random_upgrade()
-            if upgrade is None:
-                break
-            upgrades.append(upgrade)
-        self.director.push_scene(
-            UpgradeMenu(upgrades, self.player.apply_magical_upgrade)
-        )
+        def apply_upgrade(upgrade):
+            self.magic_upgrade_system.pick_upgrade(upgrade)
+            self.player.apply_magical_upgrade(upgrade)
+
+        possible_upgrades = self.magic_upgrade_system.get_random_upgrades(3)
+        upgrades = [upgrade for upgrade in possible_upgrades if upgrade is not None]
+
+        self.director.push_scene(UpgradeMenu(upgrades, apply_upgrade))
 
     def __check_bullet_colission(self):
         # as we take into account if the bullet is or not on the ground,

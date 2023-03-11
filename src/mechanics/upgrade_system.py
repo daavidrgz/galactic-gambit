@@ -15,13 +15,19 @@ class UpgradeSystem:
     def get_state(self):
         return self.available_upgrades, self.selected_upgrades
 
-    def get_random_upgrade(self):
-        if len(self.available_upgrades) == 0:
-            return None
-        new_upgrade = self.random_generator.choice(self.available_upgrades)
-        self.selected_upgrades.add(new_upgrade)
-        self.available_upgrades.remove(new_upgrade)
-        return new_upgrade
+    def get_random_upgrades(self, n):
+        upgrades_to_pick = min(n, len(self.available_upgrades))
+        new_upgrades = self.random_generator.sample(
+            self.available_upgrades, upgrades_to_pick
+        )
+        return new_upgrades
+
+    def pick_upgrade(self, upgrade):
+        if upgrade in self.available_upgrades:
+            self.selected_upgrades.add(upgrade)
+            self.available_upgrades.remove(upgrade)
+            return True
+        return False
 
     # Template pattern
     def get_available_upgrades(self):
