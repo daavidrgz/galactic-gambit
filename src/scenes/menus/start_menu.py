@@ -34,7 +34,7 @@ class StartMenu(VerticalMenu):
         self.background = background
 
     def __new_game(self):
-        self.director.push_scene(CaveLevel())
+        self.director.push_scene(PlanetLevel())
 
     def __continue_game(self):
         current_level = self.game_model.get_level()

@@ -70,6 +70,7 @@ class Gun:
                     initial_position,
                     self.bullet_speed,
                     new_facing_vector,
+                    self.damage,
                     init_upgrades,
                     update_upgrades,
                 )

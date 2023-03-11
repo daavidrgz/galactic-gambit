@@ -56,15 +56,26 @@ class Level(Scene):
         self.bullet_group.update(elapsed_time)
         self.animation_group.update(elapsed_time)
         self.__check_bullet_colision()
+        self.__check_bullet_enemy_collision()
 
     def __check_bullet_colision(self):
+
         # as we take into account if the bullet is or not on the ground,
         # it is not neccessary to check bullet's previous position to avoid
         # wall noclip. The latter one would happen if the bullet's speed is greater
         # than wall's width, and if we only took into account wall collision
         for bullet in self.bullet_group:
             if not self.terrain.on_ground(bullet.rect):
-                bullet.collide(self.animation_group)
+                bullet.collide(self.animation_group.add)
+
+    def __check_bullet_enemy_collision(self):
+        for bullet in self.bullet_group:
+            for enemy in self.enemy_group:
+                if bullet.rect.colliderect(enemy.rect):
+                    enemy.hit(bullet.damage)
+                    bullet.collide(self.animation_group.add)
+                    print(enemy.hp)
+                    break
 
     def handle_events(self, events):
         for event in events:

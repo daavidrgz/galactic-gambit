@@ -1,3 +1,4 @@
+import copy
 from animations.animation_frame import AnimationFrame
 from systems.resource_manager import ResourceManager, Resource
 
@@ -14,7 +15,7 @@ class AnimatedSprite(pygame.sprite.Sprite):
             self.current_anim = frames
         elif not isinstance(frames, list):
             frames = [AnimationFrame(frames, 0.1)]
-
+        self.modifiers = []
         super().__init__()
         self.x, self.y = initial_pos
         self.setup_frames(frames)
@@ -43,7 +44,19 @@ class AnimatedSprite(pygame.sprite.Sprite):
         self.total_elapsed_time %= self.acc_times[-1]
         next_frame_idx = self.__binary_search_time(self.total_elapsed_time)
         self.current_frame = self.frames[next_frame_idx]
-        self.image = self.current_frame.get_image()
+        # TODO: Checkear si este copy es un problema de rendimiento
+        self.image = self.current_frame.get_image().copy()
+        self.__apply_image_modifiers()
+
+    def add_image_modifier(self, modifier):
+        self.modifiers.append(modifier)
+
+    def remove_image_modifier(self, modifier):
+        self.modifiers.remove(modifier)
+
+    def __apply_image_modifiers(self):
+        for modifier in self.modifiers:
+            modifier(self.image)
 
     def setup_frames(self, frames):
         self.frames = frames

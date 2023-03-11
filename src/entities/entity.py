@@ -25,3 +25,6 @@ class Entity(AnimatedSprite):
         deltax, deltay = delta_position
         currentx, currenty = self.get_position()
         self.set_position((currentx + deltax, currenty + deltay))
+
+    def collide(self, on_colide):
+        pass

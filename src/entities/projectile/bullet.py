@@ -6,18 +6,19 @@ import pygame
 
 
 class Bullet(Projectile):
-    def __init__(self, initial_pos, speed, direction, init_upgrades, update_upgrades):
+    def __init__(
+        self, initial_pos, speed, direction, damage, init_upgrades, update_upgrades
+    ):
         self.resource_manager = ResourceManager.get_instance()
         image = self.resource_manager.load_image(Resource.LASER)
         image = pygame.transform.scale(image, (60, 20))
         self.update_upgrades = update_upgrades
-        super().__init__(image, initial_pos, speed, direction)
+        super().__init__(image, initial_pos, speed, direction, damage)
         # Apply init upgrades
         [upgrade.apply(self) for upgrade in init_upgrades]
 
-    def collide(self, animation_group):
-        explosion_animation = ExplosionEffect(self.get_position())
-        animation_group.add(explosion_animation)
+    def collide(self, add_animation_func):
+        # add_animation_func(ExplosionEffect(self.get_position()))
         super().collide()
 
     def update(self, elapsed_time):
