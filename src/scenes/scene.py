@@ -1,11 +1,13 @@
 from model.game_model import GameModel
 from scenes.director import Director
+from systems.control_system import ControlSystem
 from systems.resource_manager import ResourceManager
 from systems.sound_controller import SoundController
 
 
 class Scene:
     def __init__(self):
+        self.control_system = ControlSystem.get_instance()
         self.director = Director.get_instance()
         self.sound_controller = SoundController.get_instance()
         self.resource_manager = ResourceManager.get_instance()

@@ -11,6 +11,7 @@ import pygame
 
 from constants import TILE_SIZE
 
+
 class CaveGenerator(BaseGenerator):
     def __init__(self, terrain):
         rmgr = ResourceManager.get_instance()
@@ -26,22 +27,25 @@ class CaveGenerator(BaseGenerator):
         self.wall_sprite_rightdown = rmgr.load_tile(Resource.CAVE_WALL_RIGHTDOWN)
         self.wall_sprite_innerleftup = rmgr.load_tile(Resource.CAVE_WALL_INNERLEFTUP)
         self.wall_sprite_innerrightup = rmgr.load_tile(Resource.CAVE_WALL_INNERRIGHTUP)
-        self.wall_sprite_innerleftdown = rmgr.load_tile(Resource.CAVE_WALL_INNERLEFTDOWN)
-        self.wall_sprite_innerrightdown = rmgr.load_tile(Resource.CAVE_WALL_INNERRIGHTDOWN)
-
-        super().__init__(
-            (6.0, 6.0),
-            (2, 2),
-            terrain
+        self.wall_sprite_innerleftdown = rmgr.load_tile(
+            Resource.CAVE_WALL_INNERLEFTDOWN
+        )
+        self.wall_sprite_innerrightdown = rmgr.load_tile(
+            Resource.CAVE_WALL_INNERRIGHTDOWN
         )
 
+        super().__init__((6.0, 6.0), (2, 2), terrain)
+
     def coordinate_transform(self, x, y):
-        return (x + snoise2(x*10 + 2711, y*10 - 14144) * y/10, y + snoise2(x*10 + 6789, y*10 + 10001) * y/10)
+        return (
+            x + snoise2(x * 10 + 2711, y * 10 - 14144) * y / 10,
+            y + snoise2(x * 10 + 6789, y * 10 + 10001) * y / 10,
+        )
 
     def get_sprite(self, x, y, surroundings):
         if surroundings[1, 1] == TerrainType.GROUND:
             return self.get_ground_sprite(x, y)
-        
+
         return self.get_wall_sprite(x, y, surroundings)
 
     def get_wall_sprite(self, x, y, surroundings):
@@ -51,20 +55,20 @@ class CaveGenerator(BaseGenerator):
             if surroundings[1, 0] == TerrainType.GROUND:
                 return self.wall_sprite_rightup
             return self.wall_sprite_up
-        
+
         if surroundings[0, 1] == TerrainType.GROUND:
             if surroundings[1, 2] == TerrainType.GROUND:
                 return self.wall_sprite_leftdown
             if surroundings[1, 0] == TerrainType.GROUND:
                 return self.wall_sprite_rightdown
             return self.wall_sprite_down
-        
+
         if surroundings[1, 2] == TerrainType.GROUND:
             return self.wall_sprite_left
-        
+
         if surroundings[1, 0] == TerrainType.GROUND:
             return self.wall_sprite_right
-        
+
         if surroundings[0, 0] == TerrainType.GROUND:
             return self.wall_sprite_innerrightdown
         if surroundings[0, 2] == TerrainType.GROUND:
@@ -78,12 +82,13 @@ class CaveGenerator(BaseGenerator):
 
     def get_ground_sprite(self, x, y):
         return self.floor_sprite
-    
+
     def noise_wall_condition(self, n, x, y):
         x_dist = abs(x - 85) / 85
         y_dist = y / 170
         x_factor = n - x_dist
         return x_factor < y_dist - 1.0 or x_dist / 5.0 - 0.005 > y_dist**2
+
 
 class CaveTerrain(BaseTerrain):
     def populate(self):
@@ -99,6 +104,7 @@ class CaveTerrain(BaseTerrain):
                 self.sprites.add(Tile(x, y, andesite_sprite))
 
         self.player_starting_position = (TILE_SIZE * 85.5, TILE_SIZE * 1.5)
+
 
 class CaveLevel(Level):
     def __init__(self):

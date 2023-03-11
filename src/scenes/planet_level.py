@@ -1,3 +1,4 @@
+from scenes.cave_level import CaveLevel
 from scenes.level import Level
 from generation.tile import Tile
 from scenes.director import Director
@@ -13,9 +14,10 @@ import pygame
 
 from constants import TILE_SIZE
 
+
 class PlanetGenerator(BaseGenerator):
     def __init__(self, terrain):
-        super().__init__((10,10),(2,2),terrain)
+        super().__init__((10, 10), (2, 2), terrain)
 
         rmgr = ResourceManager.get_instance()
         self.floor_sprite = rmgr.load_tile(Resource.PLANET_FLOOR)
@@ -42,7 +44,7 @@ class PlanetGenerator(BaseGenerator):
     def coordinate_transform(self, x, y):
         x -= 85
         y -= 85
-        return (np.sqrt(x*x + y*y), np.arctan2(y, x) * 5)
+        return (np.sqrt(x * x + y * y), np.arctan2(y, x) * 5)
 
     def get_sprite(self, x, y, surroundings):
         if surroundings[1, 1] == TerrainType.GROUND:
@@ -84,13 +86,15 @@ class PlanetGenerator(BaseGenerator):
 
     def get_ground_sprite(self, x, y):
         n = self.noise(x / 60 + self.var_offset_x, y / 60 + self.var_offset_y)
-        
-        if n > 0.70: return self.floor_spriteD1
+
+        if n > 0.70:
+            return self.floor_spriteD1
 
         return self.floor_sprite
-    
+
     def noise_wall_condition(self, n, x, y):
-        return n < (x / 114)**3
+        return n < (x / 114) ** 3
+
 
 class PlanetTerrain(BaseTerrain):
     def populate(self):
@@ -102,7 +106,7 @@ class PlanetTerrain(BaseTerrain):
         andesite_sprite = resource_manager.load_tile(Resource.POLISHED_ANDESITE)
         for x in range(85 - 15, 85 + 16):
             for y in range(85 - 15, 85 + 16):
-                distance_sqr = (x - 85)**2 + (y - 85)**2
+                distance_sqr = (x - 85) ** 2 + (y - 85) ** 2
                 if distance_sqr < 11**2:
                     self.data[y, x] = TerrainType.GROUND
                     self.sprites.add(Tile(x, y, andesite_sprite))
@@ -110,6 +114,7 @@ class PlanetTerrain(BaseTerrain):
                     self.starting_tiles.append((x, y))
 
         self.player_starting_position = (TILE_SIZE * 85.5, TILE_SIZE * 85.5)
+
 
 class PlanetLevel(Level):
     def __init__(self):
@@ -119,7 +124,9 @@ class PlanetLevel(Level):
 
         rmgr = ResourceManager()
         dust_sprite = pygame.sprite.Sprite()
-        dust_sprite.image = pygame.transform.smoothscale(rmgr.load_image(Resource.DUST), (TILE_SIZE * 100.0, TILE_SIZE * 100.0))
+        dust_sprite.image = pygame.transform.smoothscale(
+            rmgr.load_image(Resource.DUST), (TILE_SIZE * 100.0, TILE_SIZE * 100.0)
+        )
         dust_sprite.image.set_alpha(150)
         dust_sprite.rect = dust_sprite.image.get_rect()
         dust_sprite.image_rect = dust_sprite.image.get_rect()
@@ -134,7 +141,11 @@ class PlanetLevel(Level):
         rng = RngSystem().get_rng(Generator.MAP)
         for _ in range(20):
             x = y = -1000
-            while not self.terrain.on_ground_point((x, y)) or (x - 85*TILE_SIZE)**2 + (y - 85*TILE_SIZE)**2 < (11*TILE_SIZE)**2:
+            while (
+                not self.terrain.on_ground_point((x, y))
+                or (x - 85 * TILE_SIZE) ** 2 + (y - 85 * TILE_SIZE) ** 2
+                < (11 * TILE_SIZE) ** 2
+            ):
                 x, y = rng.randint(0, TILE_SIZE * 171), rng.randint(0, TILE_SIZE * 171)
             enemy = TestEnemy((x, y))
             enemy.setup()
@@ -146,10 +157,10 @@ class PlanetLevel(Level):
         self.player_group.draw(screen)
         self.enemy_grp.draw(screen)
         self.bullet_group.draw(screen)
-        #self.dust.draw(screen)
+        # self.dust.draw(screen)
         self.terrain.draw_minimap(screen)
-        
-        #for enemy in self.enemy_grp.sprites():
+
+        # for enemy in self.enemy_grp.sprites():
         #    marker = pygame.Surface((4,4))
         #    marker.fill((255,0,255))
         #    x = enemy.target[0]
@@ -167,6 +178,6 @@ class PlanetLevel(Level):
         for event in events:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:
-                    Director().switch_scene(PlanetLevel())
+                    Director().switch_scene(CaveLevel())
 
         super().handle_events(events)

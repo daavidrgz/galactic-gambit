@@ -1,7 +1,9 @@
 from entities.living.player.player import Player
 from generation.tile import Tile
+from scenes.menus.pause_menu import PauseMenu
 from scenes.scene import Scene
 from systems.camera_manager import CameraManager, ScrollableGroup
+from systems.control_system import Action
 
 
 class Level(Scene):
@@ -40,6 +42,9 @@ class Level(Scene):
         self.bullet_group.update(elapsed_time)
         self.animation_group.update(elapsed_time)
         self.__check_bullet_colission()
+
+        if self.control_system.is_active_action(Action.PAUSE):
+            self.director.push_scene(PauseMenu())
 
     def __check_bullet_colission(self):
         # as we take into account if the bullet is or not on the ground,

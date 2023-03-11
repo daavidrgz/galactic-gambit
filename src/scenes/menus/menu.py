@@ -7,7 +7,6 @@ from systems.control_system import ControlSystem
 class Menu(Scene):
     def __init__(self):
         super().__init__()
-        self.control_system = ControlSystem.get_instance()
         self.gui_group = pygame.sprite.Group()
         self.buttons = []
         self.current_button = 0

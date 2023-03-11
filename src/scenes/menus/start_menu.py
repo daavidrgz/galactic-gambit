@@ -5,6 +5,7 @@ from gui.title import Title
 from gui_constants import COLOR_BRIGHT, COLOR_SUBTLE
 from scenes.menus.configuration_menu import ConfigurationMenu
 from scenes.menus.vertical_menu import VerticalMenu
+from scenes.ship_level import ShipLevel
 from scenes.test_level import TestLevel
 from scenes.planet_level import PlanetLevel
 from scenes.cave_level import CaveLevel

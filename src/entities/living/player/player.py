@@ -4,7 +4,7 @@ from entities.living.living_entity import LivingEntity
 from entities.projectile.bullet import Bullet
 from systems.resource_manager import Resource, ResourceManager
 from systems.camera_manager import CameraManager
-from systems.control_system import ControlSystem, Actions
+from systems.control_system import ControlSystem, Action
 from scenes.director import Director
 
 from constants import (
@@ -54,10 +54,10 @@ class Player(LivingEntity):
         # Movement
         move_vector = np.array(
             [
-                self.control.is_active_action(Actions.RIGHT)
-                - self.control.is_active_action(Actions.LEFT),
-                self.control.is_active_action(Actions.DOWN)
-                - self.control.is_active_action(Actions.UP),
+                self.control.is_active_action(Action.RIGHT)
+                - self.control.is_active_action(Action.LEFT),
+                self.control.is_active_action(Action.DOWN)
+                - self.control.is_active_action(Action.UP),
             ],
             dtype=np.float64,
         )
@@ -82,7 +82,7 @@ class Player(LivingEntity):
         # Attack
         self.gun.update_cooldown(elapsed_time)
 
-        if self.control.is_active_action(Actions.SHOOT):
+        if self.control.is_active_action(Action.SHOOT):
             self.shoot()
 
         super().update(elapsed_time)
