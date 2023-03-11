@@ -197,7 +197,9 @@ class ResourceManager(metaclass=Singleton):
             if flip is not None and flip:
                 image = pygame.transform.flip(image, True, False)
             if scale is not None:
-                image = pygame.transform.scale(image, (image.get_width() * scale, image.get_height() * scale))
+                image = pygame.transform.scale(
+                    image, (image.get_width() * scale, image.get_height() * scale)
+                )
         except (pygame.error):
             print("Error loading image: ", path)
             raise SystemExit

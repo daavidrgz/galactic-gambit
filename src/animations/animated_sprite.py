@@ -3,6 +3,7 @@ from systems.resource_manager import ResourceManager, Resource
 
 import pygame
 
+
 class AnimatedSprite(pygame.sprite.Sprite):
     def __init__(self, frames, initial_pos):
         self.resource_manager = ResourceManager()

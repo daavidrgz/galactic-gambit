@@ -10,6 +10,7 @@ from enum import IntEnum
 import numpy as np
 import pygame
 
+
 class TerrainType(IntEnum):
     NONE = 0
 
@@ -18,6 +19,7 @@ class TerrainType(IntEnum):
 
     GENERATING = -1
     BOUND = -2
+
 
 class BaseTerrain:
     def __init__(self):
@@ -51,20 +53,22 @@ class BaseTerrain:
         screen.blit(self.buffer, draw_area)
 
     def draw_minimap(self, screen):
-        screen.blit(self.minimap, (0,0,256,256))
-        #marker = pygame.Surface((4,4))
-        #marker.fill((0,255,0))
-        #x, y = Director().get_scene().get_player().get_position()
-        #x = x * 256 // (TILE_SIZE * self.width)
-        #y = y * 256 // (TILE_SIZE * self.height)
-        #screen.blit(marker, (x-1,y-1,x+2,y+2))
+        screen.blit(self.minimap, (0, 0, 256, 256))
+        # marker = pygame.Surface((4,4))
+        # marker.fill((0,255,0))
+        # x, y = Director().get_scene().get_player().get_position()
+        # x = x * 256 // (TILE_SIZE * self.width)
+        # y = y * 256 // (TILE_SIZE * self.height)
+        # screen.blit(marker, (x-1,y-1,x+2,y+2))
 
     def generate_buffer(self):
-        self.buffer = pygame.Surface((TILE_SIZE * self.width, TILE_SIZE * self.height), flags=pygame.SRCALPHA)
+        self.buffer = pygame.Surface(
+            (TILE_SIZE * self.width, TILE_SIZE * self.height), flags=pygame.SRCALPHA
+        )
         self.sprites.draw(self.buffer)
         self.sprites_top.draw(self.buffer)
 
-        self.minimap = pygame.transform.smoothscale(self.buffer, (256,256))
+        self.minimap = pygame.transform.smoothscale(self.buffer, (256, 256))
         utils.misc.add_border(self.minimap, (0, 0, 0, 255))
 
     def get_minimap(self):
@@ -78,10 +82,13 @@ class BaseTerrain:
             (starting_x, starting_y)
         )
         logical_end_x, logical_end_y = Tile.tile_to_logical_position((end_x, end_y))
-        return (self.data[
-            logical_starting_y : logical_end_y + 1,
-            logical_starting_x : logical_end_x + 1,
-        ] == TerrainType.GROUND).all()
+        return (
+            self.data[
+                logical_starting_y : logical_end_y + 1,
+                logical_starting_x : logical_end_x + 1,
+            ]
+            == TerrainType.GROUND
+        ).all()
 
     def on_ground_point(self, point):
         x, y = Tile.tile_to_logical_position(point)
@@ -94,10 +101,13 @@ class BaseTerrain:
         pos = np.array(point, dtype=np.float64)
         for x in range(max(0, tile_pos_x - 1), min(self.width, tile_pos_x + 2)):
             for y in range(max(0, tile_pos_y - 1), min(self.height, tile_pos_y + 2)):
-                if self.data[y, x] == TerrainType.GROUND: continue
+                if self.data[y, x] == TerrainType.GROUND:
+                    continue
                 r = pygame.Rect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE)
-                pos += utils.math.circle_rect_collision_vector((pos[0], pos[1], distance), r)
+                pos += utils.math.circle_rect_collision_vector(
+                    (pos[0], pos[1], distance), r
+                )
         return pos
-    
+
     def in_bounds(self, x, y):
         return x >= 0 and y >= 0 and x < self.width and y < self.height

@@ -3,7 +3,14 @@ from entities.entity import Entity
 
 import pygame
 import numpy as np
-from constants import DESIGN_WIDTH, DESIGN_HEIGHT, DESIGN_FRAMERATE, CAMERA_LAG_BEHIND, SCROLL_CLIPPING_LENIANCY
+from constants import (
+    DESIGN_WIDTH,
+    DESIGN_HEIGHT,
+    DESIGN_FRAMERATE,
+    CAMERA_LAG_BEHIND,
+    SCROLL_CLIPPING_LENIANCY,
+)
+
 
 class CameraManager(metaclass=Singleton):
     def __init__(self):
@@ -13,10 +20,13 @@ class CameraManager(metaclass=Singleton):
         self.target_y = 0
 
     def update(self, elapsed_time):
-        direction = np.array([self.target_x - self.x, self.target_y - self.y], dtype=np.float64)
+        direction = np.array(
+            [self.target_x - self.x, self.target_y - self.y], dtype=np.float64
+        )
         direction *= elapsed_time * DESIGN_FRAMERATE / 1000.0 / CAMERA_LAG_BEHIND
 
-        if np.linalg.norm(direction) < 0.2: direction = np.zeros(2)
+        if np.linalg.norm(direction) < 0.2:
+            direction = np.zeros(2)
 
         self.x = self.x + direction[0]
         self.y = self.y + direction[1]
@@ -32,14 +42,12 @@ class CameraManager(metaclass=Singleton):
         self.y = coords[1] - DESIGN_HEIGHT // 2
 
     def get_center(self):
-        return (
-            self.x + DESIGN_WIDTH // 2,
-            self.y + DESIGN_HEIGHT // 2
-        )
+        return (self.x + DESIGN_WIDTH // 2, self.y + DESIGN_HEIGHT // 2)
 
     def set_target_center(self, coords):
         self.target_x = coords[0] - DESIGN_WIDTH // 2
         self.target_y = coords[1] - DESIGN_HEIGHT // 2
+
 
 class ScrollableGroup(pygame.sprite.Group):
     def __init__(self, *sprites):
@@ -61,25 +69,31 @@ class ScrollableGroup(pygame.sprite.Group):
         if hasattr(surface, "blits"):
             half_width = DESIGN_WIDTH // 2
             half_height = DESIGN_HEIGHT // 2
-            width_clip = DESIGN_WIDTH // (2 - SCROLL_CLIPPING_LENIANCY) 
+            width_clip = DESIGN_WIDTH // (2 - SCROLL_CLIPPING_LENIANCY)
             height_clip = DESIGN_HEIGHT // (2 - SCROLL_CLIPPING_LENIANCY)
             self.spritedict.update(
                 zip(
                     sprites,
                     surface.blits(
-                        (spr.image, calculate_rect(spr)) for spr in sprites if
-                        abs(spr.x - (scrollx + half_width)) < width_clip
+                        (spr.image, calculate_rect(spr))
+                        for spr in sprites
+                        if abs(spr.x - (scrollx + half_width)) < width_clip
                         and abs(spr.y - (scrolly + half_height)) < height_clip
-                    ) if self.cull else surface.blits((spr.image, calculate_rect(spr)) for spr in sprites),
+                    )
+                    if self.cull
+                    else surface.blits(
+                        (spr.image, calculate_rect(spr)) for spr in sprites
+                    ),
                 )
             )
         else:
             for spr in sprites:
                 self.spritedict[spr] = surface.blit(spr.image, calculate_rect(spr))
-                
+
         self.lostsprites = []
         return self.lostsprites
-    
+
+
 class ParallaxGroup(ScrollableGroup):
     def __init__(self, parallax, *sprites):
         super().__init__(*sprites)

@@ -19,13 +19,12 @@ PIE = np.pi / 8
 
 
 class Player(LivingEntity):
-    def __init__(self, hp, gun, magic_level, initial_pos, bullets):
+    def __init__(self, hp, gun, magic_level, initial_pos):
         self.director = Director.get_instance()
         self.control = ControlSystem.get_instance()
         self.camera = CameraManager.get_instance()
         self.magic_upgrade_system = MagicUpgradeSystem.get_instance()
 
-        self.bullets = bullets
         self.shoot_cooldown = 0.0
         self.gun = gun
         self.magic_level = magic_level
@@ -37,17 +36,18 @@ class Player(LivingEntity):
         )
 
     # Transform the model of the player into the entity
-    def from_player_model(player_model, initial_pos, bullets):
+    def from_player_model(player_model, initial_pos):
         hp = player_model.hp
         gun = player_model.gun
         magic_level = player_model.magic_level
-        player = Player(hp, gun, magic_level, initial_pos, bullets)
+        player = Player(hp, gun, magic_level, initial_pos)
         return player
 
-    def setup(self, on_level_up):
+    def setup(self, bullets, on_level_up):
         self.terrain = self.director.get_scene().get_terrain()
         self.camera.set_center(self.get_position())
         self.magic_level.setup(on_level_up)
+        self.bullets = bullets
 
     def update(self, elapsed_time):
         elapsed_units = elapsed_time * DESIGN_FRAMERATE / 1000

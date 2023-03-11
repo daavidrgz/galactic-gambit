@@ -16,7 +16,7 @@ class Level(Scene):
         self.bullet_group = ScrollableGroup()
 
         player_model = self.game_model.get_player()
-        self.player = Player.from_player_model(player_model, (0, 0), self.bullet_group)
+        self.player = Player.from_player_model(player_model, (0, 0))
 
         self.generator = generator
         self.terrain = terrain
@@ -35,17 +35,8 @@ class Level(Scene):
     def setup(self):
         self.generator.generate()
         self.player.set_position(self.terrain.get_player_starting_position())
-        self.player.setup(self.__player_level_up)
+        self.player.setup(self.bullet_group, self.__player_level_up)
         self.hud.setup(self.player)
-
-    def update(self, elapsed_time):
-        # Update camera
-        self.camera_mgr.update(elapsed_time)
-
-        self.player.update(elapsed_time)
-        self.bullet_group.update(elapsed_time)
-        self.animation_group.update(elapsed_time)
-        self.__check_bullet_colission()
 
     def __player_level_up(self):
         def apply_upgrade(upgrade):
@@ -57,7 +48,16 @@ class Level(Scene):
 
         self.director.push_scene(UpgradeMenu(upgrades, apply_upgrade))
 
-    def __check_bullet_colission(self):
+    def update(self, elapsed_time):
+        # Update camera
+        self.camera_mgr.update(elapsed_time)
+
+        self.player.update(elapsed_time)
+        self.bullet_group.update(elapsed_time)
+        self.animation_group.update(elapsed_time)
+        self.__check_bullet_colision()
+
+    def __check_bullet_colision(self):
         # as we take into account if the bullet is or not on the ground,
         # it is not neccessary to check bullet's previous position to avoid
         # wall noclip. The latter one would happen if the bullet's speed is greater

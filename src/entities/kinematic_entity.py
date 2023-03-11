@@ -5,6 +5,7 @@ import numpy as np
 
 from constants import DESIGN_FRAMERATE
 
+
 class KinematicEntity(Entity):
     def __init__(self, image, initial_pos, drag, collision):
         super().__init__(image, initial_pos)

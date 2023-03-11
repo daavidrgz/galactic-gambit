@@ -5,13 +5,9 @@ from systems.rng_system import Generator, RngSystem
 from noise import snoise2
 import numpy as np
 
+
 class BaseGenerator:
-    def __init__(
-        self,
-        noise_scale,
-        block_scale,
-        terrain
-    ):
+    def __init__(self, noise_scale, block_scale, terrain):
         self.noise_scale_x, self.noise_scale_y = noise_scale
         self.block_scale_x, self.block_scale_y = block_scale
         self.terrain = terrain
@@ -21,8 +17,8 @@ class BaseGenerator:
         self.terrain.clear()
         self.terrain.populate()
         self.explore_graph()
-        #TODO: Fix imperfections
-        #TODO: Place level end
+        # TODO: Fix imperfections
+        # TODO: Place level end
         self.place_sprites()
 
     def explore_graph(self):
@@ -83,7 +79,7 @@ class BaseGenerator:
 
     def coordinate_transform(self, x, y):
         return (x, y)
-    
+
     # Template pattern
     def get_tile(self, x, y, surroundings):
         sprite = self.get_sprite(x, y, surroundings)

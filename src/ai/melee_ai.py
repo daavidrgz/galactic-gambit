@@ -76,7 +76,9 @@ class MeleeAI(BaseAI):
                 > TILE_SIZE**2
             ):
                 next_direction = (self.previous_direction + player_direction) / 2
-                next_direction = next_direction / np.linalg.norm(next_direction) * TILE_SIZE
+                next_direction = (
+                    next_direction / np.linalg.norm(next_direction) * TILE_SIZE
+                )
                 if self.check_path(terrain, enemy_pos, next_direction):
                     self.previous_direction = next_direction
                 else:
@@ -151,5 +153,6 @@ class MeleeAI(BaseAI):
                 return True
 
     def check_path(self, terrain, enemy_pos, direction):
-        return (terrain.on_ground_point(enemy_pos + direction * 0.5) 
-        and terrain.on_ground_point(enemy_pos + direction * 1.5))
+        return terrain.on_ground_point(
+            enemy_pos + direction * 0.5
+        ) and terrain.on_ground_point(enemy_pos + direction * 1.5)

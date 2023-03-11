@@ -1,5 +1,6 @@
 from animations.animated_sprite import AnimatedSprite
 
+
 class Entity(AnimatedSprite):
     def __init__(self, image, initial_pos):
         super().__init__(image, initial_pos)
