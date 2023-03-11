@@ -1,7 +1,7 @@
 import math
 
 import numpy as np
-from constants import SPEED_EPSILON
+from constants.game_constants import SPEED_EPSILON
 from entities.projectile.bullet import Bullet
 from mechanics.magic.magic_upgrade import MagicUpgradeType
 
@@ -37,7 +37,7 @@ class Gun:
         self.current_cooldown = self.cooldown
         return self.generate_bullets(shoot_position, facing_vector)
 
-    def __new_upgrades(self, upgrades):
+    def __init_upgrades(self, upgrades):
         return [upgrade() for upgrade in upgrades]
 
     def generate_bullets(self, shoot_position, facing_vector):
@@ -63,16 +63,18 @@ class Gun:
 
             new_facing_vector = np.array([new_facingy, new_facingx])
             initial_position = shoot_position + new_facing_vector * self.gun_offset
-            init_upgrades = self.__new_upgrades(self.init_upgrades)
-            update_upgrades = self.__new_upgrades(self.update_upgrades)
-            bullets.append(
-                Bullet(
-                    initial_position,
-                    self.bullet_speed,
-                    new_facing_vector,
-                    self.damage,
-                    init_upgrades,
-                    update_upgrades,
-                )
+            init_upgrades = self.__init_upgrades(self.init_upgrades)
+            update_upgrades = self.__init_upgrades(self.update_upgrades)
+            new_bullet = Bullet(
+                initial_position,
+                self.bullet_speed,
+                new_facing_vector,
+                self.damage,
+                init_upgrades,
+                update_upgrades,
             )
+            # Setup upgrades
+            [upgrade.setup(new_bullet) for upgrade in init_upgrades]
+            [upgrade.setup(new_bullet) for upgrade in update_upgrades]
+            bullets.append(new_bullet)
         return bullets

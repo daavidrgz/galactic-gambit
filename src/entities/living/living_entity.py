@@ -1,10 +1,9 @@
 import pygame
+from constants.game_constants import HIT_INVULNERABILITY_TIME
 from entities.kinematic_entity import KinematicEntity
 
 
 class LivingEntity(KinematicEntity):
-    HIT_DURATION = 250
-
     def __init__(self, image, initial_pos, drag, collision, hp):
         super().__init__(image, initial_pos, drag, collision)
         self.hp = hp
@@ -24,16 +23,16 @@ class LivingEntity(KinematicEntity):
         if self.was_hit:
             return
         self.was_hit = True
-        self.hit_timer = self.HIT_DURATION
+        self.hit_timer = HIT_INVULNERABILITY_TIME
         self.hp = max(0.0, self.hp - damage)
         self.add_image_modifier(self.__hit_sprite_modifier)
 
     def __hit_sprite_modifier(self, image):
-        color = (255, 0, 0)
-        veil = pygame.Surface(image.get_size(), pygame.SRCALPHA)
-        veil.fill(color)
-        veil.set_alpha(128)
-        image.blit(veil, (0, 0))
+        color = (209, 66, 50)
+        hit_mask = pygame.Surface(image.get_size(), pygame.SRCALPHA)
+        hit_mask.fill(color)
+        hit_mask.set_alpha(255 * (self.hit_timer / HIT_INVULNERABILITY_TIME))
+        image.blit(hit_mask, (0, 0))
 
     def is_alive(self):
         return self.hp > 0.0

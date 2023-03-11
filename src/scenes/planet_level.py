@@ -12,7 +12,7 @@ from entities.living.enemies.test_enemy import TestEnemy
 import numpy as np
 import pygame
 
-from constants import TILE_SIZE
+from constants.game_constants import TILE_SIZE
 
 
 class PlanetGenerator(BaseGenerator):

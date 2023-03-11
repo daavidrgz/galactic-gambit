@@ -9,7 +9,7 @@ from noise import snoise2
 import numpy as np
 import pygame
 
-from constants import TILE_SIZE
+from constants.game_constants import TILE_SIZE
 
 
 class CaveGenerator(BaseGenerator):

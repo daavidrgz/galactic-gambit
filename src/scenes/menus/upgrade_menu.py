@@ -1,8 +1,8 @@
 import pygame
-from constants import DESIGN_HEIGHT, DESIGN_WIDTH
+from constants.game_constants import DESIGN_HEIGHT, DESIGN_WIDTH
 from gui.components.title import Title
 from gui.components.upgrade_card import UpgradeCard
-from gui_constants import COLOR_BRIGHT
+from constants.gui_constants import COLOR_BRIGHT
 from scenes.menus.horizontal_menu import HorizontalMenu
 from systems.resource_manager import Resource
 

@@ -1,5 +1,5 @@
 from enum import Enum
-from constants import TILE_SIZE
+from constants.game_constants import TILE_SIZE
 from utils.singleton import Singleton
 from animations.animation_frame import AnimationFrame
 

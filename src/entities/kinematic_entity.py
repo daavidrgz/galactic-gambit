@@ -3,7 +3,7 @@ from scenes.director import Director
 
 import numpy as np
 
-from constants import DESIGN_FRAMERATE
+from constants.game_constants import DESIGN_FRAMERATE
 
 
 class KinematicEntity(Entity):

@@ -1,6 +1,6 @@
 import numpy as np
 import pygame
-from constants import DESIGN_FRAMERATE
+from constants.game_constants import DESIGN_FRAMERATE
 from entities.entity import Entity
 
 

@@ -3,7 +3,7 @@ from entities.entity import Entity
 
 import pygame
 import numpy as np
-from constants import (
+from constants.game_constants import (
     DESIGN_WIDTH,
     DESIGN_HEIGHT,
     DESIGN_FRAMERATE,

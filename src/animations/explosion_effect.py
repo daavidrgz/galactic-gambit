@@ -1,7 +1,7 @@
 import pygame
 from animations.animation_frame import AnimationFrame
 from animations.effect import Effect
-from constants import TILE_SIZE
+from constants.game_constants import TILE_SIZE
 from systems.resource_manager import Resource, ResourceManager
 
 

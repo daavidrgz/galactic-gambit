@@ -5,7 +5,7 @@ from systems.resource_manager import Resource, ResourceManager
 from systems.camera_manager import CameraManager
 from systems.control_system import ControlSystem, Action
 
-from constants import (
+from constants.game_constants import (
     PLAYER_DRAG,
     PLAYER_SPEED,
     DESIGN_FRAMERATE,
@@ -87,7 +87,7 @@ class Player(LivingEntity):
         shoot_direction /= np.linalg.norm(shoot_direction)
         new_bullets = self.gun.shoot(shoot_position, shoot_direction)
         self.bullets.add(new_bullets)
-        self.increase_exp(10)
+        self.increase_exp(100)
 
     def __update_attack(self, elapsed_time):
         self.gun.update_cooldown(elapsed_time)

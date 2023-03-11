@@ -1,6 +1,6 @@
 import pygame
 from gui.components.button import Button
-from gui_constants import COLOR_BRIGHT, TRANSPARENT
+from constants.gui_constants import COLOR_BRIGHT, TRANSPARENT
 from systems.resource_manager import Resource, ResourceManager
 
 

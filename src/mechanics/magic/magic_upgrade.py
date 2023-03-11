@@ -4,7 +4,7 @@ import numpy as np
 
 import pygame
 
-from constants import DESIGN_FRAMERATE
+from constants.game_constants import DESIGN_FRAMERATE
 
 
 class MagicUpgradeType(Enum):
@@ -18,6 +18,9 @@ class MagicUpgrade:
 
     def apply(self, bullet):
         raise NotImplementedError
+
+    def setup(self, bullet):
+        pass
 
 
 class InitMagicUpgrade(MagicUpgrade):
@@ -147,3 +150,26 @@ class SlowAndFast(UpdateMagicUpgrade):
 
         bullet.speed = self.original_speed * (1 + scale)
         bullet.velocity = bullet.speed * bullet.direction
+
+
+class Rainbow(UpdateMagicUpgrade):
+    name = "Rainbow"
+
+    def __init__(self):
+        super().__init__()
+        self.state = 0.0
+
+    def apply(self, bullet, elapsed_time):
+        self.state += elapsed_time
+        self.state %= 360
+
+    def setup(self, bullet):
+        bullet.add_image_modifier(self.__rainbow_modifier)
+
+    def __rainbow_modifier(self, image):
+        color = pygame.color.Color.hsva(self.state, 100, 100, 255)
+        hit_mask = pygame.Surface(image.get_size(), pygame.SRCALPHA)
+        hit_mask.fill(color)
+        print(color)
+        image.blit(hit_mask, (0, 0))
+        image.fill((0,0,0))

@@ -4,7 +4,7 @@ from systems.rng_system import RngSystem, Generator
 import numpy as np
 
 import utils.math
-from constants import TILE_SIZE, ENEMY_TRACKING_ROTATION
+from constants.game_constants import TILE_SIZE, ENEMY_TRACKING_ROTATION
 
 
 class MeleeAI(BaseAI):

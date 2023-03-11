@@ -1,5 +1,5 @@
 import pygame
-from constants import (
+from constants.game_constants import (
     USER_HEIGHT,
     USER_WIDTH,
     DESIGN_HEIGHT,

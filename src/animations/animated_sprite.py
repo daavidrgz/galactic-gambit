@@ -46,7 +46,7 @@ class AnimatedSprite(pygame.sprite.Sprite):
         self.total_elapsed_time %= self.acc_times[-1]
         next_frame_idx = self.__binary_search_time(self.total_elapsed_time)
         self.current_frame = self.frames[next_frame_idx]
-        # TODO: Checkear si este copy es un problema de rendimiento
+        self.image.fill((0, 0, 0, 0))
         self.image.blit(self.current_frame.get_image(), (0, 0))
         self.__apply_image_modifiers()
 
@@ -58,6 +58,7 @@ class AnimatedSprite(pygame.sprite.Sprite):
 
     def __apply_image_modifiers(self):
         for modifier in self.modifiers:
+            print("applying...", modifiers)
             modifier(self.image)
 
     def setup_frames(self, frames):

@@ -1,9 +1,9 @@
 import pygame
-from constants import DESIGN_HEIGHT, DESIGN_WIDTH
+from constants.game_constants import DESIGN_HEIGHT, DESIGN_WIDTH
 from gui.components.text_button import TextButton
 from gui.components.title import Title
 from gui.components.volume_button import VolumeButton
-from gui_constants import COLOR_BRIGHT, COLOR_SUBTLE
+from constants.gui_constants import COLOR_BRIGHT, COLOR_SUBTLE
 from scenes.menus.vertical_menu import VerticalMenu
 from systems.resource_manager import Resource
 

@@ -4,7 +4,7 @@ from scenes.director import Director
 import utils.math
 import utils.misc
 
-from constants import TILE_SIZE
+from constants.game_constants import TILE_SIZE
 
 from enum import IntEnum
 import numpy as np

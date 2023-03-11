@@ -1,5 +1,5 @@
 from pygame.sprite import Sprite
-from constants import TILE_SIZE
+from constants.game_constants import TILE_SIZE
 
 
 class Tile(Sprite):

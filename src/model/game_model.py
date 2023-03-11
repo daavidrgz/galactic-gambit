@@ -1,4 +1,4 @@
-from constants import (
+from constants.game_constants import (
     INITIAL_GUN_COOLDOWN,
     INITIAL_GUN_DAMAGE,
     INITIAL_GUN_N_BULLETS,

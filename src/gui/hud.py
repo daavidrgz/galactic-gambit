@@ -1,6 +1,6 @@
 import pygame
 
-from constants import DESIGN_HEIGHT, DESIGN_WIDTH
+from constants.game_constants import DESIGN_HEIGHT, DESIGN_WIDTH
 from utils.observer import Observer
 
 
