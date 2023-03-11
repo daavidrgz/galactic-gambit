@@ -1,3 +1,4 @@
+import pygame
 from constants import DESIGN_HEIGHT, DESIGN_WIDTH
 from gui.title import Title
 from gui.upgrade_card import UpgradeCard
@@ -7,8 +8,12 @@ from systems.resource_manager import Resource
 
 
 class UpgradeMenu(HorizontalMenu):
-    def __init__(self, background, upgrades, apply_upgrade):
+    def __init__(self, upgrades, apply_upgrade):
         super().__init__()
+        background = self.director.virtual_screen.copy()
+        veil = pygame.Surface((DESIGN_WIDTH, DESIGN_HEIGHT))
+        veil.set_alpha(220)
+        background.blit(veil, (0, 0))
         self.background = background
         self.upgrades = upgrades
         self.apply_upgrade = apply_upgrade
@@ -25,14 +30,15 @@ class UpgradeMenu(HorizontalMenu):
 
     def __select_upgrade(self, upgrade):
         self.apply_upgrade(upgrade)
+        self.director.pop_scene()
 
     def __get_offsets(self):
         if len(self.upgrades) == 3:
-            return -240, 0, 240
+            return [-240, 0, 240]
         elif len(self.upgrades) == 2:
-            return -120, 120
+            return [-120, 120]
         elif len(self.upgrades) == 1:
-            return 0
+            return [0]
 
     def setup(self):
         self.title = Title(

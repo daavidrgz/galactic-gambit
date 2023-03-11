@@ -1,11 +1,9 @@
-import pygame
-from animations.animation_frame import AnimationFrame
 from entities.living.living_entity import LivingEntity
-from entities.projectile.bullet import Bullet
+from mechanics.magic.magic_upgrade_system import MagicUpgradeSystem
+from scenes.director import Director
 from systems.resource_manager import Resource, ResourceManager
 from systems.camera_manager import CameraManager
 from systems.control_system import ControlSystem, Action
-from scenes.director import Director
 
 from constants import (
     PLAYER_DRAG,
@@ -13,21 +11,23 @@ from constants import (
     DESIGN_FRAMERATE,
     CAMERA_LOOK_AHEAD,
     SPEED_EPSILON,
-    TILE_SIZE,
 )
 
 import numpy as np
 
 
 class Player(LivingEntity):
-    def __init__(self, hp, gun, magic_level, initial_pos, bullets):
-        self.control = ControlSystem()
-        self.camera = CameraManager()
+    def __init__(self, hp, gun, magic_level, initial_pos, bullets, on_level_up):
+        self.director = Director.get_instance()
+        self.control = ControlSystem.get_instance()
+        self.camera = CameraManager.get_instance()
+        self.magic_upgrade_system = MagicUpgradeSystem.get_instance()
 
         self.bullets = bullets
         self.shoot_cooldown = 0.0
         self.gun = gun
         self.magic_level = magic_level
+        self.on_level_up = on_level_up
 
         self.facing_vector = np.array([1, 0], dtype=np.float64)
 
@@ -37,16 +37,17 @@ class Player(LivingEntity):
         super().__init__(image, hitbox, initial_pos, PLAYER_DRAG, (0, 19, 20), hp)
 
     # Transform the model of the player into the entity
-    def from_player_model(player_model, initial_pos, bullets):
+    def from_player_model(player_model, initial_pos, bullets, on_level_up):
         hp = player_model.hp
         gun = player_model.gun
         magic_level = player_model.magic_level
-        player = Player(hp, gun, magic_level, initial_pos, bullets)
+        player = Player(hp, gun, magic_level, initial_pos, bullets, on_level_up)
         return player
 
     def setup(self):
-        self.terrain = Director().get_scene().get_terrain()
+        self.terrain = self.director.get_scene().get_terrain()
         self.camera.set_center(self.get_position())
+        self.magic_level.set_on_level_up(self.on_level_up)
 
     def update(self, elapsed_time):
         elapsed_units = elapsed_time * DESIGN_FRAMERATE / 1000
@@ -87,6 +88,9 @@ class Player(LivingEntity):
 
         super().update(elapsed_time)
 
+    def increase_experience(self, exp):
+        self.magic_level.increase_experience(exp)
+
     def apply_tech_upgrade(self, upgrade):
         upgrade.apply(self.gun)
 
@@ -99,3 +103,4 @@ class Player(LivingEntity):
         shoot_position = (self.x, self.y)
         new_bullets = self.gun.shoot(shoot_position, self.facing_vector)
         self.bullets.add(new_bullets)
+        self.increase_experience(10)

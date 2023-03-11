@@ -1,7 +1,5 @@
 import pygame
-from constants import DESIGN_HEIGHT, DESIGN_WIDTH
 from scenes.scene import Scene
-from systems.control_system import ControlSystem
 
 
 class Menu(Scene):

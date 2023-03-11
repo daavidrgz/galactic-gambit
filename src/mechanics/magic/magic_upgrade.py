@@ -39,6 +39,8 @@ class UpdateMagicUpgrade(MagicUpgrade):
 
 # INIT UPGRADES
 class BiggerSize(InitMagicUpgrade):
+    name = "Bigger Size"
+
     def __init__(self):
         super().__init__()
 
@@ -56,6 +58,8 @@ class BiggerSize(InitMagicUpgrade):
 
 # UPDATE UPGRADES
 class Woobly(UpdateMagicUpgrade):
+    name = "Woobly"
+
     def __init__(self):
         super().__init__()
         self.state = 0.0
@@ -81,6 +85,8 @@ class Woobly(UpdateMagicUpgrade):
 
 
 class ShrinkAndGrow(UpdateMagicUpgrade):
+    name = "Shrink and Grow"
+
     def __init__(self):
         super().__init__()
         self.state = 0.0
@@ -117,6 +123,8 @@ class ShrinkAndGrow(UpdateMagicUpgrade):
 
 
 class SlowAndFast(UpdateMagicUpgrade):
+    name = "Slow and Fast"
+
     def __init__(self):
         super().__init__()
         self.state = 0.0

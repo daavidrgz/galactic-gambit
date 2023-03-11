@@ -1,6 +1,7 @@
 from entities.living.player.player import Player
-from generation.tile import Tile
+from mechanics.magic.magic_upgrade_system import MagicUpgradeSystem
 from scenes.menus.pause_menu import PauseMenu
+from scenes.menus.upgrade_menu import UpgradeMenu
 from scenes.scene import Scene
 from systems.camera_manager import CameraManager, ScrollableGroup
 from systems.control_system import Action
@@ -9,13 +10,12 @@ from systems.control_system import Action
 class Level(Scene):
     def __init__(self, generator, terrain, background_color):
         super().__init__()
+        self.magic_upgrade_system = MagicUpgradeSystem.get_instance()
         self.bullet_group = ScrollableGroup()
 
         player_model = self.game_model.get_player()
         self.player = Player.from_player_model(
-            player_model,
-            (0, 0),
-            self.bullet_group,
+            player_model, (0, 0), self.bullet_group, self.__player_level_up
         )
 
         self.generator = generator
@@ -45,6 +45,17 @@ class Level(Scene):
 
         if self.control_system.is_active_action(Action.PAUSE):
             self.director.push_scene(PauseMenu())
+
+    def __player_level_up(self):
+        upgrades = []
+        for _ in range(3):
+            upgrade = self.magic_upgrade_system.get_random_upgrade()
+            if upgrade is None:
+                break
+            upgrades.append(upgrade)
+        self.director.push_scene(
+            UpgradeMenu(upgrades, self.player.apply_magical_upgrade)
+        )
 
     def __check_bullet_colission(self):
         # as we take into account if the bullet is or not on the ground,
