@@ -81,7 +81,7 @@ class Player(LivingEntity):
         shoot_position = (self.x, self.y)
         new_bullets = self.gun.shoot(shoot_position, self.facing_vector)
         self.bullets.add(new_bullets)
-        self.increase_experience(10)
+        self.increase_exp(10)
 
     def update_movement(self, elapsed_units):
         move_vector = np.array(

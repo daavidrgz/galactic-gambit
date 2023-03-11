@@ -190,7 +190,6 @@ class ShipLevel(Level):
         for event in events:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:
-                    Director().switch_scene(PlanetLevel())
-                    Director().switch_scene(PlanetLevel())
+                    Director().switch_scene(ShipLevel())
 
         super().handle_events(events)

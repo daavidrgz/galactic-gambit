@@ -177,6 +177,6 @@ class PlanetLevel(Level):
         for event in events:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:
-                    Director().switch_scene(CaveLevel())
+                    Director().switch_scene(PlanetLevel())
 
         super().handle_events(events)
