@@ -1,4 +1,4 @@
-from gui.button import Button
+from gui.components.button import Button
 
 
 class TextButton(Button):

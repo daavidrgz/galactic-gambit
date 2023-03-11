@@ -1,4 +1,4 @@
-from gui.base_gui import BaseGui
+from gui.components.base_gui import BaseGui
 
 
 class Button(BaseGui):

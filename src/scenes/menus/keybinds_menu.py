@@ -1,9 +1,9 @@
 import pygame
 from constants import DESIGN_HEIGHT, DESIGN_WIDTH
-from gui.text_button import TextButton
+from gui.components.text_button import TextButton
 from gui_constants import COLOR_BRIGHT, COLOR_SUBTLE
-from gui.rebind_button import RebindButton
-from gui.title import Title
+from gui.components.rebind_button import RebindButton
+from gui.components.title import Title
 from scenes.menus.vertical_menu import VerticalMenu
 from systems.control_system import Action, ControlSystem
 from systems.resource_manager import Resource

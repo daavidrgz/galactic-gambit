@@ -1,4 +1,4 @@
-from gui.text_button import TextButton
+from gui.components.text_button import TextButton
 from systems.sound_controller import SoundController
 
 

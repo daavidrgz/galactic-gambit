@@ -1,7 +1,7 @@
 import pygame
 from constants import DESIGN_HEIGHT, DESIGN_WIDTH
-from gui.title import Title
-from gui.upgrade_card import UpgradeCard
+from gui.components.title import Title
+from gui.components.upgrade_card import UpgradeCard
 from gui_constants import COLOR_BRIGHT
 from scenes.menus.horizontal_menu import HorizontalMenu
 from systems.resource_manager import Resource
@@ -54,7 +54,7 @@ class UpgradeMenu(HorizontalMenu):
                 self.__create_upgrade_card(
                     title=upgrade.name,
                     icon=self.resource_manager.load_image(Resource.PLAYER),
-                    action=lambda: self.__select_upgrade(upgrade),
+                    action=lambda up=upgrade: self.__select_upgrade(up),
                     offset=offsets[i],
                 )
             )
