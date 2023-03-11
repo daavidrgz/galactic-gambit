@@ -1,3 +1,4 @@
+import pygame
 from entities.living.player.player import Player
 from gui.hud import Hud
 from mechanics.magic.magic_upgrade_system import MagicUpgradeSystem
@@ -46,9 +47,6 @@ class Level(Scene):
         self.animation_group.update(elapsed_time)
         self.__check_bullet_colission()
 
-        if self.control_system.is_active_action(Action.PAUSE):
-            self.director.push_scene(PauseMenu())
-
     def __player_level_up(self):
         def apply_upgrade(upgrade):
             self.magic_upgrade_system.pick_upgrade(upgrade)
@@ -69,7 +67,10 @@ class Level(Scene):
                 bullet.collide(self.animation_group)
 
     def handle_events(self, events):
-        pass
+        for event in events:
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    self.director.push_scene(PauseMenu())
 
     def draw(self, screen):
         screen.fill(self.background_color)

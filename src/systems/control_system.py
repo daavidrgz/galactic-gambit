@@ -5,7 +5,7 @@ from utils.singleton import Singleton
 
 
 class Action(Enum):
-    SHOOT = auto()
+    # SHOOT = auto()
     UP = auto()
     DOWN = auto()
     LEFT = auto()
@@ -20,7 +20,7 @@ class ControlSystem(metaclass=Singleton):
     # Dict with the initial mapping of actions to keys
     def __init__(self):
         self.actions = {
-            Action.SHOOT: pygame.K_j,
+            # Action.SHOOT: pygame.K_j,
             Action.LEFT: pygame.K_a,
             Action.RIGHT: pygame.K_d,
             Action.UP: pygame.K_w,
