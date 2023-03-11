@@ -77,13 +77,13 @@ class Resource(Enum):
 
     # Animations
     EXPLOSION = [
-        ("sprites/effects/explosion/01.png", 0.1, 50, False),
-        ("sprites/effects/explosion/02.png", 0.1, 50, False),
-        ("sprites/effects/explosion/03.png", 0.1, 50, False),
-        ("sprites/effects/explosion/04.png", 0.1, 50, False),
-        ("sprites/effects/explosion/05.png", 0.1, 50, False),
-        ("sprites/effects/explosion/06.png", 0.1, 50, False),
-        ("sprites/effects/explosion/07.png", 0.1, 50, False),
+        ("sprites/effects/explosion/01.png", 2, 50, False),
+        ("sprites/effects/explosion/02.png", 2, 50, False),
+        ("sprites/effects/explosion/03.png", 2, 50, False),
+        ("sprites/effects/explosion/04.png", 2, 50, False),
+        ("sprites/effects/explosion/05.png", 2, 50, False),
+        ("sprites/effects/explosion/06.png", 2, 50, False),
+        ("sprites/effects/explosion/07.png", 2, 50, False),
     ]
 
     PLAYER_IDLE_DOWN = [
