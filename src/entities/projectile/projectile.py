@@ -23,3 +23,4 @@ class Projectile(Entity):
         elapsed_units = elapsed_time * DESIGN_FRAMERATE / 1000
         delta_position = self.velocity * elapsed_units
         self.move(delta_position)
+        super().update(elapsed_time)

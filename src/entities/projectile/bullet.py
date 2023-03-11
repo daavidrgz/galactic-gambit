@@ -22,5 +22,5 @@ class Bullet(Projectile):
         super().collide()
 
     def update(self, elapsed_time):
-        super().update(elapsed_time)
         [upgrade.apply(self, elapsed_time) for upgrade in self.update_upgrades]
+        super().update(elapsed_time)

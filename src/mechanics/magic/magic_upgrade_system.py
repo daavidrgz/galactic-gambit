@@ -1,7 +1,7 @@
 from mechanics.magic.magic_upgrade import (
-    BiggerSize,
+    # BiggerSize,
     Rainbow,
-    ShrinkAndGrow,
+    # ShrinkAndGrow,
     SlowAndFast,
     Woobly,
 )
@@ -10,7 +10,8 @@ from systems.rng_system import Generator
 from utils.singleton import Singleton
 
 
-MAGIC_UPGRADES = [BiggerSize, Woobly, ShrinkAndGrow, SlowAndFast, Rainbow]
+# MAGIC_UPGRADES = [BiggerSize, Woobly, ShrinkAndGrow, SlowAndFast, Rainbow]
+MAGIC_UPGRADES = [Woobly, SlowAndFast, Rainbow]
 
 
 class MagicUpgradeSystem(UpgradeSystem, metaclass=Singleton):

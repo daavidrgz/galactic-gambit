@@ -58,7 +58,6 @@ class AnimatedSprite(pygame.sprite.Sprite):
 
     def __apply_image_modifiers(self):
         for modifier in self.modifiers:
-            print("applying...", modifiers)
             modifier(self.image)
 
     def setup_frames(self, frames):
