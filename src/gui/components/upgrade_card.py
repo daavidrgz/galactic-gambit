@@ -1,5 +1,5 @@
 import pygame
-from gui.button import Button
+from gui.components.button import Button
 from gui_constants import COLOR_BRIGHT, TRANSPARENT
 from systems.resource_manager import Resource, ResourceManager
 
@@ -61,7 +61,3 @@ class UpgradeCard(Button):
     def __get_title(self, title):
         font = self.resource_manager.load_font(Resource.FONT_MD)
         return font.render(title, True, COLOR_BRIGHT)
-
-    def _get_description(self, description):
-        font = self.resource_manager.load_font(Resource.FONT_SM)
-        return font.render(description, True, COLOR_BRIGHT)

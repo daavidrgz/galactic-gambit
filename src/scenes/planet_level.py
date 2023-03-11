@@ -22,7 +22,7 @@ class PlanetGenerator(BaseGenerator):
         rmgr = ResourceManager.get_instance()
         self.floor_sprite = rmgr.load_tile(Resource.PLANET_FLOOR)
         self.floor_spriteD1 = rmgr.load_tile(Resource.PLANET_FLOOR_D1)
-        
+
         self.wall_sprite_up = rmgr.load_tile(Resource.PLANET_WALL_UP)
         self.wall_sprite_down = rmgr.load_tile(Resource.PLANET_WALL_DOWN)
         self.wall_sprite_left = rmgr.load_tile(Resource.PLANET_WALL_LEFT)
@@ -32,9 +32,15 @@ class PlanetGenerator(BaseGenerator):
         self.wall_sprite_leftdown = rmgr.load_tile(Resource.PLANET_WALL_LEFTDOWN)
         self.wall_sprite_rightdown = rmgr.load_tile(Resource.PLANET_WALL_RIGHTDOWN)
         self.wall_sprite_innerleftup = rmgr.load_tile(Resource.PLANET_WALL_INNERLEFTUP)
-        self.wall_sprite_innerrightup = rmgr.load_tile(Resource.PLANET_WALL_INNERRIGHTUP)
-        self.wall_sprite_innerleftdown = rmgr.load_tile(Resource.PLANET_WALL_INNERLEFTDOWN)
-        self.wall_sprite_innerrightdown = rmgr.load_tile(Resource.PLANET_WALL_INNERRIGHTDOWN)
+        self.wall_sprite_innerrightup = rmgr.load_tile(
+            Resource.PLANET_WALL_INNERRIGHTUP
+        )
+        self.wall_sprite_innerleftdown = rmgr.load_tile(
+            Resource.PLANET_WALL_INNERLEFTDOWN
+        )
+        self.wall_sprite_innerrightdown = rmgr.load_tile(
+            Resource.PLANET_WALL_INNERRIGHTDOWN
+        )
 
         self.var_offset_x, self.var_offset_y = (
             (self.rng.random() - 0.5) * 1000000,
@@ -49,7 +55,7 @@ class PlanetGenerator(BaseGenerator):
     def get_sprite(self, x, y, surroundings):
         if surroundings[1, 1] == TerrainType.GROUND:
             return self.get_ground_sprite(x, y)
-        
+
         return self.get_wall_sprite(x, y, surroundings)
 
     def get_wall_sprite(self, x, y, surroundings):
@@ -59,20 +65,20 @@ class PlanetGenerator(BaseGenerator):
             if surroundings[1, 0] == TerrainType.GROUND:
                 return self.wall_sprite_rightup
             return self.wall_sprite_up
-        
+
         if surroundings[0, 1] == TerrainType.GROUND:
             if surroundings[1, 2] == TerrainType.GROUND:
                 return self.wall_sprite_leftdown
             if surroundings[1, 0] == TerrainType.GROUND:
                 return self.wall_sprite_rightdown
             return self.wall_sprite_down
-        
+
         if surroundings[1, 2] == TerrainType.GROUND:
             return self.wall_sprite_left
-        
+
         if surroundings[1, 0] == TerrainType.GROUND:
             return self.wall_sprite_right
-        
+
         if surroundings[0, 0] == TerrainType.GROUND:
             return self.wall_sprite_innerrightdown
         if surroundings[0, 2] == TerrainType.GROUND:
@@ -132,7 +138,6 @@ class PlanetLevel(Level):
         dust_sprite.image_rect = dust_sprite.image.get_rect()
         dust_sprite.x = dust_sprite.y = TILE_SIZE * 128.25
         self.dust = ParallaxGroup((1.5, 1.5), dust_sprite)
-        self.enemy_grp = ScrollableGroup()
 
         super().__init__(generator, terrain, background_color)
 
@@ -149,18 +154,12 @@ class PlanetLevel(Level):
                 x, y = rng.randint(0, TILE_SIZE * 171), rng.randint(0, TILE_SIZE * 171)
             enemy = TestEnemy((x, y))
             enemy.setup()
-            self.enemy_grp.add(enemy)
+            self.enemy_group.add(enemy)
 
     def draw(self, screen):
-        screen.fill(self.background_color)
-        self.terrain.draw(screen)
-        self.player_group.draw(screen)
-        self.enemy_grp.draw(screen)
-        self.bullet_group.draw(screen)
-        # self.dust.draw(screen)
-        self.terrain.draw_minimap(screen)
+        super().draw(screen)
 
-        # for enemy in self.enemy_grp.sprites():
+        # for enemy in self.enemy_group.sprites():
         #    marker = pygame.Surface((4,4))
         #    marker.fill((255,0,255))
         #    x = enemy.target[0]
@@ -172,7 +171,7 @@ class PlanetLevel(Level):
 
     def update(self, elapsed_time):
         super().update(elapsed_time)
-        self.enemy_grp.update(elapsed_time)
+        self.enemy_group.update(elapsed_time)
 
     def handle_events(self, events):
         for event in events:

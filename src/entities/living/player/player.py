@@ -18,7 +18,7 @@ import numpy as np
 PIE = np.pi / 8
 
 class Player(LivingEntity):
-    def __init__(self, hp, gun, magic_level, initial_pos, bullets, on_level_up):
+    def __init__(self, hp, gun, magic_level, initial_pos, bullets):
         self.director = Director.get_instance()
         self.control = ControlSystem.get_instance()
         self.camera = CameraManager.get_instance()
@@ -28,24 +28,23 @@ class Player(LivingEntity):
         self.shoot_cooldown = 0.0
         self.gun = gun
         self.magic_level = magic_level
-        self.on_level_up = on_level_up
 
         self.facing_vector = np.array([1, 0], dtype=np.float64)
 
         super().__init__(Resource.PLAYER_IDLE_DOWN, initial_pos, PLAYER_DRAG, (0, 19, 20), hp)
 
     # Transform the model of the player into the entity
-    def from_player_model(player_model, initial_pos, bullets, on_level_up):
+    def from_player_model(player_model, initial_pos, bullets):
         hp = player_model.hp
         gun = player_model.gun
         magic_level = player_model.magic_level
-        player = Player(hp, gun, magic_level, initial_pos, bullets, on_level_up)
+        player = Player(hp, gun, magic_level, initial_pos, bullets)
         return player
 
-    def setup(self):
+    def setup(self, on_level_up):
         self.terrain = self.director.get_scene().get_terrain()
         self.camera.set_center(self.get_position())
-        self.magic_level.set_on_level_up(self.on_level_up)
+        self.magic_level.setup(on_level_up)
 
     def update(self, elapsed_time):
         elapsed_units = elapsed_time * DESIGN_FRAMERATE / 1000
@@ -67,8 +66,8 @@ class Player(LivingEntity):
 
         super().update(elapsed_time)
 
-    def increase_experience(self, exp):
-        self.magic_level.increase_experience(exp)
+    def increase_exp(self, exp):
+        self.magic_level.increase_exp(exp)
 
     def apply_tech_upgrade(self, upgrade):
         upgrade.apply(self.gun)
@@ -145,3 +144,4 @@ class Player(LivingEntity):
             self.set_animation(Resource.PLAYER_IDLE_UPRIGHT)
 
         self.set_speed_multiplier(1.0)
+        self.increase_exp(10)
