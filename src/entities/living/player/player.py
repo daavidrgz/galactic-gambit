@@ -44,7 +44,6 @@ class Player(LivingEntity):
         return player
 
     def setup(self, bullets, on_level_up):
-        self.terrain = self.director.get_scene().get_terrain()
         self.camera.set_center(self.get_position())
         self.magic_level.setup(on_level_up)
         self.bullets = bullets
