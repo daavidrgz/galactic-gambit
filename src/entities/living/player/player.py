@@ -64,6 +64,10 @@ class Player(LivingEntity):
 
         super().update(elapsed_time)
 
+    # TODO
+    def on_death(self):
+        pass
+
     def increase_exp(self, exp):
         self.magic_level.increase_exp(exp)
 

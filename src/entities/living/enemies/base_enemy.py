@@ -13,10 +13,15 @@ class BaseEnemy(LivingEntity):
         self.targeting = False
         super().__init__(image, initial_pos, 0.25, (0, 0, 20), hp)
 
-    def setup(self):
+    def setup(self, bullets):
         scene = Director().get_scene()
         self.player = scene.get_player()
+        self.bullets = bullets
         super().setup()
+
+    def on_death(self):
+        super().on_death()
+        self.kill()
 
     def update(self, elapsed_time):
         elapsed_units = elapsed_time * DESIGN_FRAMERATE / 1000

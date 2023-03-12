@@ -29,4 +29,6 @@ class MagicLevel(Observable):
         return self.experience
 
     def get_next_level_exp(self):
-        return MagicLevel.__BASE_TARGET_EXP + MagicLevel.__LEVEL_STEP_EXP * self.level
+        return MagicLevel.__BASE_TARGET_EXP + MagicLevel.__LEVEL_STEP_EXP * (
+            self.level - 1
+        )

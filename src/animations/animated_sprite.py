@@ -49,6 +49,9 @@ class AnimatedSprite(pygame.sprite.Sprite):
         self.image.fill((0, 0, 0, 0))
         self.image.blit(self.current_frame.get_image(), (0, 0))
         self.__apply_image_modifiers()
+        # TODO: image size might change after applying modifiers,
+        # using this should work?
+        # self.image_rect = self.image.get_rect()
 
     def add_image_modifier(self, modifier):
         self.modifiers.append(modifier)

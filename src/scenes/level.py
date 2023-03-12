@@ -28,6 +28,7 @@ class Level(Scene):
 
         self.animation_group = ScrollableGroup()
         self.enemy_group = ScrollableGroup()
+        self.enemy_bullets = ScrollableGroup()
 
         self.hud = Hud()
 
@@ -56,6 +57,7 @@ class Level(Scene):
         self.animation_group.update(elapsed_time)
         self.__check_bullet_colision()
         self.__check_bullet_enemy_collision()
+        self.__check_enemy_bullet_with_player_colision()
 
     def __check_bullet_colision(self):
 
@@ -74,6 +76,12 @@ class Level(Scene):
                     enemy.hit(bullet.damage, bullet.direction * 10.0)
                     bullet.kill()
                     break
+
+    def __check_enemy_bullet_with_player_colision(self):
+        for bullet in self.enemy_bullets:
+            if bullet.rect.colliderect(self.player.rect):
+                self.player.hit(bullet.damage, bullet.direction * 10.0)
+                bullet.kill()
 
     def handle_events(self, events):
         for event in events:
@@ -100,6 +108,6 @@ class Level(Scene):
         return self.player
 
     def spawn_enemy(self, enemy):
-        enemy.setup()
+        enemy.setup(self.enemy_bullets)
         self.enemy_group.add(enemy)
         enemy.observable_pos.add_listener(self.hud.minimap)
