@@ -22,7 +22,6 @@ class LivingEntity(KinematicEntity):
         self.observable_pos = ObservablePosition(self.id)
 
     def update(self, elapsed_time):
-        self.__check_alive()
         if self.was_hit:
             self.hit_timer -= elapsed_time
             if self.hit_timer <= 0:
@@ -41,7 +40,7 @@ class LivingEntity(KinematicEntity):
             return
         self.was_hit = True
         self.hit_timer = HIT_INVULNERABILITY_TIME
-        self.hp = max(0.0, self.hp - damage)
+        self.hp.reduce(damage)
         self.add_image_modifier(self.__hit_sprite_modifier)
 
         if knockback is not None:
@@ -53,10 +52,3 @@ class LivingEntity(KinematicEntity):
         hit_mask.fill(color)
         hit_mask.set_alpha(255 * (self.hit_timer / HIT_INVULNERABILITY_TIME))
         image.blit(hit_mask, (0, 0))
-
-    def is_alive(self):
-        return self.hp > 0.0
-
-    def __check_alive(self):
-        if not self.is_alive():
-            self.kill()

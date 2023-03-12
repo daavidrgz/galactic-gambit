@@ -17,7 +17,11 @@ class BaseEnemy(LivingEntity):
     def setup(self):
         scene = Director().get_scene()
         self.player = scene.get_player()
+        self.hp.setup(self.__on_death)
         super().setup()
+
+    def __on_death(self):
+        self.kill()
 
     def update(self, elapsed_time):
         elapsed_units = elapsed_time * DESIGN_FRAMERATE / 1000

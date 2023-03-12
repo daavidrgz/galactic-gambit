@@ -6,6 +6,7 @@ from constants.game_constants import (
     INITIAL_GUN_SPEED,
     INITIAL_GUN_SPREAD,
 )
+from entities.living.hp import Hp
 from entities.living.player.player import Player
 from mechanics.magic.magic_level import MagicLevel
 from mechanics.gun import Gun
@@ -36,7 +37,8 @@ class GameModel(metaclass=Singleton):
             INITIAL_GUN_N_BULLETS,
         )
         initial_magic_level = MagicLevel(1, 0)
-        initial_player = PlayerModel(100, initial_gun, initial_magic_level)
+        initial_hp = Hp(100)
+        initial_player = PlayerModel(initial_hp, initial_gun, initial_magic_level)
         self.player = initial_player
         self.level = None
         self.rng_system = RngSystem.get_instance()
