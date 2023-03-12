@@ -3,14 +3,17 @@ from entities.entity import Entity
 
 import pygame
 import numpy as np
+from noise import pnoise1
+
 from constants.game_constants import (
     DESIGN_WIDTH,
     DESIGN_HEIGHT,
     DESIGN_FRAMERATE,
     CAMERA_LAG_BEHIND,
+    CAMERA_SHAKE_SPEED,
+    CAMERA_SHAKE_AMOUNT,
     SCROLL_CLIPPING_LENIANCY,
 )
-
 
 class CameraManager(metaclass=Singleton):
     def __init__(self):
@@ -18,6 +21,7 @@ class CameraManager(metaclass=Singleton):
         self.y = 0
         self.target_x = 0
         self.target_y = 0
+        self.shake = 0.0
 
     def update(self, elapsed_time):
         direction = np.array(
@@ -30,6 +34,12 @@ class CameraManager(metaclass=Singleton):
 
         self.x = self.x + direction[0]
         self.y = self.y + direction[1]
+
+        if self.shake > 0.0:
+            self.x += pnoise1(self.shake * CAMERA_SHAKE_SPEED         ) * self.shake * CAMERA_SHAKE_AMOUNT
+            self.y += pnoise1(self.shake * CAMERA_SHAKE_SPEED + 2711.0) * self.shake * CAMERA_SHAKE_AMOUNT
+
+            self.shake -= elapsed_time / 1000.0
 
     def set_coords(self, coords):
         self.x, self.y = coords
@@ -47,6 +57,9 @@ class CameraManager(metaclass=Singleton):
     def set_target_center(self, coords):
         self.target_x = coords[0] - DESIGN_WIDTH // 2
         self.target_y = coords[1] - DESIGN_HEIGHT // 2
+
+    def set_shake(self, shake):
+        self.shake = shake
 
 
 class ScrollableGroup(pygame.sprite.Group):
