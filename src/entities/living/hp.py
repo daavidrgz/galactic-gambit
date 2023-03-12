@@ -7,8 +7,8 @@ class Hp(Observable):
         self.max_hp = max_hp
         self.hp = max_hp
 
-    def setup(self, entity):
-        self.entity = entity
+    def setup(self, on_death):
+        self.on_death = on_death
 
     def get_hp(self):
         return self.hp
@@ -19,7 +19,7 @@ class Hp(Observable):
     def reduce(self, amount):
         self.hp -= amount
         if self.hp <= 0:
-            self.entity.on_death()
+            self.on_death()
         self.notify_listeners(self)
 
     def increase(self, amount):
