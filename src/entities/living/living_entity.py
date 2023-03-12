@@ -1,3 +1,4 @@
+import numpy as np
 from entities.kinematic_entity import KinematicEntity
 from entities.living.hp import Hp
 from utils.observable import Observable
@@ -33,7 +34,8 @@ class LivingEntity(KinematicEntity):
 
         super().update(elapsed_time)
 
-        self.observable_pos.update((self.x, self.y))
+        if np.linalg.norm(self.velocity) > 0:
+            self.observable_pos.update((self.x, self.y))
 
     def setup(self):
         self.hp.setup(self.on_death)
