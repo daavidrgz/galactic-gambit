@@ -98,3 +98,8 @@ class Level(Scene):
 
     def get_player(self):
         return self.player
+
+    def spawn_enemy(self, enemy):
+        enemy.setup()
+        self.enemy_group.add(enemy)
+        enemy.observable_pos.add_listener(self.hud.minimap)

@@ -153,8 +153,7 @@ class PlanetLevel(Level):
             ):
                 x, y = rng.randint(0, TILE_SIZE * 171), rng.randint(0, TILE_SIZE * 171)
             enemy = TestEnemy((x, y))
-            enemy.setup()
-            self.enemy_group.add(enemy)
+            self.spawn_enemy(enemy)
 
     def draw(self, screen):
         super().draw(screen)
