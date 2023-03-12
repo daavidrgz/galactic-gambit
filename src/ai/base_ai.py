@@ -14,8 +14,8 @@ class BaseAI:
         self.actions = dict()
         self.actions.setdefault(self.return_to_idle)
 
-    def run(self, enemy, player, terrain):
-        self.actions.get(self.state)(enemy, player, terrain)
+    def run(self, enemy, player, terrain, elapsed_time):
+        self.actions.get(self.state)(enemy, player, terrain, elapsed_time)
 
-    def return_to_idle(self, enemy, player, terrain):
+    def return_to_idle(self, enemy, player, terrain, elapsed_time):
         self.state = EnemyState.IDLE

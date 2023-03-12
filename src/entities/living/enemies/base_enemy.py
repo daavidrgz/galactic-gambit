@@ -1,7 +1,6 @@
 from entities.living.living_entity import LivingEntity
 from scenes.director import Director
 from constants.game_constants import DESIGN_FRAMERATE
-from systems.rng_system import RngSystem, Generator
 
 import numpy as np
 
@@ -22,7 +21,7 @@ class BaseEnemy(LivingEntity):
     def update(self, elapsed_time):
         elapsed_units = elapsed_time * DESIGN_FRAMERATE / 1000
 
-        self.ai.run(self, self.player, self.terrain)
+        self.ai.run(self, self.player, self.terrain, elapsed_time)
 
         # Movement
         if self.targeting:
@@ -51,6 +50,11 @@ class BaseEnemy(LivingEntity):
 
         self.target = point
         self.targeting = True
+
+    def get_target(self):
+        if not self.targeting:
+            return None
+        return self.target
 
     def attack(self):
         pass
