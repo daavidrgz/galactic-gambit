@@ -6,6 +6,7 @@ from constants.game_constants import (
 )
 
 from systems.camera_manager import CameraManager
+from utils.observable import Observable
 
 
 class ScrollableGroup(pygame.sprite.Group):
@@ -58,3 +59,27 @@ class ParallaxGroup(ScrollableGroup):
         super().__init__(*sprites)
         self.parallax_x, self.parallax_y = parallax
         self.cull = False
+
+
+class EnemyGroup(ScrollableGroup, Observable):
+    def __init__(self, *sprites):
+        super().__init__(*sprites)
+        self.num_sprites = len(self.sprites())
+
+    def add(self, *sprites):
+        super().add(*sprites)
+        self.num_sprites += len(sprites)
+        self.notify(self)
+
+    def remove(self, *sprites):
+        super().remove(*sprites)
+        self.num_sprites -= len(sprites)
+        self.notify(self)
+
+    def empty(self, *sprites):
+        super().empty(*sprites)
+        self.num_sprites = 0
+        self.notify(self)
+
+    def get_num_enemies(self):
+        return self.num_sprites

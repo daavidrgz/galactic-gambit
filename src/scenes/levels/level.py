@@ -2,7 +2,7 @@ import pygame
 from entities.living.player.player import Player
 from gui.hud.hud import Hud
 from mechanics.magic.magic_upgrade_system import MagicUpgradeSystem
-from scenes.levels.groups import ScrollableGroup
+from scenes.levels.groups import EnemyGroup, ScrollableGroup
 from scenes.menus.pause_menu import PauseMenu
 from scenes.menus.upgrade_menu import UpgradeMenu
 from scenes.scene import Scene
@@ -28,7 +28,7 @@ class Level(Scene):
         self.camera_mgr.set_center(self.player.get_position())
 
         self.animation_group = ScrollableGroup()
-        self.enemy_group = ScrollableGroup()
+        self.enemy_group = EnemyGroup()
         self.enemy_bullets = ScrollableGroup()
 
         self.hud = Hud()
