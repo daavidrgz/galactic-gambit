@@ -72,7 +72,7 @@ class Level(Scene):
         for bullet in self.bullet_group:
             for enemy in self.enemy_group:
                 if bullet.rect.colliderect(enemy.rect):
-                    enemy.hit(bullet.damage)
+                    enemy.hit(bullet.damage, bullet.direction * 10.0)
                     bullet.kill()
                     break
 

@@ -90,11 +90,11 @@ class Player(LivingEntity):
         self.bullets.add(new_bullets)
         self.increase_exp(10)
 
-    def hit(self, damage):
+    def hit(self, damage, knockback=None):
         if self.was_hit:
             return
         self.camera.set_shake(0.5)
-        super().hit(damage)
+        super().hit(damage, knockback)
 
     def __update_attack(self, elapsed_time):
         self.gun.update_cooldown(elapsed_time)

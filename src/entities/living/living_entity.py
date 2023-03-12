@@ -22,7 +22,7 @@ class LivingEntity(KinematicEntity):
     def setup(self):
         super().setup()
 
-    def hit(self, damage):
+    def hit(self, damage, knockback=None):
         if self.was_hit:
             return
         self.was_hit = True
@@ -30,6 +30,9 @@ class LivingEntity(KinematicEntity):
         self.hp = max(0.0, self.hp - damage)
         self.add_image_modifier(self.__hit_sprite_modifier)
 
+        if knockback is not None:
+            self.velocity += knockback
+            
     def __hit_sprite_modifier(self, image):
         color = (209, 66, 50)
         hit_mask = pygame.Surface(image.get_size(), pygame.SRCALPHA)
