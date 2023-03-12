@@ -1,20 +1,21 @@
 import pygame
 from constants.game_constants import (
-    USER_HEIGHT,
-    USER_WIDTH,
+    INITIAL_USER_HEIGHT,
+    INITIAL_USER_WIDTH,
     DESIGN_HEIGHT,
     DESIGN_WIDTH,
     TARGET_FRAMERATE,
     DESIGN_FRAMERATE,
 )
 from systems.control_system import ControlSystem
-from systems.camera_manager import CameraManager
 from utils.singleton import Singleton
 
 
 class Director(metaclass=Singleton):
     def __init__(self):
-        self.screen = pygame.display.set_mode((USER_WIDTH, USER_HEIGHT), vsync=True)
+        self.screen = pygame.display.set_mode(
+            (INITIAL_USER_WIDTH, INITIAL_USER_HEIGHT), vsync=True
+        )
         self.virtual_screen = pygame.Surface((DESIGN_WIDTH, DESIGN_HEIGHT))
         pygame.display.set_caption("Game")
         # Scenes stack
@@ -30,7 +31,7 @@ class Director(metaclass=Singleton):
 
         while not self.__leave_scene:
             elapsed_time = self.clock.tick(TARGET_FRAMERATE)
-
+            self.user_screen_size = pygame.display.get_window_size()
             # Intentional slowdown when under half the design framerate
             elapsed_time = min(2000 / DESIGN_FRAMERATE, elapsed_time)
 
@@ -51,9 +52,7 @@ class Director(metaclass=Singleton):
             # Draw scene
             scene.draw(self.virtual_screen)
             # Re-scale the virtual screen to the user screen
-            frame = pygame.transform.scale(
-                self.virtual_screen, (USER_WIDTH, USER_HEIGHT)
-            )
+            frame = pygame.transform.scale(self.virtual_screen, self.user_screen_size)
             self.screen.blit(frame, frame.get_rect())
             pygame.display.flip()
 

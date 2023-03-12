@@ -3,8 +3,8 @@ import pygame
 from constants.game_constants import (
     DESIGN_HEIGHT,
     DESIGN_WIDTH,
-    USER_HEIGHT,
-    USER_WIDTH,
+    INITIAL_USER_HEIGHT,
+    INITIAL_USER_WIDTH,
 )
 
 from utils.singleton import Singleton
@@ -58,6 +58,7 @@ class ControlSystem(metaclass=Singleton):
     def get_mouse_pos(self):
         x, y = pygame.mouse.get_pos()
 
-        x_ratio, y_ratio = x / USER_WIDTH, y / USER_HEIGHT
+        user_width, user_height = pygame.display.get_window_size()
+        x_ratio, y_ratio = x / user_width, y / user_height
         # Scale the mouse position to the design resolution
         return round(x_ratio * DESIGN_WIDTH), round(y_ratio * DESIGN_HEIGHT)
