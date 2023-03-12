@@ -1,4 +1,4 @@
-from scenes.level import Level
+from scenes.levels.level import Level
 from generation.tile import Tile
 from scenes.director import Director
 from generation.generator import BaseGenerator

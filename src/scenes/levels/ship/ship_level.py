@@ -1,4 +1,4 @@
-from scenes.levels import Level
+from scenes.levels.level import Level
 from scenes.director import Director
 from generation.base_terrain import BaseTerrain, TerrainType
 from generation.generator import BaseGenerator

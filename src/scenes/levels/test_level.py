@@ -1,7 +1,7 @@
 import time
 from mechanics.magic.magic_upgrade_system import MagicUpgradeSystem
 from mechanics.technology.tech_upgrade_system import TechUpgradeSystem
-from scenes.levels import Level
+from scenes.levels.level import Level
 from generation.base_terrain import BaseTerrain, TerrainType
 from generation.generator import BaseGenerator
 from scenes.levels.groups import ScrollableGroup

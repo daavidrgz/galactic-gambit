@@ -63,23 +63,25 @@ class ParallaxGroup(ScrollableGroup):
 
 class EnemyGroup(ScrollableGroup, Observable):
     def __init__(self, *sprites):
-        super().__init__(*sprites)
-        self.num_sprites = len(self.sprites())
+        self.num_sprites = 0
+        Observable.__init__(self)
+        super().__init__(sprites)
 
     def add(self, *sprites):
         super().add(*sprites)
         self.num_sprites += len(sprites)
-        self.notify(self)
+        self.notify_listeners(self)
 
     def remove(self, *sprites):
         super().remove(*sprites)
         self.num_sprites -= len(sprites)
-        self.notify(self)
+        self.notify_listeners(self)
+        print(self.num_sprites)
 
     def empty(self, *sprites):
         super().empty(*sprites)
         self.num_sprites = 0
-        self.notify(self)
+        self.notify_listeners(self)
 
     def get_num_enemies(self):
         return self.num_sprites
