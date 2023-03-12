@@ -6,6 +6,7 @@ import pygame
 from constants.game_constants import TILE_SIZE
 from constants.gui_constants import MINIMAP_SIZE
 
+
 class Minimap(HudElement, Observer):
     def __init__(self):
         super().__init__()
@@ -18,10 +19,10 @@ class Minimap(HudElement, Observer):
         self.enemy_positions = dict()
 
     def setup(self, **kwargs):
-        self.map_buffer = kwargs['map_buffer']
-        self.terrain_size = kwargs['terrain_size']
+        self.map_buffer = kwargs["map_buffer"]
+        self.terrain_size = kwargs["terrain_size"]
 
-        player = kwargs['player']
+        player = kwargs["player"]
         self.player_id = player.get_id()
         self.set_entity_pos(self.player_id, player.get_position())
         player.observable_pos.add_listener(self)
@@ -32,13 +33,10 @@ class Minimap(HudElement, Observer):
         h -= 10
         start_x = w - MINIMAP_SIZE
         start_y = h - MINIMAP_SIZE
-        screen.blit(
-            self.map_buffer,
-            (start_x, start_y, w, h)
-        )
-        
+        screen.blit(self.map_buffer, (start_x, start_y, w, h))
+
         self.draw_player(screen, start_x, start_y)
-        
+
         for id in self.enemy_positions:
             self.draw_enemy(screen, id, start_x, start_y)
 
@@ -50,7 +48,7 @@ class Minimap(HudElement, Observer):
                 start_y + self.player_y - 1,
                 start_x + self.player_x + 2,
                 start_y + self.player_y + 2,
-            )
+            ),
         )
 
     def draw_enemy(self, screen, enemy_id, start_x, start_y):
@@ -58,7 +56,7 @@ class Minimap(HudElement, Observer):
             x, y = self.enemy_positions[enemy_id]
         except KeyError:
             return
-        
+
         screen.blit(
             self.enemy_marker,
             (
@@ -66,7 +64,7 @@ class Minimap(HudElement, Observer):
                 start_y + y - 1,
                 start_x + x + 1,
                 start_y + y + 1,
-            )
+            ),
         )
 
     def set_entity_pos(self, id, position):
@@ -77,8 +75,11 @@ class Minimap(HudElement, Observer):
             self.player_x = x
             self.player_y = y
             return
-        
+
         self.enemy_positions[id] = (x, y)
 
     def notify(self, id, position):
+        if position is None:
+            self.enemy_positions.pop(id)
+            return
         self.set_entity_pos(id, position)

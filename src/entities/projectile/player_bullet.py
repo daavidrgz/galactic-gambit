@@ -5,7 +5,7 @@ from systems.resource_manager import Resource, ResourceManager
 import pygame
 
 
-class Bullet(Projectile):
+class PlayerBullet(Projectile):
     def __init__(
         self, initial_pos, speed, direction, damage, init_upgrades, update_upgrades
     ):

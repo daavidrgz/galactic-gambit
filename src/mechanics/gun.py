@@ -2,7 +2,7 @@ import math
 
 import numpy as np
 from constants.game_constants import SPEED_EPSILON
-from entities.projectile.bullet import Bullet
+from entities.projectile.player_bullet import PlayerBullet
 from mechanics.magic.magic_upgrade import MagicUpgradeType
 
 
@@ -65,7 +65,7 @@ class Gun:
             initial_position = shoot_position + new_facing_vector * self.gun_offset
             init_upgrades = self.__init_upgrades(self.init_upgrades)
             update_upgrades = self.__init_upgrades(self.update_upgrades)
-            new_bullet = Bullet(
+            new_bullet = PlayerBullet(
                 initial_position,
                 self.bullet_speed,
                 new_facing_vector,

@@ -46,7 +46,6 @@ class Player(LivingEntity):
     def setup(self, bullets, on_level_up):
         self.camera.set_center(self.get_position())
         self.magic_level.setup(on_level_up)
-        self.hp.setup(self.__on_death)
         self.bullets = bullets
         super().setup()
 
@@ -65,7 +64,8 @@ class Player(LivingEntity):
 
         super().update(elapsed_time)
 
-    def __on_death(self):
+    # TODO
+    def on_death(self):
         pass
 
     def increase_exp(self, exp):

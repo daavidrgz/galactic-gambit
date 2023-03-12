@@ -51,14 +51,12 @@ class TestLevel(Level):
                     Director().switch_scene(TestLevel())
                 if event.key == pygame.K_m:
                     upgrade = TechUpgradeSystem.get_instance().get_random_upgrades(1)[0]
-                    print(upgrade)
                     if upgrade is not None:
                         self.player.apply_tech_upgrade(upgrade)
                 if event.key == pygame.K_n:
                     upgrade = MagicUpgradeSystem.get_instance().get_random_upgrades(1)[
                         0
                     ]
-                    print(upgrade)
                     if upgrade is not None:
                         self.player.apply_magical_upgrade(upgrade)
                 if event.key == pygame.K_c:

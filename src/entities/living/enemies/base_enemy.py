@@ -1,7 +1,6 @@
 from entities.living.living_entity import LivingEntity
 from scenes.director import Director
 from constants.game_constants import DESIGN_FRAMERATE
-from systems.rng_system import RngSystem, Generator
 
 import numpy as np
 
@@ -14,13 +13,14 @@ class BaseEnemy(LivingEntity):
         self.targeting = False
         super().__init__(image, initial_pos, 0.25, (0, 0, 20), hp)
 
-    def setup(self):
+    def setup(self, bullets):
         scene = Director().get_scene()
         self.player = scene.get_player()
-        self.hp.setup(self.__on_death)
+        self.bullets = bullets
         super().setup()
 
-    def __on_death(self):
+    def on_death(self):
+        super().on_death()
         self.kill()
 
     def update(self, elapsed_time):

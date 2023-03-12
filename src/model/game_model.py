@@ -37,7 +37,7 @@ class GameModel(metaclass=Singleton):
             INITIAL_GUN_N_BULLETS,
         )
         initial_magic_level = MagicLevel(1, 0)
-        initial_hp = Hp(100)
+        initial_hp = 100
         initial_player = PlayerModel(initial_hp, initial_gun, initial_magic_level)
         self.player = initial_player
         self.level = None
