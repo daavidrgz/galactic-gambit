@@ -1,7 +1,17 @@
-import pygame
-from constants.game_constants import HIT_INVULNERABILITY_TIME
 from entities.kinematic_entity import KinematicEntity
+from utils.observable import Observable
 
+import pygame
+
+from constants.game_constants import HIT_INVULNERABILITY_TIME
+
+class ObservablePosition(Observable):
+    def __init__(self, entity_id):
+        self.entity_id = entity_id
+        super().__init__()
+
+    def update(self, position):
+        self.notify_listeners(self.entity_id, position)
 
 class LivingEntity(KinematicEntity):
     def __init__(self, image, initial_pos, drag, collision, hp):
@@ -9,6 +19,7 @@ class LivingEntity(KinematicEntity):
         self.hp = hp
         self.was_hit = False
         self.hit_timer = 0
+        self.observable_pos = ObservablePosition(self.id)
 
     def update(self, elapsed_time):
         self.__check_alive()
@@ -17,7 +28,10 @@ class LivingEntity(KinematicEntity):
             if self.hit_timer <= 0:
                 self.was_hit = False
                 self.remove_image_modifier(self.__hit_sprite_modifier)
+
         super().update(elapsed_time)
+
+        self.observable_pos.update((self.x, self.y))
 
     def setup(self):
         super().setup()

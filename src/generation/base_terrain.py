@@ -62,6 +62,9 @@ class BaseTerrain:
 
     def get_minimap(self):
         return self.minimap
+    
+    def get_size(self):
+        return (self.width, self.height)
 
     def on_ground(self, rect):
         starting_x, starting_y = rect.topleft

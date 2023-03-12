@@ -6,7 +6,6 @@ from scenes.menus.pause_menu import PauseMenu
 from scenes.menus.upgrade_menu import UpgradeMenu
 from scenes.scene import Scene
 from systems.camera_manager import CameraManager, ScrollableGroup
-from systems.control_system import Action
 
 
 class Level(Scene):
