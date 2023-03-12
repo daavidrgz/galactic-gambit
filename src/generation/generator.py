@@ -14,18 +14,17 @@ class BaseGenerator:
         self.rng = RngSystem.get_instance().get_rng(Generator.MAP)
 
         self.explored_tiles = 0
-        self.desired_area = desired_area
+        self.min_tiles, self.max_tiles = desired_area
 
     def generate(self):
-        while self.explored_tiles < self.desired_area[0] or self.explored_tiles > self.desired_area[1]:
+        while self.explored_tiles < self.min_tiles or self.explored_tiles > self.max_tiles:
             self.terrain.clear()
             self.terrain.populate()
             self.explore_graph()
         # TODO: Fix imperfections
-        # TODO: Place level end
+        self.terrain.place_end(self.end)
         self.place_sprites()
         self.terrain.generate_buffer()
-        print(self.explored_tiles)
 
     def explore_graph(self):
         self.coord_offset_x, self.coord_offset_y = (
@@ -33,11 +32,19 @@ class BaseGenerator:
             (self.rng.random() - 0.5) * 1000000,
         )
 
-        self.explored_tiles = 0
+        start_x, start_y = self.terrain.player_starting_position
+        max_distance = 0
+
         pos_queue = list(self.terrain.starting_tiles)
+        self.explored_tiles = 0
         while len(pos_queue) > 0:
             curr_pos_x, curr_pos_y = pos_queue.pop()
             self.explored_tiles += 1
+
+            distance = self.distance_function(start_x, start_y, curr_pos_x, curr_pos_y)
+            if distance > max_distance:
+                max_distance = distance
+                self.end = (curr_pos_x, curr_pos_y)
 
             working_pos_x = curr_pos_x - curr_pos_x % self.block_scale_x
             working_pos_y = curr_pos_y - curr_pos_y % self.block_scale_y
@@ -56,18 +63,18 @@ class BaseGenerator:
 
             self.terrain.data[curr_pos_y, curr_pos_x] = TerrainType.GROUND
 
-            def push(x, y):
-                if self.terrain.in_bounds(x, y):
-                    if self.terrain.data[y, x] == TerrainType.NONE:
-                        pos_queue.append((x, y))
-                        self.terrain.data[y, x] = TerrainType.GENERATING
-                    elif self.terrain.data[y, x] == TerrainType.BOUND:
-                        self.terrain.data[y, x] = TerrainType.WALL
+            self.push(pos_queue, curr_pos_x + 1, curr_pos_y)
+            self.push(pos_queue, curr_pos_x, curr_pos_y + 1)
+            self.push(pos_queue, curr_pos_x - 1, curr_pos_y)
+            self.push(pos_queue, curr_pos_x, curr_pos_y - 1)
 
-            push(curr_pos_x + 1, curr_pos_y)
-            push(curr_pos_x, curr_pos_y + 1)
-            push(curr_pos_x - 1, curr_pos_y)
-            push(curr_pos_x, curr_pos_y - 1)
+    def push(self, pos_queue, x, y):
+        if self.terrain.in_bounds(x, y):
+            if self.terrain.data[y, x] == TerrainType.NONE:
+                pos_queue.append((x, y))
+                self.terrain.data[y, x] = TerrainType.GENERATING
+            elif self.terrain.data[y, x] == TerrainType.BOUND:
+                self.terrain.data[y, x] = TerrainType.WALL
 
     def place_sprites(self):
         stride = np.lib.stride_tricks.sliding_window_view(self.terrain.data, (3, 3))
@@ -87,6 +94,9 @@ class BaseGenerator:
 
     def coordinate_transform(self, x, y):
         return (x, y)
+
+    def distance_function(self, x0, y0, x1, y1):
+        return abs(x0 - x1) + abs(y0 - y1)
 
     # Template pattern
     def get_tile(self, x, y, surroundings):

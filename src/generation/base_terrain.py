@@ -31,6 +31,9 @@ class BaseTerrain:
     def populate(self):
         raise NotImplementedError
 
+    def place_end(self, end_coords):
+        raise NotImplementedError
+
     def clear(self):
         self.sprites.empty()
         self.sprites_top.empty()
