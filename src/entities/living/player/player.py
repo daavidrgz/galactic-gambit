@@ -48,6 +48,7 @@ class Player(LivingEntity):
         self.camera.set_center(self.get_position())
         self.magic_level.setup(on_level_up)
         self.bullets = bullets
+        super().setup()
 
     def update(self, elapsed_time):
         elapsed_units = elapsed_time * DESIGN_FRAMERATE / 1000

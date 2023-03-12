@@ -15,6 +15,7 @@ class KinematicEntity(Entity):
 
     def setup(self):
         self.terrain = Director().get_scene().get_terrain()
+        super().setup()
 
     def update(self, elapsed_time):
         elapsed_units = elapsed_time * DESIGN_FRAMERATE / 1000

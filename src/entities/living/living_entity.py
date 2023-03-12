@@ -19,6 +19,9 @@ class LivingEntity(KinematicEntity):
                 self.remove_image_modifier(self.__hit_sprite_modifier)
         super().update(elapsed_time)
 
+    def setup(self):
+        super().setup()
+
     def hit(self, damage):
         if self.was_hit:
             return
