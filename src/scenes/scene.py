@@ -12,6 +12,10 @@ class Scene:
         self.sound_controller = SoundController.get_instance()
         self.resource_manager = ResourceManager.get_instance()
         self.game_model = GameModel.get_instance()
+        self.load_completed = False
+
+    def load(self):
+        self.load_completed = True
 
     def setup(self):
         raise NotImplementedError

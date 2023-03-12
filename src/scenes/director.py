@@ -61,10 +61,11 @@ class Director(metaclass=Singleton):
             current_scene = self.scenes[-1]
             self.__loop(current_scene)
 
-    def push_scene(self, scene):
+    def push_scene(self, scene, do_setup=True):
         self.__leave_scene = True
         self.scenes.append(scene)
-        scene.setup()
+        if do_setup:
+            scene.setup()
 
     def pop_scene(self):
         self.__leave_scene = True
@@ -74,10 +75,11 @@ class Director(metaclass=Singleton):
             if len(self.scenes) > 0:
                 self.scenes[-1].pop_back()
 
-    def switch_scene(self, scene):
+    def switch_scene(self, scene, do_setup=True):
         self.pop_scene()
         self.scenes.append(scene)
-        scene.setup()
+        if do_setup:
+            scene.setup()
 
     def leave_game(self):
         self.__leave_scene = True

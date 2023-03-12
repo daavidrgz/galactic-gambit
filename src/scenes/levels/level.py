@@ -33,8 +33,14 @@ class Level(Scene):
 
         self.hud = Hud()
 
-    def setup(self):
+    def load(self):
         self.generator.generate()
+        super().load()
+
+    def setup(self):
+        if not self.load_completed:
+            self.load()
+        
         self.player.set_position(self.terrain.get_player_starting_position())
         self.player.setup(self.bullet_group, self.__player_level_up)
         self.hud.setup(self)

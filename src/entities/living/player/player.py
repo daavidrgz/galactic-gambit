@@ -32,7 +32,7 @@ class Player(LivingEntity):
         self.facing_vector = np.array([1, 0], dtype=np.float64)
 
         super().__init__(
-            Resource.PLAYER_IDLE_DOWN, initial_pos, PLAYER_DRAG, (0, 19, 20), hp
+            Resource.PLAYER_IDLE_RIGHT, initial_pos, PLAYER_DRAG, (0, 19, 20), hp
         )
 
     # Transform the model of the player into the entity

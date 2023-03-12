@@ -9,6 +9,7 @@ from scenes.levels.ship.ship_level import ShipLevel
 from scenes.levels.test_level import TestLevel
 from scenes.levels.planet.planet_level import PlanetLevel
 from scenes.levels.cave.cave_level import CaveLevel
+from scenes.transition import Transition
 from systems.resource_manager import Resource
 
 
@@ -34,7 +35,7 @@ class StartMenu(VerticalMenu):
         self.background = background
 
     def __new_game(self):
-        self.director.push_scene(PlanetLevel())
+        self.director.push_scene(Transition(ShipLevel()))
 
     def __continue_game(self):
         current_level = self.game_model.get_level()
