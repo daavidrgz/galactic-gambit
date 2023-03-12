@@ -75,6 +75,9 @@ class Resource(Enum):
     FONT_LG = ("fonts/GalacticaGrid.ttf", 40)
     FONT_XL = ("fonts/GalacticaGrid.ttf", 50)
 
+    # Icons
+    HEART_ICON = "sprites/icons/heart.png"
+
     # Animations
     EXPLOSION = [
         ("sprites/effects/explosion/01.png", 2, 50, False),

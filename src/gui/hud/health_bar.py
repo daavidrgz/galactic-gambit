@@ -1,3 +1,4 @@
+from systems.resource_manager import Resource
 from utils.observer import Observer
 from gui.hud.hud_element import HudElement
 
@@ -10,6 +11,7 @@ class HealthBar(HudElement, Observer):
 
     def __init__(self):
         super().__init__()
+        self.font = self.resource_manager.load_font(Resource.FONT_SM)
 
     def setup(self, **kwargs):
         hp = kwargs["hp"]
@@ -31,6 +33,26 @@ class HealthBar(HudElement, Observer):
         hp_bar.fill((0, 255, 0))
 
         self.bar.blit(hp_bar, (0, 0))
+
+        health_text = self.font.render("Health", True, (255, 255, 255))
+
+        self.bar.blit(
+            health_text,
+            (
+                10,
+                self.BAR_HEIGHT / 2 - health_text.get_height() / 2 + 2,
+            ),
+        )
+
+        hp_text = self.font.render(f"{hp.get_hp()}", True, (255, 255, 255))
+
+        self.bar.blit(
+            hp_text,
+            (
+                self.BAR_WIDTH - hp_text.get_width() - 10,
+                self.BAR_HEIGHT / 2 - hp_text.get_height() / 2 + 2,
+            ),
+        )
 
     def notify(self, hp):
         self.__update_bar(hp)

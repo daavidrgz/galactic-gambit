@@ -1,6 +1,9 @@
-class HudElement():
+from systems.resource_manager import ResourceManager
+
+
+class HudElement:
     def __init__(self):
-        pass
+        self.resource_manager = ResourceManager.get_instance()
 
     def setup(self, **kwargs):
         raise NotImplementedError

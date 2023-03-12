@@ -1,3 +1,4 @@
+from systems.resource_manager import Resource
 from utils.observer import Observer
 from gui.hud.hud_element import HudElement
 
@@ -6,21 +7,33 @@ import pygame
 
 class ExperienceBar(HudElement, Observer):
     BAR_WIDTH = 300
-    BAR_HEIGHT = 10
+    BAR_HEIGHT = 2.5
 
     def __init__(self):
         super().__init__()
+        self.font = self.resource_manager.load_font(Resource.FONT_SM)
 
     def setup(self, **kwargs):
         magic_level = kwargs["magic_level"]
         magic_level.add_listener(self)
-        self.__update_bar(magic_level)
+        self.__update_component(magic_level)
 
     def draw(self, screen):
         screen.blit(
-            self.bar,
-            (screen.get_width() / 2 - self.bar.get_width() / 2, 20),
+            self.level, (screen.get_width() / 2 - self.level.get_width() / 2, 10)
         )
+
+        screen.blit(
+            self.bar,
+            (
+                screen.get_width() / 2 - self.bar.get_width() / 2,
+                30 - self.bar.get_height() / 2,
+            ),
+        )
+
+    def __update_component(self, magic_level):
+        self.__update_bar(magic_level)
+        self.__update_level(magic_level)
 
     def __update_bar(self, magic_level):
         self.bar = pygame.Surface((self.BAR_WIDTH, self.BAR_HEIGHT))
@@ -32,5 +45,10 @@ class ExperienceBar(HudElement, Observer):
 
         self.bar.blit(exp_bar, (0, 0))
 
+    def __update_level(self, magic_level):
+        self.level = self.font.render(
+            f"Exp level {magic_level.get_level()}", True, (255, 255, 255)
+        )
+
     def notify(self, magic_level):
-        self.__update_bar(magic_level)
+        self.__update_component(magic_level)
