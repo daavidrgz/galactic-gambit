@@ -28,7 +28,7 @@ class HealthBar(HudElement, Observer):
 
         percentage_hp = hp.get_hp() / hp.get_max_hp()
         hp_bar = pygame.Surface((percentage_hp * self.BAR_WIDTH, self.BAR_HEIGHT))
-        hp_bar.fill((0, 0, 0))
+        hp_bar.fill((0, 255, 0))
 
         self.bar.blit(hp_bar, (0, 0))
 

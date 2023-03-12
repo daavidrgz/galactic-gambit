@@ -28,7 +28,7 @@ class ExperienceBar(HudElement, Observer):
 
         percentage_exp = magic_level.get_exp() / magic_level.get_next_level_exp()
         exp_bar = pygame.Surface((percentage_exp * self.BAR_WIDTH, self.BAR_HEIGHT))
-        exp_bar.fill((0, 255, 0))
+        exp_bar.fill((0, 255, 255))
 
         self.bar.blit(exp_bar, (0, 0))
 
