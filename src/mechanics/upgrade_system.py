@@ -4,6 +4,7 @@ from systems.rng_system import RngSystem
 class UpgradeSystem:
     def __init__(self):
         self.available_upgrades = self.get_available_upgrades()
+        self.num_upgrades = len(self.available_upgrades)
         self.selected_upgrades = set()
         self.random_generator = RngSystem.get_instance().get_rng(
             self.get_random_generator()
@@ -29,9 +30,12 @@ class UpgradeSystem:
             return True
         return False
 
+    def get_num_upgrades(self):
+        return self.num_upgrades
     # Template pattern
     def get_available_upgrades(self):
         raise NotImplementedError
 
     def get_random_generator(self):
         raise NotImplementedError
+    

@@ -1,3 +1,4 @@
+from mechanics.magic.magic_upgrade_system import MagicUpgradeSystem
 from utils.observable import Observable
 
 
@@ -9,11 +10,14 @@ class MagicLevel(Observable):
         super().__init__()
         self.level = initial_level
         self.experience = initial_exp
+        self.max_level = MagicUpgradeSystem().get_num_upgrades()
 
     def setup(self, on_level_up):
         self.on_level_up = on_level_up
 
     def increase_exp(self, amount):
+        if self.level >= self.max_level:
+            return
         self.experience += amount
         next_level_exp = self.get_next_level_exp()
         if self.experience >= next_level_exp:
@@ -25,10 +29,15 @@ class MagicLevel(Observable):
     def get_level(self):
         return self.level
 
+    def is_max_level(self):
+        return self.level >= self.max_level
+
     def get_exp(self):
         return self.experience
 
     def get_next_level_exp(self):
+        if self.level >= self.max_level:
+            return 0
         return MagicLevel.__BASE_TARGET_EXP + MagicLevel.__LEVEL_STEP_EXP * (
             self.level - 1
         )
