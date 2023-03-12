@@ -1,6 +1,6 @@
 import pygame
 from entities.living.player.player import Player
-from gui.hud import Hud
+from gui.hud.hud import Hud
 from mechanics.magic.magic_upgrade_system import MagicUpgradeSystem
 from scenes.menus.pause_menu import PauseMenu
 from scenes.menus.upgrade_menu import UpgradeMenu
@@ -36,7 +36,7 @@ class Level(Scene):
         self.generator.generate()
         self.player.set_position(self.terrain.get_player_starting_position())
         self.player.setup(self.bullet_group, self.__player_level_up)
-        self.hud.setup(self.player)
+        self.hud.setup(self)
 
     def __player_level_up(self):
         def apply_upgrade(upgrade):
@@ -89,7 +89,6 @@ class Level(Scene):
         self.enemy_group.draw(screen)
         self.bullet_group.draw(screen)
         self.animation_group.draw(screen)
-        self.terrain.draw_minimap(screen)
         self.hud.draw(screen)
 
     def pop_back(self):

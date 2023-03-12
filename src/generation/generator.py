@@ -20,6 +20,7 @@ class BaseGenerator:
         # TODO: Fix imperfections
         # TODO: Place level end
         self.place_sprites()
+        self.terrain.generate_buffer()
 
     def explore_graph(self):
         self.coord_offset_x, self.coord_offset_y = (

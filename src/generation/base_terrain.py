@@ -1,10 +1,10 @@
 from generation.tile import Tile
 from systems.camera_manager import CameraManager
-from scenes.director import Director
 import utils.math
 import utils.misc
 
 from constants.game_constants import TILE_SIZE
+from constants.gui_constants import MINIMAP_SIZE
 
 from enum import IntEnum
 import numpy as np
@@ -43,23 +43,11 @@ class BaseTerrain:
         return self.player_starting_position
 
     def draw(self, screen):
-        if self.buffer is None:
-            self.generate_buffer()
-
         draw_area = self.buffer.get_rect().copy()
         scrollx, scrolly = self.camera_mgr.get_coords()
         draw_area.centerx -= round(scrollx)
         draw_area.centery -= round(scrolly)
         screen.blit(self.buffer, draw_area)
-
-    def draw_minimap(self, screen):
-        screen.blit(self.minimap, (0, 0, 256, 256))
-        # marker = pygame.Surface((4,4))
-        # marker.fill((0,255,0))
-        # x, y = Director().get_scene().get_player().get_position()
-        # x = x * 256 // (TILE_SIZE * self.width)
-        # y = y * 256 // (TILE_SIZE * self.height)
-        # screen.blit(marker, (x-1,y-1,x+2,y+2))
 
     def generate_buffer(self):
         self.buffer = pygame.Surface(
@@ -68,8 +56,9 @@ class BaseTerrain:
         self.sprites.draw(self.buffer)
         self.sprites_top.draw(self.buffer)
 
-        self.minimap = pygame.transform.smoothscale(self.buffer, (256, 256))
+        self.minimap = pygame.transform.smoothscale(self.buffer, (MINIMAP_SIZE, MINIMAP_SIZE))
         utils.misc.add_border(self.minimap, (0, 0, 0, 255))
+        utils.misc.add_border(self.minimap, (255, 255, 255, 255))
 
     def get_minimap(self):
         return self.minimap

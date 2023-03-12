@@ -1,16 +1,22 @@
+from utils.observer import Observer
+from gui.hud.hud_element import HudElement
+
 import pygame
 
-from constants.game_constants import DESIGN_HEIGHT, DESIGN_WIDTH
-from utils.observer import Observer
-
-
-class ExperienceBar(Observer):
+class ExperienceBar(HudElement, Observer):
     def __init__(self):
         super().__init__()
 
-    def setup(self, magic_level):
+    def setup(self, **kwargs):
+        magic_level = kwargs['magic_level']
         magic_level.add_listener(self)
         self.__update_bar(magic_level)
+
+    def draw(self, screen):
+        screen.blit(
+            self.bar,
+            (screen.get_width() / 2 - self.bar.get_width() / 2, 20),
+        )
 
     def __update_bar(self, magic_level):
         bar_width = 300
@@ -24,23 +30,5 @@ class ExperienceBar(Observer):
 
         self.bar.blit(exp_bar, (0, 0))
 
-    def get_surface(self):
-        return self.bar
-
     def notify(self, magic_level):
         self.__update_bar(magic_level)
-
-
-class Hud:
-    def __init__(self):
-        self.exp_bar = ExperienceBar()
-
-    def setup(self, player):
-        self.exp_bar.setup(player.magic_level)
-
-    def draw(self, screen):
-        exp_bar = self.exp_bar.get_surface()
-        screen.blit(
-            exp_bar,
-            (screen.get_width() / 2 - exp_bar.get_width() / 2, 20),
-        )
