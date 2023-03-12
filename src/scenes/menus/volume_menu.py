@@ -17,6 +17,7 @@ class VolumeMenu(VerticalMenu):
         self.current_timeout = 0
 
     def __change_volume_state(self):
+        self.disable_mouse = True
         self.is_changing_volume = True
 
     def __go_back(self):
@@ -92,6 +93,7 @@ class VolumeMenu(VerticalMenu):
         for event in events:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE or event.key == pygame.K_RETURN:
+                    self.disable_mouse = False
                     self.get_selected_button().reset_color()
                     self.current_timeout = 0
                     self.is_changing_volume = False
