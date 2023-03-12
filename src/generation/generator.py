@@ -7,20 +7,25 @@ import numpy as np
 
 
 class BaseGenerator:
-    def __init__(self, noise_scale, block_scale, terrain):
+    def __init__(self, noise_scale, block_scale, terrain, desired_area):
         self.noise_scale_x, self.noise_scale_y = noise_scale
         self.block_scale_x, self.block_scale_y = block_scale
         self.terrain = terrain
         self.rng = RngSystem.get_instance().get_rng(Generator.MAP)
 
+        self.explored_tiles = 0
+        self.desired_area = desired_area
+
     def generate(self):
-        self.terrain.clear()
-        self.terrain.populate()
-        self.explore_graph()
+        while self.explored_tiles < self.desired_area[0] or self.explored_tiles > self.desired_area[1]:
+            self.terrain.clear()
+            self.terrain.populate()
+            self.explore_graph()
         # TODO: Fix imperfections
         # TODO: Place level end
         self.place_sprites()
         self.terrain.generate_buffer()
+        print(self.explored_tiles)
 
     def explore_graph(self):
         self.coord_offset_x, self.coord_offset_y = (
@@ -28,9 +33,11 @@ class BaseGenerator:
             (self.rng.random() - 0.5) * 1000000,
         )
 
+        self.explored_tiles = 0
         pos_queue = list(self.terrain.starting_tiles)
         while len(pos_queue) > 0:
             curr_pos_x, curr_pos_y = pos_queue.pop()
+            self.explored_tiles += 1
 
             working_pos_x = curr_pos_x - curr_pos_x % self.block_scale_x
             working_pos_y = curr_pos_y - curr_pos_y % self.block_scale_y

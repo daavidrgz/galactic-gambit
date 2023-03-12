@@ -34,7 +34,7 @@ class CaveGenerator(BaseGenerator):
             Resource.CAVE_WALL_INNERRIGHTDOWN
         )
 
-        super().__init__((6.0, 6.0), (2, 2), terrain)
+        super().__init__((6.0, 6.0), (2, 2), terrain, (7000, 20000))
 
     def coordinate_transform(self, x, y):
         return (

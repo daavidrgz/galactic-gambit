@@ -17,7 +17,7 @@ from constants.game_constants import TILE_SIZE
 
 class PlanetGenerator(BaseGenerator):
     def __init__(self, terrain):
-        super().__init__((10, 10), (2, 2), terrain)
+        super().__init__((10, 10), (2, 2), terrain, (5500, 10000))
 
         rmgr = ResourceManager.get_instance()
         self.floor_sprite = rmgr.load_tile(Resource.PLANET_FLOOR)

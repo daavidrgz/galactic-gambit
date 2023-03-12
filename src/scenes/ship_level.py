@@ -14,8 +14,7 @@ from constants.game_constants import TILE_SIZE
 
 class ShipGenerator(BaseGenerator):
     def __init__(self, terrain):
-        super().__init__((10, 20), (7, 5), terrain)
-        super().__init__((10, 20), (7, 5), terrain)
+        super().__init__((10, 20), (7, 5), terrain, (4500, 7000))
 
         rmgr = ResourceManager.get_instance()
         self.floor_sprite = rmgr.load_tile(Resource.SHIP_FLOOR)
@@ -119,12 +118,12 @@ class ShipTerrain(BaseTerrain):
         self.height, self.width = self.data.shape
 
         rng = RngSystem().get_rng(Generator.MAP)
-        start_room_x = rng.randint(1, X_ROOMS)
+        self.start_room_x = rng.randint(1, X_ROOMS)
 
-        base_x = start_room_x * X_ROOM_SIZE
-        end_x = (start_room_x + 1) * X_ROOM_SIZE
+        base_x = self.start_room_x * X_ROOM_SIZE
+        end_x = base_x + X_ROOM_SIZE
         base_y = self.height - Y_ROOM_SIZE * 2
-        end_y = self.height - Y_ROOM_SIZE
+        end_y = base_y + Y_ROOM_SIZE
 
         for x in range(base_x - 3, end_x + 3):
             for y in range(base_y  - 2, end_y + 2):
