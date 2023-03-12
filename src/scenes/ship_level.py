@@ -2,8 +2,6 @@ from scenes.level import Level
 from scenes.director import Director
 from generation.base_terrain import BaseTerrain, TerrainType
 from generation.generator import BaseGenerator
-from scenes.planet_level import PlanetLevel
-from scenes.planet_level import PlanetLevel
 from systems.resource_manager import ResourceManager, Resource
 from systems.rng_system import RngSystem, Generator
 from generation.tile import Tile
@@ -97,17 +95,6 @@ class ShipGenerator(BaseGenerator):
         if n > 0.60:
             return self.floor_spriteD1
 
-        if n > 0.90:
-            return self.floor_spriteD3
-        if n > 0.75:
-            return self.floor_spriteD2
-        if n > 0.60:
-            return self.floor_spriteD1
-
-        if self.rng.random() > 0.995:
-            return self.floor_spriteC1
-        if self.rng.random() > 0.990:
-            return self.floor_spriteC2
         if self.rng.random() > 0.995:
             return self.floor_spriteC1
         if self.rng.random() > 0.990:
@@ -121,61 +108,46 @@ class ShipGenerator(BaseGenerator):
 
 class ShipTerrain(BaseTerrain):
     def populate(self):
-        data = np.full((148, 152), TerrainType.NONE, dtype=np.int16)
+        Y_ROOM_SIZE = 5
+        X_ROOM_SIZE = 7
+        Y_ROOMS = 30
+        X_ROOMS = 22
+        data = np.full((Y_ROOM_SIZE * Y_ROOMS, X_ROOM_SIZE * X_ROOMS), TerrainType.NONE, dtype=np.int16)
         self.data = np.pad(
-            data, ((1, 1), (1, 1)), mode="constant", constant_values=TerrainType.BOUND
-        )
-        self.data = np.pad(
-            data, ((1, 1), (1, 1)), mode="constant", constant_values=TerrainType.BOUND
+            data, ((Y_ROOM_SIZE * 2, Y_ROOM_SIZE), (X_ROOM_SIZE, X_ROOM_SIZE)), mode="constant", constant_values=TerrainType.BOUND
         )
         self.height, self.width = self.data.shape
 
         rng = RngSystem().get_rng(Generator.MAP)
-        start_room_x = rng.randint(1, 154 // 7 - 1)
+        start_room_x = rng.randint(1, X_ROOMS)
 
-        resource_manager = ResourceManager.get_instance()
-        andesite_sprite = resource_manager.load_tile(Resource.POLISHED_ANDESITE)
-        cobble_sprite = resource_manager.load_tile(Resource.COBBLESTONE)
-        for x in range(start_room_x * 7, start_room_x * 7 + 7):
-            for y in range(150 - 10, 150 - 5):
+        base_x = start_room_x * X_ROOM_SIZE
+        end_x = (start_room_x + 1) * X_ROOM_SIZE
+        base_y = self.height - Y_ROOM_SIZE * 2
+        end_y = self.height - Y_ROOM_SIZE
+
+        for x in range(base_x - 3, end_x + 3):
+            for y in range(base_y  - 2, end_y + 2):
+                self.data[y, x] = TerrainType.BOUND
+
+        for x in range(base_x - 1, end_x + 1):
+            for y in range(base_y - 1, end_y + 1):
+                self.data[y, x] = TerrainType.WALL
+
+        for x in range(base_x, end_x):
+            for y in range(base_y, end_y):
                 self.data[y, x] = TerrainType.GROUND
-                self.sprites.add(Tile(x, y, andesite_sprite))
 
-        for x in range(start_room_x * 7 - 1, start_room_x * 7 + 8):
-            for y in [150 - 11, 150 - 5]:
-                self.data[y, x] = TerrainType.WALL
-                self.sprites.add(Tile(x, y, cobble_sprite))
-
-        for y in range(150 - 10, 150 - 5):
-            for x in [start_room_x * 7 - 1, start_room_x * 7 + 7]:
-                self.data[y, x] = TerrainType.WALL
-                self.sprites.add(Tile(x, y, cobble_sprite))
-
-        for y in range(150 - 11, 150):
-            for x in [
-                start_room_x * 7 - 3,
-                start_room_x * 7 - 2,
-                start_room_x * 7 + 8,
-                start_room_x * 7 + 9,
-            ]:
-                self.data[y, x] = TerrainType.BOUND
-
-        for x in range(start_room_x * 7 - 1, start_room_x * 7 + 8):
-            for y in range(150 - 4, 150):
-                self.data[y, x] = TerrainType.BOUND
-
-        for x in [start_room_x, start_room_x + 5]:
-            for off in range(3):
-                self.data[150 - 12, x + off] = TerrainType.BOUND
+        for x in range(base_x + 2, base_x + 5):
+            self.data[base_y - 2, x] = TerrainType.NONE
 
         self.player_starting_position = (
-            TILE_SIZE * (start_room_x * 7 + 3.5),
-            TILE_SIZE * (150 - 7.5),
+            TILE_SIZE * (base_x + 3.5),
+            TILE_SIZE * (base_y + 2.5),
         )
+
         self.starting_tiles = [
-            (start_room_x * 7 + 2, 150 - 11),
-            (start_room_x * 7 + 3, 150 - 11),
-            (start_room_x * 7 + 4, 150 - 11),
+            (base_x + x, base_y - 1) for x in range(2, 5)
         ]
 
 
