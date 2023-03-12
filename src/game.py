@@ -19,7 +19,7 @@ def run():
     # Load savegame
     # game_model.load()
 
-    initial_scene = StartMenu()
+    initial_scene = PlanetLevel()
     director = Director.get_instance()
     director.push_scene(initial_scene)
     director.run()

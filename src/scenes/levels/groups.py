@@ -67,16 +67,15 @@ class EnemyGroup(ScrollableGroup, Observable):
         Observable.__init__(self)
         super().__init__(sprites)
 
-    def add(self, *sprites):
-        super().add(*sprites)
-        self.num_sprites += len(sprites)
+    def add_internal(self, sprite):
+        super().add_internal(sprite)
+        self.num_sprites += 1
         self.notify_listeners(self)
 
-    def remove(self, *sprites):
-        super().remove(*sprites)
-        self.num_sprites -= len(sprites)
+    def remove_internal(self, sprite):
+        super().remove_internal(sprite)
+        self.num_sprites -= 1
         self.notify_listeners(self)
-        print(self.num_sprites)
 
     def empty(self, *sprites):
         super().empty(*sprites)
