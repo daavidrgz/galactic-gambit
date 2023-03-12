@@ -1,4 +1,4 @@
-from scenes.level import Level
+from scenes.levels import Level
 from scenes.director import Director
 from generation.base_terrain import BaseTerrain, TerrainType
 from generation.generator import BaseGenerator
@@ -111,9 +111,16 @@ class ShipTerrain(BaseTerrain):
         X_ROOM_SIZE = 7
         Y_ROOMS = 30
         X_ROOMS = 22
-        data = np.full((Y_ROOM_SIZE * Y_ROOMS, X_ROOM_SIZE * X_ROOMS), TerrainType.NONE, dtype=np.int16)
+        data = np.full(
+            (Y_ROOM_SIZE * Y_ROOMS, X_ROOM_SIZE * X_ROOMS),
+            TerrainType.NONE,
+            dtype=np.int16,
+        )
         self.data = np.pad(
-            data, ((Y_ROOM_SIZE * 2, Y_ROOM_SIZE), (X_ROOM_SIZE, X_ROOM_SIZE)), mode="constant", constant_values=TerrainType.BOUND
+            data,
+            ((Y_ROOM_SIZE * 2, Y_ROOM_SIZE), (X_ROOM_SIZE, X_ROOM_SIZE)),
+            mode="constant",
+            constant_values=TerrainType.BOUND,
         )
         self.height, self.width = self.data.shape
 
@@ -126,7 +133,7 @@ class ShipTerrain(BaseTerrain):
         end_y = base_y + Y_ROOM_SIZE
 
         for x in range(base_x - 3, end_x + 3):
-            for y in range(base_y  - 2, end_y + 2):
+            for y in range(base_y - 2, end_y + 2):
                 self.data[y, x] = TerrainType.BOUND
 
         for x in range(base_x - 1, end_x + 1):
@@ -145,9 +152,7 @@ class ShipTerrain(BaseTerrain):
             TILE_SIZE * (base_y + 2.5),
         )
 
-        self.starting_tiles = [
-            (base_x + x, base_y - 1) for x in range(2, 5)
-        ]
+        self.starting_tiles = [(base_x + x, base_y - 1) for x in range(2, 5)]
 
 
 class ShipLevel(Level):

@@ -1,14 +1,14 @@
 import time
 from mechanics.magic.magic_upgrade_system import MagicUpgradeSystem
 from mechanics.technology.tech_upgrade_system import TechUpgradeSystem
-from scenes.level import Level
+from scenes.levels import Level
 from generation.base_terrain import BaseTerrain, TerrainType
 from generation.generator import BaseGenerator
+from scenes.levels.groups import ScrollableGroup
+from scenes.levels.ship.ship_level import ShipGenerator, ShipTerrain
 from scenes.menus.pause_menu import PauseMenu
 from systems.resource_manager import Resource, ResourceManager
 from entities.living.enemies.test_enemy import TestEnemy
-from systems.camera_manager import ScrollableGroup
-from scenes.ship_level import ShipGenerator, ShipTerrain
 from scenes.director import Director
 
 import pygame

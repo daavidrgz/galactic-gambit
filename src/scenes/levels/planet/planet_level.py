@@ -1,9 +1,8 @@
-from scenes.cave_level import CaveLevel
-from scenes.level import Level
+from scenes.levels import Level
 from generation.tile import Tile
 from scenes.director import Director
 from generation.generator import BaseGenerator
-from systems.camera_manager import ParallaxGroup, ScrollableGroup
+from scenes.levels.groups import ParallaxGroup
 from systems.resource_manager import ResourceManager, Resource
 from systems.rng_system import RngSystem, Generator
 from generation.base_terrain import BaseTerrain, TerrainType

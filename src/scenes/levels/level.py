@@ -2,10 +2,11 @@ import pygame
 from entities.living.player.player import Player
 from gui.hud.hud import Hud
 from mechanics.magic.magic_upgrade_system import MagicUpgradeSystem
+from scenes.levels.groups import ScrollableGroup
 from scenes.menus.pause_menu import PauseMenu
 from scenes.menus.upgrade_menu import UpgradeMenu
 from scenes.scene import Scene
-from systems.camera_manager import CameraManager, ScrollableGroup
+from systems.camera_manager import CameraManager
 
 
 class Level(Scene):

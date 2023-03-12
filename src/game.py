@@ -3,9 +3,9 @@ from pygame.locals import *
 from model.game_model import GameModel
 from scenes.menus.start_menu import StartMenu
 from systems.rng_system import RngSystem
-from scenes.ship_level import ShipLevel
-from scenes.planet_level import PlanetLevel
-from scenes.cave_level import CaveLevel
+from scenes.levels.ship.ship_level import ShipLevel
+from scenes.levels.planet.planet_level import PlanetLevel
+from scenes.levels.cave.cave_level import CaveLevel
 
 from scenes.director import Director
 
