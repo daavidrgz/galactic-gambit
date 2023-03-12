@@ -45,6 +45,7 @@ class Player(LivingEntity):
 
     def setup(self, bullets, on_level_up):
         self.camera.set_center(self.get_position())
+        self.camera.set_target_center(self.get_position())
         self.magic_level.setup(on_level_up)
         self.bullets = bullets
         super().setup()
