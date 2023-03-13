@@ -56,7 +56,7 @@ class Level(Scene):
         super().setup()
 
     def __player_death(self):
-        self.game_model.delete_save()
+        self.game_model.reset_model()
         self.director.switch_scene(Transition(GameOver()))
 
     def __player_level_up(self):

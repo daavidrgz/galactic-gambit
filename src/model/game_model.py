@@ -27,8 +27,12 @@ SAVE_FILE_DIR = ".gamedata"
 
 class GameModel(metaclass=Singleton):
     def __init__(self):
-        # TODO: Guardar esto aquí o en constants?
+        self.init_model()
+        self.rng_system = RngSystem.get_instance()
+        self.tech_upgrade_system = TechUpgradeSystem.get_instance()
+        self.magic_upgrade_system = MagicUpgradeSystem.get_instance()
 
+    def init_model(self):
         initial_gun = Gun(
             INITIAL_GUN_DAMAGE,
             INITIAL_GUN_COOLDOWN,
@@ -43,9 +47,10 @@ class GameModel(metaclass=Singleton):
         initial_player = PlayerModel(initial_hp, initial_gun, initial_magic_level)
         self.player = initial_player
         self.level = None
-        self.rng_system = RngSystem.get_instance()
-        self.tech_upgrade_system = TechUpgradeSystem.get_instance()
-        self.magic_upgrade_system = MagicUpgradeSystem.get_instance()
+
+    def reset_model(self):
+        self.init_model()
+        self.delete_save()
 
     def __update_model(self, model):
         self.player = model.player
@@ -85,7 +90,8 @@ class GameModel(metaclass=Singleton):
         return os.path.exists(f"{SAVE_FILE_DIR}/{SAVE_FILE_NAME}")
 
     def delete_save(self):
-        os.remove(f"{SAVE_FILE_DIR}/{SAVE_FILE_NAME}")
+        if self.save_exists():
+            os.remove(f"{SAVE_FILE_DIR}/{SAVE_FILE_NAME}")
 
 
 class PlayerModel:
