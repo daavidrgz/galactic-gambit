@@ -6,6 +6,7 @@ from scenes.levels.groups import EnemyGroup, ScrollableGroup
 from scenes.menus.pause_menu import PauseMenu
 from scenes.menus.upgrade_menu import UpgradeMenu
 from scenes.scene import Scene
+from scenes.transition import Transition
 from systems.camera_manager import CameraManager
 
 
@@ -40,7 +41,7 @@ class Level(Scene):
     def setup(self):
         if not self.load_completed:
             self.load()
-        
+
         self.player.set_position(self.terrain.get_player_starting_position())
         self.player.setup(self.bullet_group, self.__player_level_up)
         self.hud.setup(self)
@@ -53,7 +54,7 @@ class Level(Scene):
         possible_upgrades = self.magic_upgrade_system.get_random_upgrades(3)
         upgrades = [upgrade for upgrade in possible_upgrades if upgrade is not None]
 
-        self.director.push_scene(UpgradeMenu(upgrades, apply_upgrade))
+        self.director.push_scene(Transition(UpgradeMenu(upgrades, apply_upgrade)))
 
     def update(self, elapsed_time):
         # Update camera
