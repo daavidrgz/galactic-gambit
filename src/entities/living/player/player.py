@@ -1,26 +1,23 @@
-from entities.living.living_entity import LivingEntity
-from mechanics.magic.magic_upgrade_system import MagicUpgradeSystem
-from scenes.director import Director
-from systems.resource_manager import Resource, ResourceManager
-from systems.camera_manager import CameraManager
-from systems.control_system import ControlSystem, Action
+import numpy as np
 
 from constants.game_constants import (
+    CAMERA_LOOK_AHEAD,
+    DESIGN_FRAMERATE,
     PLAYER_DRAG,
     PLAYER_SPEED,
-    DESIGN_FRAMERATE,
-    CAMERA_LOOK_AHEAD,
     SPEED_EPSILON,
 )
-
-import numpy as np
+from entities.living.living_entity import LivingEntity
+from mechanics.magic.magic_upgrade_system import MagicUpgradeSystem
+from systems.camera_manager import CameraManager
+from systems.control_system import Action, ControlSystem
+from systems.resource_manager import Resource
 
 PIE = np.pi / 8
 
 
 class Player(LivingEntity):
     def __init__(self, hp, gun, magic_level, initial_pos):
-        self.director = Director.get_instance()
         self.control = ControlSystem.get_instance()
         self.camera = CameraManager.get_instance()
         self.magic_upgrade_system = MagicUpgradeSystem.get_instance()
@@ -43,10 +40,11 @@ class Player(LivingEntity):
         player = Player(hp, gun, magic_level, initial_pos)
         return player
 
-    def setup(self, bullets, on_level_up):
+    def setup(self, bullets, on_level_up, on_death):
         self.camera.set_center(self.get_position())
         self.camera.set_target_center(self.get_position())
         self.magic_level.setup(on_level_up)
+        self.hp.setup(on_death)
         self.bullets = bullets
         super().setup()
 
@@ -64,10 +62,6 @@ class Player(LivingEntity):
         )
 
         super().update(elapsed_time)
-
-    # TODO
-    def on_death(self):
-        pass
 
     def increase_exp(self, exp):
         self.magic_level.increase_exp(exp)

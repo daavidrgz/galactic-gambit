@@ -1,3 +1,6 @@
+import os
+import pickle
+
 from constants.game_constants import (
     INITIAL_GUN_COOLDOWN,
     INITIAL_GUN_DAMAGE,
@@ -8,15 +11,12 @@ from constants.game_constants import (
 )
 from entities.living.hp import Hp
 from entities.living.player.player import Player
-from mechanics.magic.magic_level import MagicLevel
 from mechanics.gun import Gun
+from mechanics.magic.magic_level import MagicLevel
 from mechanics.magic.magic_upgrade_system import MagicUpgradeSystem
 from mechanics.technology.tech_upgrade_system import TechUpgradeSystem
 from systems.rng_system import RngSystem
 from utils.singleton import Singleton
-import pickle
-import os
-
 
 # TODO: Cuidado con pushear escenas... Al volver de otra escena, hay que tener en cuenta que en la escena
 # anterior haya cambiado el modelo y haya que refrescar sprites... si hacemos switch scene no nos afecta
@@ -37,7 +37,7 @@ class GameModel(metaclass=Singleton):
             INITIAL_GUN_N_BULLETS,
         )
         initial_magic_level = MagicLevel(1, 0)
-        initial_hp = 100
+        initial_hp = 2
         initial_player = PlayerModel(initial_hp, initial_gun, initial_magic_level)
         self.player = initial_player
         self.level = None

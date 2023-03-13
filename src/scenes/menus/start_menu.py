@@ -1,11 +1,13 @@
 import pygame
+
 from constants.game_constants import DESIGN_HEIGHT, DESIGN_WIDTH
+from constants.gui_constants import COLOR_BRIGHT, COLOR_SUBTLE
 from gui.components.text_button import TextButton
 from gui.components.title import Title
-from constants.gui_constants import COLOR_BRIGHT, COLOR_SUBTLE
+from scenes.levels.planet.planet_level import PlanetLevel
+from scenes.levels.ship.ship_level import ShipLevel
 from scenes.menus.configuration_menu import ConfigurationMenu
 from scenes.menus.vertical_menu import VerticalMenu
-from scenes.levels.ship.ship_level import ShipLevel
 from scenes.transition import Transition
 from systems.resource_manager import Resource
 
@@ -32,7 +34,7 @@ class StartMenu(VerticalMenu):
         self.background = background
 
     def __new_game(self):
-        self.director.push_scene(Transition(ShipLevel()))
+        self.director.push_scene(Transition(PlanetLevel()))
 
     def __continue_game(self):
         current_level = self.game_model.get_level()
@@ -44,9 +46,24 @@ class StartMenu(VerticalMenu):
     def __config_game(self):
         self.director.push_scene(ConfigurationMenu(self.background))
 
-    def setup(self):
+    def __create_button(self, text, action, offset):
         font = self.resource_manager.load_font(Resource.FONT_LG)
+        return TextButton(
+            text=text,
+            font=font,
+            color=COLOR_SUBTLE,
+            color_hover=COLOR_BRIGHT,
+            action=action,
+            position=(DESIGN_WIDTH / 2, DESIGN_HEIGHT / 2 + offset),
+        )
 
+    def __get_offsets(self):
+        if self.game_model.save_exists():
+            return [-50, 50, 150]
+        else:
+            return [-100, 0, 100]
+
+    def setup(self):
         self.title = Title(
             text="Space Mission",
             font=self.resource_manager.load_font(Resource.FONT_XL),
@@ -54,56 +71,21 @@ class StartMenu(VerticalMenu):
             position=(DESIGN_WIDTH / 2, 100),
         )
 
-        self.continue_game_button = TextButton(
-            text="Continue Game",
-            font=font,
-            color=COLOR_SUBTLE,
-            color_hover=COLOR_BRIGHT,
-            action=self.__continue_game,
-            position=(DESIGN_WIDTH / 2, DESIGN_HEIGHT / 2),
-        )
-
-        self.new_game_button = TextButton(
-            text="New Game",
-            font=font,
-            color=COLOR_SUBTLE,
-            color_hover=COLOR_BRIGHT,
-            action=self.__new_game,
-            position=(DESIGN_WIDTH / 2, DESIGN_HEIGHT / 2),
-        )
-
-        self.config_game_button = TextButton(
-            text="Configuration",
-            font=font,
-            color=COLOR_SUBTLE,
-            color_hover=COLOR_BRIGHT,
-            action=self.__config_game,
-            position=(DESIGN_WIDTH / 2, DESIGN_HEIGHT / 2),
-        )
-
-        self.quit_game_button = TextButton(
-            text="Quit Game",
-            font=font,
-            color=COLOR_SUBTLE,
-            color_hover=COLOR_BRIGHT,
-            action=self.__leave_game,
-            position=(DESIGN_WIDTH / 2, DESIGN_HEIGHT / 2),
-        )
-
         if self.game_model.save_exists():
-            self.buttons.append(self.continue_game_button)
+            self.buttons.append(
+                self.__create_button("Continue Game", self.__continue_game, -150)
+            )
 
-            self.continue_game_button.set_position_rel((0, -150))
-            self.new_game_button.set_position_rel((0, -50))
-            self.config_game_button.set_position_rel((0, 50))
-            self.quit_game_button.set_position_rel((0, 150))
-        else:
-            self.new_game_button.set_position_rel((0, -100))
-            self.quit_game_button.set_position_rel((0, 100))
-
-        self.buttons.append(self.new_game_button)
-        self.buttons.append(self.config_game_button)
-        self.buttons.append(self.quit_game_button)
+        offsets = self.__get_offsets()
+        self.buttons.append(
+            self.__create_button("New Game", self.__new_game, offsets[0])
+        )
+        self.buttons.append(
+            self.__create_button("Configuration", self.__config_game, offsets[1])
+        )
+        self.buttons.append(
+            self.__create_button("Quit Game", self.__leave_game, offsets[2])
+        )
 
         self.gui_group.add(self.title, self.buttons)
         super().setup()
