@@ -36,8 +36,9 @@ class GameModel(metaclass=Singleton):
             INITIAL_GUN_SPREAD,
             INITIAL_GUN_N_BULLETS,
         )
-        initial_magic_level = MagicLevel(1, 0)
-        initial_hp = 2
+
+        initial_magic_level = MagicLevelModel(1, 0)
+        initial_hp = HpModel(2, 2)
         initial_player = PlayerModel(initial_hp, initial_gun, initial_magic_level)
         self.player = initial_player
         self.level = None
@@ -88,7 +89,29 @@ class PlayerModel:
         self.gun = gun
 
     def from_sprite(player_sprite):
-        hp = player_sprite.hp
+        hp = HpModel.from_game_hp(player_sprite.hp)
         gun = player_sprite.gun
-        magic_level = player_sprite.magic_level
+        magic_level = MagicLevelModel.from_game_magic_level(player_sprite.magic_level)
         return PlayerModel(hp, gun, magic_level)
+
+
+class HpModel:
+    def __init__(self, hp, max_hp):
+        self.hp = hp
+        self.max_hp = max_hp
+
+    def from_game_hp(game_hp):
+        hp = game_hp.hp
+        max_hp = game_hp.max_hp
+        return HpModel(hp, max_hp)
+
+
+class MagicLevelModel:
+    def __init__(self, level, experience):
+        self.level = level
+        self.experience = experience
+
+    def from_game_magic_level(game_magic_level):
+        level = game_magic_level.level
+        experience = game_magic_level.experience
+        return MagicLevelModel(level, experience)

@@ -7,10 +7,16 @@ class Hp(Observable):
         self.max_hp = max_hp
         self.hp = max_hp
 
+    def from_model_hp(model_hp):
+        game_hp = Hp(model_hp.max_hp)
+        game_hp.hp = model_hp.hp
+        return game_hp
+
     def setup(self, on_death):
         self.on_death = on_death
 
     def get_hp(self):
+        print(self.hp)
         return self.hp
 
     def get_max_hp(self):

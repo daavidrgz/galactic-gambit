@@ -7,7 +7,9 @@ from constants.game_constants import (
     PLAYER_SPEED,
     SPEED_EPSILON,
 )
+from entities.living.hp import Hp
 from entities.living.living_entity import LivingEntity
+from mechanics.magic.magic_level import MagicLevel
 from mechanics.magic.magic_upgrade_system import MagicUpgradeSystem
 from systems.camera_manager import CameraManager
 from systems.control_system import Action, ControlSystem
@@ -34,10 +36,11 @@ class Player(LivingEntity):
 
     # Transform the model of the player into the entity
     def from_player_model(player_model, initial_pos):
-        hp = player_model.hp
         gun = player_model.gun
-        magic_level = player_model.magic_level
-        player = Player(hp, gun, magic_level, initial_pos)
+        magic_level = MagicLevel.from_model_magic_level(player_model.magic_level)
+
+        player = Player(player_model.hp.max_hp, gun, magic_level, initial_pos)
+        player.hp = Hp.from_model_hp(player_model.hp)
         return player
 
     def setup(self, bullets, on_level_up, on_death):

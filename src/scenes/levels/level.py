@@ -121,6 +121,9 @@ class Level(Scene):
         end_x, end_y = self.terrain.get_end_position()
         distance_sqr = (player_x - end_x) ** 2 + (player_y - end_y) ** 2
         if distance_sqr < (3 * TILE_SIZE) ** 2:
+            self.game_model.update_player(self.player)
+            self.game_model.level = self.next_level
+            self.game_model.save()
             self.director.switch_scene(Transition(self.next_level()))
 
     def handle_events(self, events):

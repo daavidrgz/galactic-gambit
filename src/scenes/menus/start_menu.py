@@ -34,9 +34,13 @@ class StartMenu(VerticalMenu):
         self.background = background
 
     def __new_game(self):
-        self.director.push_scene(Transition(PlanetLevel()))
+        next_level = ShipLevel
+        self.game_model.level = next_level
+        self.game_model.save()
+        self.director.push_scene(Transition(next_level()))
 
     def __continue_game(self):
+        self.game_model.load()
         current_level = self.game_model.get_level()
         self.director.push_scene(current_level())
 

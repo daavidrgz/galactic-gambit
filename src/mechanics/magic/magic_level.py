@@ -6,7 +6,11 @@ class MagicLevel(Observable):
     __BASE_TARGET_EXP = 100
     __LEVEL_STEP_EXP = 50
 
-    def __init__(self, initial_level=0, initial_exp=0):
+    def __init__(
+        self,
+        initial_level=0,
+        initial_exp=0,
+    ):
         super().__init__()
         self.level = initial_level
         self.experience = initial_exp
@@ -40,4 +44,10 @@ class MagicLevel(Observable):
             return 0
         return MagicLevel.__BASE_TARGET_EXP + MagicLevel.__LEVEL_STEP_EXP * (
             self.level - 1
+        )
+
+    def from_model_magic_level(model_magic_level):
+        return MagicLevel(
+            model_magic_level.level,
+            model_magic_level.experience,
         )
