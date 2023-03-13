@@ -7,10 +7,6 @@ import pygame
 class Transition(Scene):
     def __init__(self, transition_to):
         super().__init__()
-        # Do not use virtual screen here, as it will be updated during the transition
-        # And the background must be set once the last draw of the director is done.
-        # If it is done here, the Transition won't have the last frame information.
-        self.background = None
         self.next_scene = transition_to
         self.done_loading = False
         self.animation_time = 1.0
@@ -20,11 +16,10 @@ class Transition(Scene):
         self.thread = threading.Thread(target=self.next_scene.load)
         self.thread.start()
 
-    def update(self, elapsed_time):
-        if self.background is None:
-            self.background = self.director.virtual_screen.copy()
-            self.veil = pygame.Surface(self.background.get_size())
-            
+        self.background = self.director.virtual_screen.copy()
+        self.veil = pygame.Surface(self.background.get_size())
+
+    def update(self, elapsed_time):            
         if not self.done_loading and not self.thread.is_alive() and self.animation_time <= 0:
             self.director = Director()
 
