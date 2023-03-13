@@ -1,8 +1,8 @@
+import pygame
+
+from gui.hud.hud_element import HudElement
 from systems.resource_manager import Resource
 from utils.observer import Observer
-from gui.hud.hud_element import HudElement
-
-import pygame
 
 
 class HealthBar(HudElement, Observer):
@@ -27,12 +27,12 @@ class HealthBar(HudElement, Observer):
     def __update_bar(self, hp):
         self.bar = pygame.Surface((self.BAR_WIDTH, self.BAR_HEIGHT))
         self.bar.fill((40, 40, 40))
-
         percentage_hp = hp.get_hp() / hp.get_max_hp()
-        hp_bar = pygame.Surface((percentage_hp * self.BAR_WIDTH, self.BAR_HEIGHT))
-        hp_bar.fill((0, 255, 0))
+        if percentage_hp > 0:
+            hp_bar = pygame.Surface((percentage_hp * self.BAR_WIDTH, self.BAR_HEIGHT))
+            hp_bar.fill((0, 255, 0))
 
-        self.bar.blit(hp_bar, (0, 0))
+            self.bar.blit(hp_bar, (0, 0))
 
         health_text = self.font.render("Health", True, (255, 255, 255))
 

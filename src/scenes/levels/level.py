@@ -77,16 +77,17 @@ class Level(Scene):
         self.director.push_scene(UpgradeMenu(upgrades, apply_upgrade))
 
     def update(self, elapsed_time):
+        # Check collisions
+        self.__check_bullet_colision()
+        self.__check_bullet_enemy_collision()
+        self.__check_enemy_bullet_with_player_colision()
+        self.__check_player_reached_end()
         # Update camera
         self.camera_mgr.update(elapsed_time)
 
         self.player.update(elapsed_time)
         self.bullet_group.update(elapsed_time)
         self.animation_group.update(elapsed_time)
-        self.__check_bullet_colision()
-        self.__check_bullet_enemy_collision()
-        self.__check_enemy_bullet_with_player_colision()
-        self.__check_player_reached_end()
 
     def __check_bullet_colision(self):
 
@@ -149,6 +150,7 @@ class Level(Scene):
         return self.player
 
     def spawn_enemy(self, enemy):
+        # Add listener before setup, so observers gets first notification at setup
+        enemy.observable_pos.add_listener(self.hud.minimap)
         enemy.setup(self.enemy_bullets)
         self.enemy_group.add(enemy)
-        enemy.observable_pos.add_listener(self.hud.minimap)

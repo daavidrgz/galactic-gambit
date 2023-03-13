@@ -39,6 +39,7 @@ class LivingEntity(KinematicEntity):
 
     def setup(self):
         self.hp.setup(self.on_death)
+        self.observable_pos.update((self.x, self.y))
         super().setup()
 
     def hit(self, damage, knockback=None):

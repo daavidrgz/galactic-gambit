@@ -53,3 +53,5 @@ class GameOver(VerticalMenu):
         )
 
         self.buttons.append(self.__create_button("Back to menu", self.__main_menu, 0))
+
+        self.gui_group.add(self.title, self.buttons)
