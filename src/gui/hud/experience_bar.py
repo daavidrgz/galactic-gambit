@@ -39,7 +39,7 @@ class ExperienceBar(HudElement, Observer):
         self.bar = pygame.Surface((self.BAR_WIDTH, self.BAR_HEIGHT))
         self.bar.fill((40, 40, 40))
 
-        if magic_level.is_max_level():
+        if magic_level.is_max_level() or magic_level.get_next_level_exp() == 0:
             percentage_exp = 1
         else:
             percentage_exp = magic_level.get_exp() / magic_level.get_next_level_exp()

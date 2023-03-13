@@ -11,6 +11,7 @@ class Menu(Scene):
         self.buttons_len = 0
         self.background = None
         self.disable_mouse = False
+        self.clicked_element = None
 
     def get_selected_button(self):
         return self.buttons[self.current_button]
@@ -35,7 +36,7 @@ class Menu(Scene):
     def handle_events(self, events):
         for event in events:
             if event.type == pygame.MOUSEBUTTONDOWN:
-                event_pos = self.control_system.convert_position(
+                event_pos = self.control_system.user_pos_to_design(
                     event.pos[0], event.pos[1]
                 )
                 self.clicked_element = None
@@ -44,7 +45,7 @@ class Menu(Scene):
                         self.clicked_element = element
                         break
             if event.type == pygame.MOUSEBUTTONUP:
-                event_pos = self.control_system.convert_position(
+                event_pos = self.control_system.user_pos_to_design(
                     event.pos[0], event.pos[1]
                 )
                 for element in self.gui_group:

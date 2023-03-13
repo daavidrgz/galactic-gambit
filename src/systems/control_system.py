@@ -55,7 +55,7 @@ class ControlSystem(metaclass=Singleton):
     def is_mouse_pressed(self):
         return pygame.mouse.get_pressed()[0]
 
-    def convert_position(self, x, y):
+    def user_pos_to_design(self, x, y):
         user_width, user_height = pygame.display.get_window_size()
         x_ratio, y_ratio = x / user_width, y / user_height
         # Scale the mouse position to the design resolution
@@ -63,4 +63,4 @@ class ControlSystem(metaclass=Singleton):
 
     def get_mouse_pos(self):
         x, y = pygame.mouse.get_pos()
-        return self.convert_position(x, y)
+        return self.user_pos_to_design(x, y)
