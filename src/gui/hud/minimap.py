@@ -79,7 +79,8 @@ class Minimap(HudElement, Observer):
         self.enemy_positions[id] = (x, y)
 
     def notify(self, id, position):
-        if position is None:
+        if position is None and id != self.player_id:
             self.enemy_positions.pop(id)
             return
+
         self.set_entity_pos(id, position)
