@@ -42,7 +42,7 @@ class StartMenu(VerticalMenu):
     def __continue_game(self):
         self.game_model.load()
         current_level = self.game_model.get_level()
-        self.director.push_scene(current_level())
+        self.director.push_scene(Transition(current_level()))
 
     def __leave_game(self):
         self.director.leave_game()
@@ -68,13 +68,16 @@ class StartMenu(VerticalMenu):
             return [-100, 0, 100]
 
     def setup(self):
+        self.__generate_gui()
+        super().setup()
+
+    def __generate_gui(self):
         self.title = Title(
             text="Space Mission",
             font=self.resource_manager.load_font(Resource.FONT_XL),
             color=COLOR_BRIGHT,
             position=(DESIGN_WIDTH / 2, 100),
         )
-
         if self.game_model.save_exists():
             self.buttons.append(
                 self.__create_button("Continue Game", self.__continue_game, -150)
@@ -92,4 +95,8 @@ class StartMenu(VerticalMenu):
         )
 
         self.gui_group.add(self.title, self.buttons)
-        super().setup()
+
+    def pop_back(self):
+        self.gui_group.empty()
+        self.buttons = []
+        self.__generate_gui()

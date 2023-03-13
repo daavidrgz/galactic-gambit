@@ -54,6 +54,7 @@ class Level(Scene):
         self.hud.setup(self)
 
     def __player_death(self):
+        self.game_model.delete_save()
         self.director.switch_scene(Transition(GameOver()))
 
     def __player_level_up(self):

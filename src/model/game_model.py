@@ -22,6 +22,7 @@ from utils.singleton import Singleton
 # anterior haya cambiado el modelo y haya que refrescar sprites... si hacemos switch scene no nos afecta
 
 SAVE_FILE_NAME = "savegame_ciie"
+SAVE_FILE_DIR = ".gamedata"
 
 
 class GameModel(metaclass=Singleton):
@@ -67,19 +68,24 @@ class GameModel(metaclass=Singleton):
 
     # Serialize with pickle
     def save(self):
-        target_file = open(f"/tmp/{SAVE_FILE_NAME}", "wb")
+        if not os.path.exists(SAVE_FILE_DIR):
+            os.mkdir(SAVE_FILE_DIR)
+        target_file = open(f"{SAVE_FILE_DIR}/{SAVE_FILE_NAME}", "wb")
         pickle.dump(self, target_file)
         target_file.close()
 
     # Deserialize with pickle
     def load(self):
-        source_file = open(f"/tmp/{SAVE_FILE_NAME}", "rb")
+        source_file = open(f"{SAVE_FILE_DIR}/{SAVE_FILE_NAME}", "rb")
         previous_model = pickle.load(source_file)
         source_file.close()
         self.__update_model(previous_model)
 
     def save_exists(self):
-        return os.path.exists(f"/tmp/{SAVE_FILE_NAME}")
+        return os.path.exists(f"{SAVE_FILE_DIR}/{SAVE_FILE_NAME}")
+
+    def delete_save(self):
+        os.remove(f"{SAVE_FILE_DIR}/{SAVE_FILE_NAME}")
 
 
 class PlayerModel:

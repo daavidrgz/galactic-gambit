@@ -16,7 +16,6 @@ class Hp(Observable):
         self.on_death = on_death
 
     def get_hp(self):
-        print(self.hp)
         return self.hp
 
     def get_max_hp(self):
