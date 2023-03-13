@@ -3,6 +3,7 @@ from scenes.director import Director
 from scenes.levels.groups import ParallaxGroup
 from scenes.levels.planet.planet_generator import PlanetGenerator
 from scenes.levels.planet.planet_terrain import PlanetTerrain
+from scenes.levels.cave.cave_level import CaveLevel
 from systems.resource_manager import ResourceManager, Resource
 from systems.rng_system import RngSystem, Generator
 from entities.living.enemies.test_enemy import TestEnemy
@@ -29,6 +30,7 @@ class PlanetLevel(Level):
         dust_sprite.x = dust_sprite.y = TILE_SIZE * 128.25
         self.dust = ParallaxGroup((1.5, 1.5), dust_sprite)
 
+        self.next_level = CaveLevel
         super().__init__(generator, terrain, background_color)
 
     def setup(self):

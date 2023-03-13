@@ -34,13 +34,13 @@ class BaseGenerator:
         start_x, start_y = self.terrain.player_starting_position
         max_distance = 0
 
-        pos_queue = list(self.terrain.starting_tiles)
+        pos_queue = [(x, y, 0) for x, y in self.terrain.starting_tiles]
         self.explored_tiles = 0
         while len(pos_queue) > 0:
-            curr_pos_x, curr_pos_y = pos_queue.pop()
+            curr_pos_x, curr_pos_y, depth = pos_queue.pop(0)
             self.explored_tiles += 1
 
-            distance = self.distance_function(start_x, start_y, curr_pos_x, curr_pos_y)
+            distance = self.distance_function(start_x, start_y, curr_pos_x, curr_pos_y, depth)
             if distance > max_distance:
                 max_distance = distance
                 self.end = (curr_pos_x, curr_pos_y)
@@ -62,15 +62,15 @@ class BaseGenerator:
 
             self.terrain.data[curr_pos_y, curr_pos_x] = TerrainType.GROUND
 
-            self.push(pos_queue, curr_pos_x + 1, curr_pos_y)
-            self.push(pos_queue, curr_pos_x, curr_pos_y + 1)
-            self.push(pos_queue, curr_pos_x - 1, curr_pos_y)
-            self.push(pos_queue, curr_pos_x, curr_pos_y - 1)
+            self.push(pos_queue, curr_pos_x + 1, curr_pos_y, depth)
+            self.push(pos_queue, curr_pos_x, curr_pos_y + 1, depth)
+            self.push(pos_queue, curr_pos_x - 1, curr_pos_y, depth)
+            self.push(pos_queue, curr_pos_x, curr_pos_y - 1, depth)
 
-    def push(self, pos_queue, x, y):
+    def push(self, pos_queue, x, y, depth):
         if self.terrain.in_bounds(x, y):
             if self.terrain.data[y, x] == TerrainType.NONE:
-                pos_queue.append((x, y))
+                pos_queue.append((x, y, depth + 1))
                 self.terrain.data[y, x] = TerrainType.GENERATING
             elif self.terrain.data[y, x] == TerrainType.BOUND:
                 self.terrain.data[y, x] = TerrainType.WALL
@@ -94,7 +94,7 @@ class BaseGenerator:
     def coordinate_transform(self, x, y):
         return (x, y)
 
-    def distance_function(self, x0, y0, x1, y1):
+    def distance_function(self, x0, y0, x1, y1, depth):
         return abs(x0 - x1) + abs(y0 - y1)
 
     # Template pattern

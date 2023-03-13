@@ -95,5 +95,5 @@ class ShipGenerator(BaseGenerator):
     def noise_wall_condition(self, n, x, y):
         return n > 0.0
 
-    def distance_function(self, x0, y0, x1, y1):
+    def distance_function(self, x0, y0, x1, y1, depth):
         return abs(y0 - y1) + abs(x0 - x1) / 5

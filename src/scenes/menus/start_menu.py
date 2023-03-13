@@ -6,9 +6,6 @@ from constants.gui_constants import COLOR_BRIGHT, COLOR_SUBTLE
 from scenes.menus.configuration_menu import ConfigurationMenu
 from scenes.menus.vertical_menu import VerticalMenu
 from scenes.levels.ship.ship_level import ShipLevel
-from scenes.levels.test_level import TestLevel
-from scenes.levels.planet.planet_level import PlanetLevel
-from scenes.levels.cave.cave_level import CaveLevel
 from scenes.transition import Transition
 from systems.resource_manager import Resource
 

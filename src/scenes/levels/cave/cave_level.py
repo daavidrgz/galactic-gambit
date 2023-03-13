@@ -12,6 +12,8 @@ class CaveLevel(Level):
         generator = CaveGenerator(terrain)
         background_color = (10, 0, 0)
 
+        from scenes.menus.start_menu import StartMenu
+        self.next_level = StartMenu
         super().__init__(generator, terrain, background_color)
 
     def handle_events(self, events):

@@ -80,3 +80,6 @@ class CaveGenerator(BaseGenerator):
         y_dist = y / 170
         x_factor = n - x_dist
         return x_factor < y_dist - 1.0 or x_dist / 5.0 - 0.005 > y_dist**2
+
+    def distance_function(self, x0, y0, x1, y1, depth):
+        return abs(x0 - x1) + abs(y0 - y1) + depth

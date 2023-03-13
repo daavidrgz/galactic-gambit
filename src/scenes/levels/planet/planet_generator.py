@@ -89,3 +89,6 @@ class PlanetGenerator(BaseGenerator):
 
     def noise_wall_condition(self, n, x, y):
         return n < (x / 114) ** 3
+    
+    def distance_function(self, x0, y0, x1, y1, depth):
+        return depth
