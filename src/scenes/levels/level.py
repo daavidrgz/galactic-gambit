@@ -1,21 +1,23 @@
-from gui.hud.hud import Hud
-from systems.camera_manager import CameraManager
-from entities.living.player.player import Player
-from scenes.scene import Scene
-from scenes.transition import Transition
-from scenes.menus.pause_menu import PauseMenu
-from scenes.menus.upgrade_menu import UpgradeMenu
-from scenes.levels.groups import EnemyGroup, ScrollableGroup
-from mechanics.magic.magic_upgrade_system import MagicUpgradeSystem
-
 import pygame
 
 from constants.game_constants import TILE_SIZE
+from entities.living.player.player import Player
+from gui.hud.hud import Hud
+from mechanics.magic.magic_upgrade_system import MagicUpgradeSystem
+from mechanics.technology.tech_upgrade_system import TechUpgradeSystem
+from scenes.levels.groups import EnemyGroup, ScrollableGroup
+from scenes.menus.pause_menu import PauseMenu
+from scenes.menus.upgrade_menu import UpgradeMenu
+from scenes.scene import Scene
+from scenes.transition import Transition
+from systems.camera_manager import CameraManager
+
 
 class Level(Scene):
     def __init__(self, generator, terrain, background_color):
         super().__init__()
         self.magic_upgrade_system = MagicUpgradeSystem.get_instance()
+        self.tech_upgrade_system = TechUpgradeSystem.get_instance()
         self.bullet_group = ScrollableGroup()
 
         player_model = self.game_model.get_player()
@@ -56,7 +58,17 @@ class Level(Scene):
         possible_upgrades = self.magic_upgrade_system.get_random_upgrades(3)
         upgrades = [upgrade for upgrade in possible_upgrades if upgrade is not None]
 
-        self.director.push_scene(Transition(UpgradeMenu(upgrades, apply_upgrade)))
+        self.director.push_scene(UpgradeMenu(upgrades, apply_upgrade))
+
+    def __player_tech_upgrade(self):
+        def apply_upgrade(upgrade):
+            self.tech_upgrade_system.pick_upgrade(upgrade)
+            self.player.apply_tech_upgrade(upgrade)
+
+        possible_upgrades = self.tech_upgrade_system.get_random_upgrades(3)
+        upgrades = [upgrade for upgrade in possible_upgrades if upgrade is not None]
+
+        self.director.push_scene(UpgradeMenu(upgrades, apply_upgrade))
 
     def update(self, elapsed_time):
         # Update camera
@@ -97,11 +109,11 @@ class Level(Scene):
     def __check_player_reached_end(self):
         if self.enemy_group.get_num_enemies() > 0:
             return
-        
+
         player_x, player_y = self.player.get_position()
         end_x, end_y = self.terrain.get_end_position()
-        distance_sqr = (player_x - end_x)**2 + (player_y - end_y)**2
-        if distance_sqr < (3 * TILE_SIZE)**2:
+        distance_sqr = (player_x - end_x) ** 2 + (player_y - end_y) ** 2
+        if distance_sqr < (3 * TILE_SIZE) ** 2:
             self.director.switch_scene(Transition(self.next_level()))
 
     def handle_events(self, events):
@@ -109,6 +121,8 @@ class Level(Scene):
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     self.director.push_scene(PauseMenu())
+                if event.key == pygame.K_m:
+                    self.__player_tech_upgrade()
 
     def draw(self, screen):
         screen.fill(self.background_color)
