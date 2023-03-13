@@ -1,13 +1,16 @@
-import pygame
-from entities.living.player.player import Player
 from gui.hud.hud import Hud
-from mechanics.magic.magic_upgrade_system import MagicUpgradeSystem
-from scenes.levels.groups import EnemyGroup, ScrollableGroup
+from systems.camera_manager import CameraManager
+from entities.living.player.player import Player
+from scenes.scene import Scene
+from scenes.transition import Transition
 from scenes.menus.pause_menu import PauseMenu
 from scenes.menus.upgrade_menu import UpgradeMenu
-from scenes.scene import Scene
-from systems.camera_manager import CameraManager
+from scenes.levels.groups import EnemyGroup, ScrollableGroup
+from mechanics.magic.magic_upgrade_system import MagicUpgradeSystem
 
+import pygame
+
+from constants.game_constants import TILE_SIZE
 
 class Level(Scene):
     def __init__(self, generator, terrain, background_color):
@@ -65,6 +68,7 @@ class Level(Scene):
         self.__check_bullet_colision()
         self.__check_bullet_enemy_collision()
         self.__check_enemy_bullet_with_player_colision()
+        self.__check_player_reached_end()
 
     def __check_bullet_colision(self):
 
@@ -89,6 +93,16 @@ class Level(Scene):
             if bullet.rect.colliderect(self.player.rect):
                 self.player.hit(bullet.damage, bullet.direction * 10.0)
                 bullet.kill()
+
+    def __check_player_reached_end(self):
+        if self.enemy_group.get_num_enemies() > 0:
+            return
+        
+        player_x, player_y = self.player.get_position()
+        end_x, end_y = self.terrain.get_end_position()
+        distance_sqr = (player_x - end_x)**2 + (player_y - end_y)**2
+        if distance_sqr < (3 * TILE_SIZE)**2:
+            self.director.switch_scene(Transition(self.next_level()))
 
     def handle_events(self, events):
         for event in events:

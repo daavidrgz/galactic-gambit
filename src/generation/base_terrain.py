@@ -44,6 +44,9 @@ class BaseTerrain:
 
     def get_player_starting_position(self):
         return self.player_starting_position
+    
+    def get_end_position(self):
+        return self.end_position
 
     def draw(self, screen):
         draw_area = self.buffer.get_rect().copy()

@@ -57,6 +57,8 @@ class ShipTerrain(BaseTerrain):
     def place_end(self, end_coords):
         room_x = end_coords[0] // self.X_SIZE
         room_y = (end_coords[1] + 1) // self.Y_SIZE - 1
+        if end_coords[0] % self.X_SIZE == self.X_SIZE - 1:
+            room_x += 1
 
         base_x = room_x * self.X_SIZE
         end_x = base_x + self.X_SIZE
@@ -70,3 +72,8 @@ class ShipTerrain(BaseTerrain):
         for x in range(base_x + 2, end_x - 2):
             for y in range(base_y + 1, end_y - 1):
                 self.data[y, x] = TerrainType.WALL
+
+        self.end_position = (
+            (base_x + 2.5) * TILE_SIZE,
+            (base_y + 1.5) * TILE_SIZE,
+        )

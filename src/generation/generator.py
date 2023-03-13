@@ -21,7 +21,6 @@ class BaseGenerator:
             self.terrain.clear()
             self.terrain.populate()
             self.explore_graph()
-        # TODO: Fix imperfections
         self.terrain.place_end(self.end)
         self.place_sprites()
         self.terrain.generate_buffer()

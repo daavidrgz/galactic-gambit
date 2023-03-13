@@ -96,4 +96,4 @@ class ShipGenerator(BaseGenerator):
         return n > 0.0
 
     def distance_function(self, x0, y0, x1, y1):
-        return abs(y0 - y1) + abs(x0 - x1) // 15
+        return abs(y0 - y1) + abs(x0 - x1) / 5
