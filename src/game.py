@@ -1,3 +1,4 @@
+from importlib.resources import Resource
 import pygame
 from pygame.locals import *
 from model.game_model import GameModel
@@ -9,6 +10,7 @@ from scenes.levels.planet.planet_level import PlanetLevel
 from scenes.levels.cave.cave_level import CaveLevel
 
 from scenes.director import Director
+from systems.sound_controller import SoundController
 
 
 def run():
@@ -19,7 +21,7 @@ def run():
 
     # Load savegame
     # game_model.load()
-
+    
     initial_scene = Transition(StartMenu())
     director = Director.get_instance()
     director.push_scene(initial_scene)

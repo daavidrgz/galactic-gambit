@@ -1,10 +1,11 @@
+import os
 from enum import Enum
-from constants.game_constants import TILE_SIZE
-from utils.singleton import Singleton
-from animations.animation_frame import AnimationFrame
 
 import pygame
-import os
+
+from animations.animation_frame import AnimationFrame
+from constants.game_constants import TILE_SIZE
+from utils.singleton import Singleton
 
 
 class Resource(Enum):
@@ -68,6 +69,16 @@ class Resource(Enum):
     # Sounds (I dont know which ones we will use)
     MUSIC_TEST = ("sounds/music_test.ogg", 1)
     SOUND_TEST = ("sounds/sound_test.ogg", 1)
+
+    # Sounds
+    LASER_SHOT = ("sounds/laser-shot-alt.mp3", 1)
+
+    # Music
+    START_MENU_MUSIC = ("music/start_menu_music.mp3", 1)
+    SHIP_LEVEL_MUSIC = ("music/ship_music.mp3", 1)
+    PLANET_LEVEL_MUSIC = ("music/planet_music.mp3", 1)
+    CAVE_LEVEL_MUSIC = ("music/cave_music.mp3", 1)
+    WIN_MUSIC = ("music/win_music.mp3", 1)
 
     # Fonts
     FONT_SM = ("fonts/GalacticaGrid.ttf", 10)

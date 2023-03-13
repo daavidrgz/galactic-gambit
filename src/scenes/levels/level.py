@@ -15,7 +15,7 @@ from systems.camera_manager import CameraManager
 
 
 class Level(Scene):
-    def __init__(self, generator, terrain, background_color):
+    def __init__(self, generator, terrain, background_color, music):
         super().__init__()
         self.magic_upgrade_system = MagicUpgradeSystem.get_instance()
         self.tech_upgrade_system = TechUpgradeSystem.get_instance()
@@ -38,6 +38,7 @@ class Level(Scene):
         self.enemy_bullets = ScrollableGroup()
 
         self.hud = Hud()
+        self.scene_music = music
 
     def load(self):
         self.generator.generate()
@@ -52,6 +53,7 @@ class Level(Scene):
             self.bullet_group, self.__player_level_up, self.__player_death
         )
         self.hud.setup(self)
+        super().setup()
 
     def __player_death(self):
         self.game_model.delete_save()
@@ -145,7 +147,7 @@ class Level(Scene):
         self.hud.draw(screen)
 
     def pop_back(self):
-        pass
+        super().pop_back()
 
     def get_terrain(self):
         return self.terrain

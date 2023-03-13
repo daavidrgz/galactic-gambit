@@ -13,12 +13,14 @@ class Scene:
         self.resource_manager = ResourceManager.get_instance()
         self.game_model = GameModel.get_instance()
         self.load_completed = False
+        self.scene_music = None
 
     def load(self):
         self.load_completed = True
 
     def setup(self):
-        raise NotImplementedError
+        if self.scene_music:
+            self.sound_controller.play_music(self.scene_music)
 
     def update(self, elapsed_time):
         raise NotImplementedError
@@ -30,4 +32,5 @@ class Scene:
         raise NotImplementedError
 
     def pop_back(self):
-        pass
+        if self.scene_music:
+            self.sound_controller.play_music(self.scene_music)

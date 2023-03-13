@@ -14,12 +14,13 @@ class SoundController(metaclass=Singleton):
         self.resource_manager = ResourceManager()
         pg.mixer.pre_init(44100, -16, 2, 512)  # Default values used by PyGame
         pg.mixer.init()
+        self.current_music = None
 
     def play(self):
         pg.mixer.music.unpause()
 
     def pause(self):
-        pg.mixer.music.pause()
+        pg.mixer.music.fadeout(1000)
 
     def set_music_volume(self, volume):
         self.music_volume = volume
@@ -63,11 +64,16 @@ class SoundController(metaclass=Singleton):
         loaded_sound.set_volume(rel_volume * self.effects_volume / 100)
 
     def play_music(self, music):
+        if self.current_music == music:
+            return
+        if pg.mixer.music.get_busy():
+            self.pause()
         pg.mixer.music.load(
             os.path.join(self.resource_manager.BASE_PATH, music.value[0])
         )
         self.set_relative_volume_music(music.value[1])
         pg.mixer.music.play(-1)
+        self.current_music = music
 
     def play_sound(self, sound):
         loaded_sound = self.resource_manager.load_sound(sound)

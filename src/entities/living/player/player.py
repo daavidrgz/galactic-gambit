@@ -14,6 +14,7 @@ from mechanics.magic.magic_upgrade_system import MagicUpgradeSystem
 from systems.camera_manager import CameraManager
 from systems.control_system import Action, ControlSystem
 from systems.resource_manager import Resource
+from systems.sound_controller import SoundController
 
 PIE = np.pi / 8
 
@@ -22,7 +23,7 @@ class Player(LivingEntity):
     def __init__(self, hp, gun, magic_level, initial_pos):
         self.control = ControlSystem.get_instance()
         self.camera = CameraManager.get_instance()
-        self.magic_upgrade_system = MagicUpgradeSystem.get_instance()
+        self.sound_controller = SoundController.get_instance()
 
         self.shoot_cooldown = 0.0
         self.gun = gun
@@ -92,6 +93,8 @@ class Player(LivingEntity):
         shoot_direction = np.array(mouse_pos) - np.array(self.__get_screen_position())
         shoot_direction /= np.linalg.norm(shoot_direction)
         new_bullets = self.gun.shoot(shoot_position, shoot_direction)
+        self.sound_controller.play_sound(Resource.LASER_SHOT)
+
         self.bullets.add(new_bullets)
         self.increase_exp(10)
 

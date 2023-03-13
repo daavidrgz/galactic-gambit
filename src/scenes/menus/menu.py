@@ -20,6 +20,7 @@ class Menu(Scene):
         self.buttons_len = len(self.buttons)
         if self.buttons_len > 0:
             self.buttons[0].select()
+        super().setup()
 
     def previous_button(self):
         if self.current_button != 0:

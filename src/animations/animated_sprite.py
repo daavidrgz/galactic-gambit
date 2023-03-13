@@ -7,7 +7,7 @@ import pygame
 
 class AnimatedSprite(pygame.sprite.Sprite):
     def __init__(self, frames, initial_pos):
-        self.resource_manager = ResourceManager()
+        self.resource_manager = ResourceManager.get_instance()
         self.speed_multiplier = 1.0
 
         if isinstance(frames, Resource):

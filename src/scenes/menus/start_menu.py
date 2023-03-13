@@ -4,7 +4,6 @@ from constants.game_constants import DESIGN_HEIGHT, DESIGN_WIDTH
 from constants.gui_constants import COLOR_BRIGHT, COLOR_SUBTLE
 from gui.components.text_button import TextButton
 from gui.components.title import Title
-from scenes.levels.planet.planet_level import PlanetLevel
 from scenes.levels.ship.ship_level import ShipLevel
 from scenes.menus.configuration_menu import ConfigurationMenu
 from scenes.menus.vertical_menu import VerticalMenu
@@ -32,6 +31,8 @@ class StartMenu(VerticalMenu):
         background.blit(background_image, (0, 0))
         background.blit(veil, (0, 0))
         self.background = background
+
+        self.scene_music = Resource.START_MENU_MUSIC
 
     def __new_game(self):
         next_level = ShipLevel
@@ -100,3 +101,5 @@ class StartMenu(VerticalMenu):
         self.gui_group.empty()
         self.buttons = []
         self.__generate_gui()
+        self.buttons[self.current_button].select()
+        super().pop_back()
