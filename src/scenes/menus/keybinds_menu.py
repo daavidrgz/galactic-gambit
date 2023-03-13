@@ -17,6 +17,7 @@ class KeybindingsMenu(VerticalMenu):
         self.is_rebinding = False
 
     def __select_rebind_button(self):
+        self.disable_mouse = True
         self.is_rebinding = True
 
     def __go_back(self):
@@ -73,10 +74,9 @@ class KeybindingsMenu(VerticalMenu):
 
         for event in events:
             if event.type == pygame.KEYDOWN:
+                self.is_rebinding = False
+                self.disable_mouse = False
                 if event.key == pygame.K_ESCAPE or event.key == pygame.K_RETURN:
                     self.get_selected_button().reset_color()
-                    self.is_rebinding = False
                     return
-
                 self.get_selected_button().rebind_action(event.key)
-                self.is_rebinding = False

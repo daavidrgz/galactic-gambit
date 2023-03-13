@@ -10,7 +10,7 @@ class MagicLevel(Observable):
         super().__init__()
         self.level = initial_level
         self.experience = initial_exp
-        self.max_level = MagicUpgradeSystem().get_num_upgrades()
+        self.max_level = MagicUpgradeSystem().get_num_upgrades() + 1
 
     def setup(self, on_level_up):
         self.on_level_up = on_level_up
