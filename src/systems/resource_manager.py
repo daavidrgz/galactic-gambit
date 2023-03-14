@@ -73,6 +73,14 @@ class Resource(Enum):
     # Sounds
     LASER_SHOT = ("sounds/laser-shot-alt.mp3", 1)
 
+    SHIP_FOOTSTEPS = [
+        ("sounds/ship-footstep-01.mp3", 1),
+        ("sounds/ship-footstep-02.mp3", 1),
+        ("sounds/ship-footstep-03.mp3", 1),
+        ("sounds/ship-footstep-04.mp3", 1),
+        ("sounds/ship-footstep-05.mp3", 1),
+    ]
+
     # Music
     START_MENU_MUSIC = ("music/start_menu_music.mp3", 1)
     SHIP_LEVEL_MUSIC = ("music/ship_music.mp3", 1)
@@ -219,6 +227,15 @@ class ResourceManager(metaclass=Singleton):
             raise SystemExit
         return image
 
+    def __load_sound(self, rel_path):
+        path = os.path.join(self.BASE_PATH, rel_path)
+        try:
+            loaded_sound = pygame.mixer.Sound(path)
+        except (pygame.error):
+            print("Error loading sound: ", path)
+            raise SystemExit
+        return loaded_sound
+
     def load_image(self, image_resource):
         if image_resource in self.resources:
             return self.resources[image_resource]
@@ -231,14 +248,20 @@ class ResourceManager(metaclass=Singleton):
         if sound_resource in self.resources:
             return self.resources[sound_resource]
         else:
-            path = os.path.join(self.BASE_PATH, sound_resource.value[0])
-            try:
-                loaded_sound = pygame.mixer.Sound(path)
-            except (pygame.error):
-                print("Error loading sound: ", path)
-                raise SystemExit
+            loaded_sound = self.__load_sound(sound_resource.value[0])
             self.resources[sound_resource] = loaded_sound
             return loaded_sound
+
+    def load_sounds(self, sounds_resource):
+        if sounds_resource in self.resources:
+            return self.resources[sounds_resource]
+        else:
+            sounds = []
+            for sound_resource in sounds_resource.value:
+                loaded_sound = self.__load_sound(sound_resource[0])
+                sounds.append((loaded_sound, sound_resource[1]))
+            self.resources[sounds_resource] = sounds
+            return sounds
 
     def load_tile(self, tile_resource):
         tile_identifier = tile_resource.value + "_tile"

@@ -77,7 +77,9 @@ class MeleeAI(BaseAI):
             return
 
         # Track player and avoid walls
-        self.previous_direction = find_path(enemy_pos, diff_vector, distance, self.previous_direction, terrain)
+        self.previous_direction = find_path(
+            enemy_pos, diff_vector, distance, self.previous_direction, terrain
+        )
         enemy.set_target(enemy_pos + self.previous_direction)
 
     def attack(self, enemy, player, terrain, elapsed_time):

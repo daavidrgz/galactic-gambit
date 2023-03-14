@@ -19,6 +19,7 @@ class PlanetLevel(Level):
         generator = PlanetGenerator(terrain)
         background_color = tuple(x // 10 for x in (226, 84, 10))
         level_music = Resource.PLANET_LEVEL_MUSIC
+        player_footsteps = Resource.SHIP_FOOTSTEPS
 
         rmgr = ResourceManager()
         dust_sprite = pygame.sprite.Sprite()
@@ -32,7 +33,13 @@ class PlanetLevel(Level):
         self.dust = ParallaxGroup((1.5, 1.5), dust_sprite)
 
         self.next_level = CaveLevel
-        super().__init__(generator, terrain, background_color, level_music)
+        super().__init__(
+            generator=generator,
+            terrain=terrain,
+            background_color=background_color,
+            scene_music=level_music,
+            player_footsteps=player_footsteps,
+        )
 
     def setup(self):
         super().setup()

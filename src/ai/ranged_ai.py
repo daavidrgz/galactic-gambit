@@ -51,7 +51,7 @@ class RangedAI(BaseAI):
         enemy.set_target(new_target)
 
     def preparing(self, enemy, player, terrain, elapsed_time):
-        # If distance > attack_range move to a point in between attack range and melee 
+        # If distance > attack_range move to a point in between attack range and melee
         # range, find direct line of sight with player and change to ATTACKING
         # If distance > tracking_range change to ALERT
         ...
@@ -62,7 +62,7 @@ class RangedAI(BaseAI):
         # If distance > attack range PREPARING
         # If no line of sight PREPARING
         ...
-    
+
     def alert(self, enemy, player, terrain, elapsed_time):
         # Compute distance to player, if in tracking range change
         # to PREPARING state

@@ -17,7 +17,9 @@ class BaseGenerator:
         self.min_tiles, self.max_tiles = desired_area
 
     def generate(self):
-        while self.explored_tiles < self.min_tiles or self.explored_tiles > self.max_tiles:
+        while (
+            self.explored_tiles < self.min_tiles or self.explored_tiles > self.max_tiles
+        ):
             self.terrain.clear()
             self.terrain.populate()
             self.explore_graph()
@@ -40,7 +42,9 @@ class BaseGenerator:
             curr_pos_x, curr_pos_y, depth = pos_queue.pop(0)
             self.explored_tiles += 1
 
-            distance = self.distance_function(start_x, start_y, curr_pos_x, curr_pos_y, depth)
+            distance = self.distance_function(
+                start_x, start_y, curr_pos_x, curr_pos_y, depth
+            )
             if distance > max_distance:
                 max_distance = distance
                 self.end = (curr_pos_x, curr_pos_y)

@@ -32,10 +32,10 @@ class UpgradeSystem:
 
     def get_num_upgrades(self):
         return self.num_upgrades
+
     # Template pattern
     def get_available_upgrades(self):
         raise NotImplementedError
 
     def get_random_generator(self):
         raise NotImplementedError
-    

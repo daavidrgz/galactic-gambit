@@ -14,7 +14,7 @@ from mechanics.magic.magic_upgrade_system import MagicUpgradeSystem
 from systems.camera_manager import CameraManager
 from systems.control_system import Action, ControlSystem
 from systems.resource_manager import Resource
-from systems.sound_controller import SoundController
+from systems.sound_controller import CycleSounds, SoundController
 
 PIE = np.pi / 8
 
@@ -44,12 +44,13 @@ class Player(LivingEntity):
         player.hp = Hp.from_model_hp(player_model.hp)
         return player
 
-    def setup(self, bullets, on_level_up, on_death):
+    def setup(self, bullets, footsteps_sounds, on_level_up, on_death):
         self.camera.set_center(self.get_position())
         self.camera.set_target_center(self.get_position())
         self.magic_level.setup(on_level_up)
         self.on_death_cb = on_death
         self.bullets = bullets
+        self.footsteps = CycleSounds(footsteps_sounds, 400)
         super().setup()
 
     def update(self, elapsed_time):
@@ -59,6 +60,13 @@ class Player(LivingEntity):
 
         self.__update_animation()
         self.__update_attack(elapsed_time)
+
+        # Footsteps
+        self.footsteps.update(elapsed_time)
+        if np.linalg.norm(self.velocity) > SPEED_EPSILON:
+            self.footsteps.play()
+        else:
+            self.footsteps.stop()
 
         # Camera
         self.camera.set_target_center(

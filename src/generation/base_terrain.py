@@ -44,7 +44,7 @@ class BaseTerrain:
 
     def get_player_starting_position(self):
         return self.player_starting_position
-    
+
     def get_end_position(self):
         return self.end_position
 
@@ -62,13 +62,15 @@ class BaseTerrain:
         self.sprites.draw(self.buffer)
         self.sprites_top.draw(self.buffer)
 
-        self.minimap = pygame.transform.smoothscale(self.buffer, (MINIMAP_SIZE, MINIMAP_SIZE))
+        self.minimap = pygame.transform.smoothscale(
+            self.buffer, (MINIMAP_SIZE, MINIMAP_SIZE)
+        )
         utils.misc.add_border(self.minimap, (0, 0, 0, 255))
         utils.misc.add_border(self.minimap, (255, 255, 255, 255))
 
     def get_minimap(self):
         return self.minimap
-    
+
     def get_size(self):
         return (self.width, self.height)
 
