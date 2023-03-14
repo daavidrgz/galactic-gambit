@@ -4,7 +4,6 @@ from constants.game_constants import DESIGN_HEIGHT, DESIGN_WIDTH
 from constants.gui_constants import COLOR_BRIGHT, COLOR_SUBTLE
 from gui.components.text_button import TextButton
 from gui.components.title import Title
-from scenes.levels.planet.planet_level import PlanetLevel
 from scenes.levels.ship.ship_level import ShipLevel
 from scenes.menus.configuration_menu import ConfigurationMenu
 from scenes.menus.vertical_menu import VerticalMenu
@@ -36,6 +35,7 @@ class StartMenu(VerticalMenu):
         self.scene_music = Resource.START_MENU_MUSIC
 
     def __new_game(self):
+        self.game_model.init_model()
         next_level = ShipLevel
         self.game_model.level = next_level
         self.game_model.save()

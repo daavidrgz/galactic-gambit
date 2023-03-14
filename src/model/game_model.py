@@ -48,10 +48,6 @@ class GameModel(metaclass=Singleton):
         self.player = initial_player
         self.level = None
 
-    def reset_model(self):
-        self.init_model()
-        self.delete_save()
-
     def __update_model(self, model):
         self.player = model.player
         self.level = model.level
