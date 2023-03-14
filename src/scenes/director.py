@@ -1,3 +1,4 @@
+import numpy as np
 import pygame
 from constants.game_constants import (
     INITIAL_USER_HEIGHT,
@@ -8,6 +9,7 @@ from constants.game_constants import (
     DESIGN_FRAMERATE,
 )
 from systems.control_system import ControlSystem
+from systems.resource_manager import Resource, ResourceManager
 from utils.singleton import Singleton
 
 
@@ -17,7 +19,9 @@ class Director(metaclass=Singleton):
             (INITIAL_USER_WIDTH, INITIAL_USER_HEIGHT), vsync=True
         )
         self.virtual_screen = pygame.Surface((DESIGN_WIDTH, DESIGN_HEIGHT))
-        pygame.display.set_caption("Game")
+        self.crosshair = ResourceManager().load_image(Resource.CROSSHAIR)
+        pygame.display.set_caption("Space Mission")
+        pygame.mouse.set_visible(False)
         # Scenes stack
         self.scenes = []
         self.__leave_scene = False
@@ -53,6 +57,10 @@ class Director(metaclass=Singleton):
 
             # Draw scene
             scene.draw(self.virtual_screen)
+            mouse_pos = np.array(control_system.get_mouse_pos())
+            cross_hair_size = np.array(self.crosshair.get_size())
+            self.virtual_screen.blit(self.crosshair, mouse_pos - cross_hair_size / 2)
+            # self.virtual_screen.blit(self.crosshair, control_system.get_mouse_pos())
             # Re-scale the virtual screen to the user screen
             frame = pygame.transform.scale(self.virtual_screen, self.user_screen_size)
             self.screen.blit(frame, frame.get_rect())

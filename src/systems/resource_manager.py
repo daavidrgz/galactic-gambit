@@ -9,6 +9,8 @@ from utils.singleton import Singleton
 
 
 class Resource(Enum):
+    
+    CROSSHAIR = "crosshair.png"
     PLAYER = "sprites/player.png"
     COBBLESTONE = "sprites/cobblestone.png"
     POLISHED_ANDESITE = "sprites/polished_andesite.png"
