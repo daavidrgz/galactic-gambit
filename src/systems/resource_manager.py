@@ -67,12 +67,15 @@ class Resource(Enum):
     DUST = "sprites/dust.png"
     DIRT = "sprites/dirt.png"
 
-    # Sounds (I dont know which ones we will use)
-    MUSIC_TEST = ("sounds/music_test.ogg", 1)
-    SOUND_TEST = ("sounds/sound_test.ogg", 1)
-
     # Sounds
     LASER_SHOT = ("sounds/laser-shot-alt.mp3", 1)
+
+    # Interface sounds
+    SELECT_SOUND = ("sounds/interface/select.ogg", 0.4)
+    CONFIRM_SOUND = ("sounds/interface/confirm.ogg", 0.3)
+    GO_BACK_SOUND = ("sounds/interface/back.ogg", 0.4)
+    CONFIRM_ALT_SOUND = ("sounds/interface/confirm_alt.ogg", 0.6)
+    GO_BACK_ALT_SOUND = ("sounds/interface/go_back_alt.ogg", 1)
 
     SHIP_FOOTSTEPS = [
         ("sounds/ship-footstep-01.mp3", 1),
@@ -80,6 +83,10 @@ class Resource(Enum):
         ("sounds/ship-footstep-03.mp3", 1),
         ("sounds/ship-footstep-04.mp3", 1),
         ("sounds/ship-footstep-05.mp3", 1),
+    ]
+
+    LASER_SHOTS = [
+        ("sounds/laser/laser-shot-01.wav", 1),
     ]
 
     # Music

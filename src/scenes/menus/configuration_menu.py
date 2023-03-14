@@ -1,7 +1,7 @@
 import pygame
 from constants.game_constants import DESIGN_HEIGHT, DESIGN_WIDTH
-from gui.components.button import Button
-from gui.components.text_button import TextButton
+from gui.components.buttons.button import Button
+from gui.components.buttons.text_button import TextButton
 from gui.components.title import Title
 from constants.gui_constants import COLOR_BRIGHT, COLOR_SUBTLE
 from scenes.menus.keybinds_menu import KeybindingsMenu
@@ -47,7 +47,9 @@ class ConfigurationMenu(VerticalMenu):
         self.buttons.append(
             self.__create_button("Keybindings", self.__keybindings_config, 0)
         )
-        self.buttons.append(self.__create_button("Go back", self.__go_back, 100))
+        go_back_button = self.__create_button("Go back", self.__go_back, 100)
+        go_back_button.confirm_sound = Resource.GO_BACK_SOUND
+        self.buttons.append(go_back_button)
 
         self.gui_group.add(self.title, self.buttons)
         super().setup()

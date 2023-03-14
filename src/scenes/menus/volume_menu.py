@@ -1,8 +1,8 @@
 import pygame
 from constants.game_constants import DESIGN_HEIGHT, DESIGN_WIDTH
-from gui.components.text_button import TextButton
+from gui.components.buttons.text_button import TextButton
 from gui.components.title import Title
-from gui.components.volume_button import VolumeButton
+from gui.components.buttons.volume_button import VolumeButton
 from constants.gui_constants import COLOR_BRIGHT, COLOR_SUBTLE
 from scenes.menus.vertical_menu import VerticalMenu
 from systems.resource_manager import Resource
@@ -61,7 +61,7 @@ class VolumeMenu(VerticalMenu):
             )
         )
 
-        self.go_back_button = TextButton(
+        go_back_button = TextButton(
             text="Go back",
             font=self.resource_manager.load_font(Resource.FONT_LG),
             color=COLOR_SUBTLE,
@@ -69,7 +69,8 @@ class VolumeMenu(VerticalMenu):
             action=self.__go_back,
             position=(DESIGN_WIDTH // 2, DESIGN_HEIGHT // 2 + 100),
         )
-        self.buttons.append(self.go_back_button)
+        go_back_button.confirm_sound = Resource.GO_BACK_SOUND
+        self.buttons.append(go_back_button)
 
         self.gui_group.add(self.title, self.buttons)
         super().setup()

@@ -2,7 +2,7 @@ import pygame
 
 from constants.game_constants import DESIGN_HEIGHT, DESIGN_WIDTH
 from constants.gui_constants import COLOR_BRIGHT, COLOR_SUBTLE
-from gui.components.text_button import TextButton
+from gui.components.buttons.text_button import TextButton
 from gui.components.title import Title
 from scenes.levels.ship.ship_level import ShipLevel
 from scenes.menus.configuration_menu import ConfigurationMenu
@@ -81,14 +81,17 @@ class StartMenu(VerticalMenu):
             position=(DESIGN_WIDTH / 2, 100),
         )
         if self.game_model.save_exists():
-            self.buttons.append(
-                self.__create_button("Continue Game", self.__continue_game, -150)
+            continue_game_button = self.__create_button(
+                "Continue Game", self.__continue_game, -150
             )
+            continue_game_button.confirm_sound = Resource.CONFIRM_ALT_SOUND
+            self.buttons.append(continue_game_button)
 
         offsets = self.__get_offsets()
-        self.buttons.append(
-            self.__create_button("New Game", self.__new_game, offsets[0])
-        )
+        new_game_button = self.__create_button("New Game", self.__new_game, offsets[0])
+        new_game_button.confirm_sound = Resource.CONFIRM_ALT_SOUND
+        self.buttons.append(new_game_button)
+
         self.buttons.append(
             self.__create_button("Configuration", self.__config_game, offsets[1])
         )

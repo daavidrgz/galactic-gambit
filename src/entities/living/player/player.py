@@ -10,7 +10,6 @@ from constants.game_constants import (
 from entities.living.hp import Hp
 from entities.living.living_entity import LivingEntity
 from mechanics.magic.magic_level import MagicLevel
-from mechanics.magic.magic_upgrade_system import MagicUpgradeSystem
 from systems.camera_manager import CameraManager
 from systems.control_system import Action, ControlSystem
 from systems.resource_manager import Resource
@@ -24,6 +23,7 @@ class Player(LivingEntity):
         self.control = ControlSystem.get_instance()
         self.camera = CameraManager.get_instance()
         self.sound_controller = SoundController.get_instance()
+        self.laser_sound = CycleSounds(Resource.LASER_SHOTS)
 
         self.shoot_cooldown = 0.0
         self.gun = gun
@@ -101,7 +101,7 @@ class Player(LivingEntity):
         shoot_direction = np.array(mouse_pos) - np.array(self.__get_screen_position())
         shoot_direction /= np.linalg.norm(shoot_direction)
         new_bullets = self.gun.shoot(shoot_position, shoot_direction)
-        self.sound_controller.play_sound(Resource.LASER_SHOT)
+        self.laser_sound.play_once()
 
         self.bullets.add(new_bullets)
 
