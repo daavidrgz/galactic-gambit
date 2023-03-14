@@ -8,9 +8,9 @@ class EnemyBullet(Projectile):
     def __init__(self, initial_pos, direction):
         self.resource_manager = ResourceManager.get_instance()
         image = self.resource_manager.load_image(Resource.LASER)
-        image = pygame.transform.scale(image, (60, 20))
+        image = pygame.transform.scale(image, (50, 10))
 
-        super().__init__(image, initial_pos, 12, direction, 1)
+        super().__init__(image, initial_pos, 8, direction, 0)
         self.add_image_modifier(self.__red_image_modifier)
 
     def collide(self, add_animation_func):

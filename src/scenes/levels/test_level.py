@@ -8,7 +8,7 @@ from scenes.levels.groups import ScrollableGroup
 from scenes.levels.ship.ship_level import ShipGenerator, ShipTerrain
 from scenes.menus.pause_menu import PauseMenu
 from systems.resource_manager import Resource, ResourceManager
-from entities.living.enemies.test_enemy import TestEnemy
+from entities.living.enemies.test_ranged_enemy import TestRangedEnemy
 from scenes.director import Director
 
 import pygame
@@ -21,16 +21,16 @@ class TestLevel(Level):
         background_color = (0, 0, 0)
         super().__init__(generator, terrain, background_color)
 
-        self.test_enemy_0 = TestEnemy((124 * 32, 126 * 32))
-        self.test_enemy_1 = TestEnemy((124 * 32, 127 * 32))
-        self.test_enemy_2 = TestEnemy((124 * 32, 128 * 32))
-        self.test_enemy_3 = TestEnemy((124 * 32, 129 * 32))
-        self.test_enemy_4 = TestEnemy((125 * 32, 126 * 32))
-        self.test_enemy_5 = TestEnemy((125 * 32, 127 * 32))
-        self.test_enemy_6 = TestEnemy((125 * 32, 128 * 32))
-        self.test_enemy_7 = TestEnemy((125 * 32, 129 * 32))
-        self.test_enemy_8 = TestEnemy((123 * 32, 126 * 32))
-        self.test_enemy_9 = TestEnemy((123 * 32, 127 * 32))
+        self.test_enemy_0 = TestRangedEnemy((124 * 32, 126 * 32))
+        self.test_enemy_1 = TestRangedEnemy((124 * 32, 127 * 32))
+        self.test_enemy_2 = TestRangedEnemy((124 * 32, 128 * 32))
+        self.test_enemy_3 = TestRangedEnemy((124 * 32, 129 * 32))
+        self.test_enemy_4 = TestRangedEnemy((125 * 32, 126 * 32))
+        self.test_enemy_5 = TestRangedEnemy((125 * 32, 127 * 32))
+        self.test_enemy_6 = TestRangedEnemy((125 * 32, 128 * 32))
+        self.test_enemy_7 = TestRangedEnemy((125 * 32, 129 * 32))
+        self.test_enemy_8 = TestRangedEnemy((123 * 32, 126 * 32))
+        self.test_enemy_9 = TestRangedEnemy((123 * 32, 127 * 32))
         self.enemy_grp = ScrollableGroup(
             self.test_enemy_0,
             self.test_enemy_1,

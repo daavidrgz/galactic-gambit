@@ -98,6 +98,7 @@ class Level(Scene):
 
         self.player.update(elapsed_time)
         self.bullet_group.update(elapsed_time)
+        self.enemy_bullets.update(elapsed_time)
         self.animation_group.update(elapsed_time)
         self.misc_entities.update(elapsed_time)
 
@@ -153,6 +154,7 @@ class Level(Scene):
         self.enemy_group.draw(screen)
         self.misc_entities.draw(screen)
         self.bullet_group.draw(screen)
+        self.enemy_bullets.draw(screen)
         self.animation_group.draw(screen)
         self.hud.draw(screen)
 
