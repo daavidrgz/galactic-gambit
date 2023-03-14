@@ -25,7 +25,8 @@ class Player(LivingEntity):
         self.sound_controller = SoundController.get_instance()
 
         self.laser_sound = CycleSounds(Resource.LASER_SHOTS, volume_variation=0.2)
-        self.exp_sound = Resource.EXP_SOUND
+        self.exp_sound = Resource.GET_EXP_SOUND
+        self.level_up_sound = Resource.LEVEL_UP_SOUND
 
         self.shoot_cooldown = 0.0
         self.gun = gun
@@ -46,10 +47,14 @@ class Player(LivingEntity):
         player.hp = Hp.from_model_hp(player_model.hp)
         return player
 
+    def __on_level_up(self, on_level_up):
+        self.sound_controller.play_sound(self.level_up_sound)
+        on_level_up()
+
     def setup(self, level, on_level_up, on_death):
         self.camera.set_center(self.get_position())
         self.camera.set_target_center(self.get_position())
-        self.magic_level.setup(on_level_up)
+        self.magic_level.setup(lambda: self.__on_level_up(on_level_up))
         self.on_death_cb = on_death
         self.bullets = level.player_bullets
         self.footsteps = CycleSounds(

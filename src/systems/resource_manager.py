@@ -70,7 +70,8 @@ class Resource(Enum):
     DIRT = "sprites/dirt.png"
 
     # Sounds
-    EXP_SOUND = ("sounds/exp.mp3", 0.2)
+    GET_EXP_SOUND = ("sounds/get-exp.wav", 0.4)
+    LEVEL_UP_SOUND = ("sounds/level-up.mp3", 0.3)
     ALIEN_CLOSE_SOUND = ("sounds/alien-close-sound.mp3", 1)
 
     # Scattered Ship sounds
