@@ -9,7 +9,7 @@ from utils.singleton import Singleton
 
 
 class Resource(Enum):
-    
+
     CROSSHAIR = "crosshair.png"
     PLAYER = "sprites/player.png"
     COBBLESTONE = "sprites/cobblestone.png"
@@ -77,14 +77,29 @@ class Resource(Enum):
     CONFIRM_SOUND = ("sounds/interface/confirm.ogg", 0.3)
     GO_BACK_SOUND = ("sounds/interface/back.ogg", 0.4)
     CONFIRM_ALT_SOUND = ("sounds/interface/confirm_alt.ogg", 0.6)
-    GO_BACK_ALT_SOUND = ("sounds/interface/go_back_alt.ogg", 1)
+    GO_BACK_ALT_SOUND = ("sounds/interface/go_back_alt.ogg", 0.7)
 
     SHIP_FOOTSTEPS = [
-        ("sounds/ship-footstep-01.mp3", 0.6),
-        ("sounds/ship-footstep-02.mp3", 0.6),
-        ("sounds/ship-footstep-03.mp3", 0.6),
-        ("sounds/ship-footstep-04.mp3", 0.6),
-        ("sounds/ship-footstep-05.mp3", 0.6),
+        ("sounds/footsteps/ship-footstep-01.mp3", 0.7),
+        ("sounds/footsteps/ship-footstep-02.mp3", 0.7),
+        ("sounds/footsteps/ship-footstep-03.mp3", 0.7),
+        ("sounds/footsteps/ship-footstep-04.mp3", 0.7),
+        ("sounds/footsteps/ship-footstep-05.mp3", 0.7),
+    ]
+
+    PLANET_FOOTSTEPS = [
+        ("sounds/footsteps/planet-footstep-01.mp3", 0.7),
+        ("sounds/footsteps/planet-footstep-03.mp3", 0.7),
+        ("sounds/footsteps/planet-footstep-04.mp3", 0.7),
+        ("sounds/footsteps/planet-footstep-02.mp3", 0.7),
+    ]
+
+    CAVE_FOOTSTEPS = [
+        ("sounds/footsteps/cave-footstep-01.mp3", 0.7),
+        ("sounds/footsteps/cave-footstep-02.mp3", 0.7),
+        ("sounds/footsteps/cave-footstep-05.mp3", 0.3),
+        ("sounds/footsteps/cave-footstep-03.mp3", 0.7),
+        ("sounds/footsteps/cave-footstep-04.mp3", 0.4),
     ]
 
     LASER_SHOTS = [

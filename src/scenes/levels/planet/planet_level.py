@@ -20,7 +20,7 @@ class PlanetLevel(Level):
         generator = PlanetGenerator(terrain)
         background_color = tuple(x // 10 for x in (226, 84, 10))
         level_music = Resource.PLANET_LEVEL_MUSIC
-        player_footsteps = Resource.SHIP_FOOTSTEPS
+        player_footsteps = Resource.PLANET_FOOTSTEPS
 
         rmgr = ResourceManager()
         dust_sprite = pygame.sprite.Sprite()
@@ -54,7 +54,7 @@ class PlanetLevel(Level):
             ):
                 x, y = rng.randint(0, TILE_SIZE * 171), rng.randint(0, TILE_SIZE * 171)
             enemy_type = rng.randint(0, 1)
-            if (enemy_type == 0):
+            if enemy_type == 0:
                 enemy = TestRangedEnemy((x, y))
             else:
                 enemy = TestMeleeEnemy((x, y))

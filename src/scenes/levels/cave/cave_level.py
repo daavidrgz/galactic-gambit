@@ -12,7 +12,7 @@ class CaveLevel(Level):
         generator = CaveGenerator(terrain)
         background_color = (10, 0, 0)
         level_music = Resource.CAVE_LEVEL_MUSIC
-        player_footsteps = Resource.SHIP_FOOTSTEPS
+        player_footsteps = Resource.CAVE_FOOTSTEPS
         from scenes.menus.start_menu import StartMenu
 
         self.next_level = StartMenu
