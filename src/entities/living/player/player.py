@@ -23,7 +23,9 @@ class Player(LivingEntity):
         self.control = ControlSystem.get_instance()
         self.camera = CameraManager.get_instance()
         self.sound_controller = SoundController.get_instance()
+
         self.laser_sound = CycleSounds(Resource.LASER_SHOTS, volume_variation=0.2)
+        self.exp_sound = Resource.EXP_SOUND
 
         self.shoot_cooldown = 0.0
         self.gun = gun
@@ -82,6 +84,7 @@ class Player(LivingEntity):
         self.on_death_cb()
 
     def increase_exp(self, exp):
+        self.sound_controller.play_sound(self.exp_sound)
         self.magic_level.increase_exp(exp)
 
     def apply_tech_upgrade(self, upgrade):

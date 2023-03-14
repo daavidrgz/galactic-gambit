@@ -6,6 +6,30 @@ from systems.resource_manager import ResourceManager
 import os
 
 
+class RandomSounds:
+    def __init__(self, sound_resources, delay=0, volume_variation=0):
+        self.sound_controller = SoundController.get_instance()
+        self.resource_manager = ResourceManager.get_instance()
+        self.sound_resources = sound_resources
+        self.delay = delay
+        self.current_delay = 0
+        self.playing = False
+
+    def update(self, elapsed_time):
+        if not self.playing:
+            return
+        self.current_delay += elapsed_time
+        if self.current_delay >= self.delay:
+            self.sound_controller.play_sound(random.choice(self.sound_resources))
+            self.current_delay = 0
+
+    def play(self):
+        self.playing = True
+
+    def stop(self):
+        self.playing = False
+
+
 class CycleSounds:
     def __init__(self, sounds_resource, delay=0, volume_variation=0):
         self.sound_controller = SoundController.get_instance()
@@ -42,7 +66,7 @@ class CycleSounds:
 
 
 class SoundController(metaclass=Singleton):
-    music_volume = 10
+    music_volume = 50
     effects_volume = 100
     relative_volume = 1
     volume_step = 1

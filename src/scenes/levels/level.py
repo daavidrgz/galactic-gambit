@@ -12,11 +12,17 @@ from scenes.menus.upgrade_menu import UpgradeMenu
 from scenes.scene import Scene
 from scenes.transition import Transition
 from systems.camera_manager import CameraManager
+from systems.sound_controller import RandomSounds
 
 
 class Level(Scene):
     def __init__(
-        self, generator, terrain, background_color, scene_music, player_footsteps
+        self,
+        generator,
+        terrain,
+        background_color,
+        scene_music,
+        player_footsteps,
     ):
         super().__init__()
         self.magic_upgrade_system = MagicUpgradeSystem.get_instance()

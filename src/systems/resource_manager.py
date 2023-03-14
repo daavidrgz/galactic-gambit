@@ -70,7 +70,19 @@ class Resource(Enum):
     DIRT = "sprites/dirt.png"
 
     # Sounds
-    LASER_SHOT = ("sounds/laser-shot-alt.mp3", 1)
+    EXP_SOUND = ("sounds/exp.mp3", 0.2)
+    ALIEN_CLOSE_SOUND = ("sounds/alien-close-sound.mp3", 1)
+
+    # Scattered Ship sounds
+    ALIEN_SOUND = ("sounds/alien-sound.mp3", 0.5)
+    FAR_ALIEN_SOUND = ("sounds/far-alien.mp3", 0.25)
+    SIGNAL_EMITTER_SOUND = ("sounds/signal-emitter.mp3", 0.1)
+    SIGNAL_EMITTER_ALT_SOUND = ("sounds/signal-emitter-alt.mp3", 0.05)
+
+    # Scattered Cave sounds
+    WATER_DROP_ECHO_SOUND = ("sounds/water-drop-echo.mp3", 0.3)
+    WATER_DROPS_SOUND = ("sounds/water-drops.mp3", 0.7)
+    WATER_DROPS_ALT_SOUND = ("sounds/water-drops-alt.mp3", 0.7)
 
     # Interface sounds
     SELECT_SOUND = ("sounds/interface/select.ogg", 0.4)
@@ -107,11 +119,11 @@ class Resource(Enum):
     ]
 
     # Music
-    START_MENU_MUSIC = ("music/start_menu_music.mp3", 1)
-    SHIP_LEVEL_MUSIC = ("music/ship_music.mp3", 1)
-    PLANET_LEVEL_MUSIC = ("music/planet_music.mp3", 1)
-    CAVE_LEVEL_MUSIC = ("music/cave_music.mp3", 1)
-    WIN_MUSIC = ("music/win_music.mp3", 1)
+    START_MENU_MUSIC = ("music/start_menu_music.mp3", 0.9)
+    SHIP_LEVEL_MUSIC = ("music/ship_music.mp3", 0.9)
+    PLANET_LEVEL_MUSIC = ("music/planet_music.mp3", 0.9)
+    CAVE_LEVEL_MUSIC = ("music/cave_music.mp3", 0.9)
+    WIN_MUSIC = ("music/win_music.mp3", 0.9)
 
     # Fonts
     FONT_SM = ("fonts/GalacticaGrid.ttf", 10)

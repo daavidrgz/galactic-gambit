@@ -6,6 +6,7 @@ from scenes.levels.planet.planet_level import PlanetLevel
 import pygame
 
 from systems.resource_manager import Resource
+from systems.sound_controller import RandomSounds
 
 
 class ShipLevel(Level):
@@ -15,6 +16,16 @@ class ShipLevel(Level):
         background_color = (0, 0, 0)
         level_music = Resource.SHIP_LEVEL_MUSIC
         player_footsteps = Resource.SHIP_FOOTSTEPS
+
+        self.scattered_sounds = RandomSounds(
+            [
+                Resource.SIGNAL_EMITTER_SOUND,
+                Resource.SIGNAL_EMITTER_ALT_SOUND,
+                Resource.FAR_ALIEN_SOUND,
+                Resource.ALIEN_SOUND,
+            ],
+            10000,
+        )
         self.next_level = PlanetLevel
         super().__init__(
             generator=generator,
@@ -24,7 +35,12 @@ class ShipLevel(Level):
             player_footsteps=player_footsteps,
         )
 
+    def update(self, elapsed_time):
+        self.scattered_sounds.update(elapsed_time)
+        super().update(elapsed_time)
+
     def setup(self):
+        self.scattered_sounds.play()
         super().setup()
 
     def handle_events(self, events):

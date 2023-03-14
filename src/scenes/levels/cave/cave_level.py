@@ -4,6 +4,7 @@ from scenes.levels.level import Level
 from scenes.director import Director
 import pygame
 from systems.resource_manager import Resource
+from systems.sound_controller import RandomSounds
 
 
 class CaveLevel(Level):
@@ -15,6 +16,14 @@ class CaveLevel(Level):
         player_footsteps = Resource.CAVE_FOOTSTEPS
         from scenes.menus.start_menu import StartMenu
 
+        self.scattered_sounds = RandomSounds(
+            [
+                Resource.WATER_DROPS_SOUND,
+                Resource.WATER_DROPS_ALT_SOUND,
+                Resource.WATER_DROP_ECHO_SOUND,
+            ],
+            5000,
+        )
         self.next_level = StartMenu
         super().__init__(
             generator=generator,
@@ -23,6 +32,14 @@ class CaveLevel(Level):
             scene_music=level_music,
             player_footsteps=player_footsteps,
         )
+
+    def update(self, elapsed_time):
+        self.scattered_sounds.update(elapsed_time)
+        super().update(elapsed_time)
+
+    def setup(self):
+        self.scattered_sounds.play()
+        super().setup()
 
     def handle_events(self, events):
         for event in events:
