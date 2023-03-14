@@ -9,6 +9,7 @@ import pygame
 
 class AnimatedSprite(pygame.sprite.Sprite):
     def __init__(self, frames, initial_pos):
+        # TODO: Pasarle hitbox a este sprite
         self.resource_manager = ResourceManager.get_instance()
         self.speed_multiplier = 1.0
 

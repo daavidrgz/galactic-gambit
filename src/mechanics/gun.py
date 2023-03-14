@@ -58,12 +58,6 @@ class Gun:
             vector_angle = initial_angle + i * spread_step
             new_facingy = -math.sin(vector_angle)
             new_facingx = math.cos(vector_angle)
-            # Use epsilon to avoid floating point errors with cosine and sine
-            if new_facingy < SPEED_EPSILON and new_facingy > -SPEED_EPSILON:
-                new_facingy = 0
-            if new_facingx < SPEED_EPSILON and new_facingx > -SPEED_EPSILON:
-                new_facingx = 0
-
             new_facing_vector = np.array([new_facingy, new_facingx])
             initial_position = shoot_position + new_facing_vector * self.gun_offset
             init_upgrades = self.__init_upgrades(self.init_upgrades)

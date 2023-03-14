@@ -33,8 +33,8 @@ class NarrowVision(TechUpgrade):
         gun.spread /= 2
 
 
-class ReinforcedBullets(TechUpgrade):
-    name = "Reinforced Bullets"
+class HardBullets(TechUpgrade):
+    name = "Hard Bullets"
 
     def apply(gun):
         gun.damage *= 1.5
