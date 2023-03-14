@@ -49,6 +49,7 @@ class XpEntity(Entity):
         ))
 
         self.velocity += (direction * 0.1) / distance**2 * elapsed_time
+        self.velocity *= 1.0 - (0.001 * elapsed_time)
 
         self.move(self.velocity * elapsed_time)
 
