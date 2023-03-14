@@ -29,12 +29,9 @@ class Transition(Scene):
         ):
             self.director = Director()
 
-            # Briefly set next scene as active to ensure consistent setup
-            self.director.switch_scene(self.next_scene, False)
             self.next_scene.setup()
             self.next_scene.draw(self.background)
 
-            self.director.switch_scene(self, False)
             self.done_loading = True
             self.animation_time = 1.0
 

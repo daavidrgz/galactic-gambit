@@ -13,8 +13,8 @@ class KinematicEntity(Entity):
         self.collision = collision
         self.velocity = np.zeros(2)
 
-    def setup(self):
-        self.terrain = Director().get_scene().get_terrain()
+    def setup(self, level):
+        self.terrain = level.get_terrain()
         super().setup()
 
     def update(self, elapsed_time):
