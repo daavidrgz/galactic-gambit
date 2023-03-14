@@ -104,7 +104,6 @@ class Player(LivingEntity):
         self.sound_controller.play_sound(Resource.LASER_SHOT)
 
         self.bullets.add(new_bullets)
-        self.increase_exp(10)
 
     def hit(self, damage, knockback=None):
         if self.was_hit:

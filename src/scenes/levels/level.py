@@ -39,6 +39,8 @@ class Level(Scene):
         self.enemy_group = EnemyGroup()
         self.enemy_bullets = ScrollableGroup()
 
+        self.misc_entities = ScrollableGroup()
+
         self.hud = Hud()
         self.scene_music = scene_music
         self.player_footsteps = player_footsteps
@@ -97,6 +99,7 @@ class Level(Scene):
         self.player.update(elapsed_time)
         self.bullet_group.update(elapsed_time)
         self.animation_group.update(elapsed_time)
+        self.misc_entities.update(elapsed_time)
 
     def __check_bullet_colision(self):
 
@@ -148,6 +151,7 @@ class Level(Scene):
         self.terrain.draw(screen)
         self.player_group.draw(screen)
         self.enemy_group.draw(screen)
+        self.misc_entities.draw(screen)
         self.bullet_group.draw(screen)
         self.animation_group.draw(screen)
         self.hud.draw(screen)
@@ -164,5 +168,8 @@ class Level(Scene):
     def spawn_enemy(self, enemy):
         # Add listener before setup, so observers gets first notification at setup
         enemy.observable_pos.add_listener(self.hud.minimap)
-        enemy.setup(self.enemy_bullets)
+        enemy.setup(self.enemy_bullets, self)
         self.enemy_group.add(enemy)
+
+    def spawn_misc_entity(self, entity):
+        self.misc_entities.add(entity)

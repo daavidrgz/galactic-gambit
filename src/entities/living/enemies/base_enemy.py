@@ -1,4 +1,5 @@
 from entities.living.living_entity import LivingEntity
+from entities.xp_entity import XpEntity
 from scenes.director import Director
 from constants.game_constants import DESIGN_FRAMERATE
 
@@ -13,15 +14,17 @@ class BaseEnemy(LivingEntity):
         self.targeting = False
         super().__init__(image, initial_pos, 0.25, (0, 0, 20), hp)
 
-    def setup(self, bullets):
+    def setup(self, bullets, level):
         scene = Director().get_scene()
         self.player = scene.get_player()
         self.bullets = bullets
+        self.level = level
         super().setup()
 
     def on_death(self):
         super().on_death()
         self.kill()
+        self.level.spawn_misc_entity(XpEntity((self.x, self.y), self.player))
 
     def update(self, elapsed_time):
         elapsed_units = elapsed_time * DESIGN_FRAMERATE / 1000

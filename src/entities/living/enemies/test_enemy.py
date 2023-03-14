@@ -11,7 +11,7 @@ class TestEnemy(BaseEnemy):
         self.resource_manager = ResourceManager()
         self.ai = MeleeAI(300, 400, 50)
         image = self.resource_manager.load_image(Resource.POLISHED_ANDESITE)
-        super().__init__(10, initial_pos, image, self.ai)
+        super().__init__(2, initial_pos, image, self.ai)
 
     # TODO: think of a melee attack
     def trigger_attack(self):
