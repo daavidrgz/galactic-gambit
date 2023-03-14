@@ -1,5 +1,5 @@
 import pygame
-from gui.components.text_button import TextButton
+from gui.components.buttons.text_button import TextButton
 from systems.control_system import ControlSystem
 
 

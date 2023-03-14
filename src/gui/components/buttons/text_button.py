@@ -1,4 +1,5 @@
-from gui.components.button import Button
+from gui.components.buttons.button import Button
+from systems.resource_manager import Resource
 
 
 class TextButton(Button):

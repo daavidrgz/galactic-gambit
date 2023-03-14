@@ -8,6 +8,7 @@ from constants.game_constants import (
     INITIAL_GUN_OFFSET,
     INITIAL_GUN_SPEED,
     INITIAL_GUN_SPREAD,
+    INITIAL_GUN_KNOCKBACK,
 )
 from entities.living.hp import Hp
 from entities.living.player.player import Player
@@ -40,6 +41,7 @@ class GameModel(metaclass=Singleton):
             INITIAL_GUN_OFFSET,
             INITIAL_GUN_SPREAD,
             INITIAL_GUN_N_BULLETS,
+            INITIAL_GUN_KNOCKBACK,
         )
 
         initial_magic_level = MagicLevelModel(1, 0)

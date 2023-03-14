@@ -1,4 +1,6 @@
 import copy
+
+import numpy as np
 from animations.animation_frame import AnimationFrame
 from systems.resource_manager import ResourceManager, Resource
 
@@ -7,6 +9,7 @@ import pygame
 
 class AnimatedSprite(pygame.sprite.Sprite):
     def __init__(self, frames, initial_pos):
+        # TODO: Pasarle hitbox a este sprite
         self.resource_manager = ResourceManager.get_instance()
         self.speed_multiplier = 1.0
 
@@ -18,8 +21,9 @@ class AnimatedSprite(pygame.sprite.Sprite):
         self.modifiers = []
         super().__init__()
         self.x, self.y = initial_pos
-        # Use first frame size as image size
-        self.image = pygame.Surface(frames[0].get_image().get_size(), pygame.SRCALPHA)
+        # Use first frame size as image size. All frames must have the same image size
+        frame_size = frames[0].get_image().get_size()
+        self.__buffer_image = pygame.Surface(frame_size, pygame.SRCALPHA)
         self.setup_frames(frames)
 
     def on_animation_finished(self):
@@ -46,8 +50,18 @@ class AnimatedSprite(pygame.sprite.Sprite):
         self.total_elapsed_time %= self.acc_times[-1]
         next_frame_idx = self.__binary_search_time(self.total_elapsed_time)
         self.current_frame = self.frames[next_frame_idx]
-        self.image.fill((0, 0, 0, 0))
-        self.image.blit(self.current_frame.get_image(), (0, 0))
+        current_frame_image = self.current_frame.get_image()
+        # Reset rect every frame, so modifications applied to the sprite does not affect the original rect
+        self.image_rect = current_frame_image.get_rect()
+        self.rect = self.image_rect
+        self.rect.center = (self.x, self.y)
+
+        # Use a buffer image to blit current frame, and do not use self.image directly, because
+        # other sources (e.g. upgrades) could modify self.image size. This way, we can keep the
+        # original image size
+        self.__buffer_image.fill((0, 0, 0, 0))
+        self.__buffer_image.blit(current_frame_image, (0, 0))
+        self.image = self.__buffer_image
         self.__apply_image_modifiers()
         # TODO: image size might change after applying modifiers,
         # using this should work?
@@ -69,8 +83,9 @@ class AnimatedSprite(pygame.sprite.Sprite):
 
         self.current_frame_idx = 0
         self.current_frame = self.frames[0]
-        self.image.blit(self.current_frame.get_image(), (0, 0))
-        self.image_rect = self.image.get_rect()
+        self.__buffer_image.blit(self.current_frame.get_image(), (0, 0))
+        self.image = self.__buffer_image
+        self.image_rect = self.__buffer_image.get_rect()
         self.rect = self.image_rect
         self.rect.center = (self.x, self.y)
         self.total_elapsed_time = 0

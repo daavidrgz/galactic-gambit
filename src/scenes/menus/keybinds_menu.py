@@ -1,8 +1,8 @@
 import pygame
 from constants.game_constants import DESIGN_HEIGHT, DESIGN_WIDTH
-from gui.components.text_button import TextButton
+from gui.components.buttons.text_button import TextButton
 from constants.gui_constants import COLOR_BRIGHT, COLOR_SUBTLE
-from gui.components.rebind_button import RebindButton
+from gui.components.buttons.rebind_button import RebindButton
 from gui.components.title import Title
 from scenes.menus.vertical_menu import VerticalMenu
 from systems.control_system import Action, ControlSystem
@@ -54,7 +54,7 @@ class KeybindingsMenu(VerticalMenu):
         self.buttons.append(self.create_action_button("Move Down", Action.DOWN, 0))
         self.buttons.append(self.create_action_button("Move Right", Action.RIGHT, 50))
 
-        self.go_back_button = TextButton(
+        go_back_button = TextButton(
             text="Go back",
             font=self.resource_manager.load_font(Resource.FONT_MD),
             color=COLOR_SUBTLE,
@@ -62,7 +62,8 @@ class KeybindingsMenu(VerticalMenu):
             action=self.__go_back,
             position=(DESIGN_WIDTH // 2, DESIGN_HEIGHT // 2 + 100),
         )
-        self.buttons.append(self.go_back_button)
+        go_back_button.confirm_sound = Resource.GO_BACK_SOUND
+        self.buttons.append(go_back_button)
 
         self.gui_group.add(self.title, self.buttons)
         super().setup()

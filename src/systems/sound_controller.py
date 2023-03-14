@@ -1,4 +1,5 @@
 from itertools import cycle
+import random
 import pygame as pg
 from utils.singleton import Singleton
 from systems.resource_manager import ResourceManager
@@ -6,22 +7,32 @@ import os
 
 
 class CycleSounds:
-    def __init__(self, sounds_resource, delay):
+    def __init__(self, sounds_resource, delay=0, volume_variation=0):
         self.sound_controller = SoundController.get_instance()
         self.resource_manager = ResourceManager.get_instance()
         loaded_sounds = self.resource_manager.load_sounds(sounds_resource)
         self.sounds = cycle(loaded_sounds)
+        self.volume_variation = volume_variation
         self.playing = False
         self.delay = delay
         self.current_delay = 0
+
+    def __play_sound(self, sound):
+        volume = random.randint(0, int(self.volume_variation * 100)) / 100 + (
+            sound[1] - self.volume_variation
+        )
+        self.sound_controller.play_sound_raw(sound[0], volume)
 
     def update(self, elapsed_time):
         if not self.playing:
             return
         self.current_delay += elapsed_time
         if self.current_delay >= self.delay:
-            self.sound_controller.play_sound_raw(next(self.sounds))
+            self.__play_sound(next(self.sounds))
             self.current_delay = 0
+
+    def play_once(self):
+        self.__play_sound(next(self.sounds))
 
     def play(self):
         self.playing = True
@@ -31,7 +42,7 @@ class CycleSounds:
 
 
 class SoundController(metaclass=Singleton):
-    music_volume = 100
+    music_volume = 10
     effects_volume = 100
     relative_volume = 1
     volume_step = 1
@@ -101,11 +112,11 @@ class SoundController(metaclass=Singleton):
         pg.mixer.music.play(-1)
         self.current_music = music
 
-    def play_sound(self, sound):
+    def play_sound(self, sound, max_time=0):
         loaded_sound = self.resource_manager.load_sound(sound)
         self.set_relative_volume_sound(loaded_sound, sound.value[1])
-        loaded_sound.play()
+        loaded_sound.play(maxtime=max_time)
 
-    def play_sound_raw(self, sound):
-        self.set_relative_volume_sound(sound[0], sound[1])
-        sound[0].play()
+    def play_sound_raw(self, sound, volume):
+        self.set_relative_volume_sound(sound, volume)
+        sound.play()

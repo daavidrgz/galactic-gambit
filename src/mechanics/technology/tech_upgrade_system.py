@@ -2,7 +2,7 @@ from mechanics.technology.tech_upgrade import (
     DoubleShot,
     NarrowVision,
     NumberOne,
-    ReinforcedBullets,
+    HardBullets,
     TripleShot,
 )
 from mechanics.upgrade_system import UpgradeSystem
@@ -10,7 +10,7 @@ from systems.rng_system import Generator, RngSystem
 from utils.singleton import Singleton
 
 
-TECH_UPGRADES = [TripleShot, DoubleShot, NarrowVision, ReinforcedBullets, NumberOne]
+TECH_UPGRADES = [TripleShot, DoubleShot, NarrowVision, HardBullets, NumberOne]
 
 
 class TechUpgradeSystem(UpgradeSystem, metaclass=Singleton):
