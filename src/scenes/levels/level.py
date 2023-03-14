@@ -173,3 +173,4 @@ class Level(Scene):
 
     def spawn_misc_entity(self, entity):
         self.misc_entities.add(entity)
+        entity.setup()
