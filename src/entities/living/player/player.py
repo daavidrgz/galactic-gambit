@@ -49,7 +49,7 @@ class Player(LivingEntity):
         self.camera.set_target_center(self.get_position())
         self.magic_level.setup(on_level_up)
         self.on_death_cb = on_death
-        self.bullets = level.bullet_group
+        self.bullets = level.player_bullets
         self.footsteps = CycleSounds(
             level.player_footsteps, delay=400, volume_variation=0.2
         )

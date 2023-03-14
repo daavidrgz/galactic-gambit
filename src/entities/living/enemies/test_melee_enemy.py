@@ -16,5 +16,5 @@ class TestMeleeEnemy(BaseEnemy):
         direction = np.array(self.player.get_position()) - np.array(self.get_position())
         direction /= np.linalg.norm(direction)
         image = self.resource_manager.load_image(Resource.LASER)
-        new_projectile = Projectile(image, self.get_position(), 10, direction, 0)
+        new_projectile = Projectile(image, self.get_position(), 10, direction, 0, 10)
         self.bullets.add(new_projectile)

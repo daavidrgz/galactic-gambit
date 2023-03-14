@@ -5,7 +5,7 @@ from entities.entity import Entity
 
 
 class Projectile(Entity):
-    def __init__(self, image, initial_pos, speed, direction, damage):
+    def __init__(self, image, initial_pos, speed, direction, damage, knockback):
         image = pygame.transform.rotate(
             image, np.rad2deg(np.arctan2(-direction[1], direction[0]))
         )
@@ -15,6 +15,7 @@ class Projectile(Entity):
         self.direction = direction
         self.velocity = speed * direction
         self.damage = damage
+        self.knockback = knockback
 
     def collide(self):
         self.kill()

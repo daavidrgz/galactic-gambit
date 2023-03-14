@@ -21,7 +21,7 @@ class Level(Scene):
         super().__init__()
         self.magic_upgrade_system = MagicUpgradeSystem.get_instance()
         self.tech_upgrade_system = TechUpgradeSystem.get_instance()
-        self.bullet_group = ScrollableGroup()
+        self.player_bullets = ScrollableGroup()
 
         player_model = self.game_model.get_player()
         self.player = Player.from_player_model(player_model, (0, 0))
@@ -95,33 +95,29 @@ class Level(Scene):
         self.camera_mgr.update(elapsed_time)
 
         self.player.update(elapsed_time)
-        self.bullet_group.update(elapsed_time)
+        self.player_bullets.update(elapsed_time)
         self.enemy_bullets.update(elapsed_time)
         self.animation_group.update(elapsed_time)
         self.misc_entities.update(elapsed_time)
 
     def __check_bullet_colision(self):
 
-        # as we take into account if the bullet is or not on the ground,
-        # it is not neccessary to check bullet's previous position to avoid
-        # wall noclip. The latter one would happen if the bullet's speed is greater
-        # than wall's width, and if we only took into account wall collision
-        for bullet in self.bullet_group:
+        for bullet in self.player_bullets:
             if not self.terrain.on_ground(bullet.rect):
                 bullet.collide(self.animation_group.add)
 
     def __check_bullet_enemy_collision(self):
-        for bullet in self.bullet_group:
+        for bullet in self.player_bullets:
             for enemy in self.enemy_group:
                 if bullet.rect.colliderect(enemy.rect):
-                    enemy.hit(bullet.damage, bullet.direction * 10.0)
+                    enemy.hit(bullet.damage, bullet.direction * bullet.knockback)
                     bullet.kill()
                     break
 
     def __check_enemy_bullet_with_player_colision(self):
         for bullet in self.enemy_bullets:
             if bullet.rect.colliderect(self.player.rect):
-                self.player.hit(bullet.damage, bullet.direction * 10.0)
+                self.player.hit(bullet.damage, bullet.direction * bullet.knockback)
                 bullet.kill()
 
     def __check_player_reached_end(self):
@@ -144,6 +140,8 @@ class Level(Scene):
                     self.director.push_scene(PauseMenu())
                 if event.key == pygame.K_m:
                     self.__player_tech_upgrade()
+                if event.key == pygame.K_n:
+                    self.__player_level_up()
 
     def draw(self, screen):
         screen.fill(self.background_color)
@@ -151,7 +149,7 @@ class Level(Scene):
         self.player_group.draw(screen)
         self.enemy_group.draw(screen)
         self.misc_entities.draw(screen)
-        self.bullet_group.draw(screen)
+        self.player_bullets.draw(screen)
         self.enemy_bullets.draw(screen)
         self.animation_group.draw(screen)
         self.hud.draw(screen)

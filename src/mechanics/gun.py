@@ -7,7 +7,9 @@ from mechanics.magic.magic_upgrade import MagicUpgradeType
 
 
 class Gun:
-    def __init__(self, damage, cooldown, bullet_speed, gun_offset, spread, n_bullets):
+    def __init__(
+        self, damage, cooldown, bullet_speed, gun_offset, spread, n_bullets, knockback
+    ):
         self.damage = damage
         self.cooldown = cooldown
         self.current_cooldown = 0.0
@@ -15,6 +17,7 @@ class Gun:
         self.gun_offset = gun_offset
         self.spread = spread
         self.n_bullets = n_bullets
+        self.knockback = knockback
 
         self.init_upgrades = []
         self.update_upgrades = []
@@ -70,6 +73,7 @@ class Gun:
                 self.bullet_speed,
                 new_facing_vector,
                 self.damage,
+                self.knockback,
                 init_upgrades,
                 update_upgrades,
             )
