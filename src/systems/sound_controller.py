@@ -7,30 +7,32 @@ import os
 
 
 class CycleSounds:
-    def __init__(self, sounds_resource, delay=0):
+    def __init__(self, sounds_resource, delay=0, volume_variation=0):
         self.sound_controller = SoundController.get_instance()
         self.resource_manager = ResourceManager.get_instance()
         loaded_sounds = self.resource_manager.load_sounds(sounds_resource)
         self.sounds = cycle(loaded_sounds)
+        self.volume_variation = volume_variation
         self.playing = False
         self.delay = delay
         self.current_delay = 0
+
+    def __play_sound(self, sound):
+        volume = random.randint(0, int(self.volume_variation * 100)) / 100 + (
+            sound[1] - self.volume_variation
+        )
+        self.sound_controller.play_sound_raw(sound[0], volume)
 
     def update(self, elapsed_time):
         if not self.playing:
             return
         self.current_delay += elapsed_time
         if self.current_delay >= self.delay:
-            sound = next(self.sounds)
-            half_volume = sound[1] / 2
-            volume = random.randint(0, int(half_volume * 100)) / 100 + half_volume
-            print(volume)
-            self.sound_controller.play_sound_raw(sound[0], volume)
+            self.__play_sound(next(self.sounds))
             self.current_delay = 0
 
     def play_once(self):
-        sound = next(self.sounds)
-        self.sound_controller.play_sound_raw(sound[0], random.randint(0, 30) / 30 + 0.7)
+        self.__play_sound(next(self.sounds))
 
     def play(self):
         self.playing = True

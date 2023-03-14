@@ -80,15 +80,15 @@ class Resource(Enum):
     GO_BACK_ALT_SOUND = ("sounds/interface/go_back_alt.ogg", 1)
 
     SHIP_FOOTSTEPS = [
-        ("sounds/ship-footstep-01.mp3", 1),
-        ("sounds/ship-footstep-02.mp3", 1),
-        ("sounds/ship-footstep-03.mp3", 1),
-        ("sounds/ship-footstep-04.mp3", 1),
-        ("sounds/ship-footstep-05.mp3", 1),
+        ("sounds/ship-footstep-01.mp3", 0.6),
+        ("sounds/ship-footstep-02.mp3", 0.6),
+        ("sounds/ship-footstep-03.mp3", 0.6),
+        ("sounds/ship-footstep-04.mp3", 0.6),
+        ("sounds/ship-footstep-05.mp3", 0.6),
     ]
 
     LASER_SHOTS = [
-        ("sounds/laser/laser-shot-01.wav", 1),
+        ("sounds/laser/laser-shot-01.wav", 0.8),
     ]
 
     # Music

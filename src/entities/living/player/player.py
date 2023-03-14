@@ -23,7 +23,7 @@ class Player(LivingEntity):
         self.control = ControlSystem.get_instance()
         self.camera = CameraManager.get_instance()
         self.sound_controller = SoundController.get_instance()
-        self.laser_sound = CycleSounds(Resource.LASER_SHOTS)
+        self.laser_sound = CycleSounds(Resource.LASER_SHOTS, volume_variation=0.2)
 
         self.shoot_cooldown = 0.0
         self.gun = gun
@@ -50,7 +50,9 @@ class Player(LivingEntity):
         self.magic_level.setup(on_level_up)
         self.on_death_cb = on_death
         self.bullets = level.bullet_group
-        self.footsteps = CycleSounds(level.player_footsteps, 400)
+        self.footsteps = CycleSounds(
+            level.player_footsteps, delay=400, volume_variation=0.2
+        )
         super().setup(level)
 
     def update(self, elapsed_time):
