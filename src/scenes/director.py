@@ -21,10 +21,12 @@ class Director(metaclass=Singleton):
         # Scenes stack
         self.scenes = []
         self.__leave_scene = False
+        self.__leave_scene_callback = lambda: 0
         self.clock = pygame.time.Clock()
 
     def __loop(self, scene):
         self.__leave_scene = False
+        self.__leave_scene_callback = lambda: 0
         pygame.event.clear()
 
         control_system = ControlSystem.get_instance()
@@ -57,42 +59,48 @@ class Director(metaclass=Singleton):
             pygame.display.flip()
 
     def run(self):
+        self.__leave_scene_callback()
         while len(self.scenes) > 0:
             current_scene = self.scenes[-1]
             self.__loop(current_scene)
+            self.__leave_scene_callback()
 
     def push_scene(self, scene, do_setup=True):
         self.__leave_scene = True
-        self.scenes.append(scene)
-        if do_setup:
-            scene.setup()
 
-    def pop_scene(self):
+        def callback():
+            self.scenes.append(scene)
+            if do_setup:
+                scene.setup()
+
+        self.__leave_scene_callback = callback
+
+    def pop_scene(self, do_pop_back=True):
         self.__leave_scene = True
 
-        if len(self.scenes) > 0:
-            self.scenes.pop()
+        def callback():
             if len(self.scenes) > 0:
+                self.scenes.pop()
+            if do_pop_back:
                 self.scenes[-1].pop_back()
 
-    def __pop_scene_without_pop_back(self):
-        self.__leave_scene = True
-
-        if len(self.scenes) > 0:
-            self.scenes.pop()
+        self.__leave_scene_callback = callback
 
     def switch_scene(self, scene, do_setup=True):
-        self.__pop_scene_without_pop_back()
-        self.scenes.append(scene)
-        if do_setup:
-            scene.setup()
+        self.__leave_scene = True
+
+        def callback():
+            if len(self.scenes) > 0:
+                self.scenes.pop()
+            self.scenes.append(scene)
+            if do_setup:
+                scene.setup()
+
+        self.__leave_scene_callback = callback
 
     def leave_game(self):
         self.__leave_scene = True
         self.scenes = []
-
-    def get_scene(self):
-        return self.scenes[-1]
 
     def clear_scenes(self):
         self.scenes = []

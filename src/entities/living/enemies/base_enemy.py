@@ -14,12 +14,11 @@ class BaseEnemy(LivingEntity):
         self.targeting = False
         super().__init__(image, initial_pos, 0.25, (0, 0, 20), hp)
 
-    def setup(self, bullets, level):
-        scene = Director().get_scene()
-        self.player = scene.get_player()
-        self.bullets = bullets
+    def setup(self, level):
         self.level = level
-        super().setup()
+        self.player = level.get_player()
+        self.bullets = level.enemy_bullets
+        super().setup(level)
 
     def on_death(self):
         super().on_death()

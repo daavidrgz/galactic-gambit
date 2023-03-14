@@ -44,14 +44,14 @@ class Player(LivingEntity):
         player.hp = Hp.from_model_hp(player_model.hp)
         return player
 
-    def setup(self, bullets, footsteps_sounds, on_level_up, on_death):
+    def setup(self, level, on_level_up, on_death):
         self.camera.set_center(self.get_position())
         self.camera.set_target_center(self.get_position())
         self.magic_level.setup(on_level_up)
         self.on_death_cb = on_death
-        self.bullets = bullets
-        self.footsteps = CycleSounds(footsteps_sounds, 400)
-        super().setup()
+        self.bullets = level.bullet_group
+        self.footsteps = CycleSounds(level.player_footsteps, 400)
+        super().setup(level)
 
     def update(self, elapsed_time):
         elapsed_units = elapsed_time * DESIGN_FRAMERATE / 1000

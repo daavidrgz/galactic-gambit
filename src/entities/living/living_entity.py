@@ -25,6 +25,11 @@ class LivingEntity(KinematicEntity):
         self.hit_timer = 0
         self.observable_pos = ObservablePosition(self.id)
 
+    def setup(self, level):
+        self.hp.setup(self.on_death)
+        self.observable_pos.update((self.x, self.y))
+        super().setup(level)
+
     def update(self, elapsed_time):
         if self.was_hit:
             self.hit_timer -= elapsed_time
@@ -36,11 +41,6 @@ class LivingEntity(KinematicEntity):
 
         if np.linalg.norm(self.velocity) > 0:
             self.observable_pos.update((self.x, self.y))
-
-    def setup(self):
-        self.hp.setup(self.on_death)
-        self.observable_pos.update((self.x, self.y))
-        super().setup()
 
     def hit(self, damage, knockback=None):
         if self.was_hit:

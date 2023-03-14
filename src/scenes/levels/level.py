@@ -33,7 +33,6 @@ class Level(Scene):
         self.player_group = ScrollableGroup(self.player)
 
         self.camera_mgr = CameraManager.get_instance()
-        self.camera_mgr.set_center(self.player.get_position())
 
         self.animation_group = ScrollableGroup()
         self.enemy_group = EnemyGroup()
@@ -55,8 +54,7 @@ class Level(Scene):
 
         self.player.set_position(self.terrain.get_player_starting_position())
         self.player.setup(
-            bullets=self.bullet_group,
-            footsteps_sounds=self.player_footsteps,
+            level=self,
             on_level_up=self.__player_level_up,
             on_death=self.__player_death,
         )
@@ -168,7 +166,7 @@ class Level(Scene):
     def spawn_enemy(self, enemy):
         # Add listener before setup, so observers gets first notification at setup
         enemy.observable_pos.add_listener(self.hud.minimap)
-        enemy.setup(self.enemy_bullets, self)
+        enemy.setup(self)
         self.enemy_group.add(enemy)
 
     def spawn_misc_entity(self, entity):
