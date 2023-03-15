@@ -83,7 +83,7 @@ def wander(
     return current_target, wandering, wander_timer
 
 
-def search_player(enemy_pos, player_pos, terrain, vision_range):
+def search_player(enemy_pos, player_pos, terrain, vision_range, steps=10):
     diff_vector = player_pos - enemy_pos
 
     distance = np.linalg.norm(diff_vector)
@@ -94,10 +94,10 @@ def search_player(enemy_pos, player_pos, terrain, vision_range):
     if distance == 0:
         return True
 
-    diff_vector /= 10.0
+    diff_vector /= steps
     ray_pos = enemy_pos.copy()
 
-    for _ in range(10):
+    for _ in range(steps):
         ray_pos += diff_vector
         if not terrain.on_ground_point(ray_pos):
             return False
