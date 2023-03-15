@@ -6,8 +6,8 @@ from animations.explosion_effect import ExplosionEffect
 
 class EnemyBullet(Projectile):
     def __init__(self, initial_pos, direction):
-        self.resource_manager = ResourceManager.get_instance()
-        image = self.resource_manager.load_image(Resource.LASER)
+        resource_manager = ResourceManager.get_instance()
+        image = resource_manager.load_image(Resource.LASER)
         image = pygame.transform.scale(image, (50, 10))
 
         super().__init__(image, initial_pos, 8, direction, 0, 10)

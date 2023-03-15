@@ -11,7 +11,7 @@ class TestRangedEnemy(BaseEnemy):
         self.resource_manager = ResourceManager()
         self.ai = RangedAI(500, 600, 400, 200, 100)
         image = self.resource_manager.load_image(Resource.PLAYER)
-        super().__init__(2, initial_pos, image, self.ai)
+        super().__init__(2, initial_pos, image, self.ai, 0.25, 0.7)
 
     def trigger_attack(self):
         direction = np.array(self.player.get_position()) - np.array(self.get_position())

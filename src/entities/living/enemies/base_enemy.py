@@ -11,13 +11,13 @@ from systems.sound_controller import CycleSounds
 
 
 class BaseEnemy(LivingEntity):
-    def __init__(self, hp, initial_pos, image, ai):
+    def __init__(self, hp, initial_pos, image, ai, drag, speed):
         self.ai = ai
-        self.speed = np.zeros(2)
+        self.speed = speed
         self.target = np.zeros(2)
         self.targeting = False
 
-        super().__init__(image, initial_pos, 0.25, (0, 0, 20), hp)
+        super().__init__(image, initial_pos, drag, (0, 0, 20), hp)
 
     def setup(self, level):
         self.player = level.get_player()
@@ -54,7 +54,7 @@ class BaseEnemy(LivingEntity):
         if vector_norm > 0.0:
             move_vector /= vector_norm
 
-        self.velocity += move_vector * 0.7 * elapsed_units
+        self.velocity += move_vector * self.speed * elapsed_units
 
         super().update(elapsed_time)
 
