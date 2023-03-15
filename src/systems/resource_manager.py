@@ -89,7 +89,7 @@ class Resource(Enum):
     ]
 
     SCATTERED_PLANET_SOUNDS = [
-        ("sounds/ambiance/planet/wind.mp3", 0.2),
+        ("sounds/ambiance/planet/wind.mp3", 0.1),
     ]
 
     SCATTERED_CAVE_SOUNDS = [
