@@ -7,10 +7,10 @@ import os
 
 
 class RandomSounds:
-    def __init__(self, sound_resources, delay=0, volume_variation=0):
+    def __init__(self, sounds_resource, delay=0, volume_variation=0):
         self.sound_controller = SoundController.get_instance()
         self.resource_manager = ResourceManager.get_instance()
-        self.sound_resources = sound_resources
+        self.sounds = self.resource_manager.load_sounds(sounds_resource)
         self.delay = delay
         self.current_delay = 0
         self.playing = False
@@ -20,7 +20,8 @@ class RandomSounds:
             return
         self.current_delay += elapsed_time
         if self.current_delay >= self.delay:
-            self.sound_controller.play_sound(random.choice(self.sound_resources))
+            sound = random.choice(self.sounds)
+            self.sound_controller.play_sound_raw(sound[0], sound[1])
             self.current_delay = 0
 
     def play(self):

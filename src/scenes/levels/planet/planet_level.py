@@ -12,6 +12,7 @@ from entities.living.enemies.test_melee_enemy import TestMeleeEnemy
 import pygame
 
 from constants.game_constants import TILE_SIZE
+from systems.sound_controller import RandomSounds
 
 
 class PlanetLevel(Level):
@@ -21,6 +22,10 @@ class PlanetLevel(Level):
         background_color = tuple(x // 10 for x in (226, 84, 10))
         level_music = Resource.PLANET_LEVEL_MUSIC
         player_footsteps = Resource.PLANET_FOOTSTEPS
+        self.scattered_sounds = RandomSounds(
+            Resource.SCATTERED_PLANET_SOUNDS,
+            10000,
+        )
 
         rmgr = ResourceManager()
         dust_sprite = pygame.sprite.Sprite()
@@ -43,7 +48,9 @@ class PlanetLevel(Level):
         )
 
     def setup(self):
+        self.scattered_sounds.play()
         super().setup()
+
         rng = RngSystem().get_rng(Generator.MAP)
         for _ in range(20):
             x = y = -1000
@@ -74,6 +81,7 @@ class PlanetLevel(Level):
         #    screen.blit(marker, (x-1,y-1,x+2,y+2))
 
     def update(self, elapsed_time):
+        self.scattered_sounds.update(elapsed_time)
         super().update(elapsed_time)
         self.enemy_group.update(elapsed_time)
 

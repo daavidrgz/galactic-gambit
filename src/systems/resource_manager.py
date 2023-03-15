@@ -70,27 +70,33 @@ class Resource(Enum):
     DIRT = "sprites/dirt.png"
 
     # Player Sounds
-    GET_EXP_SOUND = ("sounds/get-exp.wav", 0.4)
-    LEVEL_UP_SOUND = ("sounds/level-up.mp3", 0.3)
-    PLAYER_HIT_SOUND = ("sounds/player-hit.mp3", 0.25)
+    GET_EXP_SOUND = ("sounds/player/get-exp.wav", 0.4)
+    LEVEL_UP_SOUND = ("sounds/player/level-up.mp3", 0.3)
+    PLAYER_HIT_SOUND = ("sounds/player/player-hit.mp3", 0.25)
 
     # Alien sounds
-    ALIEN_HIT_SOUND = ("sounds/alien-hit.mp3", 0.25)
-    ALIEN_CLOSE_SOUND = ("sounds/alien-close-sound.mp3", 1)
-    ALIEN_DEATH_SOUND_01 = ("sounds/alien-death-01.mp3", 0.5)
-    ALIEN_DEATH_SOUND_02 = ("sounds/alien-death-02.mp3", 0.5)
-    ALIEN_DEATH_SOUND_03 = ("sounds/alien-death-03.mp3", 0.5)
+    ALIEN_HIT_SOUND = ("sounds/alien/alien-hit.mp3", 0.25)
+    ALIEN_CLOSE_SOUND = ("sounds/alien/alien-close-sound.mp3", 1)
+    ALIEN_DEATH_SOUND_01 = ("sounds/alien/alien-death-01.mp3", 0.5)
+    ALIEN_DEATH_SOUND_02 = ("sounds/alien/alien-death-02.mp3", 0.5)
+    ALIEN_DEATH_SOUND_03 = ("sounds/alien/alien-death-03.mp3", 0.5)
 
-    # Scattered Ship sounds
-    ALIEN_SOUND = ("sounds/alien-sound.mp3", 0.5)
-    FAR_ALIEN_SOUND = ("sounds/far-alien.mp3", 0.25)
-    SIGNAL_EMITTER_SOUND = ("sounds/signal-emitter.mp3", 0.1)
-    SIGNAL_EMITTER_ALT_SOUND = ("sounds/signal-emitter-alt.mp3", 0.05)
+    SCATTERED_SHIP_SOUNDS = [
+        ("sounds/ambiance/ship/alien-sound.mp3", 0.5),
+        ("sounds/ambiance/ship/far-alien.mp3", 0.25),
+        ("sounds/ambiance/ship/signal-emitter.mp3", 0.1),
+        ("sounds/ambiance/ship/signal-emitter-alt.mp3", 0.05),
+    ]
 
-    # Scattered Cave sounds
-    WATER_DROP_ECHO_SOUND = ("sounds/water-drop-echo.mp3", 0.3)
-    WATER_DROPS_SOUND = ("sounds/water-drops.mp3", 0.7)
-    WATER_DROPS_ALT_SOUND = ("sounds/water-drops-alt.mp3", 0.7)
+    SCATTERED_PLANET_SOUNDS = [
+        ("sounds/ambiance/planet/wind.mp3", 0.2),
+    ]
+
+    SCATTERED_CAVE_SOUNDS = [
+        ("sounds/ambiance/cave/water-drop-echo.mp3", 0.3),
+        ("sounds/ambiance/cave/water-drops.mp3", 0.7),
+        ("sounds/ambiance/cave/water-drops-alt.mp3", 0.7),
+    ]
 
     # Interface sounds
     SELECT_SOUND = ("sounds/interface/select.ogg", 0.4)
@@ -123,7 +129,7 @@ class Resource(Enum):
     ]
 
     LASER_SHOTS = [
-        ("sounds/laser/laser-shot-01.wav", 0.8),
+        ("sounds/shots/laser-shot-01.wav", 0.8),
     ]
 
     # Music

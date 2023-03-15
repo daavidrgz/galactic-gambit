@@ -18,12 +18,7 @@ class ShipLevel(Level):
         player_footsteps = Resource.SHIP_FOOTSTEPS
 
         self.scattered_sounds = RandomSounds(
-            [
-                Resource.SIGNAL_EMITTER_SOUND,
-                Resource.SIGNAL_EMITTER_ALT_SOUND,
-                Resource.FAR_ALIEN_SOUND,
-                Resource.ALIEN_SOUND,
-            ],
+            Resource.SCATTERED_SHIP_SOUNDS,
             10000,
         )
         self.next_level = PlanetLevel

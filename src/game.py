@@ -1,5 +1,6 @@
 import pygame
 from pygame.locals import *
+from scenes.levels.cave.cave_level import CaveLevel
 from scenes.levels.planet.planet_level import PlanetLevel
 from scenes.levels.ship.ship_level import ShipLevel
 from scenes.menus.start_menu import StartMenu
