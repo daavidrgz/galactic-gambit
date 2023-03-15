@@ -66,7 +66,9 @@ class RangedAI(BaseAI):
         ray = enemy_pos - objective_pos
         ray *= self.desired_distance / np.linalg.norm(ray)
         attack_from = utils.math.rotate_vector(ray, self.angle_deviation)
-        while not search_player(objective_pos + attack_from, objective_pos, terrain, np.inf, 50):
+        for _ in range(360 // 15):
+            if search_player(objective_pos + attack_from, objective_pos, terrain, np.inf, 50):
+               break 
             attack_from = utils.math.rotate_vector(attack_from, 15)
 
         # Compute distance to player, if out of tracking range change to ALERT
