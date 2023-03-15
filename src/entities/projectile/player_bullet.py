@@ -31,3 +31,9 @@ class PlayerBullet(Projectile):
     def update(self, elapsed_time):
         super().update(elapsed_time)
         [upgrade.apply(self, elapsed_time) for upgrade in self.update_upgrades]
+
+        # Enemy collision
+        enemy = pygame.sprite.spritecollideany(self, self.level.enemy_group)
+        if enemy is not None:
+            enemy.hit(self.damage, self.direction * self.knockback)
+            self.kill()

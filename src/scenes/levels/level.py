@@ -94,7 +94,6 @@ class Level(Scene):
 
     def update(self, elapsed_time):
         # Check collisions
-        self.__check_bullet_enemy_collision()
         self.__check_enemy_bullet_with_player_colision()
         self.__check_player_reached_end()
         # Update camera
@@ -105,14 +104,6 @@ class Level(Scene):
         self.enemy_bullets.update(elapsed_time)
         self.animation_group.update(elapsed_time)
         self.misc_entities.update(elapsed_time)
-
-    def __check_bullet_enemy_collision(self):
-        for bullet in self.player_bullets:
-            for enemy in self.enemy_group:
-                if bullet.rect.colliderect(enemy.rect):
-                    enemy.hit(bullet.damage, bullet.direction * bullet.knockback)
-                    bullet.kill()
-                    break
 
     def __check_enemy_bullet_with_player_colision(self):
         for bullet in self.enemy_bullets:
