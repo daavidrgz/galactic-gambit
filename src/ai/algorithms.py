@@ -87,15 +87,19 @@ def search_player(enemy_pos, player_pos, terrain, vision_range):
     diff_vector = player_pos - enemy_pos
 
     distance = np.linalg.norm(diff_vector)
-    if distance <= vision_range and distance > 0:
-        # If distance is less than vision range and
-        # line of sight change state to PREPARING
-        diff_vector /= 10.0
-        ray_pos = enemy_pos.copy()
 
-        for _ in range(10):
-            ray_pos += diff_vector
-            if not terrain.on_ground_point(ray_pos):
-                return False
-        else:
-            return True
+    if distance > vision_range:
+        return False
+    
+    if distance == 0:
+        return True
+
+    diff_vector /= 10.0
+    ray_pos = enemy_pos.copy()
+
+    for _ in range(10):
+        ray_pos += diff_vector
+        if not terrain.on_ground_point(ray_pos):
+            return False
+        
+    return True
