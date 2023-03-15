@@ -10,7 +10,6 @@ from scenes.menus.upgrade_menu import UpgradeMenu
 from scenes.scene import Scene
 from scenes.transition import Transition
 from systems.camera_manager import CameraManager
-from systems.sound_controller import RandomSounds
 
 import pygame
 

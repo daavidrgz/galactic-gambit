@@ -17,11 +17,7 @@ class CaveLevel(Level):
         from scenes.menus.start_menu import StartMenu
 
         self.scattered_sounds = RandomSounds(
-            [
-                Resource.WATER_DROPS_SOUND,
-                Resource.WATER_DROPS_ALT_SOUND,
-                Resource.WATER_DROP_ECHO_SOUND,
-            ],
+            Resource.SCATTERED_CAVE_SOUNDS,
             5000,
         )
         self.next_level = StartMenu
