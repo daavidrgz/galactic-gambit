@@ -1,6 +1,7 @@
 import numpy as np
 from entities.kinematic_entity import KinematicEntity
 from entities.living.hp import Hp
+from systems.sound_controller import SoundController
 from utils.observable import Observable
 
 import pygame
@@ -20,13 +21,17 @@ class ObservablePosition(Observable):
 class LivingEntity(KinematicEntity):
     def __init__(self, image, initial_pos, drag, collision, hp):
         super().__init__(image, initial_pos, drag, collision)
+        self.sound_controller = SoundController.get_instance()
         self.hp = Hp(hp)
         self.was_hit = False
         self.hit_timer = 0
         self.observable_pos = ObservablePosition(self.id)
+        self.hit_sound = None
 
-    def setup(self, level):
+    def setup(self, level, death_sound=None, hit_sound=None):
         self.hp.setup(self.on_death)
+        self.hit_sound = hit_sound
+        self.death_sound = death_sound
         self.observable_pos.update((self.x, self.y))
         super().setup(level)
 
@@ -45,6 +50,8 @@ class LivingEntity(KinematicEntity):
     def hit(self, damage, knockback=None):
         if self.was_hit:
             return
+        if self.hit_sound:
+            self.sound_controller.play_sound(self.hit_sound)
         self.was_hit = True
         self.hit_timer = HIT_INVULNERABILITY_TIME
         self.hp.reduce(damage)
@@ -61,4 +68,6 @@ class LivingEntity(KinematicEntity):
         image.blit(hit_mask, (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
 
     def on_death(self):
+        if self.death_sound:
+            self.sound_controller.play_sound(self.death_sound)
         self.observable_pos.update(None)

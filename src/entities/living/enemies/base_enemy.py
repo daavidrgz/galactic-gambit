@@ -1,9 +1,13 @@
+import random
 from entities.living.living_entity import LivingEntity
 from entities.xp_entity import XpEntity
 from scenes.director import Director
 from constants.game_constants import DESIGN_FRAMERATE
 
 import numpy as np
+
+from systems.resource_manager import Resource
+from systems.sound_controller import CycleSounds
 
 
 class BaseEnemy(LivingEntity):
@@ -12,13 +16,24 @@ class BaseEnemy(LivingEntity):
         self.speed = np.zeros(2)
         self.target = np.zeros(2)
         self.targeting = False
+
         super().__init__(image, initial_pos, 0.25, (0, 0, 20), hp)
 
     def setup(self, level):
         self.level = level
         self.player = level.get_player()
         self.bullets = level.enemy_bullets
-        super().setup(level)
+
+        death_sounds = [
+            Resource.ALIEN_DEATH_SOUND_01,
+            Resource.ALIEN_DEATH_SOUND_02,
+            Resource.ALIEN_DEATH_SOUND_03,
+        ]
+        super().setup(
+            level,
+            hit_sound=Resource.ALIEN_HIT_SOUND,
+            death_sound=random.choice(death_sounds),
+        )
 
     def on_death(self):
         super().on_death()

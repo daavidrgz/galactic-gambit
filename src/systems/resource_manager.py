@@ -69,10 +69,17 @@ class Resource(Enum):
     DUST = "sprites/dust.png"
     DIRT = "sprites/dirt.png"
 
-    # Sounds
+    # Player Sounds
     GET_EXP_SOUND = ("sounds/get-exp.wav", 0.4)
     LEVEL_UP_SOUND = ("sounds/level-up.mp3", 0.3)
+    PLAYER_HIT_SOUND = ("sounds/player-hit.mp3", 0.25)
+
+    # Alien sounds
+    ALIEN_HIT_SOUND = ("sounds/alien-hit.mp3", 0.25)
     ALIEN_CLOSE_SOUND = ("sounds/alien-close-sound.mp3", 1)
+    ALIEN_DEATH_SOUND_01 = ("sounds/alien-death-01.mp3", 0.5)
+    ALIEN_DEATH_SOUND_02 = ("sounds/alien-death-02.mp3", 0.5)
+    ALIEN_DEATH_SOUND_03 = ("sounds/alien-death-03.mp3", 0.5)
 
     # Scattered Ship sounds
     ALIEN_SOUND = ("sounds/alien-sound.mp3", 0.5)
