@@ -19,9 +19,17 @@ class EnemyBullet(Projectile):
         add_animation_func(explosion)
         super().collide(add_animation_func)
 
-    def __red_image_modifier(self, image):
+    def __red_image_modifier(self, image): #TODO: This doesn't need to be dynamic, make it a sprite
         color = (255, 0, 0)
         mask = pygame.Surface(image.get_size(), pygame.SRCALPHA)
         mask.fill(color)
         mask.set_alpha(30)
         image.blit(mask, (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+
+    def update(self, elapsed_time):
+        super().update(elapsed_time)
+
+        # Player collision
+        if self.rect.colliderect(self.level.player.rect):
+            self.level.player.hit(self.damage, self.direction * self.knockback)
+            self.kill()

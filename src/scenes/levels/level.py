@@ -13,7 +13,6 @@ from systems.camera_manager import CameraManager
 from systems.sound_controller import RandomSounds
 
 import pygame
-import itertools as it
 
 
 class Level(Scene):
@@ -93,8 +92,7 @@ class Level(Scene):
         self.director.push_scene(UpgradeMenu(upgrades, apply_upgrade))
 
     def update(self, elapsed_time):
-        # Check collisions
-        self.__check_enemy_bullet_with_player_colision()
+        # Check level end condition
         self.__check_player_reached_end()
         # Update camera
         self.camera_mgr.update(elapsed_time)
@@ -104,12 +102,6 @@ class Level(Scene):
         self.enemy_bullets.update(elapsed_time)
         self.animation_group.update(elapsed_time)
         self.misc_entities.update(elapsed_time)
-
-    def __check_enemy_bullet_with_player_colision(self):
-        for bullet in self.enemy_bullets:
-            if bullet.rect.colliderect(self.player.rect):
-                self.player.hit(bullet.damage, bullet.direction * bullet.knockback)
-                bullet.kill()
 
     def __check_player_reached_end(self):
         if self.enemy_group.get_num_enemies() > 0:
