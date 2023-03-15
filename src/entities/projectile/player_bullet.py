@@ -3,8 +3,6 @@ from entities.projectile.projectile import Projectile
 from systems.resource_manager import Resource, ResourceManager
 import utils.math
 
-import pygame
-
 
 class PlayerBullet(Projectile):
     def __init__(

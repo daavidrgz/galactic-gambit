@@ -17,7 +17,7 @@ class EnemyStrike(Projectile):
     def update(self, elapsed_time):
         super().update(elapsed_time)
 
-        # Melee strieks last a fixed amount of time
+        # Melee strikes last a fixed amount of time
         self.timer -= elapsed_time
         if self.timer <= 0:
             self.kill()

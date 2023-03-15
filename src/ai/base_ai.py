@@ -19,3 +19,6 @@ class BaseAI:
 
     def return_to_idle(self, enemy, player, terrain, elapsed_time):
         self.state = EnemyState.IDLE
+
+    def notify(self):
+        self.state = EnemyState.PREPARING

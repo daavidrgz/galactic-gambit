@@ -1,8 +1,9 @@
 import random
 from entities.living.living_entity import LivingEntity
-from entities.xp_entity import XpEntity
-from scenes.director import Director
+from entities.misc.xp_entity import XpEntity
+from entities.misc.alert_entity import AlertEntity
 from constants.game_constants import DESIGN_FRAMERATE
+from ai.base_ai import EnemyState
 
 import numpy as np
 
@@ -62,7 +63,7 @@ class BaseEnemy(LivingEntity):
         pass
 
     def alerted(self):
-        pass
+        self.level.spawn_misc_entity(AlertEntity(self.rect.topleft))
 
     def set_target(self, point):
         if point is None:
@@ -79,3 +80,8 @@ class BaseEnemy(LivingEntity):
 
     def attack(self):
         pass
+
+    def hit(self, damage, knockback=None):
+        if self.ai.state == EnemyState.IDLE:
+            self.ai.notify()
+        super().hit(damage, knockback)
