@@ -12,6 +12,7 @@ class Resource(Enum):
 
     CROSSHAIR = "crosshair.png"
     PLAYER = "sprites/player.png"
+    PLAYER_PROJECTILE = "sprites/player/projectile.png"
     COBBLESTONE = "sprites/cobblestone.png"
     POLISHED_ANDESITE = "sprites/polished_andesite.png"
     SPACE_BACKGROUND = "sprites/space_bg.png"

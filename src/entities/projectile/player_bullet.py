@@ -1,7 +1,8 @@
-import numpy as np
 from animations.explosion_effect import ExplosionEffect
 from entities.projectile.projectile import Projectile
 from systems.resource_manager import Resource, ResourceManager
+import utils.math
+
 import pygame
 
 
@@ -17,8 +18,7 @@ class PlayerBullet(Projectile):
         update_upgrades,
     ):
         self.resource_manager = ResourceManager.get_instance()
-        image = self.resource_manager.load_image(Resource.LASER)
-        image = pygame.transform.scale(image, (60, 20))
+        image = self.resource_manager.load_image(Resource.PLAYER_PROJECTILE)
         self.update_upgrades = update_upgrades
         super().__init__(image, initial_pos, speed, direction, damage, knockback)
         # Apply init upgrades
@@ -33,7 +33,8 @@ class PlayerBullet(Projectile):
         [upgrade.apply(self, elapsed_time) for upgrade in self.update_upgrades]
 
         # Enemy collision
-        enemy = pygame.sprite.spritecollideany(self, self.level.enemy_group)
-        if enemy is not None:
-            enemy.hit(self.damage, self.direction * self.knockback)
-            self.kill()
+        for enemy in self.level.enemy_group:
+            if utils.math.circle_rect_collision((self.x, self.y, 4), enemy.rect):
+                enemy.hit(self.damage, self.direction * self.knockback)
+                self.kill()
+                break

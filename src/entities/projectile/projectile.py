@@ -28,7 +28,7 @@ class Projectile(Entity):
         delta_position = self.velocity * elapsed_units
         self.move(delta_position)
 
-        if not self.level.terrain.on_ground(self.rect):
+        if not self.level.terrain.on_ground_point((self.x, self.y)):
             self.collide(self.level.animation_group.add)
 
         super().update(elapsed_time)
