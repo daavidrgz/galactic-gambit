@@ -20,9 +20,7 @@ class BaseEnemy(LivingEntity):
         super().__init__(image, initial_pos, 0.25, (0, 0, 20), hp)
 
     def setup(self, level):
-        self.level = level
         self.player = level.get_player()
-        self.bullets = level.enemy_bullets
 
         death_sounds = [
             Resource.ALIEN_DEATH_SOUND_01,
@@ -39,7 +37,7 @@ class BaseEnemy(LivingEntity):
         super().on_death()
         self.kill()
         for _ in range(3):
-            self.level.spawn_misc_entity(XpEntity((self.x, self.y), self.player))
+            self.level.spawn_misc_entity(XpEntity((self.x, self.y)))
 
     def update(self, elapsed_time):
         elapsed_units = elapsed_time * DESIGN_FRAMERATE / 1000

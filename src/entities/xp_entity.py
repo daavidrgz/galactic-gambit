@@ -3,25 +3,24 @@ from systems.rng_system import RngSystem, Generator
 from systems.resource_manager import Resource
 import utils.math
 
-import pygame
 import numpy as np
 from noise import pnoise1
 
 from constants.game_constants import TILE_SIZE
 
 class XpEntity(Entity):
-    def __init__(self, initial_pos, player):
+    def __init__(self, initial_pos):
         super().__init__(Resource.XP, initial_pos)
 
         self.velocity = np.zeros(2)
-        self.player = player
         self.timer = 0
 
-    def setup(self):
-        super().setup()
+    def setup(self, level):
+        super().setup(level)
         rng = RngSystem().get_rng(Generator.ENEMIES)
         self.noise_seed = rng.randint(0, 10000)
 
+        self.player = level.get_player()
         player_x, player_y = self.player.get_position()
         direction = np.array((player_x - self.x, player_y - self.y))
         distance = np.linalg.norm(direction)

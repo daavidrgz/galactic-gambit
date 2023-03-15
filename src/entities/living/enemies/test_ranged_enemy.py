@@ -17,4 +17,4 @@ class TestRangedEnemy(BaseEnemy):
         direction = np.array(self.player.get_position()) - np.array(self.get_position())
         direction /= np.linalg.norm(direction)
         new_projectile = EnemyBullet(self.get_position(), direction)
-        self.bullets.add(new_projectile)
+        self.level.spawn_enemy_bullet(new_projectile)

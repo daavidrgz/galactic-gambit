@@ -17,7 +17,7 @@ class EnemyBullet(Projectile):
         explosion = ExplosionEffect(self.get_position())
         explosion.add_image_modifier(self.__red_image_modifier)
         add_animation_func(explosion)
-        super().collide()
+        super().collide(add_animation_func)
 
     def __red_image_modifier(self, image):
         color = (255, 0, 0)

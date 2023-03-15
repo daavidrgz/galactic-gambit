@@ -56,7 +56,6 @@ class Player(LivingEntity):
         self.camera.set_target_center(self.get_position())
         self.magic_level.setup(lambda: self.__on_level_up(on_level_up))
         self.on_death_cb = on_death
-        self.bullets = level.player_bullets
         self.footsteps = CycleSounds(
             level.player_footsteps, delay=400, volume_variation=0.2
         )
@@ -113,7 +112,8 @@ class Player(LivingEntity):
         new_bullets = self.gun.shoot(shoot_position, shoot_direction)
         self.laser_sound.play_once()
 
-        self.bullets.add(new_bullets)
+        for bullet in new_bullets:
+            self.level.spawn_player_bullet(bullet)
 
     def hit(self, damage, knockback=None):
         if self.was_hit:

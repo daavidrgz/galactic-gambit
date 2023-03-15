@@ -17,11 +17,18 @@ class Projectile(Entity):
         self.damage = damage
         self.knockback = knockback
 
-    def collide(self):
+    def setup(self, level):
+        super().setup(level)
+
+    def collide(self, add_animation_func):
         self.kill()
 
     def update(self, elapsed_time):
         elapsed_units = elapsed_time * DESIGN_FRAMERATE / 1000
         delta_position = self.velocity * elapsed_units
         self.move(delta_position)
+
+        if not self.level.terrain.on_ground(self.rect):
+            self.collide(self.level.animation_group.add)
+
         super().update(elapsed_time)

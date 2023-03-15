@@ -26,7 +26,7 @@ class PlayerBullet(Projectile):
 
     def collide(self, add_animation_func):
         add_animation_func(ExplosionEffect(self.get_position()))
-        super().collide()
+        super().collide(add_animation_func)
 
     def update(self, elapsed_time):
         super().update(elapsed_time)

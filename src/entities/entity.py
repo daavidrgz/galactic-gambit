@@ -13,8 +13,8 @@ class Entity(AnimatedSprite):
         self.rect.centerx = self.x
         self.rect.centery = self.y
 
-    def setup(self):
-        pass
+    def setup(self, level):
+        self.level = level
 
     def update(self, elapsed_time):
         super().update(elapsed_time)

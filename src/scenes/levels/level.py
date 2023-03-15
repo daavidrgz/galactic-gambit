@@ -1,5 +1,3 @@
-import pygame
-
 from constants.game_constants import TILE_SIZE
 from entities.living.player.player import Player
 from gui.hud.hud import Hud
@@ -13,6 +11,9 @@ from scenes.scene import Scene
 from scenes.transition import Transition
 from systems.camera_manager import CameraManager
 from systems.sound_controller import RandomSounds
+
+import pygame
+import itertools as it
 
 
 class Level(Scene):
@@ -93,7 +94,6 @@ class Level(Scene):
 
     def update(self, elapsed_time):
         # Check collisions
-        self.__check_bullet_colision()
         self.__check_bullet_enemy_collision()
         self.__check_enemy_bullet_with_player_colision()
         self.__check_player_reached_end()
@@ -105,12 +105,6 @@ class Level(Scene):
         self.enemy_bullets.update(elapsed_time)
         self.animation_group.update(elapsed_time)
         self.misc_entities.update(elapsed_time)
-
-    def __check_bullet_colision(self):
-
-        for bullet in self.player_bullets:
-            if not self.terrain.on_ground(bullet.rect):
-                bullet.collide(self.animation_group.add)
 
     def __check_bullet_enemy_collision(self):
         for bullet in self.player_bullets:
@@ -177,4 +171,12 @@ class Level(Scene):
 
     def spawn_misc_entity(self, entity):
         self.misc_entities.add(entity)
-        entity.setup()
+        entity.setup(self)
+
+    def spawn_player_bullet(self, bullet):
+        self.player_bullets.add(bullet)
+        bullet.setup(self)
+
+    def spawn_enemy_bullet(self, bullet):
+        self.enemy_bullets.add(bullet)
+        bullet.setup(self)
