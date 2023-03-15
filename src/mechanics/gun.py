@@ -3,7 +3,6 @@ import math
 import numpy as np
 from constants.game_constants import SPEED_EPSILON
 from entities.projectile.player_bullet import PlayerBullet
-from mechanics.magic.magic_upgrade import MagicUpgradeType
 
 
 class Gun:
@@ -23,12 +22,10 @@ class Gun:
         self.update_upgrades = []
 
     def add_magical_upgrade(self, upgrade):
-        if upgrade.type == MagicUpgradeType.INIT:
+        if upgrade.init_effect is not None:
             self.init_upgrades.append(upgrade)
-        elif upgrade.type == MagicUpgradeType.UPDATE:
+        if upgrade.update_effect is not None:
             self.update_upgrades.append(upgrade)
-        else:
-            raise ValueError("Upgrade type not recognized")
 
     def is_ready(self):
         return self.current_cooldown == 0.0
@@ -71,8 +68,5 @@ class Gun:
                 init_upgrades,
                 update_upgrades,
             )
-            # Setup upgrades
-            [upgrade.setup(new_bullet) for upgrade in init_upgrades]
-            [upgrade.setup(new_bullet) for upgrade in update_upgrades]
             bullets.append(new_bullet)
         return bullets

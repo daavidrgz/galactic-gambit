@@ -33,5 +33,5 @@ class EnemyBullet(Projectile):
 
         # Player collision
         if utils.math.circle_rect_collision((self.x, self.y, 4), self.level.player.rect):
-            self.level.player.hit(self.damage, self.direction * self.knockback)
+            self.level.player.hit(self.damage, self.get_direction() * self.knockback)
             self.kill()

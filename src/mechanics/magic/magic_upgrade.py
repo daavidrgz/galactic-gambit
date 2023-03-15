@@ -1,50 +1,20 @@
+import utils.math
+
 from enum import Enum, auto
 import math
 import numpy as np
-
 import pygame
 
 
-class MagicUpgradeType(Enum):
-    INIT = auto()
-    UPDATE = auto()
-
-
 class MagicUpgrade:
-    def __init__(self):
-        pass
-
-    def apply(self, bullet):
-        raise NotImplementedError
-
-    def setup(self, bullet):
-        pass
+    init_effect = None
+    update_effect = None
 
 
-class InitMagicUpgrade(MagicUpgrade):
-    # This class applies an upgrade to a bullet when it is created
-    type = MagicUpgradeType.INIT
-
-    def __init__(self):
-        super().__init__()
-
-
-class UpdateMagicUpgrade(MagicUpgrade):
-    # This class applies an upgrade to a bullet every frame
-    type = MagicUpgradeType.UPDATE
-
-    def __init__(self):
-        super().__init__()
-        self.type = MagicUpgradeType.UPDATE
-
-
-class BiggerSize(UpdateMagicUpgrade):
+class BiggerSize(MagicUpgrade):
     name = "Bigger Size"
 
-    def __init__(self):
-        super().__init__()
-
-    def apply(self, bullet, _elapsed_time):
+    def apply(self, bullet, elapsed_time):
         previous_image = bullet.image
         # get pygme surface size
         previous_size = np.array(previous_image.get_size())
@@ -54,52 +24,51 @@ class BiggerSize(UpdateMagicUpgrade):
         bullet.rect = bullet.image.get_rect()
         bullet.rect.center = bullet.x, bullet.y
 
+    update_effect = apply
+
 
 # UPDATE UPGRADES
-class Woobly(UpdateMagicUpgrade):
+class Woobly(MagicUpgrade):
     name = "Woobly"
 
     def __init__(self):
         super().__init__()
         self.state = 0.0
         self.previous_modify_vector = [0, 0]
-        self.frequency = 1 / 300
-        self.amplitude = 15
+        self.period = 300
+        self.amplitude = 3
+        self.phase = np.pi / 2
 
     def apply(self, bullet, elapsed_time):
         self.state += elapsed_time
-        self.state %= 1 / self.frequency
-        directionx, directiony = bullet.direction
+        self.state %= self.period
 
         modify_vector_module = self.amplitude * math.sin(
-            2 * np.pi * self.frequency * self.state
+            2 * np.pi * self.state / self.period + self.phase
         )
 
-        modify_vector_direction = np.array([directiony, -directionx], dtype=np.float32)
-        modify_vector = modify_vector_module * modify_vector_direction
-        delta = modify_vector - self.previous_modify_vector
-        self.previous_modify_vector = modify_vector
-        # TODO: modify direction vector or move it with deltas? It should be the same
-        bullet.move(delta)
+        bullet.velocity = utils.math.rotate_vector(bullet.velocity, modify_vector_module)
+
+    update_effect = apply
 
 
-class ShrinkAndGrow(UpdateMagicUpgrade):
+class ShrinkAndGrow(MagicUpgrade):
     name = "Shrink and Grow"
 
     def __init__(self):
         super().__init__()
         self.state = 0.0
         self.previous_scale = 0
-        self.frequency = 1 / 400
+        self.period = 400
         # Scale between 0.8 and 1.4
         self.amplitude = 0.3
         self.amplitude_delta = 1.1
 
     def apply(self, bullet, elapsed_time):
         self.state += elapsed_time
-        self.state %= 1 / self.frequency
+        self.state %= self.period
         scale = (
-            self.amplitude * math.sin(2 * np.pi * self.frequency * self.state)
+            self.amplitude * math.sin(2 * np.pi * self.state / self.period)
             + self.amplitude_delta
         )
 
@@ -111,35 +80,38 @@ class ShrinkAndGrow(UpdateMagicUpgrade):
         bullet.rect = scaled_img.get_rect()
         bullet.rect.center = bullet.x, bullet.y
 
+    update_effect = apply
 
-class SlowAndFast(UpdateMagicUpgrade):
+
+class SlowAndFast(MagicUpgrade):
     name = "Slow and Fast"
 
     def __init__(self):
         super().__init__()
         self.state = 0.0
-        self.original_speed = None
-        self.frequency = 1 / 500
-        self.amplitude = 0.75
-        self.amplitude_delta = 0.25
+        self.period = 500
+        self.amplitude = 0.6
         self.phase = np.pi
 
     def apply(self, bullet, elapsed_time):
-        if self.original_speed is None:
-            self.original_speed = bullet.speed
         self.state += elapsed_time
-        self.state %= 1 / self.frequency
+        self.state %= self.period
         scale = (
             self.amplitude
-            * np.cbrt(math.sin(2 * np.pi * self.frequency * self.state + self.phase))
-            + self.amplitude_delta
+            * np.cbrt(math.sin(2 * np.pi * self.state / self.period + self.phase))
         )
 
-        bullet.speed = self.original_speed * (1 + scale)
-        bullet.velocity = bullet.speed * bullet.direction
+        velocity_norm = np.linalg.norm(bullet.velocity)
+        bullet.velocity = (bullet.velocity / velocity_norm) * (velocity_norm + scale)
+
+    def prepare(self, bullet):
+        bullet.velocity *= 1.4
+
+    update_effect = apply
+    init_effect = prepare
 
 
-class Rainbow(UpdateMagicUpgrade):
+class Rainbow(MagicUpgrade):
     name = "Rainbow"
 
     def __init__(self):
@@ -160,3 +132,5 @@ class Rainbow(UpdateMagicUpgrade):
         hit_mask = pygame.Surface(image.get_size(), pygame.SRCALPHA)
         hit_mask.fill(color)
         image.blit(hit_mask, (0, 0), special_flags=pygame.BLEND_MULT)
+
+    update_effect = apply

@@ -20,7 +20,7 @@ class PlayerBullet(Projectile):
         self.update_upgrades = update_upgrades
         super().__init__(image, initial_pos, speed, direction, damage, knockback)
         # Apply init upgrades
-        [upgrade.apply(self) for upgrade in init_upgrades]
+        [upgrade.init_effect(self) for upgrade in init_upgrades]
 
     def collide(self, add_animation_func):
         add_animation_func(ExplosionEffect(self.get_position()))
@@ -28,11 +28,11 @@ class PlayerBullet(Projectile):
 
     def update(self, elapsed_time):
         super().update(elapsed_time)
-        [upgrade.apply(self, elapsed_time) for upgrade in self.update_upgrades]
+        [upgrade.update_effect(self, elapsed_time) for upgrade in self.update_upgrades]
 
         # Enemy collision
         for enemy in self.level.enemy_group:
             if utils.math.circle_rect_collision((self.x, self.y, 4), enemy.rect):
-                enemy.hit(self.damage, self.direction * self.knockback)
+                enemy.hit(self.damage, self.get_direction() * self.knockback)
                 self.kill()
                 break
