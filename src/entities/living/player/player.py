@@ -17,7 +17,6 @@ from systems.sound_controller import CycleSounds, SoundController
 
 PIE = np.pi / 8
 
-
 class Player(LivingEntity):
     def __init__(self, hp, gun, magic_level, initial_pos):
         self.control = ControlSystem.get_instance()

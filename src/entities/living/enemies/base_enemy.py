@@ -45,17 +45,7 @@ class BaseEnemy(LivingEntity):
 
         self.ai.run(self, self.player, self.terrain, elapsed_time)
 
-        # Movement
-        if self.targeting:
-            move_vector = self.target - np.array(self.get_position(), dtype=np.float64)
-        else:
-            move_vector = np.zeros(2)
-
-        vector_norm = np.linalg.norm(move_vector)
-        if vector_norm > 0.0:
-            move_vector /= vector_norm
-
-        self.velocity += move_vector * self.speed * elapsed_units
+        self.__update_movement(elapsed_units)
 
         super().update(elapsed_time)
 
@@ -85,3 +75,15 @@ class BaseEnemy(LivingEntity):
         if self.ai.state == EnemyState.IDLE:
             self.ai.notify()
         super().hit(damage, knockback)
+
+    def __update_movement(self, elapsed_units):
+        if self.targeting:
+            move_vector = self.target - np.array(self.get_position(), dtype=np.float64)
+        else:
+            move_vector = np.zeros(2)
+
+        vector_norm = np.linalg.norm(move_vector)
+        if vector_norm > 0.0:
+            move_vector /= vector_norm
+
+        self.velocity += move_vector * self.speed * elapsed_units

@@ -1,5 +1,4 @@
 from entities.entity import Entity
-from scenes.director import Director
 
 import numpy as np
 
