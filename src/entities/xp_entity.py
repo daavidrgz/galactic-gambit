@@ -1,5 +1,6 @@
 from entities.entity import Entity
 from systems.rng_system import RngSystem, Generator
+from systems.resource_manager import Resource
 import utils.math
 
 import pygame
@@ -10,9 +11,7 @@ from constants.game_constants import TILE_SIZE
 
 class XpEntity(Entity):
     def __init__(self, initial_pos, player):
-        image = pygame.Surface((8, 8))
-        image.fill((0, 0, 255))
-        super().__init__(image, initial_pos)
+        super().__init__(Resource.XP, initial_pos)
 
         self.velocity = np.zeros(2)
         self.player = player

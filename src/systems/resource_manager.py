@@ -249,6 +249,14 @@ class Resource(Enum):
         ("sprites/player/player_walk_updiag6.png", 3, 200, True),
     ]
 
+    XP = [
+        ("sprites/xp/xp_1.png", 2, 50, False),
+        ("sprites/xp/xp_2.png", 2, 50, False),
+        ("sprites/xp/xp_3.png", 2, 50, False),
+        ("sprites/xp/xp_4.png", 2, 50, False),
+        ("sprites/xp/xp_5.png", 2, 50, False),
+    ]
+
 
 # TODO: Initialize beforehand big assets like animations \
 # (now there is a micro lag when the animation is first loaded)
