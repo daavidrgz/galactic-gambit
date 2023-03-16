@@ -17,8 +17,6 @@ class PlayerBullet(Projectile):
         self.resource_manager = ResourceManager.get_instance()
         image = self.resource_manager.load_image(Resource.PLAYER_PROJECTILE)
         self.upgrades = upgrades
-        from mechanics.magic.magic_upgrade import SlowAndFast
-        self.upgrades.append(SlowAndFast())
         super().__init__(image, initial_pos, speed, direction, damage, knockback)
 
     def collide(self, add_animation_func):
