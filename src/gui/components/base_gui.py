@@ -19,5 +19,5 @@ class BaseGui(pygame.sprite.Sprite):
     def is_inside(self, position):
         return self.rect.collidepoint(position)
 
-    def action(self):
+    def execute_action(self):
         pass
