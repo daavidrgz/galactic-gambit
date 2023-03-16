@@ -1,9 +1,10 @@
 import utils.math
 
-from enum import Enum, auto
 import math
 import numpy as np
 import pygame
+
+from constants.game_constants import DESIGN_FRAMERATE
 
 
 class MagicUpgrade:
@@ -90,22 +91,27 @@ class SlowAndFast(MagicUpgrade):
         super().__init__()
         self.state = 0.0
         self.period = 500
-        self.amplitude = 0.6
+        self.amplitude = 0.75
         self.phase = np.pi
 
     def apply(self, bullet, elapsed_time):
+        elapsed_units = elapsed_time * DESIGN_FRAMERATE / 1000
+
         self.state += elapsed_time
         self.state %= self.period
-        scale = (
-            self.amplitude
-            * np.cbrt(math.sin(2 * np.pi * self.state / self.period + self.phase))
-        )
 
         velocity_norm = np.linalg.norm(bullet.velocity)
-        bullet.velocity = (bullet.velocity / velocity_norm) * (velocity_norm + scale)
+
+        angle = 2*np.pi * self.state/self.period + self.phase
+        divider = 3*self.period * np.cbrt(np.sin(angle))**2
+        dT = 2*np.pi * self.amplitude * self.state * np.cos(angle) / (0.1 if abs(divider) < 0.1 else divider)
+
+        new_speed = np.clip(velocity_norm + dT * elapsed_units, 3, 50)
+
+        bullet.velocity = (bullet.velocity / velocity_norm) * new_speed
 
     def prepare(self, bullet):
-        bullet.velocity *= 1.4
+        bullet.velocity *= 0.75
 
     update_effect = apply
     init_effect = prepare
@@ -119,7 +125,7 @@ class Rainbow(MagicUpgrade):
         self.state = 0.0
         self.laps = 2
 
-    def apply(self, _bullet, elapsed_time):
+    def apply(self, bullet, elapsed_time):
         self.state += elapsed_time
         self.state %= 360 * self.laps
 
@@ -134,3 +140,4 @@ class Rainbow(MagicUpgrade):
         image.blit(hit_mask, (0, 0), special_flags=pygame.BLEND_MULT)
 
     update_effect = apply
+    init_effect = setup
