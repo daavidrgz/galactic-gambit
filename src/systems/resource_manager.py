@@ -302,12 +302,10 @@ class Resource(Enum):
     ]
 
     RANGED1_HURT_RIGHT = [
-        ("sprites/enemies/ranged/ranged1_hurt1.png", 3, 200, False),
         ("sprites/enemies/ranged/ranged1_hurt2.png", 3, 200, False),
     ]
 
     RANGED1_HURT_LEFT = [
-        ("sprites/enemies/ranged/ranged1_hurt1.png", 3, 200, True),
         ("sprites/enemies/ranged/ranged1_hurt2.png", 3, 200, True),
     ]
 
@@ -356,12 +354,10 @@ class Resource(Enum):
     ]
 
     RANGED2_HURT_RIGHT = [
-        ("sprites/enemies/ranged/ranged2_hurt1.png", 3, 200, False),
         ("sprites/enemies/ranged/ranged2_hurt2.png", 3, 200, False),
     ]
 
     RANGED2_HURT_LEFT = [
-        ("sprites/enemies/ranged/ranged2_hurt1.png", 3, 200, True),
         ("sprites/enemies/ranged/ranged2_hurt2.png", 3, 200, True),
     ]
 
