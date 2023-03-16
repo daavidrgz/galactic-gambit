@@ -3,6 +3,7 @@ import utils.math
 import math
 import numpy as np
 import pygame
+import heapq
 
 from constants.game_constants import DESIGN_FRAMERATE, TILE_SIZE
 
@@ -174,4 +175,64 @@ class Ghost(MagicUpgrade):
     def __translucent_modifier(self, image):
         image.set_alpha(127)
 
+    init_effect = setup
+
+class Homing(MagicUpgrade):
+    name = "Vicious Aim"
+
+    def choose_target(self, bullet):
+        target = None
+
+        from_pos = np.array(bullet.get_position())
+
+        to_remove = []
+        min_distance = np.inf
+        for i, enemy in enumerate(self.targets):
+            if enemy.removed:
+                to_remove.append(i)
+                continue
+
+            distance = utils.math.square_norm(np.array(enemy.get_position()) - from_pos)
+            if distance < min_distance:
+                min_distance = distance
+                target = enemy
+
+        for i in reversed(to_remove):
+            self.targets.pop(i)
+
+        return target, min_distance
+
+    def apply(self, bullet, elapsed_time):
+        elapsed_units = elapsed_time * DESIGN_FRAMERATE / 1000
+        target, sqr_dist = self.choose_target(bullet)
+
+        if not target:
+            return
+        
+        angle = np.arctan2(bullet.velocity[1], bullet.velocity[0])
+        diff_vector = utils.math.rotate_vector_rad(np.array(target.get_position()) - np.array(bullet.get_position()), -angle)
+        angle = np.arctan2(diff_vector[1], diff_vector[0])
+
+        if angle > np.pi:
+            angle -= 2 * np.pi
+
+        angle /= sqr_dist / TILE_SIZE / 10
+
+        if abs(angle) > 0.1 * elapsed_units:
+            angle = np.sign(angle) * 0.1 * elapsed_units
+
+        bullet.velocity = utils.math.rotate_vector_rad(bullet.velocity, angle)
+
+    def setup(self, bullet, level):
+        bullet.velocity *= 0.75
+
+        from_pos = np.array(bullet.get_position())
+        self.target = None
+
+        def enemy_distance(enemy):
+            return utils.math.square_norm(np.array(enemy.get_position()) - from_pos)
+        
+        self.targets = heapq.nsmallest(5, level.enemy_group, enemy_distance)
+
+    update_effect = apply
     init_effect = setup

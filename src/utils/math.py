@@ -58,3 +58,10 @@ def rotate_vector(v, alpha):
         [[np.cos(alpha), -np.sin(alpha)], [np.sin(alpha), np.cos(alpha)]]
     )
     return np.dot(transformation, v)
+
+
+def rotate_vector_rad(v, alpha):
+    transformation = np.array(
+        [[np.cos(alpha), -np.sin(alpha)], [np.sin(alpha), np.cos(alpha)]]
+    )
+    return np.dot(transformation, v)

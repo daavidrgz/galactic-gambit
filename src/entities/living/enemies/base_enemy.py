@@ -74,6 +74,7 @@ class BaseEnemy(LivingEntity):
     def hit(self, damage, knockback=None):
         if self.ai.state == EnemyState.IDLE:
             self.ai.notify()
+            self.alerted()
         super().hit(damage, knockback)
 
     def __update_movement(self, elapsed_units):
