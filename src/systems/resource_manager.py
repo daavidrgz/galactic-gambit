@@ -105,8 +105,8 @@ class Resource(Enum):
     SELECT_SOUND = ("sounds/interface/select.ogg", 0.4)
     CONFIRM_SOUND = ("sounds/interface/confirm.ogg", 0.3)
     GO_BACK_SOUND = ("sounds/interface/back.ogg", 0.4)
-    CONFIRM_ALT_SOUND = ("sounds/interface/confirm_alt.ogg", 0.6)
-    GO_BACK_ALT_SOUND = ("sounds/interface/go_back_alt.ogg", 0.7)
+    CONFIRM_ALT_SOUND = ("sounds/interface/confirm_alt.ogg", 0.4)
+    GO_BACK_ALT_SOUND = ("sounds/interface/go_back_alt.ogg", 0.6)
 
     SHIP_FOOTSTEPS = [
         ("sounds/footsteps/ship-footstep-01.mp3", 0.7),

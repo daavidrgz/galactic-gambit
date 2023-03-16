@@ -40,7 +40,7 @@ class VolumeMenu(VerticalMenu):
                 increase_volume_cb=self.sound_controller.increase_effects_volume,
                 decrease_volume_cb=self.sound_controller.decrease_effects_volume,
                 action=self.__change_volume_state,
-                position=(DESIGN_WIDTH // 2, DESIGN_HEIGHT // 2 - 100),
+                position=(DESIGN_WIDTH // 2, DESIGN_HEIGHT // 2 - 80),
                 font=font,
                 color=COLOR_SUBTLE,
                 color_hover=COLOR_BRIGHT,
@@ -67,7 +67,7 @@ class VolumeMenu(VerticalMenu):
             color=COLOR_SUBTLE,
             color_hover=COLOR_BRIGHT,
             action=self.__go_back,
-            position=(DESIGN_WIDTH // 2, DESIGN_HEIGHT // 2 + 100),
+            position=(DESIGN_WIDTH // 2, DESIGN_HEIGHT // 2 + 80),
         )
         go_back_button.confirm_sound = Resource.GO_BACK_SOUND
         self.buttons.append(go_back_button)

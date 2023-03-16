@@ -50,16 +50,16 @@ class PauseMenu(VerticalMenu):
             position=(DESIGN_WIDTH / 2, 100),
         )
 
-        self.buttons.append(self.__create_button("Resume", self.__resume_game, -150))
+        self.buttons.append(self.__create_button("Resume", self.__resume_game, -120))
         self.buttons.append(
-            self.__create_button("Configuration", self.__config_game, -50)
+            self.__create_button("Configuration", self.__config_game, -40)
         )
         return_menu_button = self.__create_button(
-            "Return to menu", self.__return_to_menu, 50
+            "Return to menu", self.__return_to_menu, 40
         )
         return_menu_button.confirm_sound = Resource.GO_BACK_ALT_SOUND
         self.buttons.append(return_menu_button)
-        self.buttons.append(self.__create_button("Quit game", self.__quit_game, 150))
+        self.buttons.append(self.__create_button("Quit game", self.__quit_game, 120))
 
         self.gui_group.add(self.title, self.buttons)
         super().setup()

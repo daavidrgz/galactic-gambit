@@ -43,11 +43,11 @@ class ConfigurationMenu(VerticalMenu):
             position=(DESIGN_WIDTH // 2, 100),
         )
 
-        self.buttons.append(self.__create_button("Volume", self.__volume_config, -100))
+        self.buttons.append(self.__create_button("Volume", self.__volume_config, -80))
         self.buttons.append(
             self.__create_button("Keybindings", self.__keybindings_config, 0)
         )
-        go_back_button = self.__create_button("Go back", self.__go_back, 100)
+        go_back_button = self.__create_button("Go back", self.__go_back, 80)
         go_back_button.confirm_sound = Resource.GO_BACK_SOUND
         self.buttons.append(go_back_button)
 

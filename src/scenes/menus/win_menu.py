@@ -2,7 +2,7 @@ import random
 import pygame
 
 from constants.game_constants import DESIGN_HEIGHT, DESIGN_WIDTH
-from constants.gui_constants import COLOR_BRIGHT, COLOR_SUBTLE
+from constants.gui_constants import COLOR_BRIGHT, COLOR_STANDARD, COLOR_SUBTLE
 from gui.components.buttons.text_button import TextButton
 from gui.components.title import Title
 from scenes.menus.vertical_menu import VerticalMenu
@@ -93,7 +93,7 @@ class WinMenu(VerticalMenu):
         self.subtitle = Title(
             text=self.__get_random_subtitle(),
             font=self.resource_manager.load_font(Resource.FONT_MD),
-            color=COLOR_SUBTLE,
+            color=COLOR_STANDARD,
             position=(DESIGN_WIDTH / 2, 220),
         )
 

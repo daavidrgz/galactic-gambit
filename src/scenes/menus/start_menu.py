@@ -65,9 +65,9 @@ class StartMenu(VerticalMenu):
 
     def __get_offsets(self):
         if self.game_model.save_exists():
-            return [-50, 50, 150]
+            return [-40, 40, 120]
         else:
-            return [-100, 0, 100]
+            return [-80, 0, 80]
 
     def setup(self):
         self.__generate_gui()
@@ -82,7 +82,7 @@ class StartMenu(VerticalMenu):
         )
         if self.game_model.save_exists():
             continue_game_button = self.__create_button(
-                "Continue Game", self.__continue_game, -150
+                "Continue Game", self.__continue_game, -120
             )
             continue_game_button.confirm_sound = Resource.CONFIRM_ALT_SOUND
             self.buttons.append(continue_game_button)
