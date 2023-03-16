@@ -52,6 +52,8 @@ class TestRangedEnemy(BaseEnemy):
         self.set_speed_multiplier(1.0)
 
     def hit(self, damage, knockback=None):
+        if self.death:
+            return
         alpha = np.arctan2(self.facing_vector[1], self.facing_vector[0])
         if alpha > 3 * PIH or alpha < PIH:
             self.set_animation(Resource.RANGED2_HURT_RIGHT)
