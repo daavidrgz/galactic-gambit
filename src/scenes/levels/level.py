@@ -4,7 +4,7 @@ from gui.hud.hud import Hud
 from mechanics.magic.magic_upgrade_system import MagicUpgradeSystem
 from mechanics.technology.tech_upgrade_system import TechUpgradeSystem
 from scenes.levels.groups import EnemyGroup, ScrollableGroup
-from scenes.menus.game_over import GameOver
+from scenes.menus.game_over_menu import GameOverMenu
 from scenes.menus.pause_menu import PauseMenu
 from scenes.menus.upgrade_menu import UpgradeMenu
 from scenes.scene import Scene
@@ -68,7 +68,7 @@ class Level(Scene):
 
     def __player_death(self):
         self.game_model.delete_save()
-        self.director.switch_scene(Transition(GameOver()))
+        self.director.switch_scene(Transition(GameOverMenu()))
 
     def __player_level_up(self):
         def apply_upgrade(upgrade):

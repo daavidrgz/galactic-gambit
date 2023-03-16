@@ -4,6 +4,7 @@ from scenes.levels.groups import ParallaxGroup
 from scenes.levels.planet.planet_generator import PlanetGenerator
 from scenes.levels.planet.planet_terrain import PlanetTerrain
 from scenes.levels.cave.cave_level import CaveLevel
+from scenes.menus.win_menu import WinMenu
 from systems.resource_manager import ResourceManager, Resource
 from systems.rng_system import RngSystem, Generator
 from entities.living.enemies.test_ranged_enemy import TestRangedEnemy
@@ -90,5 +91,7 @@ class PlanetLevel(Level):
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:
                     Director().switch_scene(PlanetLevel())
+                if event.key == pygame.K_e:
+                    Director().switch_scene(WinMenu())
 
         super().handle_events(events)

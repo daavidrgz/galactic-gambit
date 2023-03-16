@@ -28,9 +28,9 @@ class HealthBar(HudElement, Observer):
         if percentage_hp > 0.5:
             return (64, 171, 15)
         elif percentage_hp > 0.25:
-            return (189, 148, 13)
+            return (196, 178, 12)
         else:
-            return (171, 15, 15)
+            return (196, 12, 12)
 
     def __update_bar(self, hp):
         self.bar = pygame.Surface((self.BAR_WIDTH, self.BAR_HEIGHT))

@@ -8,7 +8,7 @@ from scenes.menus.vertical_menu import VerticalMenu
 from systems.resource_manager import Resource
 
 
-class GameOver(VerticalMenu):
+class GameOverMenu(VerticalMenu):
     def __init__(self):
         super().__init__()
         background_image = self.resource_manager.load_image(Resource.SPACE_BACKGROUND)
@@ -28,6 +28,8 @@ class GameOver(VerticalMenu):
         background.blit(background_image, (0, 0))
         background.blit(veil, (0, 0))
         self.background = background
+
+        self.scene_music = Resource.GAME_OVER_MUSIC
 
     def __main_menu(self):
         self.director.pop_scene()

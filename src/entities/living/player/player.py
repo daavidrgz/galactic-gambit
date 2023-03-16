@@ -58,7 +58,7 @@ class Player(LivingEntity):
         self.footsteps = CycleSounds(
             level.player_footsteps, delay=400, volume_variation=0.2
         )
-        super().setup(level, hit_sound=Resource.PLAYER_HIT_SOUND)
+        super().setup(level, hit_sound=Resource.PLAYER_HIT_SOUND, death_sound=Resource.PLAYER_DEATH_SOUND)
 
     def update(self, elapsed_time):
         elapsed_units = elapsed_time * DESIGN_FRAMERATE / 1000

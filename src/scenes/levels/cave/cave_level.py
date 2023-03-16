@@ -3,6 +3,7 @@ from scenes.levels.cave.cave_terrain import CaveTerrain
 from scenes.levels.level import Level
 from scenes.director import Director
 import pygame
+from scenes.menus.win_menu import WinMenu
 from systems.resource_manager import Resource
 from systems.sound_controller import RandomSounds
 
@@ -14,13 +15,12 @@ class CaveLevel(Level):
         background_color = (10, 0, 0)
         level_music = Resource.CAVE_LEVEL_MUSIC
         player_footsteps = Resource.CAVE_FOOTSTEPS
-        from scenes.menus.start_menu import StartMenu
 
         self.scattered_sounds = RandomSounds(
             Resource.SCATTERED_CAVE_SOUNDS,
             5000,
         )
-        self.next_level = StartMenu
+        self.next_level = WinMenu
         super().__init__(
             generator=generator,
             terrain=terrain,

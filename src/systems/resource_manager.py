@@ -75,6 +75,7 @@ class Resource(Enum):
     GET_EXP_SOUND = ("sounds/player/get-exp.wav", 0.4)
     LEVEL_UP_SOUND = ("sounds/player/level-up.mp3", 0.3)
     PLAYER_HIT_SOUND = ("sounds/player/player-hit.mp3", 0.25)
+    PLAYER_DEATH_SOUND = ("sounds/player/player-death.mp3", 0.25)
 
     # Alien sounds
     ALIEN_HIT_SOUND = ("sounds/alien/alien-hit.mp3", 0.25)
@@ -140,6 +141,7 @@ class Resource(Enum):
     PLANET_LEVEL_MUSIC = ("music/planet_music.mp3", 0.9)
     CAVE_LEVEL_MUSIC = ("music/cave_music.mp3", 0.9)
     WIN_MUSIC = ("music/win_music.mp3", 0.9)
+    GAME_OVER_MUSIC = ("music/game_over_music.mp3", 0.9)
 
     # Fonts
     FONT_SM = ("fonts/GalacticaGrid.ttf", 10)
