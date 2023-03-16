@@ -25,14 +25,19 @@ class Director(metaclass=Singleton):
         # Scenes stack
         self.scenes = []
         self.__leave_scene = False
-        self.__leave_scene_callback = lambda: 0
+        self.__do_setup = True
+        self.__do_pop_back = False
         self.clock = pygame.time.Clock()
 
     def __loop(self, scene):
         self.__leave_scene = False
-        self.__leave_scene_callback = lambda: 0
-        pygame.event.clear()
+        if self.__do_setup:
+            scene.setup()
 
+        if self.__do_pop_back:
+            scene.pop_back()
+
+        pygame.event.clear()
         control_system = ControlSystem.get_instance()
 
         while not self.__leave_scene:
@@ -60,51 +65,40 @@ class Director(metaclass=Singleton):
             mouse_pos = np.array(control_system.get_mouse_pos())
             cross_hair_size = np.array(self.crosshair.get_size())
             self.virtual_screen.blit(self.crosshair, mouse_pos - cross_hair_size / 2)
-            # self.virtual_screen.blit(self.crosshair, control_system.get_mouse_pos())
+            
             # Re-scale the virtual screen to the user screen
             frame = pygame.transform.scale(self.virtual_screen, self.user_screen_size)
             self.screen.blit(frame, frame.get_rect())
             pygame.display.flip()
 
     def run(self):
-        self.__leave_scene_callback()
         while len(self.scenes) > 0:
             current_scene = self.scenes[-1]
             self.__loop(current_scene)
-            self.__leave_scene_callback()
 
     def push_scene(self, scene, do_setup=True):
         self.__leave_scene = True
-
-        def callback():
-            self.scenes.append(scene)
-            if do_setup:
-                scene.setup()
-
-        self.__leave_scene_callback = callback
+        self.scenes.append(scene)
+        self.__do_setup = do_setup
+        self.__do_pop_back = False
 
     def pop_scene(self, do_pop_back=True):
         self.__leave_scene = True
 
-        def callback():
-            if len(self.scenes) > 0:
-                self.scenes.pop()
-            if do_pop_back:
-                self.scenes[-1].pop_back()
+        if len(self.scenes) > 0:
+            self.scenes.pop()
 
-        self.__leave_scene_callback = callback
+        self.__do_pop_back = do_pop_back
+        self.__do_setup = False
 
     def switch_scene(self, scene, do_setup=True):
         self.__leave_scene = True
 
-        def callback():
-            if len(self.scenes) > 0:
-                self.scenes.pop()
-            self.scenes.append(scene)
-            if do_setup:
-                scene.setup()
-
-        self.__leave_scene_callback = callback
+        if len(self.scenes) > 0:
+            self.scenes.pop()
+        self.scenes.append(scene)
+        self.__do_setup = do_setup
+        self.__do_pop_back = False
 
     def leave_game(self):
         self.__leave_scene = True
