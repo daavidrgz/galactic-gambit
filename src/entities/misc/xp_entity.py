@@ -9,9 +9,10 @@ from noise import pnoise1
 from constants.game_constants import TILE_SIZE
 
 class XpEntity(Entity):
-    def __init__(self, initial_pos):
+    def __init__(self, initial_pos, amount):
         super().__init__(Resource.XP, initial_pos)
 
+        self.amount = amount
         self.velocity = np.zeros(2)
         self.timer = 0
 
@@ -35,7 +36,7 @@ class XpEntity(Entity):
 
         distance = min(distance / TILE_SIZE, 15)
         if distance < 2:
-            self.player.increase_exp(10)
+            self.player.increase_exp(self.amount)
             self.kill()
             return
         

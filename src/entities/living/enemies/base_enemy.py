@@ -38,7 +38,7 @@ class BaseEnemy(LivingEntity):
         super().on_death()
         self.kill()
         for _ in range(3):
-            self.level.spawn_misc_entity(XpEntity((self.x, self.y)))
+            self.level.spawn_misc_entity(XpEntity((self.x, self.y), 10))
 
     def update(self, elapsed_time):
         elapsed_units = elapsed_time * DESIGN_FRAMERATE / 1000
