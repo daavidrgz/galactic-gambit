@@ -5,12 +5,12 @@ from systems.resource_manager import Resource, ResourceManager
 
 
 class UpgradeCard(Button):
-    ICON_SIZE = 64
+    ICON_SIZE = 90
 
     def __init__(self, title, icon, position, width, height, action):
         self.resource_manager = ResourceManager.get_instance()
         self.title = title
-        self.icon = pygame.transform.scale(icon, (self.ICON_SIZE, self.ICON_SIZE))
+        self.icon = icon
         self.width = width
         self.height = height
 

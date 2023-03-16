@@ -149,6 +149,15 @@ class Resource(Enum):
 
     # Icons
     HEART_ICON = "sprites/icons/heart.png"
+    BIGGER_SIZE_ICON = "sprites/icons/bigger.png"
+    SNAKE_ICON = "sprites/icons/snake.png"
+    WAVEFORM_ICON = "sprites/icons/waveform.png"
+    SLOW_AND_FAST_ICON = "sprites/icons/slow-and-fast.png"
+    PRISM_ICON = "sprites/icons/prism.png"
+    BLACKHOLE_ICON = "sprites/icons/blackhole.png"
+    GHOST_ICON = "sprites/icons/ghost.png"
+    GHOST_ALT_ICON = "sprites/icons/ghost-alt.png"
+    AIM_ICON = "sprites/icons/aim.png"
 
     # Animations
     EXPLOSION = [

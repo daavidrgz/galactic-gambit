@@ -1,3 +1,4 @@
+from systems.resource_manager import Resource
 import utils.math
 
 import math
@@ -15,6 +16,7 @@ class MagicUpgrade:
 
 class BiggerSize(MagicUpgrade):
     name = "Titan's Might"
+    icon = Resource.BIGGER_SIZE_ICON
 
     def apply(self, bullet, elapsed_time):
         previous_image = bullet.image
@@ -32,6 +34,7 @@ class BiggerSize(MagicUpgrade):
 # UPDATE UPGRADES
 class Woobly(MagicUpgrade):
     name = "Serpent Strike"
+    icon = Resource.SNAKE_ICON
 
     def __init__(self):
         self.state = 0.0
@@ -48,13 +51,16 @@ class Woobly(MagicUpgrade):
             2 * np.pi * self.state / self.period + self.phase
         )
 
-        bullet.velocity = utils.math.rotate_vector(bullet.velocity, modify_vector_module)
+        bullet.velocity = utils.math.rotate_vector(
+            bullet.velocity, modify_vector_module
+        )
 
     update_effect = apply
 
 
 class ShrinkAndGrow(MagicUpgrade):
     name = "Waveform Cannon"
+    icon = Resource.WAVEFORM_ICON
 
     def __init__(self):
         self.state = 0.0
@@ -85,6 +91,7 @@ class ShrinkAndGrow(MagicUpgrade):
 
 class SlowAndFast(MagicUpgrade):
     name = "Crushing Stutter"
+    icon = Resource.SLOW_AND_FAST_ICON
 
     def __init__(self):
         self.state = 0.0
@@ -100,9 +107,16 @@ class SlowAndFast(MagicUpgrade):
 
         velocity_norm = np.linalg.norm(bullet.velocity)
 
-        angle = 2*np.pi * self.state/self.period + self.phase
-        divider = 3*self.period * np.cbrt(np.sin(angle))**2
-        dT = 2*np.pi * self.amplitude * self.state * np.cos(angle) / (0.1 if abs(divider) < 0.1 else divider)
+        angle = 2 * np.pi * self.state / self.period + self.phase
+        divider = 3 * self.period * np.cbrt(np.sin(angle)) ** 2
+        dT = (
+            2
+            * np.pi
+            * self.amplitude
+            * self.state
+            * np.cos(angle)
+            / (0.1 if abs(divider) < 0.1 else divider)
+        )
 
         new_speed = np.clip(velocity_norm + dT * elapsed_units, 3, 50)
 
@@ -117,6 +131,7 @@ class SlowAndFast(MagicUpgrade):
 
 class Rainbow(MagicUpgrade):
     name = "Prismatic Aura"
+    icon = Resource.PRISM_ICON
 
     def __init__(self):
         self.state = 0.0
@@ -139,8 +154,10 @@ class Rainbow(MagicUpgrade):
     update_effect = apply
     init_effect = setup
 
+
 class Gravity(MagicUpgrade):
     name = "Portable Instability"
+    icon = Resource.BLACKHOLE_ICON
 
     def apply(self, bullet, elapsed_time):
         if self.timer < 50:
@@ -165,8 +182,10 @@ class Gravity(MagicUpgrade):
     update_effect = apply
     init_effect = setup
 
+
 class Ghost(MagicUpgrade):
     name = "Ghostly Shot"
+    icon = Resource.GHOST_ALT_ICON
 
     def setup(self, bullet, level):
         bullet.ground_collision = False
@@ -177,8 +196,10 @@ class Ghost(MagicUpgrade):
 
     init_effect = setup
 
+
 class Homing(MagicUpgrade):
     name = "Vicious Aim"
+    icon = Resource.AIM_ICON
 
     def choose_target(self, bullet):
         target = None
@@ -208,9 +229,11 @@ class Homing(MagicUpgrade):
 
         if not target:
             return
-        
+
         angle = np.arctan2(bullet.velocity[1], bullet.velocity[0])
-        diff_vector = utils.math.rotate_vector_rad(np.array(target.get_position()) - np.array(bullet.get_position()), -angle)
+        diff_vector = utils.math.rotate_vector_rad(
+            np.array(target.get_position()) - np.array(bullet.get_position()), -angle
+        )
         angle = np.arctan2(diff_vector[1], diff_vector[0])
 
         if angle > np.pi:
@@ -231,7 +254,7 @@ class Homing(MagicUpgrade):
 
         def enemy_distance(enemy):
             return utils.math.square_norm(np.array(enemy.get_position()) - from_pos)
-        
+
         self.targets = heapq.nsmallest(5, level.enemy_group, enemy_distance)
 
     update_effect = apply
