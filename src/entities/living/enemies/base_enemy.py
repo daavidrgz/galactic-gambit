@@ -20,7 +20,7 @@ class BaseEnemy(LivingEntity):
         self.death_timer = 0
         self.hit_stun = 0
 
-        super().__init__(image, initial_pos, drag, (0, 0, 20), hp)
+        super().__init__(image, initial_pos, drag, (0, 0, 20), hp, 200)
 
     def setup(self, level):
         self.player = level.get_player()

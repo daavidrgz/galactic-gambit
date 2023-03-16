@@ -17,6 +17,7 @@ from systems.sound_controller import CycleSounds, SoundController
 
 PIE = np.pi / 8
 
+
 class Player(LivingEntity):
     def __init__(self, hp, gun, magic_level, initial_pos):
         self.control = ControlSystem.get_instance()
@@ -34,7 +35,7 @@ class Player(LivingEntity):
         self.facing_vector = np.array([1, 0], dtype=np.float64)
 
         super().__init__(
-            Resource.PLAYER_IDLE_RIGHT, initial_pos, PLAYER_DRAG, (0, 19, 20), hp
+            Resource.PLAYER_IDLE_RIGHT, initial_pos, PLAYER_DRAG, (0, 19, 20), hp, 500
         )
 
     # Transform the model of the player into the entity
@@ -58,7 +59,11 @@ class Player(LivingEntity):
         self.footsteps = CycleSounds(
             level.player_footsteps, delay=400, volume_variation=0.2
         )
-        super().setup(level, hit_sound=Resource.PLAYER_HIT_SOUND, death_sound=Resource.PLAYER_DEATH_SOUND)
+        super().setup(
+            level,
+            hit_sound=Resource.PLAYER_HIT_SOUND,
+            death_sound=Resource.PLAYER_DEATH_SOUND,
+        )
 
     def update(self, elapsed_time):
         elapsed_units = elapsed_time * DESIGN_FRAMERATE / 1000

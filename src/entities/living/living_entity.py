@@ -6,8 +6,6 @@ from utils.observable import Observable
 
 import pygame
 
-from constants.game_constants import HIT_INVULNERABILITY_TIME
-
 
 class ObservablePosition(Observable):
     def __init__(self, entity_id):
@@ -19,13 +17,14 @@ class ObservablePosition(Observable):
 
 
 class LivingEntity(KinematicEntity):
-    def __init__(self, image, initial_pos, drag, collision, hp):
+    def __init__(self, image, initial_pos, drag, collision, hp, invulnerability_time):
         super().__init__(image, initial_pos, drag, collision)
         self.sound_controller = SoundController.get_instance()
         self.hp = Hp(hp)
         self.was_hit = False
         self.hit_timer = 0
         self.observable_pos = ObservablePosition(self.id)
+        self.invulnerability_time = invulnerability_time
         self.hit_sound = None
 
     def setup(self, level, death_sound=None, hit_sound=None):
@@ -53,7 +52,7 @@ class LivingEntity(KinematicEntity):
         if self.hit_sound:
             self.sound_controller.play_sound(self.hit_sound)
         self.was_hit = True
-        self.hit_timer = HIT_INVULNERABILITY_TIME
+        self.hit_timer = self.invulnerability_time
         self.hp.reduce(damage)
         self.add_image_modifier(self.__hit_sprite_modifier)
 
@@ -64,7 +63,7 @@ class LivingEntity(KinematicEntity):
         color = 255, 37, 23
         hit_mask = pygame.Surface(image.get_size(), pygame.SRCALPHA)
         hit_mask.fill(color)
-        hit_mask.set_alpha(255 * (self.hit_timer / HIT_INVULNERABILITY_TIME))
+        hit_mask.set_alpha(255 * (self.hit_timer / self.invulnerability_time))
         image.blit(hit_mask, (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
 
     def on_death(self):
