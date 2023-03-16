@@ -12,6 +12,7 @@ class Projectile(Entity):
         self.velocity = speed * direction
         self.damage = damage
         self.knockback = knockback
+        self.ground_collision = True
 
         self.previous_facing = 0
         self.set_facing(np.rad2deg(np.arctan2(-direction[1], direction[0])))
@@ -38,7 +39,7 @@ class Projectile(Entity):
         self.set_facing(np.rad2deg(np.arctan2(-self.velocity[1], self.velocity[0])))
         self.move(self.velocity * elapsed_units)
 
-        if not self.level.terrain.on_ground_point((self.x, self.y)):
+        if not self.level.terrain.on_ground_point((self.x, self.y)) and self.ground_collision:
             self.collide(self.level.animation_group.add)
 
         super().update(elapsed_time)

@@ -25,7 +25,7 @@ class PlayerBullet(Projectile):
 
     def setup(self, level):
         super().setup(level)
-        [u.init_effect(self) for u in self.upgrades if u.init_effect is not None]
+        [u.init_effect(self, level) for u in self.upgrades if u.init_effect is not None]
 
     def update(self, elapsed_time):
         super().update(elapsed_time)

@@ -4,7 +4,7 @@ import math
 import numpy as np
 import pygame
 
-from constants.game_constants import DESIGN_FRAMERATE
+from constants.game_constants import DESIGN_FRAMERATE, TILE_SIZE
 
 
 class MagicUpgrade:
@@ -33,7 +33,6 @@ class Woobly(MagicUpgrade):
     name = "Woobly"
 
     def __init__(self):
-        super().__init__()
         self.state = 0.0
         self.previous_modify_vector = [0, 0]
         self.period = 300
@@ -57,7 +56,6 @@ class ShrinkAndGrow(MagicUpgrade):
     name = "Shrink and Grow"
 
     def __init__(self):
-        super().__init__()
         self.state = 0.0
         self.previous_scale = 0
         self.period = 400
@@ -88,7 +86,6 @@ class SlowAndFast(MagicUpgrade):
     name = "Slow and Fast"
 
     def __init__(self):
-        super().__init__()
         self.state = 0.0
         self.period = 500
         self.amplitude = 0.75
@@ -110,18 +107,17 @@ class SlowAndFast(MagicUpgrade):
 
         bullet.velocity = (bullet.velocity / velocity_norm) * new_speed
 
-    def prepare(self, bullet):
+    def setup(self, bullet, level):
         bullet.velocity *= 0.75
 
     update_effect = apply
-    init_effect = prepare
+    init_effect = setup
 
 
 class Rainbow(MagicUpgrade):
     name = "Rainbow"
 
     def __init__(self):
-        super().__init__()
         self.state = 0.0
         self.laps = 2
 
@@ -129,7 +125,7 @@ class Rainbow(MagicUpgrade):
         self.state += elapsed_time
         self.state %= 360 * self.laps
 
-    def setup(self, bullet):
+    def setup(self, bullet, level):
         bullet.add_image_modifier(self.__rainbow_modifier)
 
     def __rainbow_modifier(self, image):
@@ -140,4 +136,42 @@ class Rainbow(MagicUpgrade):
         image.blit(hit_mask, (0, 0), special_flags=pygame.BLEND_MULT)
 
     update_effect = apply
+    init_effect = setup
+
+class Gravity(MagicUpgrade):
+    name = "Portable Instability"
+
+    def apply(self, bullet, elapsed_time):
+        if self.timer < 50:
+            self.timer += elapsed_time
+            return
+
+        bullet_x, bullet_y = bullet.get_position()
+        player_x, player_y = self.player.get_position()
+
+        direction = np.array((player_x - bullet_x, player_y - bullet_y))
+        distance = np.linalg.norm(direction)
+        direction /= distance
+
+        distance = np.clip(distance / TILE_SIZE / 2.0, 1, 20)
+
+        bullet.velocity += (direction * elapsed_time * 0.1) / distance**2
+
+    def setup(self, bullet, level):
+        self.timer = 0
+        self.player = level.get_player()
+
+    update_effect = apply
+    init_effect = setup
+
+class Ghost(MagicUpgrade):
+    name = "Ghostly Shot"
+
+    def setup(self, bullet, level):
+        bullet.ground_collision = False
+        bullet.add_image_modifier(self.__translucent_modifier)
+
+    def __translucent_modifier(self, image):
+        image.set_alpha(127)
+
     init_effect = setup
