@@ -24,4 +24,4 @@ class EnemyStrike(Projectile):
 
         # Player collision
         if self.rect.colliderect(self.level.player.rect):
-            self.level.player.hit(self.damage, self.direction * self.knockback)
+            self.level.player.hit(self.damage, self.get_direction() * self.knockback)
