@@ -44,7 +44,6 @@ class GameOver(VerticalMenu):
         )
 
     def setup(self):
-        super().setup()
         self.title = Title(
             text="Game Over",
             font=self.resource_manager.load_font(Resource.FONT_XL),
@@ -55,3 +54,4 @@ class GameOver(VerticalMenu):
         self.buttons.append(self.__create_button("Back to menu", self.__main_menu, 0))
 
         self.gui_group.add(self.title, self.buttons)
+        super().setup()

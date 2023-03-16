@@ -34,9 +34,9 @@ class UpgradeMenu(HorizontalMenu):
 
     def __get_offsets(self):
         if len(self.upgrades) == 3:
-            return [-260, 0, 260]
+            return [-300, 0, 300]
         elif len(self.upgrades) == 2:
-            return [-120, 120]
+            return [-140, 140]
         elif len(self.upgrades) == 1:
             return [0]
 

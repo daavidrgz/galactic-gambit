@@ -23,14 +23,24 @@ class HealthBar(HudElement, Observer):
             self.bar,
             (10, 20),
         )
+        
+    def __get_bar_color(self, percentage_hp):
+        if percentage_hp > 0.5:
+            return (64, 171, 15)
+        elif percentage_hp > 0.25:
+            return (189, 148, 13)
+        else:
+            return (171, 15, 15)
 
     def __update_bar(self, hp):
         self.bar = pygame.Surface((self.BAR_WIDTH, self.BAR_HEIGHT))
         self.bar.fill((40, 40, 40))
+        
         percentage_hp = hp.get_hp() / hp.get_max_hp()
         if percentage_hp > 0:
             hp_bar = pygame.Surface((percentage_hp * self.BAR_WIDTH, self.BAR_HEIGHT))
-            hp_bar.fill((0, 255, 0))
+            color = self.__get_bar_color(percentage_hp)
+            hp_bar.fill(color)
 
             self.bar.blit(hp_bar, (0, 0))
 
