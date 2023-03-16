@@ -13,7 +13,7 @@ class MagicUpgrade:
 
 
 class BiggerSize(MagicUpgrade):
-    name = "Bigger Size"
+    name = "Titan's Might"
 
     def apply(self, bullet, elapsed_time):
         previous_image = bullet.image
@@ -30,7 +30,7 @@ class BiggerSize(MagicUpgrade):
 
 # UPDATE UPGRADES
 class Woobly(MagicUpgrade):
-    name = "Woobly"
+    name = "Serpent Strike"
 
     def __init__(self):
         self.state = 0.0
@@ -53,7 +53,7 @@ class Woobly(MagicUpgrade):
 
 
 class ShrinkAndGrow(MagicUpgrade):
-    name = "Shrink and Grow"
+    name = "Waveform Cannon"
 
     def __init__(self):
         self.state = 0.0
@@ -83,7 +83,7 @@ class ShrinkAndGrow(MagicUpgrade):
 
 
 class SlowAndFast(MagicUpgrade):
-    name = "Slow and Fast"
+    name = "Crushing Stutter"
 
     def __init__(self):
         self.state = 0.0
@@ -115,7 +115,7 @@ class SlowAndFast(MagicUpgrade):
 
 
 class Rainbow(MagicUpgrade):
-    name = "Rainbow"
+    name = "Prismatic Aura"
 
     def __init__(self):
         self.state = 0.0
