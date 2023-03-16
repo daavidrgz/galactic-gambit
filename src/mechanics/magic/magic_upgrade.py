@@ -1,50 +1,22 @@
-from enum import Enum, auto
+import utils.math
+
 import math
 import numpy as np
-
 import pygame
+import heapq
 
-
-class MagicUpgradeType(Enum):
-    INIT = auto()
-    UPDATE = auto()
+from constants.game_constants import DESIGN_FRAMERATE, TILE_SIZE
 
 
 class MagicUpgrade:
-    def __init__(self):
-        pass
-
-    def apply(self, bullet):
-        raise NotImplementedError
-
-    def setup(self, bullet):
-        pass
+    init_effect = None
+    update_effect = None
 
 
-class InitMagicUpgrade(MagicUpgrade):
-    # This class applies an upgrade to a bullet when it is created
-    type = MagicUpgradeType.INIT
+class BiggerSize(MagicUpgrade):
+    name = "Titan's Might"
 
-    def __init__(self):
-        super().__init__()
-
-
-class UpdateMagicUpgrade(MagicUpgrade):
-    # This class applies an upgrade to a bullet every frame
-    type = MagicUpgradeType.UPDATE
-
-    def __init__(self):
-        super().__init__()
-        self.type = MagicUpgradeType.UPDATE
-
-
-class BiggerSize(UpdateMagicUpgrade):
-    name = "Bigger Size"
-
-    def __init__(self):
-        super().__init__()
-
-    def apply(self, bullet, _elapsed_time):
+    def apply(self, bullet, elapsed_time):
         previous_image = bullet.image
         # get pygme surface size
         previous_size = np.array(previous_image.get_size())
@@ -54,52 +26,49 @@ class BiggerSize(UpdateMagicUpgrade):
         bullet.rect = bullet.image.get_rect()
         bullet.rect.center = bullet.x, bullet.y
 
+    update_effect = apply
+
 
 # UPDATE UPGRADES
-class Woobly(UpdateMagicUpgrade):
-    name = "Woobly"
+class Woobly(MagicUpgrade):
+    name = "Serpent Strike"
 
     def __init__(self):
-        super().__init__()
         self.state = 0.0
         self.previous_modify_vector = [0, 0]
-        self.frequency = 1 / 300
-        self.amplitude = 15
+        self.period = 300
+        self.amplitude = 3
+        self.phase = np.pi / 2
 
     def apply(self, bullet, elapsed_time):
         self.state += elapsed_time
-        self.state %= 1 / self.frequency
-        directionx, directiony = bullet.direction
+        self.state %= self.period
 
         modify_vector_module = self.amplitude * math.sin(
-            2 * np.pi * self.frequency * self.state
+            2 * np.pi * self.state / self.period + self.phase
         )
 
-        modify_vector_direction = np.array([directiony, -directionx], dtype=np.float32)
-        modify_vector = modify_vector_module * modify_vector_direction
-        delta = modify_vector - self.previous_modify_vector
-        self.previous_modify_vector = modify_vector
-        # TODO: modify direction vector or move it with deltas? It should be the same
-        bullet.move(delta)
+        bullet.velocity = utils.math.rotate_vector(bullet.velocity, modify_vector_module)
+
+    update_effect = apply
 
 
-class ShrinkAndGrow(UpdateMagicUpgrade):
-    name = "Shrink and Grow"
+class ShrinkAndGrow(MagicUpgrade):
+    name = "Waveform Cannon"
 
     def __init__(self):
-        super().__init__()
         self.state = 0.0
         self.previous_scale = 0
-        self.frequency = 1 / 400
+        self.period = 400
         # Scale between 0.8 and 1.4
         self.amplitude = 0.3
         self.amplitude_delta = 1.1
 
     def apply(self, bullet, elapsed_time):
         self.state += elapsed_time
-        self.state %= 1 / self.frequency
+        self.state %= self.period
         scale = (
-            self.amplitude * math.sin(2 * np.pi * self.frequency * self.state)
+            self.amplitude * math.sin(2 * np.pi * self.state / self.period)
             + self.amplitude_delta
         )
 
@@ -111,47 +80,53 @@ class ShrinkAndGrow(UpdateMagicUpgrade):
         bullet.rect = scaled_img.get_rect()
         bullet.rect.center = bullet.x, bullet.y
 
+    update_effect = apply
 
-class SlowAndFast(UpdateMagicUpgrade):
-    name = "Slow and Fast"
+
+class SlowAndFast(MagicUpgrade):
+    name = "Crushing Stutter"
 
     def __init__(self):
-        super().__init__()
         self.state = 0.0
-        self.original_speed = None
-        self.frequency = 1 / 500
+        self.period = 500
         self.amplitude = 0.75
-        self.amplitude_delta = 0.25
         self.phase = np.pi
 
     def apply(self, bullet, elapsed_time):
-        if self.original_speed is None:
-            self.original_speed = bullet.speed
+        elapsed_units = elapsed_time * DESIGN_FRAMERATE / 1000
+
         self.state += elapsed_time
-        self.state %= 1 / self.frequency
-        scale = (
-            self.amplitude
-            * np.cbrt(math.sin(2 * np.pi * self.frequency * self.state + self.phase))
-            + self.amplitude_delta
-        )
+        self.state %= self.period
 
-        bullet.speed = self.original_speed * (1 + scale)
-        bullet.velocity = bullet.speed * bullet.direction
+        velocity_norm = np.linalg.norm(bullet.velocity)
+
+        angle = 2*np.pi * self.state/self.period + self.phase
+        divider = 3*self.period * np.cbrt(np.sin(angle))**2
+        dT = 2*np.pi * self.amplitude * self.state * np.cos(angle) / (0.1 if abs(divider) < 0.1 else divider)
+
+        new_speed = np.clip(velocity_norm + dT * elapsed_units, 3, 50)
+
+        bullet.velocity = (bullet.velocity / velocity_norm) * new_speed
+
+    def setup(self, bullet, level):
+        bullet.velocity *= 0.75
+
+    update_effect = apply
+    init_effect = setup
 
 
-class Rainbow(UpdateMagicUpgrade):
-    name = "Rainbow"
+class Rainbow(MagicUpgrade):
+    name = "Prismatic Aura"
 
     def __init__(self):
-        super().__init__()
         self.state = 0.0
         self.laps = 2
 
-    def apply(self, _bullet, elapsed_time):
+    def apply(self, bullet, elapsed_time):
         self.state += elapsed_time
         self.state %= 360 * self.laps
 
-    def setup(self, bullet):
+    def setup(self, bullet, level):
         bullet.add_image_modifier(self.__rainbow_modifier)
 
     def __rainbow_modifier(self, image):
@@ -160,3 +135,104 @@ class Rainbow(UpdateMagicUpgrade):
         hit_mask = pygame.Surface(image.get_size(), pygame.SRCALPHA)
         hit_mask.fill(color)
         image.blit(hit_mask, (0, 0), special_flags=pygame.BLEND_MULT)
+
+    update_effect = apply
+    init_effect = setup
+
+class Gravity(MagicUpgrade):
+    name = "Portable Instability"
+
+    def apply(self, bullet, elapsed_time):
+        if self.timer < 50:
+            self.timer += elapsed_time
+            return
+
+        bullet_x, bullet_y = bullet.get_position()
+        player_x, player_y = self.player.get_position()
+
+        direction = np.array((player_x - bullet_x, player_y - bullet_y))
+        distance = np.linalg.norm(direction)
+        direction /= distance
+
+        distance = np.clip(distance / TILE_SIZE / 2.0, 1, 20)
+
+        bullet.velocity += (direction * elapsed_time * 0.1) / distance**2
+
+    def setup(self, bullet, level):
+        self.timer = 0
+        self.player = level.get_player()
+
+    update_effect = apply
+    init_effect = setup
+
+class Ghost(MagicUpgrade):
+    name = "Ghostly Shot"
+
+    def setup(self, bullet, level):
+        bullet.ground_collision = False
+        bullet.add_image_modifier(self.__translucent_modifier)
+
+    def __translucent_modifier(self, image):
+        image.set_alpha(127)
+
+    init_effect = setup
+
+class Homing(MagicUpgrade):
+    name = "Vicious Aim"
+
+    def choose_target(self, bullet):
+        target = None
+
+        from_pos = np.array(bullet.get_position())
+
+        to_remove = []
+        min_distance = np.inf
+        for i, enemy in enumerate(self.targets):
+            if enemy.removed:
+                to_remove.append(i)
+                continue
+
+            distance = utils.math.square_norm(np.array(enemy.get_position()) - from_pos)
+            if distance < min_distance:
+                min_distance = distance
+                target = enemy
+
+        for i in reversed(to_remove):
+            self.targets.pop(i)
+
+        return target, min_distance
+
+    def apply(self, bullet, elapsed_time):
+        elapsed_units = elapsed_time * DESIGN_FRAMERATE / 1000
+        target, sqr_dist = self.choose_target(bullet)
+
+        if not target:
+            return
+        
+        angle = np.arctan2(bullet.velocity[1], bullet.velocity[0])
+        diff_vector = utils.math.rotate_vector_rad(np.array(target.get_position()) - np.array(bullet.get_position()), -angle)
+        angle = np.arctan2(diff_vector[1], diff_vector[0])
+
+        if angle > np.pi:
+            angle -= 2 * np.pi
+
+        angle /= sqr_dist / TILE_SIZE / 10
+
+        if abs(angle) > 0.1 * elapsed_units:
+            angle = np.sign(angle) * 0.1 * elapsed_units
+
+        bullet.velocity = utils.math.rotate_vector_rad(bullet.velocity, angle)
+
+    def setup(self, bullet, level):
+        bullet.velocity *= 0.75
+
+        from_pos = np.array(bullet.get_position())
+        self.target = None
+
+        def enemy_distance(enemy):
+            return utils.math.square_norm(np.array(enemy.get_position()) - from_pos)
+        
+        self.targets = heapq.nsmallest(5, level.enemy_group, enemy_distance)
+
+    update_effect = apply
+    init_effect = setup

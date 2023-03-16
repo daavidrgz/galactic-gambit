@@ -40,7 +40,7 @@ class BaseEnemy(LivingEntity):
         super().on_death()
         self.kill()
         for _ in range(3):
-            self.level.spawn_misc_entity(XpEntity((self.x, self.y)))
+            self.level.spawn_misc_entity(XpEntity((self.x, self.y), 10))
 
 
     def on_death(self):

@@ -3,7 +3,6 @@ import math
 import numpy as np
 from constants.game_constants import SPEED_EPSILON
 from entities.projectile.player_bullet import PlayerBullet
-from mechanics.magic.magic_upgrade import MagicUpgradeType
 
 
 class Gun:
@@ -19,16 +18,10 @@ class Gun:
         self.n_bullets = n_bullets
         self.knockback = knockback
 
-        self.init_upgrades = []
-        self.update_upgrades = []
+        self.upgrades = []
 
     def add_magical_upgrade(self, upgrade):
-        if upgrade.type == MagicUpgradeType.INIT:
-            self.init_upgrades.append(upgrade)
-        elif upgrade.type == MagicUpgradeType.UPDATE:
-            self.update_upgrades.append(upgrade)
-        else:
-            raise ValueError("Upgrade type not recognized")
+        self.upgrades.append(upgrade)
 
     def is_ready(self):
         return self.current_cooldown == 0.0
@@ -40,8 +33,8 @@ class Gun:
         self.current_cooldown = self.cooldown
         return self.generate_bullets(shoot_position, facing_vector)
 
-    def __init_upgrades(self, upgrades):
-        return [upgrade() for upgrade in upgrades]
+    def __instantiate_upgrades(self):
+        return [upgrade() for upgrade in self.upgrades]
 
     def generate_bullets(self, shoot_position, facing_vector):
         # TODO: If spread angle is negative, it should have negative spread?
@@ -60,19 +53,14 @@ class Gun:
             new_facingx = math.cos(vector_angle)
             new_facing_vector = np.array([new_facingy, new_facingx])
             initial_position = shoot_position + new_facing_vector * self.gun_offset
-            init_upgrades = self.__init_upgrades(self.init_upgrades)
-            update_upgrades = self.__init_upgrades(self.update_upgrades)
+            upgrades_instance = self.__instantiate_upgrades()
             new_bullet = PlayerBullet(
                 initial_position,
                 self.bullet_speed,
                 new_facing_vector,
                 self.damage,
                 self.knockback,
-                init_upgrades,
-                update_upgrades,
+                upgrades_instance,
             )
-            # Setup upgrades
-            [upgrade.setup(new_bullet) for upgrade in init_upgrades]
-            [upgrade.setup(new_bullet) for upgrade in update_upgrades]
             bullets.append(new_bullet)
         return bullets

@@ -10,6 +10,8 @@ class Entity(AnimatedSprite):
         self.id = Entity.ID_COUNT
         Entity.ID_COUNT += 1
 
+        self.removed = False
+
         self.rect.centerx = self.x
         self.rect.centery = self.y
 
@@ -33,6 +35,10 @@ class Entity(AnimatedSprite):
 
     def collide(self, on_colide):
         pass
+
+    def kill(self):
+        self.removed = True
+        super().kill()
 
     def get_id(self):
         return self.id

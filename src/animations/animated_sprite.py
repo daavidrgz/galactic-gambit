@@ -9,7 +9,6 @@ import pygame
 
 class AnimatedSprite(pygame.sprite.Sprite):
     def __init__(self, frames, initial_pos):
-        # TODO: Pasarle hitbox a este sprite
         self.resource_manager = ResourceManager.get_instance()
         self.speed_multiplier = 1.0
 
@@ -21,9 +20,9 @@ class AnimatedSprite(pygame.sprite.Sprite):
         self.modifiers = []
         super().__init__()
         self.x, self.y = initial_pos
-        # Use first frame size as image size. All frames must have the same image size
-        frame_size = frames[0].get_image().get_size()
-        self.__buffer_image = pygame.Surface(frame_size, pygame.SRCALPHA)
+
+        self.current_frame_size = None
+
         self.setup_frames(frames)
 
     def on_animation_finished(self):
@@ -78,6 +77,12 @@ class AnimatedSprite(pygame.sprite.Sprite):
             modifier(self.image)
 
     def setup_frames(self, frames):
+        # Use first frame size as image size. All frames must have the same image size
+        frame_size = frames[0].get_image().get_size()
+        if frame_size != self.current_frame_size:
+            self.current_frame_size = frame_size
+            self.__buffer_image = pygame.Surface(frame_size, pygame.SRCALPHA)
+        
         self.frames = frames
         self.num_frames = len(frames)
 
@@ -103,3 +108,9 @@ class AnimatedSprite(pygame.sprite.Sprite):
 
     def set_speed_multiplier(self, value):
         self.speed_multiplier = value
+
+    def set_image(self, image):
+        self.current_anim = None
+        if not isinstance(image, list):
+            image = [AnimationFrame(image, 0.1)]
+        self.setup_frames(image)
