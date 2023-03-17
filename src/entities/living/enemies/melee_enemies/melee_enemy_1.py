@@ -16,7 +16,7 @@ class MeleeEnemy1(BaseMeleeEnemy):
         self.drag = 0.25
         self.speed = 0.7
 
-        self.damage = 0
+        self.damage = 1
         self.knockback = 10
         self.projectile_speed = 5
         self.attack_lifetime = 100

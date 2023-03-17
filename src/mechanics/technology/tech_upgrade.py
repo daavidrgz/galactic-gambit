@@ -1,5 +1,7 @@
 import math
 
+from systems.resource_manager import Resource
+
 
 class TechUpgrade:
     def apply(gun):
@@ -8,6 +10,7 @@ class TechUpgrade:
 
 class TripleShot(TechUpgrade):
     name = "Triple Shot"
+    icon = Resource.BLACKHOLE_ICON
 
     def apply(gun):
         gun.n_bullets += 2
@@ -15,7 +18,9 @@ class TripleShot(TechUpgrade):
 
 
 class DoubleShot(TechUpgrade):
+
     name = "Double Shot"
+    icon = Resource.BLACKHOLE_ICON
 
     def apply(gun):
         gun.n_bullets += 1
@@ -24,6 +29,7 @@ class DoubleShot(TechUpgrade):
 
 class NarrowVision(TechUpgrade):
     name = "Narrow Vision"
+    icon = Resource.BLACKHOLE_ICON
 
     def apply(gun):
         gun.damage *= 0.7
@@ -35,6 +41,7 @@ class NarrowVision(TechUpgrade):
 
 class HardBullets(TechUpgrade):
     name = "Hard Bullets"
+    icon = Resource.BLACKHOLE_ICON
 
     def apply(gun):
         gun.damage *= 1.5
@@ -43,6 +50,7 @@ class HardBullets(TechUpgrade):
 
 class NumberOne(TechUpgrade):
     name = "Number One"
+    icon = Resource.BLACKHOLE_ICON
 
     def apply(gun):
         gun.damage *= 0.5
