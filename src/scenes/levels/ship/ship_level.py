@@ -13,7 +13,7 @@ class ShipLevel(Level):
     def __init__(self):
         terrain = ShipTerrain()
         generator = ShipGenerator(terrain)
-        background_color = (0, 0, 0)
+        background = Resource.PURPLE_SPACE_BG
         level_music = Resource.SHIP_LEVEL_MUSIC
         player_footsteps = Resource.SHIP_FOOTSTEPS
 
@@ -25,9 +25,9 @@ class ShipLevel(Level):
         super().__init__(
             generator=generator,
             terrain=terrain,
-            background_color=background_color,
             scene_music=level_music,
             player_footsteps=player_footsteps,
+            background=background,
         )
 
     def update(self, elapsed_time):

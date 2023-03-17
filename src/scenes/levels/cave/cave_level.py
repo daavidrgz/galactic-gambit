@@ -24,7 +24,6 @@ class CaveLevel(Level):
         super().__init__(
             generator=generator,
             terrain=terrain,
-            background_color=background_color,
             scene_music=level_music,
             player_footsteps=player_footsteps,
         )

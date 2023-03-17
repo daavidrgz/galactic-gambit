@@ -11,7 +11,7 @@ from systems.resource_manager import Resource
 class GameOverMenu(VerticalMenu):
     def __init__(self):
         super().__init__()
-        background_image = self.resource_manager.load_image(Resource.SPACE_BACKGROUND)
+        background_image = self.resource_manager.load_image(Resource.PLANETS_BG)
         bg_width, bg_height = background_image.get_size()
         background_image = pygame.transform.scale(
             background_image,
