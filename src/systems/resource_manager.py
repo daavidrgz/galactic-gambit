@@ -380,6 +380,58 @@ class Resource(Enum):
         ("sprites/enemies/ranged/ranged2_hurt2.png", 3, 200, True),
     ]
 
+    RANGED3_IDLE_RIGHT = [
+        ("sprites/enemies/ranged/ranged3_idle1.png", 3, 200, False),
+        ("sprites/enemies/ranged/ranged3_idle2.png", 3, 200, False),
+        ("sprites/enemies/ranged/ranged3_idle3.png", 3, 200, False),
+        ("sprites/enemies/ranged/ranged3_idle4.png", 3, 200, False),
+    ]
+
+    RANGED3_IDLE_LEFT = [
+        ("sprites/enemies/ranged/ranged3_idle1.png", 3, 200, True),
+        ("sprites/enemies/ranged/ranged3_idle2.png", 3, 200, True),
+        ("sprites/enemies/ranged/ranged3_idle3.png", 3, 200, True),
+        ("sprites/enemies/ranged/ranged3_idle4.png", 3, 200, True),
+    ]
+
+    RANGED3_WALK_RIGHT = [
+        ("sprites/enemies/ranged/ranged3_walking1.png", 3, 200, False),
+        ("sprites/enemies/ranged/ranged3_walking2.png", 3, 200, False),
+        ("sprites/enemies/ranged/ranged3_walking3.png", 3, 200, False),
+        ("sprites/enemies/ranged/ranged3_walking4.png", 3, 200, False),
+        ("sprites/enemies/ranged/ranged3_walking5.png", 3, 200, False),
+        ("sprites/enemies/ranged/ranged3_walking6.png", 3, 200, False),
+    ]
+
+    RANGED3_WALK_LEFT = [
+        ("sprites/enemies/ranged/ranged3_walking1.png", 3, 200, True),
+        ("sprites/enemies/ranged/ranged3_walking2.png", 3, 200, True),
+        ("sprites/enemies/ranged/ranged3_walking3.png", 3, 200, True),
+        ("sprites/enemies/ranged/ranged3_walking4.png", 3, 200, True),
+        ("sprites/enemies/ranged/ranged3_walking5.png", 3, 200, True),
+        ("sprites/enemies/ranged/ranged3_walking6.png", 3, 200, True),
+    ]
+
+    RANGED3_DEAD_RIGHT = [
+        ("sprites/enemies/ranged/ranged3_dead1.png", 3, 200, False),
+        ("sprites/enemies/ranged/ranged3_dead2.png", 3, 200, False),
+        ("sprites/enemies/ranged/ranged3_dead3.png", 3, 200, False),
+    ]
+
+    RANGED3_DEAD_LEFT = [
+        ("sprites/enemies/ranged/ranged3_dead1.png", 3, 200, True),
+        ("sprites/enemies/ranged/ranged3_dead2.png", 3, 200, True),
+        ("sprites/enemies/ranged/ranged3_dead3.png", 3, 200, True),
+    ]
+
+    RANGED3_HURT_RIGHT = [
+        ("sprites/enemies/ranged/ranged3_hurt2.png", 3, 200, False),
+    ]
+
+    RANGED3_HURT_LEFT = [
+        ("sprites/enemies/ranged/ranged2_hurt3.png", 3, 200, True),
+    ]
+
     XP = [
         ("sprites/xp/xp_1.png", 2, 50, False),
         ("sprites/xp/xp_2.png", 2, 50, False),

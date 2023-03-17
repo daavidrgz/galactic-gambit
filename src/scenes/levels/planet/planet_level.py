@@ -7,7 +7,7 @@ from scenes.levels.cave.cave_level import CaveLevel
 from scenes.menus.win_menu import WinMenu
 from systems.resource_manager import ResourceManager, Resource
 from systems.rng_system import RngSystem, Generator
-from entities.living.enemies.test_ranged_enemy import TestRangedEnemy
+from entities.living.enemies.ranged_enemies.ranged_enemy_1 import RangedEnemy1
 from entities.living.enemies.test_melee_enemy import TestMeleeEnemy
 
 import pygame
@@ -62,7 +62,7 @@ class PlanetLevel(Level):
                 x, y = rng.randint(0, TILE_SIZE * 171), rng.randint(0, TILE_SIZE * 171)
             enemy_type = rng.randint(0, 1)
             if enemy_type == 0:
-                enemy = TestRangedEnemy((x, y))
+                enemy = RangedEnemy1((x, y))
             else:
                 enemy = TestMeleeEnemy((x, y))
             self.spawn_enemy(enemy)
