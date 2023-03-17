@@ -1,5 +1,6 @@
 import pygame
 from constants.game_constants import DESIGN_HEIGHT, DESIGN_WIDTH
+from gui.components.buttons.full_screen_button import FullScreenButton
 from gui.components.buttons.seed_button import SeedButton
 from gui.components.buttons.text_button import TextButton
 from gui.components.title import Title
@@ -40,6 +41,10 @@ class ConfigurationMenu(VerticalMenu):
         self.get_selected_button().empty_seed()
         self.is_changing_seed = True
 
+    def __toggle_full_screen(self):
+        self.get_selected_button().toggle_full_screen()
+        self.director.toggle_full_screen()
+
     def __go_back(self):
         self.director.pop_scene()
 
@@ -53,9 +58,18 @@ class ConfigurationMenu(VerticalMenu):
             position=(DESIGN_WIDTH // 2, 100),
         )
 
-        self.buttons.append(self.__create_button("Volume", self.__volume_config, -120))
+        full_screen_button = FullScreenButton(
+            full_screen=self.director.full_screen,
+            font=font,
+            color=COLOR_SUBTLE,
+            color_hover=COLOR_BRIGHT,
+            action=self.__toggle_full_screen,
+            position=(DESIGN_WIDTH / 2, DESIGN_HEIGHT / 2 - 120),
+        )
+        self.buttons.append(full_screen_button)
+        self.buttons.append(self.__create_button("Volume", self.__volume_config, -40))
         self.buttons.append(
-            self.__create_button("Keybindings", self.__keybindings_config, -40)
+            self.__create_button("Keybindings", self.__keybindings_config, +40)
         )
 
         current_seed = self.rng_system.get_seed()
@@ -65,10 +79,10 @@ class ConfigurationMenu(VerticalMenu):
             color=COLOR_SUBTLE,
             color_hover=COLOR_BRIGHT,
             action=self.__change_seed,
-            position=(DESIGN_WIDTH / 2, DESIGN_HEIGHT / 2 + 40),
+            position=(DESIGN_WIDTH / 2, DESIGN_HEIGHT / 2 + 120),
         )
         self.buttons.append(seed_button)
-        self.go_back_button = self.__create_button("Go back", self.__go_back, 120)
+        self.go_back_button = self.__create_button("Go back", self.__go_back, 200)
         self.go_back_button.confirm_sound = Resource.GO_BACK_SOUND
         self.buttons.append(self.go_back_button)
 

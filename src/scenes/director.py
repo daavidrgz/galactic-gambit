@@ -18,6 +18,7 @@ class Director(metaclass=Singleton):
         self.screen = pygame.display.set_mode(
             (INITIAL_USER_WIDTH, INITIAL_USER_HEIGHT), vsync=True
         )
+        self.full_screen = False
         self.virtual_screen = pygame.Surface((DESIGN_WIDTH, DESIGN_HEIGHT))
         self.crosshair = ResourceManager().load_image(Resource.CROSSHAIR)
         pygame.display.set_caption("Space Mission")
@@ -28,6 +29,10 @@ class Director(metaclass=Singleton):
         self.__do_setup = True
         self.__do_pop_back = False
         self.clock = pygame.time.Clock()
+
+    def toggle_full_screen(self):
+        self.full_screen = not self.full_screen
+        pygame.display.toggle_fullscreen()
 
     def __loop(self, scene):
         self.__leave_scene = False
@@ -65,7 +70,7 @@ class Director(metaclass=Singleton):
             mouse_pos = np.array(control_system.get_mouse_pos())
             cross_hair_size = np.array(self.crosshair.get_size())
             self.virtual_screen.blit(self.crosshair, mouse_pos - cross_hair_size / 2)
-            
+
             # Re-scale the virtual screen to the user screen
             frame = pygame.transform.scale(self.virtual_screen, self.user_screen_size)
             self.screen.blit(frame, frame.get_rect())
