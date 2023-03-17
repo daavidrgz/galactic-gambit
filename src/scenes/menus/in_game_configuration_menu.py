@@ -37,8 +37,6 @@ class InGameConfigurationMenu(VerticalMenu):
         self.director.pop_scene()
 
     def setup(self):
-        font = self.resource_manager.load_font(Resource.FONT_LG)
-
         self.title = Title(
             text="Configuration",
             font=self.resource_manager.load_font(Resource.FONT_XL),
