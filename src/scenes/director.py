@@ -32,6 +32,8 @@ class Director(metaclass=Singleton):
 
     def toggle_full_screen(self):
         self.full_screen = not self.full_screen
+        # BUG: On some OS/window managers, this could trigger a
+        # warning or bug the screen. In windows it seems to work ok
         pygame.display.toggle_fullscreen()
 
     def __loop(self, scene):
