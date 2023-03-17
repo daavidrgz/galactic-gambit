@@ -178,6 +178,7 @@ class Gravity(MagicUpgrade):
     def setup(self, bullet, level):
         self.timer = 0
         self.player = level.get_player()
+        bullet.lifetime *= 5
 
     update_effect = apply
     init_effect = setup
