@@ -4,23 +4,20 @@ from animations.explosion_effect import ExplosionEffect
 
 
 class EnemyStrike(Projectile):
-    def __init__(self, initial_pos, direction):
+    def __init__(
+        self, attack_image, initial_pos, speed, direction, damage, knockback, lifetime
+    ):
         self.resource_manager = ResourceManager.get_instance()
-        image = self.resource_manager.load_image(Resource.LASER)
+        image = self.resource_manager.load_image(attack_image)
         self.timer = 200
 
-        super().__init__(image, initial_pos, 5, direction, 0, 10)
-
-    def collide(self, add_animation_func):
-        pass
+        super().__init__(
+            image, initial_pos, speed, direction, damage, knockback, lifetime
+        )
+        self.ground_collision = False
 
     def update(self, elapsed_time):
         super().update(elapsed_time)
-
-        # Melee strikes last a fixed amount of time
-        self.timer -= elapsed_time
-        if self.timer <= 0:
-            self.kill()
 
         # Player collision
         if self.rect.colliderect(self.level.player.rect):

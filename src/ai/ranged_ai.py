@@ -8,7 +8,7 @@ import utils.math
 from constants.game_constants import TILE_SIZE
 
 class RangedAI(BaseAI):
-    def __init__(self, vision_range, tracking_range, attack_range, melee_range, cadence):
+    def __init__(self, vision_range, tracking_range, attack_range, melee_range):
         super().__init__()
         self.rng = RngSystem().get_rng(Generator.ENEMIES)
 
@@ -16,7 +16,6 @@ class RangedAI(BaseAI):
         self.tracking_range = tracking_range
         self.attack_range = attack_range
         self.melee_range = melee_range
-        self.cadence = cadence
         self.attack_timer = 0
         self.previous_direction = None
         self.angle_deviation = None
@@ -119,10 +118,7 @@ class RangedAI(BaseAI):
         enemy.set_target(None)
 
         # Attack player
-        self.attack_timer+=1
-        if self.attack_timer >= self.cadence:
-            self.attack_timer = 0
-            enemy.trigger_attack()
+        enemy.trigger_attack()
 
     def alert(self, enemy, player, terrain, elapsed_time):
         # Compute distance to player, if in tracking range change

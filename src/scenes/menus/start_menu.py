@@ -9,6 +9,7 @@ from scenes.menus.configuration_menu import ConfigurationMenu
 from scenes.menus.vertical_menu import VerticalMenu
 from scenes.transition import Transition
 from systems.resource_manager import Resource
+from systems.rng_system import RngSystem
 
 
 class StartMenu(VerticalMenu):
@@ -35,6 +36,8 @@ class StartMenu(VerticalMenu):
         self.scene_music = Resource.START_MENU_MUSIC
 
     def __new_game(self):
+        # Reset current seed to initial state
+        RngSystem().reset()
         self.game_model.init_model()
         next_level = ShipLevel
         self.game_model.level = next_level

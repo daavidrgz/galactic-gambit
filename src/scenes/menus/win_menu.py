@@ -7,6 +7,7 @@ from gui.components.buttons.text_button import TextButton
 from gui.components.title import Title
 from scenes.menus.vertical_menu import VerticalMenu
 from systems.resource_manager import Resource
+from systems.rng_system import RngSystem
 
 
 class WinMenu(VerticalMenu):
@@ -63,6 +64,7 @@ class WinMenu(VerticalMenu):
         ]
 
     def __main_menu(self):
+        RngSystem().new_seed()
         self.director.pop_scene()
 
     def __create_button(self, text, action, offset):
