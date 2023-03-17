@@ -2,7 +2,9 @@ import numpy as np
 from constants.game_constants import TILE_SIZE
 from generation.base_terrain import BaseTerrain, TerrainType
 from systems.rng_system import Generator, RngSystem
+from systems.resource_manager import Resource, ResourceManager
 
+import pygame
 
 class ShipTerrain(BaseTerrain):
     Y_SIZE = 5
@@ -32,27 +34,20 @@ class ShipTerrain(BaseTerrain):
         base_y = self.height - self.Y_SIZE * 2
         end_y = base_y + self.Y_SIZE
 
-        for x in range(base_x - 3, end_x + 3):
-            for y in range(base_y - 2, end_y + 2):
-                self.data[y, x] = TerrainType.BOUND
+        self.data[base_y-2:end_y+2, base_x-3:end_x+3] = TerrainType.BOUND
+        self.data[base_y-1:end_y+1, base_x-1:end_x+1] = TerrainType.WALL
+        self.data[base_y:end_y, base_x:end_x] = TerrainType.GROUND
+        self.data[base_y+2, base_x:base_x+2] = TerrainType.WALL
+        self.data[base_y:base_y+3, end_x-1] = TerrainType.WALL
+        self.data[base_y - 2, base_x+2:base_x+5] = TerrainType.NONE
 
-        for x in range(base_x - 1, end_x + 1):
-            for y in range(base_y - 1, end_y + 1):
-                self.data[y, x] = TerrainType.WALL
-
-        for x in range(base_x, end_x):
-            for y in range(base_y, end_y):
-                self.data[y, x] = TerrainType.GROUND
-
-        for x in range(base_x + 2, base_x + 5):
-            self.data[base_y - 2, x] = TerrainType.NONE
-
+        self.starting_tiles = [(base_x + x, base_y - 1) for x in range(2, 5)]
         self.player_starting_position = (
             TILE_SIZE * (base_x + 3.5),
             TILE_SIZE * (base_y + 2.5),
         )
 
-        self.starting_tiles = [(base_x + x, base_y - 1) for x in range(2, 5)]
+        self.place_start_sprite(base_x, base_y)
 
     def place_end(self, end_coords):
         room_x = end_coords[0] // self.X_SIZE
@@ -77,3 +72,13 @@ class ShipTerrain(BaseTerrain):
             (base_x + 2.5) * TILE_SIZE,
             (base_y + 1.5) * TILE_SIZE,
         )
+
+    def place_start_sprite(self, x, y):
+        init_room_spr = pygame.sprite.Sprite()
+        init_room_spr.image = ResourceManager().load_image(Resource.SHIP_START)
+        init_room_spr.rect = init_room_spr.image.get_rect()
+        init_room_spr.rect.topleft = (
+            (x - 1) * TILE_SIZE,
+            (y - 2) * TILE_SIZE,
+        )
+        self.sprites_top.add(init_room_spr)

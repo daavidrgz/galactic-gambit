@@ -20,6 +20,7 @@ class Resource(Enum):
     LASER = "sprites/laser/11.png"
     LASER_ENEMY = "sprites/laser/35.png"
 
+    SHIP_START = "sprites/level/ship_start.png"
     SHIP_FLOOR = "sprites/tiles/ship_floor.png"
     SHIP_FLOOR_D1 = "sprites/tiles/ship_floord1.png"
     SHIP_FLOOR_D2 = "sprites/tiles/ship_floord2.png"
