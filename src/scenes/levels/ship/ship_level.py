@@ -21,7 +21,6 @@ class ShipLevel(Level):
             Resource.BLUE_SPACE_BG,
         ]
         background = RngSystem().get_rng(Generator.MAP).choice(possible_backgrounds)
-        print(background)
         level_music = Resource.SHIP_LEVEL_MUSIC
         player_footsteps = Resource.SHIP_FOOTSTEPS
 
