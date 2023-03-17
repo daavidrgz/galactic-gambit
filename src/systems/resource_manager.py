@@ -25,6 +25,7 @@ class Resource(Enum):
     BLUE_SPACE_BG = "sprites/backgrounds/blue-space-bg.png"
     ORANGE_SPACE_BG = "sprites/backgrounds/orange-space-bg.png"
 
+    SHIP_END = "sprites/level/ship_end.png"
     SHIP_START = "sprites/level/ship_start.png"
     SHIP_FLOOR = "sprites/tiles/ship_floor.png"
     SHIP_FLOOR_D1 = "sprites/tiles/ship_floord1.png"

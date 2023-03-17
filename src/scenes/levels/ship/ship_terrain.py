@@ -60,18 +60,14 @@ class ShipTerrain(BaseTerrain):
         base_y = room_y * self.Y_SIZE
         end_y = base_y + self.Y_SIZE
 
-        for x in range(base_x, end_x):
-            for y in range(base_y, end_y):
-                self.data[y, x] = TerrainType.GROUND
-
-        for x in range(base_x + 2, end_x - 2):
-            for y in range(base_y + 1, end_y - 1):
-                self.data[y, x] = TerrainType.WALL
+        self.data[base_y:end_y, base_x:end_x] = TerrainType.GROUND
 
         self.end_position = (
             (base_x + 2.5) * TILE_SIZE,
             (base_y + 1.5) * TILE_SIZE,
         )
+
+        self.place_end_sprite(base_x + 1, base_y + 2)
 
     def place_start_sprite(self, x, y):
         init_room_spr = pygame.sprite.Sprite()
@@ -82,3 +78,14 @@ class ShipTerrain(BaseTerrain):
             (y - 2) * TILE_SIZE,
         )
         self.sprites_top.add(init_room_spr)
+
+    def place_end_sprite(self, x, y):
+        end_room_spr = pygame.sprite.Sprite()
+        end_room_spr.image = ResourceManager().load_image(Resource.SHIP_END)
+        end_room_spr.image = pygame.transform.scale(end_room_spr.image, [a * 2 for a in end_room_spr.image.get_size()])
+        end_room_spr.rect = end_room_spr.image.get_rect()
+        end_room_spr.rect.topleft = (
+            (x - 1) * TILE_SIZE,
+            (y - 2) * TILE_SIZE,
+        )
+        self.sprites_top.add(end_room_spr)
