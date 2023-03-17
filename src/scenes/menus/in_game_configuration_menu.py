@@ -14,7 +14,6 @@ class InGameConfigurationMenu(VerticalMenu):
     def __init__(self, background):
         super().__init__()
         self.background = background
-        self.is_changing_seed = False
         self.rng_system = RngSystem()
 
     def __create_button(self, text, action, offset):
