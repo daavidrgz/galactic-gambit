@@ -4,7 +4,7 @@ from ai.ranged_ai import RangedAI
 from systems.resource_manager import Resource
 
 
-class RangedEnemy1(BaseRangedEnemy):
+class RangedEnemy3(BaseRangedEnemy):
     def __init__(
         self,
         initial_pos,
