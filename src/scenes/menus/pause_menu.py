@@ -7,6 +7,7 @@ from scenes.menus.in_game_configuration_menu import InGameConfigurationMenu
 from scenes.menus.vertical_menu import VerticalMenu
 from scenes.transition import Transition
 from systems.resource_manager import Resource
+from systems.rng_system import RngSystem
 
 
 class PauseMenu(VerticalMenu):
@@ -22,6 +23,7 @@ class PauseMenu(VerticalMenu):
         self.director.pop_scene()
 
     def __return_to_menu(self):
+        RngSystem().new_seed()
         self.director.pop_scene()
         self.director.pop_scene()
 

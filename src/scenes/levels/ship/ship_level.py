@@ -6,6 +6,7 @@ from scenes.levels.planet.planet_level import PlanetLevel
 import pygame
 
 from systems.resource_manager import Resource
+from systems.rng_system import Generator, RngSystem
 from systems.sound_controller import RandomSounds
 
 
@@ -13,7 +14,14 @@ class ShipLevel(Level):
     def __init__(self):
         terrain = ShipTerrain()
         generator = ShipGenerator(terrain)
-        background = Resource.PURPLE_SPACE_BG
+
+        possible_backgrounds = [
+            Resource.PURPLE_SPACE_BG,
+            Resource.ORANGE_SPACE_BG,
+            Resource.BLUE_SPACE_BG,
+        ]
+        background = RngSystem().get_rng(Generator.MAP).choice(possible_backgrounds)
+        print(background)
         level_music = Resource.SHIP_LEVEL_MUSIC
         player_footsteps = Resource.SHIP_FOOTSTEPS
 

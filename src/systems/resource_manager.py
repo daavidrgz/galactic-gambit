@@ -20,7 +20,7 @@ class Resource(Enum):
     LASER_ENEMY = "sprites/laser/35.png"
     
     # Backgrounds
-    PLANETS_BG = "sprites/backgrounds/blue-space-bg.png"
+    PLANETS_BG = "sprites/backgrounds/planets-bg.png"
     PURPLE_SPACE_BG = "sprites/backgrounds/purple-space-bg.png"
     BLUE_SPACE_BG = "sprites/backgrounds/blue-space-bg.png"
     ORANGE_SPACE_BG = "sprites/backgrounds/orange-space-bg.png"
