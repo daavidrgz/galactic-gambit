@@ -4,12 +4,12 @@ from animations.explosion_effect import ExplosionEffect
 
 
 class EnemyStrike(Projectile):
-    def __init__(self, attack_image, initial_pos, speed, direction, damage, knockback):
+    def __init__(self, attack_image, initial_pos, speed, direction, damage, knockback, lifetime):
         self.resource_manager = ResourceManager.get_instance()
         image = self.resource_manager.load_image(attack_image)
         self.timer = 200
 
-        super().__init__(image, initial_pos, speed, direction, damage, knockback)
+        super().__init__(image, initial_pos, speed, direction, damage, knockback, lifetime)
         self.ground_collision = False
 
     def update(self, elapsed_time):

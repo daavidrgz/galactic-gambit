@@ -11,7 +11,7 @@ class BaseMeleeEnemy(BaseEnemy):
         
         super().__init__(hp, initial_pos, initial_animation, ai, drag, speed)
 
-    def trigger_attack(self, image, damage, knockback, projectile_speed):
+    def trigger_attack(self, image, damage, knockback, projectile_speed, lifetime):
         if self.attack_cooldown > 0.0:
             return
         
@@ -22,7 +22,7 @@ class BaseMeleeEnemy(BaseEnemy):
         
         position = np.array(self.get_position() - direction * 20)
 
-        new_projectile = EnemyStrike(image, position, projectile_speed, direction, damage, knockback)
+        new_projectile = EnemyStrike(image, position, projectile_speed, direction, damage, knockback, lifetime)
         self.level.spawn_enemy_bullet(new_projectile)
 
     def update(self, elapsed_time, walk_right, walk_left, idle_right, idle_left):

@@ -15,6 +15,7 @@ class MeleeEnemy1(BaseMeleeEnemy):
         self.damage = 0
         self.knockback = 10
         self.projectile_speed = 5
+        self.attack_lifetime = 100
 
         self.walk_right = Resource.MELEE1_WALK_RIGHT
         self.walk_left = Resource.MELEE1_WALK_LEFT
@@ -30,7 +31,7 @@ class MeleeEnemy1(BaseMeleeEnemy):
         super().__init__(self.hp, initial_pos, self.idle_right, self.ai, self.drag, self.speed)
 
     def trigger_attack(self):
-        super().trigger_attack(self.attack_image, self.damage, self.knockback, self.projectile_speed)
+        super().trigger_attack(self.attack_image, self.damage, self.knockback, self.projectile_speed, self.attack_lifetime)
 
     def update(self, elapsed_time):
         super().update(elapsed_time, self.walk_right, self.walk_left, self.idle_right, self.idle_left)

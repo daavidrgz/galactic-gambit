@@ -2,7 +2,7 @@ from gui.components.buttons.text_button import TextButton
 
 
 class SeedButton(TextButton):
-    MAX_SEED_LENGTH = 10
+    MAX_SEED_LENGTH = 9
 
     def __init__(
         self,
@@ -42,6 +42,14 @@ class SeedButton(TextButton):
         if len(self.seed) >= self.MAX_SEED_LENGTH:
             return
         self.seed += char
+        self.set_text(self.__get_full_text())
+
+    def set_seed(self, seed):
+        self.seed = seed
+        self.set_text(self.__get_full_text())
+
+    def empty_seed(self):
+        self.seed = ""
         self.set_text(self.__get_full_text())
 
     def reset_color(self):

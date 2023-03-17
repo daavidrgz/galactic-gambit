@@ -13,6 +13,7 @@ class RangedEnemy1(BaseRangedEnemy):
         self.damage = 0
         self.knockback = 10
         self.projectile_speed = 8
+        self.attack_lifetime = 800
 
         self.walk_right = Resource.RANGED3_WALK_RIGHT
         self.walk_left = Resource.RANGED3_WALK_LEFT
@@ -28,7 +29,7 @@ class RangedEnemy1(BaseRangedEnemy):
         super().__init__(self.hp, initial_pos, self.idle_right, self.ai, self.drag, self.speed)
 
     def trigger_attack(self):
-        super().trigger_attack(self.attack_image, self.damage, self.knockback, self.projectile_speed)
+        super().trigger_attack(self.attack_image, self.damage, self.knockback, self.projectile_speed, self.attack_lifetime)
 
     def update(self, elapsed_time):
         super().update(elapsed_time, self.walk_right, self.walk_left, self.idle_right, self.idle_left)

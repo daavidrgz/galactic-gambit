@@ -45,7 +45,10 @@ class Level(Scene):
         self.enemy_group = EnemyGroup()
         self.enemy_bullets = ScrollableGroup()
 
-        self.background_group = ParallaxGroup((0.5, 0.5))
+        self.background_parallax_rate = 0.3
+        self.background_group = ParallaxGroup(
+            (self.background_parallax_rate, self.background_parallax_rate)
+        )
 
         self.misc_entities = ScrollableGroup()
 
@@ -69,13 +72,20 @@ class Level(Scene):
         )
 
         if self.background:
+            terrain_size = np.array((self.terrain.width, self.terrain.height))
+            middle_terrain_pos = terrain_size // 2
             background_image = self.resource_manager.load_image(self.background)
             background_image = pygame.transform.scale(
                 background_image,
-                np.array([self.terrain.width, self.terrain.height]) * TILE_SIZE,
+                terrain_size * TILE_SIZE,
             )
+
+            # In order to simulate parallax background on the middle of the map,
+            # we must multiple the position with the parallax rate,
+            # so it seems to be 'centered' with the parallax 1.0
             background_sprite = AnimatedSprite(
-                background_image, self.terrain.get_player_starting_position()
+                background_image,
+                middle_terrain_pos * TILE_SIZE * self.background_parallax_rate,
             )
             self.background_group.add(background_sprite)
 

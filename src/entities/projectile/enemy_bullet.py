@@ -7,12 +7,12 @@ import pygame
 
 
 class EnemyBullet(Projectile):
-    def __init__(self, attack_image, initial_pos, speed, direction, damage, knockback):
+    def __init__(self, attack_image, initial_pos, speed, direction, damage, knockback, lifetime):
         resource_manager = ResourceManager.get_instance()
         image = resource_manager.load_image(attack_image)
         image = pygame.transform.scale(image, (50, 10))
 
-        super().__init__(image, initial_pos, speed, direction, damage, knockback)
+        super().__init__(image, initial_pos, speed, direction, damage, knockback, lifetime)
         self.add_image_modifier(self.__red_image_modifier)
 
     def collide(self, add_animation_func):
@@ -21,7 +21,9 @@ class EnemyBullet(Projectile):
         add_animation_func(explosion)
         super().collide(add_animation_func)
 
-    def __red_image_modifier(self, image): #TODO: This doesn't need to be dynamic, make it a sprite
+    def __red_image_modifier(
+        self, image
+    ):  # TODO: This doesn't need to be dynamic, make it a sprite
         color = (255, 0, 0)
         mask = pygame.Surface(image.get_size(), pygame.SRCALPHA)
         mask.fill(color)
@@ -32,6 +34,8 @@ class EnemyBullet(Projectile):
         super().update(elapsed_time)
 
         # Player collision
-        if utils.math.circle_rect_collision((self.x, self.y, 4), self.level.player.rect):
+        if utils.math.circle_rect_collision(
+            (self.x, self.y, 4), self.level.player.rect
+        ):
             self.level.player.hit(self.damage, self.get_direction() * self.knockback)
             self.kill()

@@ -8,6 +8,7 @@ from scenes.menus.keybinds_menu import KeybindingsMenu
 from scenes.menus.vertical_menu import VerticalMenu
 from scenes.menus.volume_menu import VolumeMenu
 from systems.resource_manager import Resource
+from systems.rng_system import RngSystem
 
 
 class ConfigurationMenu(VerticalMenu):
@@ -15,6 +16,7 @@ class ConfigurationMenu(VerticalMenu):
         super().__init__()
         self.background = background
         self.is_changing_seed = False
+        self.rng_system = RngSystem()
 
     def __create_button(self, text, action, offset):
         font = self.resource_manager.load_font(Resource.FONT_LG)
@@ -35,6 +37,7 @@ class ConfigurationMenu(VerticalMenu):
 
     def __change_seed(self):
         self.disable_mouse = True
+        self.get_selected_button().empty_seed()
         self.is_changing_seed = True
 
     def __go_back(self):
@@ -55,8 +58,9 @@ class ConfigurationMenu(VerticalMenu):
             self.__create_button("Keybindings", self.__keybindings_config, -40)
         )
 
+        current_seed = self.rng_system.get_seed()
         seed_button = SeedButton(
-            seed="14923",
+            seed=str(current_seed),
             font=font,
             color=COLOR_SUBTLE,
             color_hover=COLOR_BRIGHT,
@@ -78,9 +82,18 @@ class ConfigurationMenu(VerticalMenu):
 
         for event in events:
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_ESCAPE or event.key == pygame.K_RETURN:
+                if event.key == pygame.K_RETURN:
                     self.disable_mouse = False
                     self.get_selected_button().reset_color()
+                    self.is_changing_seed = False
+                    self.rng_system.seed(int(self.get_selected_button().seed))
+                    self.get_selected_button().set_seed(str(self.rng_system.get_seed()))
+                    return
+                if event.key == pygame.K_ESCAPE:
+                    # If escape is pressed, do not save seed changes
+                    self.disable_mouse = False
+                    self.get_selected_button().reset_color()
+                    self.get_selected_button().set_seed(str(self.rng_system.get_seed()))
                     self.is_changing_seed = False
                     return
                 if event.key == pygame.K_BACKSPACE:
