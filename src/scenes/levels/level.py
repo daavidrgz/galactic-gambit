@@ -75,9 +75,12 @@ class Level(Scene):
             terrain_size = np.array((self.terrain.width, self.terrain.height))
             middle_terrain_pos = terrain_size // 2
             background_image = self.resource_manager.load_image(self.background)
+
+            bg_width, bg_height = background_image.get_size()
+            size_ratio = max(terrain_size[0] * TILE_SIZE / bg_width, terrain_size[1] * TILE_SIZE / bg_height)
             background_image = pygame.transform.scale(
                 background_image,
-                terrain_size * TILE_SIZE,
+                (bg_width * size_ratio, bg_height * size_ratio)
             )
 
             # In order to simulate parallax background on the middle of the map,
