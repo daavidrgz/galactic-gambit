@@ -9,6 +9,11 @@ class BaseGui(pygame.sprite.Sprite):
         self.rect.center = position
         super().__init__()
 
+    def set_surface(self, surface):
+        self.image = surface
+        self.rect = self.image.get_rect()
+        self.rect.center = self.position
+
     def set_position(self, position):
         self.rect.center = position
 

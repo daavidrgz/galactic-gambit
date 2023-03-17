@@ -103,12 +103,9 @@ class VolumeMenu(VerticalMenu):
         if not self.__volume_change_ready():
             return
 
+        self.current_timeout = 0
         if self.control_system.is_key_pressed(pygame.K_UP):
-            self.current_timeout = 0
             self.get_selected_button().increase_volume()
-            return
 
         if self.control_system.is_key_pressed(pygame.K_DOWN):
-            self.current_timeout = 0
             self.get_selected_button().decrease_volume()
-            return

@@ -39,14 +39,14 @@ class TextButton(Button):
 
     def set_text(self, text):
         self.text = text
-        self.image = self.__render_font(
-            text, self.current_color, self.current_background
+        self.set_surface(
+            self.__render_font(text, self.current_color, self.current_background)
         )
 
     def set_color(self, color):
         self.current_color = color
-        self.image = self.__render_font(self.text, color, self.background)
+        self.set_surface(self.__render_font(self.text, color, self.background))
 
     def set_background(self, background):
         self.current_background = background
-        self.image = self.__render_font(self.text, self.current_color, background)
+        self.set_surface(self.__render_font(self.text, self.current_color, background))
