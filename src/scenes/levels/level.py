@@ -45,7 +45,7 @@ class Level(Scene):
         self.enemy_group = EnemyGroup()
         self.enemy_bullets = ScrollableGroup()
 
-        self.background_group = ScrollableGroup()
+        self.background_group = ParallaxGroup((0.5, 0.5))
 
         self.misc_entities = ScrollableGroup()
 
