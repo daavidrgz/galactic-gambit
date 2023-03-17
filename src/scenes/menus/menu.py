@@ -8,14 +8,12 @@ class Menu(Scene):
         super().__init__()
         self.gui_group = pygame.sprite.Group()
         self.buttons = []
+        self.go_back_button = None
         self.current_button = 0
         self.buttons_len = 0
         self.background = None
         self.disable_mouse = False
         self.clicked_element = None
-        self.select_sound = Resource.SELECT_SOUND
-        self.confirm_sound = Resource.CONFIRM_SOUND
-        self.go_back_sound = Resource.GO_BACK_SOUND
 
     def get_selected_button(self):
         return self.buttons[self.current_button]
@@ -63,6 +61,9 @@ class Menu(Scene):
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_RETURN:
                     self.buttons[self.current_button].execute_action()
+                if event.key == pygame.K_ESCAPE:
+                    if self.go_back_button:
+                        self.go_back_button.execute_action()
 
     def update(self, elapsed_time):
         if self.disable_mouse:
@@ -75,6 +76,6 @@ class Menu(Scene):
         self.gui_group.update(elapsed_time)
 
     def draw(self, screen):
-        if self.background is not None:
+        if self.background:
             screen.blit(self.background, (0, 0))
         self.gui_group.draw(screen)

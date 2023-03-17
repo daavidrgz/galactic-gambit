@@ -50,7 +50,8 @@ class PauseMenu(VerticalMenu):
             position=(DESIGN_WIDTH / 2, 100),
         )
 
-        self.buttons.append(self.__create_button("Resume", self.__resume_game, -120))
+        self.go_back_button = self.__create_button("Resume", self.__resume_game, -120)
+        self.buttons.append(self.go_back_button)
         self.buttons.append(
             self.__create_button("Configuration", self.__config_game, -40)
         )
@@ -63,10 +64,3 @@ class PauseMenu(VerticalMenu):
 
         self.gui_group.add(self.title, self.buttons)
         super().setup()
-
-    def handle_events(self, events):
-        super().handle_events(events)
-        for event in events:
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_ESCAPE:
-                    self.__resume_game()

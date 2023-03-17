@@ -1,6 +1,5 @@
 import pygame
 from constants.game_constants import DESIGN_HEIGHT, DESIGN_WIDTH
-from gui.components.buttons.button import Button
 from gui.components.buttons.seed_button import SeedButton
 from gui.components.buttons.text_button import TextButton
 from gui.components.title import Title
@@ -65,9 +64,9 @@ class ConfigurationMenu(VerticalMenu):
             position=(DESIGN_WIDTH / 2, DESIGN_HEIGHT / 2 + 40),
         )
         self.buttons.append(seed_button)
-        go_back_button = self.__create_button("Go back", self.__go_back, 120)
-        go_back_button.confirm_sound = Resource.GO_BACK_SOUND
-        self.buttons.append(go_back_button)
+        self.go_back_button = self.__create_button("Go back", self.__go_back, 120)
+        self.go_back_button.confirm_sound = Resource.GO_BACK_SOUND
+        self.buttons.append(self.go_back_button)
 
         self.gui_group.add(self.title, self.buttons)
         super().setup()

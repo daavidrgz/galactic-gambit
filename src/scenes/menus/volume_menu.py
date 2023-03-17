@@ -61,7 +61,7 @@ class VolumeMenu(VerticalMenu):
             )
         )
 
-        go_back_button = TextButton(
+        self.go_back_button = TextButton(
             text="Go back",
             font=self.resource_manager.load_font(Resource.FONT_LG),
             color=COLOR_SUBTLE,
@@ -69,8 +69,8 @@ class VolumeMenu(VerticalMenu):
             action=self.__go_back,
             position=(DESIGN_WIDTH // 2, DESIGN_HEIGHT // 2 + 80),
         )
-        go_back_button.confirm_sound = Resource.GO_BACK_SOUND
-        self.buttons.append(go_back_button)
+        self.go_back_button.confirm_sound = Resource.GO_BACK_SOUND
+        self.buttons.append(self.go_back_button)
 
         self.gui_group.add(self.title, self.buttons)
         super().setup()

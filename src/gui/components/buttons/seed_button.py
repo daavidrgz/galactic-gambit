@@ -2,6 +2,8 @@ from gui.components.buttons.text_button import TextButton
 
 
 class SeedButton(TextButton):
+    MAX_SEED_LENGTH = 10
+
     def __init__(
         self,
         seed,
@@ -37,6 +39,8 @@ class SeedButton(TextButton):
         self.set_text(self.__get_full_text())
 
     def add_char(self, char):
+        if len(self.seed) >= self.MAX_SEED_LENGTH:
+            return
         self.seed += char
         self.set_text(self.__get_full_text())
 
