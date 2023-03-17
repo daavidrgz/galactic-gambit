@@ -10,6 +10,10 @@ class RangedEnemy1(BaseRangedEnemy):
         self.drag = 0.25
         self.speed = 0.7
 
+        self.damage = 0
+        self.knockback = 10
+        self.projectile_speed = 8
+
         self.walk_right = Resource.RANGED2_WALK_RIGHT
         self.walk_left = Resource.RANGED2_WALK_LEFT
         self.idle_right = Resource.RANGED2_IDLE_RIGHT
@@ -18,8 +22,13 @@ class RangedEnemy1(BaseRangedEnemy):
         self.hurt_left = Resource.RANGED2_HURT_LEFT
         self.dead_right = Resource.RANGED2_DEAD_RIGHT
         self.dead_left = Resource.RANGED2_DEAD_LEFT
+
+        self.attack_image = Resource.LASER
         
         super().__init__(self.hp, initial_pos, self.idle_right, self.ai, self.drag, self.speed)
+
+    def trigger_attack(self):
+        super().trigger_attack(self.attack_image, self.damage, self.knockback, self.projectile_speed)
 
     def update(self, elapsed_time):
         super().update(elapsed_time, self.walk_right, self.walk_left, self.idle_right, self.idle_left)

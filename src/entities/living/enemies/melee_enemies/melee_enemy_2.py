@@ -20,9 +20,14 @@ class MeleeEnemy2(BaseMeleeEnemy):
         self.hurt_left = Resource.MELEE2_HURT_LEFT
         self.dead_right = Resource.MELEE2_DEAD_RIGHT
         self.dead_left = Resource.MELEE2_DEAD_LEFT
+
+        self.attack_image = Resource.LASER
         
         super().__init__(self.hp, initial_pos, self.idle_right, self.ai, self.drag, self.speed)
 
+    def trigger_attack(self):
+        super().trigger_attack(self.attack_image, self.damage, self.knockback, self.projectile_speed)
+    
     def update(self, elapsed_time):
         super().update(elapsed_time, self.walk_right, self.walk_left, self.idle_right, self.idle_left)
 
