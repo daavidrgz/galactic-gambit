@@ -1,15 +1,17 @@
+from animations.animated_sprite import AnimatedSprite
 from constants.game_constants import TILE_SIZE
 from entities.living.player.player import Player
 from gui.hud.hud import Hud
 from mechanics.magic.magic_upgrade_system import MagicUpgradeSystem
 from mechanics.technology.tech_upgrade_system import TechUpgradeSystem
-from scenes.levels.groups import EnemyGroup, ScrollableGroup
+from scenes.levels.groups import EnemyGroup, ParallaxGroup, ScrollableGroup
 from scenes.menus.game_over_menu import GameOverMenu
 from scenes.menus.pause_menu import PauseMenu
 from scenes.menus.upgrade_menu import UpgradeMenu
 from scenes.scene import Scene
 from scenes.transition import Transition
 from systems.camera_manager import CameraManager
+import numpy as np
 
 import pygame
 
@@ -19,9 +21,9 @@ class Level(Scene):
         self,
         generator,
         terrain,
-        background_color,
         scene_music,
         player_footsteps,
+        background=None,
     ):
         super().__init__()
         self.magic_upgrade_system = MagicUpgradeSystem.get_instance()
@@ -33,7 +35,7 @@ class Level(Scene):
 
         self.generator = generator
         self.terrain = terrain
-        self.background_color = background_color
+        self.background = background
 
         self.player_group = ScrollableGroup(self.player)
 
@@ -42,6 +44,8 @@ class Level(Scene):
         self.animation_group = ScrollableGroup()
         self.enemy_group = EnemyGroup()
         self.enemy_bullets = ScrollableGroup()
+
+        self.background_group = ScrollableGroup()
 
         self.misc_entities = ScrollableGroup()
 
@@ -63,6 +67,18 @@ class Level(Scene):
             on_level_up=self.__player_level_up,
             on_death=self.__player_death,
         )
+
+        if self.background:
+            background_image = self.resource_manager.load_image(self.background)
+            background_image = pygame.transform.scale(
+                background_image,
+                np.array([self.terrain.width, self.terrain.height]) * TILE_SIZE,
+            )
+            background_sprite = AnimatedSprite(
+                background_image, self.terrain.get_player_starting_position()
+            )
+            self.background_group.add(background_sprite)
+
         self.hud.setup(self)
         super().setup()
 
@@ -128,7 +144,8 @@ class Level(Scene):
                     self.player.hp.reduce(1)
 
     def draw(self, screen):
-        screen.fill(self.background_color)
+        screen.fill((0, 0, 0))
+        self.background_group.draw(screen)
         self.terrain.draw(screen)
         self.player_group.draw(screen)
         self.enemy_group.draw(screen)
