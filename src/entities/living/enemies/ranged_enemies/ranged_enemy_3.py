@@ -14,11 +14,11 @@ class RangedEnemy3(BaseRangedEnemy):
         self.drag = 0.25
         self.speed = 0.7
 
-        self.damage = 1
+        self.damage = 4
         self.knockback = 10
         self.projectile_speed = 8
         self.attack_lifetime = 800
-        self.reload_speed = 100
+        self.reload_speed = 1000
 
         self.walk_right = Resource.RANGED3_WALK_RIGHT
         self.walk_left = Resource.RANGED3_WALK_LEFT

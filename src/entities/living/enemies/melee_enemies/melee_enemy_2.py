@@ -11,10 +11,10 @@ class MeleeEnemy2(BaseMeleeEnemy):
     ):
         self.resource_manager = ResourceManager()
 
-        self.hp = 2
-        self.ai = MeleeAI(200, 300, 50)
+        self.hp = 6
+        self.ai = MeleeAI(300, 500, 100)
         self.drag = 0.25
-        self.speed = 0.7
+        self.speed = 1
 
         self.damage = 1
         self.knockback = 10

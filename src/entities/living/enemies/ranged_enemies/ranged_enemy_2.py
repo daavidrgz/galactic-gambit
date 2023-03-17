@@ -9,16 +9,16 @@ class RangedEnemy2(BaseRangedEnemy):
         self,
         initial_pos,
     ):
-        self.hp = 2
+        self.hp = 3
         self.ai = RangedAI(500, 600, 400, 200)
         self.drag = 0.25
         self.speed = 0.7
 
-        self.damage = 1
+        self.damage = 2
         self.knockback = 10
         self.projectile_speed = 8
         self.attack_lifetime = 800
-        self.reload_speed = 100
+        self.reload_speed = 300
 
         self.walk_right = Resource.RANGED2_WALK_RIGHT
         self.walk_left = Resource.RANGED2_WALK_LEFT
