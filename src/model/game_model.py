@@ -9,6 +9,7 @@ from constants.game_constants import (
     INITIAL_GUN_SPEED,
     INITIAL_GUN_SPREAD,
     INITIAL_GUN_KNOCKBACK,
+    INITIAL_GUN_LIFETIME,
 )
 from entities.living.hp import Hp
 from entities.living.player.player import Player
@@ -42,6 +43,7 @@ class GameModel(metaclass=Singleton):
             INITIAL_GUN_SPREAD,
             INITIAL_GUN_N_BULLETS,
             INITIAL_GUN_KNOCKBACK,
+            INITIAL_GUN_LIFETIME,
         )
 
         initial_magic_level = MagicLevelModel(1, 0)
@@ -54,6 +56,7 @@ class GameModel(metaclass=Singleton):
         self.player = model.player
         self.level = model.level
         self.rng_system.set_state(model.rng_system.get_state())
+        self.rng_system.initial_seed = model.rng_system.initial_seed
         self.tech_upgrade_system.set_state(model.tech_upgrade_system.get_state())
         self.magic_upgrade_system.set_state(model.magic_upgrade_system.get_state())
 
