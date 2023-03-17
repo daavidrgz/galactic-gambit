@@ -1,5 +1,4 @@
 from animations.animated_sprite import AnimatedSprite
-from constants.game_constants import TILE_SIZE
 from entities.living.player.player import Player
 from gui.hud.hud import Hud
 from mechanics.magic.magic_upgrade_system import MagicUpgradeSystem
@@ -15,6 +14,7 @@ import numpy as np
 
 import pygame
 
+from constants.game_constants import TILE_SIZE, BACKGROUND_DIMMING
 
 class Level(Scene):
     def __init__(
@@ -75,6 +75,10 @@ class Level(Scene):
             terrain_size = np.array((self.terrain.width, self.terrain.height))
             middle_terrain_pos = terrain_size // 2
             background_image = self.resource_manager.load_image(self.background)
+
+            bg_veil = pygame.Surface(background_image.get_size())
+            bg_veil.set_alpha(BACKGROUND_DIMMING)
+            background_image.blit(bg_veil, bg_veil.get_rect())
 
             bg_width, bg_height = background_image.get_size()
             size_ratio = max(terrain_size[0] * TILE_SIZE / bg_width, terrain_size[1] * TILE_SIZE / bg_height)
