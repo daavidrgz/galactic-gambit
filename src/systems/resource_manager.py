@@ -20,7 +20,7 @@ class Resource(Enum):
     LASER_ENEMY = "sprites/laser/35.png"
     
     # Backgrounds
-    PLANETS_BG = "sprites/backgrounds/planets-bg.png"
+    PLANETS_BG = "sprites/backgrounds/blue-space-bg.png"
     PURPLE_SPACE_BG = "sprites/backgrounds/purple-space-bg.png"
     BLUE_SPACE_BG = "sprites/backgrounds/blue-space-bg.png"
     ORANGE_SPACE_BG = "sprites/backgrounds/orange-space-bg.png"
@@ -61,6 +61,7 @@ class Resource(Enum):
     PLANET_WALL_INNERLEFTDOWN = "sprites/tiles/planet_wall_innerleftdown.png"
     PLANET_WALL_INNERRIGHTDOWN = "sprites/tiles/planet_wall_innerrightdown.png"
 
+    CAVE_START = "sprites/level/cave_start.png"
     CAVE_FLOOR = "sprites/tiles/cave_floor.png"
     CAVE_WALL_UP = "sprites/tiles/cave_wall_up.png"
     CAVE_WALL_DOWN = "sprites/tiles/cave_wall_down.png"

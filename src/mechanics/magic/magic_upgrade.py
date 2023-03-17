@@ -160,7 +160,7 @@ class Gravity(MagicUpgrade):
     icon = Resource.BLACKHOLE_ICON
 
     def apply(self, bullet, elapsed_time):
-        if self.timer < 50:
+        if self.timer < 100:
             self.timer += elapsed_time
             return
 

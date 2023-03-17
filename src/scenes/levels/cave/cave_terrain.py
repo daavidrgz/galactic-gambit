@@ -4,18 +4,20 @@ from generation.base_terrain import BaseTerrain, TerrainType
 from generation.tile import Tile
 from systems.resource_manager import Resource, ResourceManager
 
+import pygame
 
 class CaveTerrain(BaseTerrain):
     def populate(self):
         self.data = np.full((171, 171), TerrainType.NONE, dtype=np.int16)
         self.height, self.width = self.data.shape
-        self.starting_tiles = [(84, 3), (85, 3), (86, 3)]
+        self.starting_tiles = [(84, 7), (85, 7), (86, 7)]
 
-        for x in range(85 - 1, 85 + 2):
-            for y in range(0, 3):
-                self.data[y, x] = TerrainType.GROUND
+        self.data[4:7, 84:87] = TerrainType.GROUND
+        self.data[4, 80:90] = TerrainType.WALL
 
-        self.player_starting_position = (TILE_SIZE * 85.5, TILE_SIZE * 1.5)
+        self.player_starting_position = (TILE_SIZE * 86.0, TILE_SIZE * 5.5)
+
+        self.place_start_sprite(82, 2)
 
     def place_end(self, end_pos):
         for x in range(end_pos[0] - 7, end_pos[0] + 8):
@@ -33,3 +35,14 @@ class CaveTerrain(BaseTerrain):
             (end_pos[0] + 0.5) * TILE_SIZE,
             (end_pos[1] + 0.5) * TILE_SIZE,
         )
+    
+    def place_start_sprite(self, x, y):
+        init_room_spr = pygame.sprite.Sprite()
+        init_room_spr.image = ResourceManager().load_image(Resource.CAVE_START)
+        init_room_spr.image = pygame.transform.scale(init_room_spr.image, [a * 2 for a in init_room_spr.image.get_size()])
+        init_room_spr.rect = init_room_spr.image.get_rect()
+        init_room_spr.rect.topleft = (
+            (x - 1) * TILE_SIZE,
+            (y - 2) * TILE_SIZE,
+        )
+        self.sprites_top.add(init_room_spr)
