@@ -430,7 +430,157 @@ class Resource(Enum):
     ]
 
     RANGED3_HURT_LEFT = [
-        ("sprites/enemies/ranged/ranged2_hurt3.png", 3, 200, True),
+        ("sprites/enemies/ranged/ranged2_hurt2.png", 3, 200, True),
+    ]
+
+    MELEE1_IDLE_RIGHT = [
+        ("sprites/enemies/melee/melee1_idle1.png", 3, 200, False),
+        ("sprites/enemies/melee/melee1_idle2.png", 3, 200, False),
+        ("sprites/enemies/melee/melee1_idle3.png", 3, 200, False),
+        ("sprites/enemies/melee/melee1_idle4.png", 3, 200, False),
+    ]
+
+    MELEE1_IDLE_LEFT = [
+        ("sprites/enemies/melee/melee1_idle1.png", 3, 200, True),
+        ("sprites/enemies/melee/melee1_idle2.png", 3, 200, True),
+        ("sprites/enemies/melee/melee1_idle3.png", 3, 200, True),
+        ("sprites/enemies/melee/melee1_idle4.png", 3, 200, True),
+    ]
+
+    MELEE1_WALK_RIGHT = [
+        ("sprites/enemies/melee/melee1_walking1.png", 3, 200, False),
+        ("sprites/enemies/melee/melee1_walking2.png", 3, 200, False),
+        ("sprites/enemies/melee/melee1_walking3.png", 3, 200, False),
+        ("sprites/enemies/melee/melee1_walking4.png", 3, 200, False),
+        ("sprites/enemies/melee/melee1_walking5.png", 3, 200, False),
+        ("sprites/enemies/melee/melee1_walking6.png", 3, 200, False),
+    ]
+
+    MELEE1_WALK_LEFT = [
+        ("sprites/enemies/melee/melee1_walking1.png", 3, 200, True),
+        ("sprites/enemies/melee/melee1_walking2.png", 3, 200, True),
+        ("sprites/enemies/melee/melee1_walking3.png", 3, 200, True),
+        ("sprites/enemies/melee/melee1_walking4.png", 3, 200, True),
+        ("sprites/enemies/melee/melee1_walking5.png", 3, 200, True),
+        ("sprites/enemies/melee/melee1_walking6.png", 3, 200, True),
+    ]
+
+    MELEE1_DEAD_RIGHT = [
+        ("sprites/enemies/melee/melee1_dead1.png", 3, 200, False),
+        ("sprites/enemies/melee/melee1_dead2.png", 3, 200, False),
+    ]
+
+    MELEE1_DEAD_LEFT = [
+        ("sprites/enemies/melee/melee1_dead1.png", 3, 200, True),
+        ("sprites/enemies/melee/melee1_dead2.png", 3, 200, True),
+    ]
+
+    MELEE1_HURT_RIGHT = [
+        ("sprites/enemies/melee/melee1_hurt2.png", 3, 200, False),
+    ]
+
+    MELEE1_HURT_LEFT = [
+        ("sprites/enemies/melee/melee1_hurt2.png", 3, 200, True),
+    ]
+
+    MELEE2_IDLE_RIGHT = [
+        ("sprites/enemies/melee/melee2_idle1.png", 3, 200, False),
+        ("sprites/enemies/melee/melee2_idle2.png", 3, 200, False),
+        ("sprites/enemies/melee/melee2_idle3.png", 3, 200, False),
+        ("sprites/enemies/melee/melee2_idle4.png", 3, 200, False),
+    ]
+
+    MELEE2_IDLE_LEFT = [
+        ("sprites/enemies/melee/melee2_idle1.png", 3, 200, True),
+        ("sprites/enemies/melee/melee2_idle2.png", 3, 200, True),
+        ("sprites/enemies/melee/melee2_idle3.png", 3, 200, True),
+        ("sprites/enemies/melee/melee2_idle4.png", 3, 200, True),
+    ]
+
+    MELEE2_WALK_RIGHT = [
+        ("sprites/enemies/melee/melee2_walking1.png", 3, 200, False),
+        ("sprites/enemies/melee/melee2_walking2.png", 3, 200, False),
+        ("sprites/enemies/melee/melee2_walking3.png", 3, 200, False),
+        ("sprites/enemies/melee/melee2_walking4.png", 3, 200, False),
+        ("sprites/enemies/melee/melee2_walking5.png", 3, 200, False),
+        ("sprites/enemies/melee/melee2_walking6.png", 3, 200, False),
+    ]
+
+    MELEE2_WALK_LEFT = [
+        ("sprites/enemies/melee/melee2_walking1.png", 3, 200, True),
+        ("sprites/enemies/melee/melee2_walking2.png", 3, 200, True),
+        ("sprites/enemies/melee/melee2_walking3.png", 3, 200, True),
+        ("sprites/enemies/melee/melee2_walking4.png", 3, 200, True),
+        ("sprites/enemies/melee/melee2_walking5.png", 3, 200, True),
+        ("sprites/enemies/melee/melee2_walking6.png", 3, 200, True),
+    ]
+
+    MELEE2_DEAD_RIGHT = [
+        ("sprites/enemies/melee/melee2_dead1.png", 3, 200, False),
+        ("sprites/enemies/melee/melee2_dead2.png", 3, 200, False),
+    ]
+
+    MELEE2_DEAD_LEFT = [
+        ("sprites/enemies/melee/melee2_dead1.png", 3, 200, True),
+        ("sprites/enemies/melee/melee2_dead2.png", 3, 200, True),
+    ]
+
+    MELEE2_HURT_RIGHT = [
+        ("sprites/enemies/melee/melee2_hurt2.png", 3, 200, False),
+    ]
+
+    MELEE2_HURT_LEFT = [
+        ("sprites/enemies/melee/melee2_hurt2.png", 3, 200, True),
+    ]
+
+    MELEE3_IDLE_RIGHT = [
+        ("sprites/enemies/melee/melee3_idle1.png", 3, 200, False),
+        ("sprites/enemies/melee/melee3_idle2.png", 3, 200, False),
+        ("sprites/enemies/melee/melee3_idle3.png", 3, 200, False),
+        ("sprites/enemies/melee/melee3_idle4.png", 3, 200, False),
+    ]
+
+    MELEE3_IDLE_LEFT = [
+        ("sprites/enemies/melee/melee3_idle1.png", 3, 200, True),
+        ("sprites/enemies/melee/melee3_idle2.png", 3, 200, True),
+        ("sprites/enemies/melee/melee3_idle3.png", 3, 200, True),
+        ("sprites/enemies/melee/melee3_idle4.png", 3, 200, True),
+    ]
+
+    MELEE3_WALK_RIGHT = [
+        ("sprites/enemies/melee/melee3_walking1.png", 3, 200, False),
+        ("sprites/enemies/melee/melee3_walking2.png", 3, 200, False),
+        ("sprites/enemies/melee/melee3_walking3.png", 3, 200, False),
+        ("sprites/enemies/melee/melee3_walking4.png", 3, 200, False),
+        ("sprites/enemies/melee/melee3_walking5.png", 3, 200, False),
+        ("sprites/enemies/melee/melee3_walking6.png", 3, 200, False),
+    ]
+
+    MELEE3_WALK_LEFT = [
+        ("sprites/enemies/melee/melee3_walking1.png", 3, 200, True),
+        ("sprites/enemies/melee/melee3_walking2.png", 3, 200, True),
+        ("sprites/enemies/melee/melee3_walking3.png", 3, 200, True),
+        ("sprites/enemies/melee/melee3_walking4.png", 3, 200, True),
+        ("sprites/enemies/melee/melee3_walking5.png", 3, 200, True),
+        ("sprites/enemies/melee/melee3_walking6.png", 3, 200, True),
+    ]
+
+    MELEE3_DEAD_RIGHT = [
+        ("sprites/enemies/melee/melee3_dead1.png", 3, 200, False),
+        ("sprites/enemies/melee/melee3_dead2.png", 3, 200, False),
+    ]
+
+    MELEE3_DEAD_LEFT = [
+        ("sprites/enemies/melee/melee3_dead1.png", 3, 200, True),
+        ("sprites/enemies/melee/melee3_dead2.png", 3, 200, True),
+    ]
+
+    MELEE3_HURT_RIGHT = [
+        ("sprites/enemies/melee/melee3_hurt2.png", 3, 200, False),
+    ]
+
+    MELEE3_HURT_LEFT = [
+        ("sprites/enemies/melee/melee3_hurt3.png", 3, 200, True),
     ]
 
     XP = [

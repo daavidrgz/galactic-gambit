@@ -8,7 +8,7 @@ from scenes.menus.win_menu import WinMenu
 from systems.resource_manager import ResourceManager, Resource
 from systems.rng_system import RngSystem, Generator
 from entities.living.enemies.ranged_enemies.ranged_enemy_1 import RangedEnemy1
-from entities.living.enemies.test_melee_enemy import TestMeleeEnemy
+from entities.living.enemies.melee_enemies.melee_enemy_1 import MeleeEnemy1
 
 import pygame
 
@@ -64,7 +64,7 @@ class PlanetLevel(Level):
             if enemy_type == 0:
                 enemy = RangedEnemy1((x, y))
             else:
-                enemy = TestMeleeEnemy((x, y))
+                enemy = MeleeEnemy1((x, y))
             self.spawn_enemy(enemy)
 
     def draw(self, screen):

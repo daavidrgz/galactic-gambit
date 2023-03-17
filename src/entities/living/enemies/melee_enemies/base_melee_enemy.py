@@ -1,23 +1,32 @@
 import numpy as np
 from entities.living.enemies.base_enemy import BaseEnemy
-from ai.ranged_ai import RangedAI
-from entities.projectile.enemy_bullet import EnemyBullet
-from systems.resource_manager import ResourceManager
+from ai.melee_ai import MeleeAI
+from entities.projectile.enemy_strike import EnemyStrike
 PIH = np.pi / 2
 
-class BaseRangedEnemy(BaseEnemy):
+class BaseMeleeEnemy(BaseEnemy):
     def __init__(self, hp, initial_pos, initial_animation, ai, drag, speed):
         self.facing_vector = np.array([1, 0], dtype=np.float64)
-
+        self.attack_cooldown = 0.0
+        
         super().__init__(hp, initial_pos, initial_animation, ai, drag, speed)
 
     def trigger_attack(self):
+        if self.attack_cooldown > 0.0:
+            return
+        
+        self.attack_cooldown = 500
+
         direction = np.array(self.player.get_position()) - np.array(self.get_position())
         direction /= np.linalg.norm(direction)
-        new_projectile = EnemyBullet(self.get_position(), direction)
+        
+        position = np.array(self.get_position() - direction * 20)
+
+        new_projectile = EnemyStrike(position, direction)
         self.level.spawn_enemy_bullet(new_projectile)
 
     def update(self, elapsed_time, walk_right, walk_left, idle_right, idle_left):
+        self.attack_cooldown -= elapsed_time
         super().update(elapsed_time)
         if self.hit_stun > 0:
             return

@@ -1,13 +1,10 @@
 import numpy as np
 from entities.living.enemies.ranged_enemies.base_ranged_enemy import BaseRangedEnemy
 from ai.ranged_ai import RangedAI
-from systems.resource_manager import Resource, ResourceManager
+from systems.resource_manager import Resource
 
 class RangedEnemy1(BaseRangedEnemy):
     def __init__(self, initial_pos,):
-        self.resource_manager = ResourceManager()
-        self.facing_vector = np.array([1, 0], dtype=np.float64)
-
         self.hp = 2
         self.ai = RangedAI(500, 600, 400, 200, 100)
         self.drag = 0.25
