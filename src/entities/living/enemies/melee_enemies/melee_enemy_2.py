@@ -3,8 +3,12 @@ from entities.living.enemies.melee_enemies.base_melee_enemy import BaseMeleeEnem
 from ai.melee_ai import MeleeAI
 from systems.resource_manager import Resource, ResourceManager
 
+
 class MeleeEnemy2(BaseMeleeEnemy):
-    def __init__(self, initial_pos,):
+    def __init__(
+        self,
+        initial_pos,
+    ):
         self.resource_manager = ResourceManager()
 
         self.hp = 2
@@ -27,14 +31,28 @@ class MeleeEnemy2(BaseMeleeEnemy):
         self.dead_left = Resource.MELEE2_DEAD_LEFT
 
         self.attack_image = Resource.LASER
-        
-        super().__init__(self.hp, initial_pos, self.idle_right, self.ai, self.drag, self.speed)
+
+        super().__init__(
+            self.hp, initial_pos, self.idle_right, self.ai, self.drag, self.speed
+        )
 
     def trigger_attack(self):
-        super().trigger_attack(self.attack_image, self.damage, self.knockback, self.projectile_speed, self.attack_lifetime)
-    
+        super().trigger_attack(
+            self.attack_image,
+            self.damage,
+            self.knockback,
+            self.projectile_speed,
+            self.attack_lifetime,
+        )
+
     def update(self, elapsed_time):
-        super().update(elapsed_time, self.walk_right, self.walk_left, self.idle_right, self.idle_left)
+        super().update(
+            elapsed_time,
+            self.walk_right,
+            self.walk_left,
+            self.idle_right,
+            self.idle_left,
+        )
 
     def hit(self, damage, knockback=None):
         super().hit(damage, self.hurt_right, self.hurt_left, knockback)

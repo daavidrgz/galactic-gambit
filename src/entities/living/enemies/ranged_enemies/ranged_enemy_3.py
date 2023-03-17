@@ -3,17 +3,22 @@ from entities.living.enemies.ranged_enemies.base_ranged_enemy import BaseRangedE
 from ai.ranged_ai import RangedAI
 from systems.resource_manager import Resource
 
+
 class RangedEnemy1(BaseRangedEnemy):
-    def __init__(self, initial_pos,):
+    def __init__(
+        self,
+        initial_pos,
+    ):
         self.hp = 2
-        self.ai = RangedAI(500, 600, 400, 200, 100)
+        self.ai = RangedAI(500, 600, 400, 200)
         self.drag = 0.25
         self.speed = 0.7
 
-        self.damage = 0
+        self.damage = 1
         self.knockback = 10
         self.projectile_speed = 8
         self.attack_lifetime = 800
+        self.reload_speed = 100
 
         self.walk_right = Resource.RANGED3_WALK_RIGHT
         self.walk_left = Resource.RANGED3_WALK_LEFT
@@ -25,14 +30,29 @@ class RangedEnemy1(BaseRangedEnemy):
         self.dead_left = Resource.RANGED3_DEAD_LEFT
 
         self.attack_image = Resource.LASER
-        
-        super().__init__(self.hp, initial_pos, self.idle_right, self.ai, self.drag, self.speed)
+
+        super().__init__(
+            self.hp, initial_pos, self.idle_right, self.ai, self.drag, self.speed
+        )
 
     def trigger_attack(self):
-        super().trigger_attack(self.attack_image, self.damage, self.knockback, self.projectile_speed, self.attack_lifetime)
+        super().trigger_attack(
+            self.attack_image,
+            self.damage,
+            self.knockback,
+            self.projectile_speed,
+            self.attack_lifetime,
+            self.reload_speed,
+        )
 
     def update(self, elapsed_time):
-        super().update(elapsed_time, self.walk_right, self.walk_left, self.idle_right, self.idle_left)
+        super().update(
+            elapsed_time,
+            self.walk_right,
+            self.walk_left,
+            self.idle_right,
+            self.idle_left,
+        )
 
     def hit(self, damage, knockback=None):
         super().hit(damage, self.hurt_right, self.hurt_left, knockback)

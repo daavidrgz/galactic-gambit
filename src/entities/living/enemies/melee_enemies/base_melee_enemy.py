@@ -2,27 +2,31 @@ import numpy as np
 from entities.living.enemies.base_enemy import BaseEnemy
 from ai.melee_ai import MeleeAI
 from entities.projectile.enemy_strike import EnemyStrike
+
 PIH = np.pi / 2
+
 
 class BaseMeleeEnemy(BaseEnemy):
     def __init__(self, hp, initial_pos, initial_animation, ai, drag, speed):
         self.facing_vector = np.array([1, 0], dtype=np.float64)
         self.attack_cooldown = 0.0
-        
+
         super().__init__(hp, initial_pos, initial_animation, ai, drag, speed)
 
     def trigger_attack(self, image, damage, knockback, projectile_speed, lifetime):
         if self.attack_cooldown > 0.0:
             return
-        
+
         self.attack_cooldown = 500
 
         direction = np.array(self.player.get_position()) - np.array(self.get_position())
         direction /= np.linalg.norm(direction)
-        
+
         position = np.array(self.get_position() - direction * 20)
 
-        new_projectile = EnemyStrike(image, position, projectile_speed, direction, damage, knockback, lifetime)
+        new_projectile = EnemyStrike(
+            image, position, projectile_speed, direction, damage, knockback, lifetime
+        )
         self.level.spawn_enemy_bullet(new_projectile)
 
     def update(self, elapsed_time, walk_right, walk_left, idle_right, idle_left):
@@ -35,7 +39,6 @@ class BaseMeleeEnemy(BaseEnemy):
         if self.death:
             return
         self.__update_animation(walk_right, walk_left, idle_right, idle_left)
-
 
     def __update_animation(self, walk_right, walk_left, idle_right, idle_left):
         alpha = np.arctan2(self.facing_vector[1], self.facing_vector[0])
@@ -66,7 +69,7 @@ class BaseMeleeEnemy(BaseEnemy):
             self.set_animation(hurt_right)
         else:
             self.set_animation(hurt_left)
-        
+
         super().hit(damage, knockback)
 
     def on_death(self, dead_right, dead_left):

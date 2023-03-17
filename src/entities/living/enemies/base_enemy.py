@@ -19,6 +19,7 @@ class BaseEnemy(LivingEntity):
         self.death = False
         self.death_timer = 0
         self.hit_stun = 0
+        self.attack_timer = 0
 
         super().__init__(image, initial_pos, drag, (0, 0, 20), hp, 200)
 
@@ -42,7 +43,6 @@ class BaseEnemy(LivingEntity):
         for _ in range(3):
             self.level.spawn_misc_entity(XpEntity((self.x, self.y), 10))
 
-
     def on_death(self):
         self.death_timer = 30
         self.death = True
@@ -50,20 +50,25 @@ class BaseEnemy(LivingEntity):
     def update(self, elapsed_time):
         elapsed_units = elapsed_time * DESIGN_FRAMERATE / 1000
 
+        if self.attack_timer > 0:
+            self.attack_timer -= elapsed_units
+        else:
+            self.attack_timer = 0
+
         if self.death_timer > 0:
-            self.death_timer -= 1
+            self.death_timer -= elapsed_units
             super().update(elapsed_time)
             return
-        
+
         if self.death:
             self.finish_death_animation()
             return
-        
+
         if self.hit_stun > 0:
             self.hit_stun -= elapsed_units
             super().update(elapsed_time)
             return
-        
+
         self.hit_stun = 0
 
         self.ai.run(self, self.player, self.terrain, elapsed_time)
@@ -71,8 +76,8 @@ class BaseEnemy(LivingEntity):
         self.__update_movement(elapsed_units)
         super().update(elapsed_time)
 
-    def trigger_attack(self):
-        pass
+    def trigger_attack(self, reload_speed):
+        self.attack_timer = reload_speed
 
     def alerted(self):
         self.level.spawn_misc_entity(AlertEntity(self.rect.topleft))
@@ -114,7 +119,7 @@ class BaseEnemy(LivingEntity):
             self.facing_vector = move_vector
 
         self.velocity += move_vector * self.speed * elapsed_units
-        self.velocity_norm =  np.linalg.norm(self.velocity)
+        self.velocity_norm = np.linalg.norm(self.velocity)
 
         if self.velocity_norm > SPEED_EPSILON:
             self.facing_vector = self.velocity / self.velocity_norm

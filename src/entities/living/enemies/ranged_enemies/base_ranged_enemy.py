@@ -3,7 +3,9 @@ from entities.living.enemies.base_enemy import BaseEnemy
 from ai.ranged_ai import RangedAI
 from entities.projectile.enemy_bullet import EnemyBullet
 from systems.resource_manager import ResourceManager
+
 PIH = np.pi / 2
+
 
 class BaseRangedEnemy(BaseEnemy):
     def __init__(self, hp, initial_pos, initial_animation, ai, drag, speed):
@@ -11,11 +13,23 @@ class BaseRangedEnemy(BaseEnemy):
 
         super().__init__(hp, initial_pos, initial_animation, ai, drag, speed)
 
-    def trigger_attack(self, image, damage, knockback, projectile_speed, lifetime):
+    def trigger_attack(self, image, damage, knockback, projectile_speed, lifetime, reload_speed):
+        if self.attack_timer > 0:
+            return
+        super().trigger_attack(reload_speed)
         direction = np.array(self.player.get_position()) - np.array(self.get_position())
         direction /= np.linalg.norm(direction)
-        new_projectile = EnemyBullet(image, self.get_position(), projectile_speed, direction, damage, knockback, lifetime)
+        new_projectile = EnemyBullet(
+            image,
+            self.get_position(),
+            projectile_speed,
+            direction,
+            damage,
+            knockback,
+            lifetime,
+        )
         self.level.spawn_enemy_bullet(new_projectile)
+        
 
     def update(self, elapsed_time, walk_right, walk_left, idle_right, idle_left):
         super().update(elapsed_time)
@@ -26,7 +40,6 @@ class BaseRangedEnemy(BaseEnemy):
         if self.death:
             return
         self.__update_animation(walk_right, walk_left, idle_right, idle_left)
-
 
     def __update_animation(self, walk_right, walk_left, idle_right, idle_left):
         alpha = np.arctan2(self.facing_vector[1], self.facing_vector[0])
@@ -57,7 +70,7 @@ class BaseRangedEnemy(BaseEnemy):
             self.set_animation(hurt_right)
         else:
             self.set_animation(hurt_left)
-        
+
         super().hit(damage, knockback)
 
     def on_death(self, dead_right, dead_left):
