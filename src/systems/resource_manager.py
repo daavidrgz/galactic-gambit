@@ -12,9 +12,9 @@ class Resource(Enum):
 
     CROSSHAIR = "sprites/crosshair.png"
     ALERT = "sprites/alert.png"
-    PLAYER_PROJECTILE = "sprites/player/projectile.png"
     LASER = "sprites/laser/11.png"
     LASER_ENEMY = "sprites/laser/35.png"
+    PLAYER_PROJECTILE = "sprites/player/laser-shot.png"
 
     # Backgrounds
     PLANETS_BG = "sprites/backgrounds/planets-bg.png"
