@@ -18,8 +18,13 @@ class EnemyCounter(HudElement, Observer):
         screen.blit(self.counter, (20, DESIGN_HEIGHT - self.counter.get_height() - 40))
 
     def __update_counter(self, enemies):
+        enemy_count = enemies.get_num_enemies()
+        if enemy_count < 1:
+            self.counter = self.font.render("Find the exit!", True, (255, 255, 255))
+            return
+        
         self.counter = self.font.render(
-            f"Enemies alive: {enemies.get_num_enemies()}", True, (255, 255, 255)
+            f"Remaining enemies: {enemy_count}", True, (255, 255, 255)
         )
 
     def notify(self, enemies):

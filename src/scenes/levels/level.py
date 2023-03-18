@@ -102,6 +102,7 @@ class Level(Scene):
         self.hud.setup(self)
 
         self.enemy_group.add_listener(self.terrain)
+        self.terrain.notify(self.enemy_group)
         super().setup()
 
     def __player_death(self):

@@ -51,16 +51,27 @@ class WinMenu(VerticalMenu):
             "Extraordinary",
             "Exceptional",
             "Outstanding",
+            "Insurmountable",
+            "Royale,",
         ]
 
         self.subtitle_phrases = [
-            "You made an awesome job!",
-            "You are a true hero!",
-            "You are a true champion!",
-            "You conquer the planet!",
-            "You are the best!",
-            "You are the best in the universe!",
-            "You are the best in the galaxy!",
+            "A distress call has been dispatched.",
+            "LSI would be proud.",
+            "Now, to await reinforcements.",
+            "It's a miracle you made it out alive.",
+            "Not so eager about space anymore, are we?",
+            "You found the extraneous signal's origin.",
+            "The planet's infrastructure was suitable for communication.",
+            "It's unfortunate it had to be this way.",
+            "For the glory of Lancestar!",
+            "How will I be able to explain this to the Federation?",
+            "Let's hope someone gets here quick.",
+            "But will they care to rescue you from here?",
+            "MISSION LOG 2084-05-13: I established a temporary settlement...",
+            "For a brief moment, Elcien felt at ease.",
+            "Color me impressed.",
+            "Quite noisy in here, isn't it?",
         ]
 
     def __main_menu(self):
@@ -86,7 +97,7 @@ class WinMenu(VerticalMenu):
 
     def setup(self):
         self.title = Title(
-            text=f"{self.__get_random_title()} win!",
+            text=f"{self.__get_random_title()} victory!",
             font=self.resource_manager.load_font(Resource.FONT_XL),
             color=COLOR_BRIGHT,
             position=(DESIGN_WIDTH / 2, 150),
