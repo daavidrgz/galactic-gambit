@@ -52,8 +52,6 @@ class BaseEnemy(LivingEntity):
 
         if self.attack_timer > 0:
             self.attack_timer -= elapsed_units
-        else:
-            self.attack_timer = 0
 
         if self.death_timer > 0:
             self.death_timer -= elapsed_units
@@ -74,10 +72,11 @@ class BaseEnemy(LivingEntity):
         self.ai.run(self, self.player, self.terrain, elapsed_time)
 
         self.__update_movement(elapsed_units)
+        self.update_animation()
         super().update(elapsed_time)
 
-    def trigger_attack(self, reload_speed):
-        self.attack_timer = reload_speed
+    def trigger_attack(self):
+        self.attack_timer = self.reload_speed
 
     def alerted(self):
         self.level.spawn_misc_entity(AlertEntity(self.rect.topleft))
@@ -126,3 +125,6 @@ class BaseEnemy(LivingEntity):
         else:
             self.velocity = np.zeros(2)
             self.velocity_norm = 0.0
+
+    def __update_animation(self):
+        pass

@@ -1,11 +1,11 @@
+from animations.animation_frame import AnimationFrame
+from utils.singleton import Singleton
+
+import pygame
 import os
 from enum import Enum
 
-import pygame
-
-from animations.animation_frame import AnimationFrame
 from constants.game_constants import TILE_SIZE
-from utils.singleton import Singleton
 
 
 class Resource(Enum):
