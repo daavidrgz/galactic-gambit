@@ -20,7 +20,6 @@ class PlanetLevel(Level):
     def __init__(self):
         terrain = PlanetTerrain()
         generator = PlanetGenerator(terrain)
-        background_color = tuple(x // 10 for x in (226, 84, 10))
         level_music = Resource.PLANET_LEVEL_MUSIC
         player_footsteps = Resource.PLANET_FOOTSTEPS
         self.scattered_sounds = RandomSounds(

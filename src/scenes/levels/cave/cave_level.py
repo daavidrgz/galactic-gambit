@@ -12,7 +12,6 @@ class CaveLevel(Level):
     def __init__(self):
         terrain = CaveTerrain()
         generator = CaveGenerator(terrain)
-        background_color = (10, 0, 0)
         level_music = Resource.CAVE_LEVEL_MUSIC
         player_footsteps = Resource.CAVE_FOOTSTEPS
 
