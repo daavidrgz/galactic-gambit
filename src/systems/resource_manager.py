@@ -172,6 +172,15 @@ class Resource(Enum):
 
     TRIPLE_SHOT_ICON = "sprites/icons/triple-shot.png"
     DOUBLE_SHOT_ICON = "sprites/icons/double-shot.png"
+    REINFORCED_BULLET_ICON = "sprites/icons/reinforced-bullet.png"
+    LITTLE_BULLETS_ICON = "sprites/icons/little-bullets.png"
+    CANNON_ICON = "sprites/icons/cannon.png"
+    SHOTGUN_ICON = "sprites/icons/shotgun.png"
+    SNIPER_ICON = "sprites/icons/sniper.png"
+    PUNCH_ICON = "sprites/icons/punch.png"
+    FEATHER_ICON = "sprites/icons/feather.png"
+    BOLT_ICON = "sprites/icons/bolt.png"
+    MACE_ICON = "sprites/icons/mace.png"
 
     # Animations
     EXPLOSION = [

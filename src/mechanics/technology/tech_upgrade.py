@@ -28,7 +28,7 @@ class DoubleShot(TechUpgrade):
 
 class HardBullets(TechUpgrade):
     name = "Reinforced Bullets"
-    icon = Resource.BLACKHOLE_ICON
+    icon = Resource.REINFORCED_BULLET_ICON
 
     def apply(gun):
         gun.bullet_damage *= 1.5
@@ -37,7 +37,7 @@ class HardBullets(TechUpgrade):
 
 class NumberOne(TechUpgrade):
     name = "Number One"
-    icon = Resource.BLACKHOLE_ICON
+    icon = Resource.BOLT_ICON
 
     def apply(gun):
         gun.bullet_damage *= 0.5
@@ -46,7 +46,7 @@ class NumberOne(TechUpgrade):
 
 class GlassCannon(TechUpgrade):
     name = "Glass Cannon"
-    icon = Resource.BLACKHOLE_ICON
+    icon = Resource.CANNON_ICON
 
     def apply(gun):
         gun.bullet_damage *= 2
@@ -55,7 +55,7 @@ class GlassCannon(TechUpgrade):
 
 class Shotgun(TechUpgrade):
     name = "Shotgun"
-    icon = Resource.BLACKHOLE_ICON
+    icon = Resource.SHOTGUN_ICON
 
     def apply(gun):
         gun.n_bullets += 3
@@ -67,7 +67,7 @@ class Shotgun(TechUpgrade):
 
 class Sniper(TechUpgrade):
     name = "Sniper"
-    icon = Resource.BLACKHOLE_ICON
+    icon = Resource.SNIPER_ICON
 
     def apply(gun):
         gun.bullet_damage *= 4
@@ -77,7 +77,7 @@ class Sniper(TechUpgrade):
 
 class BoxPunch(TechUpgrade):
     name = "Box Punch"
-    icon = Resource.BLACKHOLE_ICON
+    icon = Resource.PUNCH_ICON
 
     def apply(gun):
         gun.bullet_knockback *= 1.5
@@ -86,7 +86,7 @@ class BoxPunch(TechUpgrade):
 
 class LightWeight(TechUpgrade):
     name = "Light Weight"
-    icon = Resource.BLACKHOLE_ICON
+    icon = Resource.FEATHER_ICON
 
     def apply(gun):
         gun.bullet_knockback *= 0.5
@@ -95,7 +95,7 @@ class LightWeight(TechUpgrade):
 
 class RailwayCannon(TechUpgrade):
     name = "Railway Cannon"
-    icon = Resource.BLACKHOLE_ICON
+    icon = Resource.LITTLE_BULLETS_ICON
 
     def apply(gun):
         speed_rate = 1.3
@@ -108,7 +108,7 @@ class RailwayCannon(TechUpgrade):
 
 class Mace(TechUpgrade):
     name = "Mace"
-    icon = Resource.BLACKHOLE_ICON
+    icon = Resource.MACE_ICON
 
     def apply(gun):
         speed_rate = 0.5
