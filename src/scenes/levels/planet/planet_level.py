@@ -66,19 +66,6 @@ class PlanetLevel(Level):
                 enemy = MeleeEnemy1((x, y))
             self.spawn_enemy(enemy)
 
-    def draw(self, screen):
-        super().draw(screen)
-
-        # for enemy in self.enemy_group.sprites():
-        #    marker = pygame.Surface((4,4))
-        #    marker.fill((255,0,255))
-        #    x = enemy.target[0]
-        #    y = enemy.target[1]
-        #    from systems.camera_manager import CameraManager
-        #    x -= CameraManager().get_coords()[0]
-        #    y -= CameraManager().get_coords()[1]
-        #    screen.blit(marker, (x-1,y-1,x+2,y+2))
-
     def update(self, elapsed_time):
         self.scattered_sounds.update(elapsed_time)
         super().update(elapsed_time)
