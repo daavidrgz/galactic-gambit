@@ -12,9 +12,9 @@ class Resource(Enum):
 
     CROSSHAIR = "sprites/crosshair.png"
     ALERT = "sprites/alert.png"
-    PLAYER_PROJECTILE = "sprites/player/projectile.png"
     LASER = "sprites/laser/11.png"
     LASER_ENEMY = "sprites/laser/35.png"
+    PLAYER_PROJECTILE = "sprites/player/laser-shot.png"
 
     # Backgrounds
     PLANETS_BG = "sprites/backgrounds/planets-bg.png"
@@ -169,6 +169,18 @@ class Resource(Enum):
     GHOST_ICON = "sprites/icons/ghost.png"
     GHOST_ALT_ICON = "sprites/icons/ghost-alt.png"
     AIM_ICON = "sprites/icons/aim.png"
+
+    TRIPLE_SHOT_ICON = "sprites/icons/triple-shot.png"
+    DOUBLE_SHOT_ICON = "sprites/icons/double-shot.png"
+    REINFORCED_BULLET_ICON = "sprites/icons/reinforced-bullet.png"
+    LITTLE_BULLETS_ICON = "sprites/icons/little-bullets.png"
+    CANNON_ICON = "sprites/icons/cannon.png"
+    SHOTGUN_ICON = "sprites/icons/shotgun.png"
+    SNIPER_ICON = "sprites/icons/sniper.png"
+    PUNCH_ICON = "sprites/icons/punch.png"
+    FEATHER_ICON = "sprites/icons/feather.png"
+    BOLT_ICON = "sprites/icons/bolt.png"
+    MACE_ICON = "sprites/icons/mace.png"
 
     # Animations
     EXPLOSION = [

@@ -6,7 +6,6 @@ from constants.gui_constants import COLOR_BRIGHT, COLOR_SUBTLE
 from scenes.menus.confirmation_menu import ConfirmationMenu
 from scenes.menus.in_game_configuration_menu import InGameConfigurationMenu
 from scenes.menus.vertical_menu import VerticalMenu
-from scenes.transition import Transition
 from systems.resource_manager import Resource
 from systems.rng_system import RngSystem
 
