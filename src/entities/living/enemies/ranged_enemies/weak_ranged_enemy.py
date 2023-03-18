@@ -1,10 +1,9 @@
-import numpy as np
 from entities.living.enemies.ranged_enemies.base_ranged_enemy import BaseRangedEnemy
-from ai.ranged_ai import RangedAI
 from systems.resource_manager import Resource
+from ai.ranged_ai import RangedAI
 
 
-class RangedEnemy1(BaseRangedEnemy):
+class WeakRangedEnemy(BaseRangedEnemy):
     def __init__(
         self,
         initial_pos,

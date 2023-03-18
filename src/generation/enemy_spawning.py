@@ -1,10 +1,10 @@
 from systems.rng_system import RngSystem, Generator
-from entities.living.enemies.melee_enemies.melee_enemy_1 import MeleeEnemy1
-from entities.living.enemies.melee_enemies.melee_enemy_2 import MeleeEnemy2
-from entities.living.enemies.melee_enemies.melee_enemy_3 import MeleeEnemy3
-from entities.living.enemies.ranged_enemies.ranged_enemy_1 import RangedEnemy1
-from entities.living.enemies.ranged_enemies.ranged_enemy_2 import RangedEnemy2
-from entities.living.enemies.ranged_enemies.ranged_enemy_3 import RangedEnemy3
+from entities.living.enemies.melee_enemies.weak_melee_enemy import WeakMeleeEnemy
+from entities.living.enemies.melee_enemies.medium_melee_enemy import MediumMeleeEnemy
+from entities.living.enemies.melee_enemies.strong_melee_enemy import StrongMeleeEnemy
+from entities.living.enemies.ranged_enemies.weak_ranged_enemy import WeakRangedEnemy
+from entities.living.enemies.ranged_enemies.medium_ranged_enemy import MediumRangedEnemy
+from entities.living.enemies.ranged_enemies.strong_ranged_enemy import StrongRangedEnemy
 from utils.math import manhattan_norm
 
 import numpy as np
@@ -14,7 +14,7 @@ from constants.game_constants import TILE_SIZE
 
 class EnemySpawnGroups(Enum):
     SHIP_MELEE = (5,
-        [MeleeEnemy1, MeleeEnemy1]
+        [WeakMeleeEnemy, WeakMeleeEnemy]
     )
 
 def _spawn_group(level, group, x, y):

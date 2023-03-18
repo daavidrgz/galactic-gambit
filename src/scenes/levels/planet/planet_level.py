@@ -6,9 +6,6 @@ from scenes.levels.planet.planet_terrain import PlanetTerrain
 from scenes.levels.cave.cave_level import CaveLevel
 from scenes.menus.win_menu import WinMenu
 from systems.resource_manager import ResourceManager, Resource
-from systems.rng_system import RngSystem, Generator
-from entities.living.enemies.ranged_enemies.ranged_enemy_1 import RangedEnemy1
-from entities.living.enemies.melee_enemies.melee_enemy_1 import MeleeEnemy1
 
 import pygame
 

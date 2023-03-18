@@ -1,10 +1,9 @@
-import numpy as np
 from entities.living.enemies.melee_enemies.base_melee_enemy import BaseMeleeEnemy
+from systems.resource_manager import Resource
 from ai.melee_ai import MeleeAI
-from systems.resource_manager import Resource, ResourceManager
 
 
-class MeleeEnemy2(BaseMeleeEnemy):
+class MediumMeleeEnemy(BaseMeleeEnemy):
     def __init__(
         self,
         initial_pos,
