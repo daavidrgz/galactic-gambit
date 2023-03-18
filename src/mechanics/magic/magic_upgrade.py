@@ -14,7 +14,7 @@ class MagicUpgrade:
     update_effect = None
 
 
-class BiggerSize(MagicUpgrade):
+class TitansMight(MagicUpgrade):
     name = "Titan's Might"
     icon = Resource.BIGGER_SIZE_ICON
 
@@ -32,7 +32,7 @@ class BiggerSize(MagicUpgrade):
 
 
 # UPDATE UPGRADES
-class Woobly(MagicUpgrade):
+class SerpentStrike(MagicUpgrade):
     name = "Serpent Strike"
     icon = Resource.SNAKE_ICON
 
@@ -58,7 +58,7 @@ class Woobly(MagicUpgrade):
     update_effect = apply
 
 
-class ShrinkAndGrow(MagicUpgrade):
+class WaveformCannon(MagicUpgrade):
     name = "Waveform Cannon"
     icon = Resource.WAVEFORM_ICON
 
@@ -89,7 +89,7 @@ class ShrinkAndGrow(MagicUpgrade):
     update_effect = apply
 
 
-class SlowAndFast(MagicUpgrade):
+class CrushingStutter(MagicUpgrade):
     name = "Crushing Stutter"
     icon = Resource.SLOW_AND_FAST_ICON
 
@@ -129,7 +129,7 @@ class SlowAndFast(MagicUpgrade):
     init_effect = setup
 
 
-class Rainbow(MagicUpgrade):
+class PrismaticAura(MagicUpgrade):
     name = "Prismatic Aura"
     icon = Resource.PRISM_ICON
 
@@ -155,7 +155,7 @@ class Rainbow(MagicUpgrade):
     init_effect = setup
 
 
-class Gravity(MagicUpgrade):
+class PortableInstability(MagicUpgrade):
     name = "Portable Instability"
     icon = Resource.BLACKHOLE_ICON
 
@@ -184,7 +184,7 @@ class Gravity(MagicUpgrade):
     init_effect = setup
 
 
-class Ghost(MagicUpgrade):
+class GhostlyShot(MagicUpgrade):
     name = "Ghostly Shot"
     icon = Resource.GHOST_ALT_ICON
 
@@ -198,7 +198,7 @@ class Ghost(MagicUpgrade):
     init_effect = setup
 
 
-class Homing(MagicUpgrade):
+class ViciousAim(MagicUpgrade):
     name = "Vicious Aim"
     icon = Resource.AIM_ICON
 

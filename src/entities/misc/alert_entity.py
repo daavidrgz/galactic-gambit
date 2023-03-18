@@ -3,9 +3,12 @@ from systems.resource_manager import Resource, ResourceManager
 
 import pygame
 
+
 class AlertEntity(Entity):
     image = ResourceManager().load_image(Resource.ALERT)
-    image = pygame.transform.scale(image, (image.get_width() * 2, image.get_height() * 2))
+    image = pygame.transform.scale(
+        image, (image.get_width() * 2, image.get_height() * 2)
+    )
 
     def __init__(self, initial_pos):
         super().__init__(self.image, initial_pos)

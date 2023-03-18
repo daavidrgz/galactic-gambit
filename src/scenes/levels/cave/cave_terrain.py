@@ -6,6 +6,7 @@ from systems.resource_manager import Resource, ResourceManager
 
 import pygame
 
+
 class CaveTerrain(BaseTerrain):
     def populate(self):
         self.data = np.full((171, 171), TerrainType.NONE, dtype=np.int16)
@@ -35,11 +36,13 @@ class CaveTerrain(BaseTerrain):
             (end_pos[0] + 0.5) * TILE_SIZE,
             (end_pos[1] + 0.5) * TILE_SIZE,
         )
-    
+
     def place_start_sprite(self, x, y):
         init_room_spr = pygame.sprite.Sprite()
         init_room_spr.image = ResourceManager().load_image(Resource.CAVE_START)
-        init_room_spr.image = pygame.transform.scale(init_room_spr.image, [a * 2 for a in init_room_spr.image.get_size()])
+        init_room_spr.image = pygame.transform.scale(
+            init_room_spr.image, [a * 2 for a in init_room_spr.image.get_size()]
+        )
         init_room_spr.rect = init_room_spr.image.get_rect()
         init_room_spr.rect.topleft = (
             (x - 1) * TILE_SIZE,

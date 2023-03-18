@@ -8,6 +8,7 @@ from noise import pnoise1
 
 from constants.game_constants import TILE_SIZE
 
+
 class XpEntity(Entity):
     def __init__(self, initial_pos, amount):
         super().__init__(Resource.XP, initial_pos)
@@ -39,13 +40,15 @@ class XpEntity(Entity):
             self.player.increase_exp(self.amount)
             self.kill()
             return
-        
+
         self.timer += elapsed_time
         noise_factor = distance**2 / 15**2 * 0.1 * elapsed_time
-        self.move((
-            pnoise1(self.timer / 1000.0 + self.noise_seed) * noise_factor,
-            pnoise1(self.timer / 1000.0 + self.noise_seed + 20711.0) * noise_factor,
-        ))
+        self.move(
+            (
+                pnoise1(self.timer / 1000.0 + self.noise_seed) * noise_factor,
+                pnoise1(self.timer / 1000.0 + self.noise_seed + 20711.0) * noise_factor,
+            )
+        )
 
         self.velocity += (direction * 0.1) / distance**2 * elapsed_time
         self.velocity *= 1.0 - (0.001 * elapsed_time)

@@ -8,24 +8,24 @@ from entities.projectile.player_bullet import PlayerBullet
 class Gun:
     def __init__(
         self,
-        damage,
+        bullet_damage,
         cooldown,
         bullet_speed,
         gun_offset,
         spread,
         n_bullets,
-        knockback,
-        lifetime,
+        bullet_knockback,
+        bullet_lifetime,
     ):
-        self.damage = damage
+        self.bullet_damage = bullet_damage
         self.cooldown = cooldown
         self.current_cooldown = 0.0
         self.bullet_speed = bullet_speed
         self.gun_offset = gun_offset
         self.spread = spread
         self.n_bullets = n_bullets
-        self.knockback = knockback
-        self.lifetime = lifetime
+        self.bullet_knockback = bullet_knockback
+        self.bullet_lifetime = bullet_lifetime
         self.upgrades = []
 
     def add_magical_upgrade(self, upgrade):
@@ -66,9 +66,9 @@ class Gun:
                 initial_position,
                 self.bullet_speed,
                 new_facing_vector,
-                self.damage,
-                self.knockback,
-                self.lifetime,
+                self.bullet_damage,
+                self.bullet_knockback,
+                self.bullet_lifetime,
                 upgrades_instance,
             )
             bullets.append(new_bullet)

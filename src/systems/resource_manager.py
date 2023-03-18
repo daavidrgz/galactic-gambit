@@ -18,7 +18,7 @@ class Resource(Enum):
     POLISHED_ANDESITE = "sprites/polished_andesite.png"
     LASER = "sprites/laser/11.png"
     LASER_ENEMY = "sprites/laser/35.png"
-    
+
     # Backgrounds
     PLANETS_BG = "sprites/backgrounds/planets-bg.png"
     PURPLE_SPACE_BG = "sprites/backgrounds/purple-space-bg.png"

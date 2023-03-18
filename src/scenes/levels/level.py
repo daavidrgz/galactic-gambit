@@ -16,6 +16,7 @@ import pygame
 
 from constants.game_constants import TILE_SIZE, BACKGROUND_DIMMING
 
+
 class Level(Scene):
     def __init__(
         self,
@@ -81,10 +82,12 @@ class Level(Scene):
             background_image.blit(bg_veil, bg_veil.get_rect())
 
             bg_width, bg_height = background_image.get_size()
-            size_ratio = max(terrain_size[0] * TILE_SIZE / bg_width, terrain_size[1] * TILE_SIZE / bg_height)
+            size_ratio = max(
+                terrain_size[0] * TILE_SIZE / bg_width,
+                terrain_size[1] * TILE_SIZE / bg_height,
+            )
             background_image = pygame.transform.scale(
-                background_image,
-                (bg_width * size_ratio, bg_height * size_ratio)
+                background_image, (bg_width * size_ratio, bg_height * size_ratio)
             )
 
             # In order to simulate parallax background on the middle of the map,

@@ -6,6 +6,7 @@ from systems.resource_manager import Resource, ResourceManager
 
 import pygame
 
+
 class ShipTerrain(BaseTerrain):
     Y_SIZE = 5
     X_SIZE = 7
@@ -34,12 +35,12 @@ class ShipTerrain(BaseTerrain):
         base_y = self.height - self.Y_SIZE * 2
         end_y = base_y + self.Y_SIZE
 
-        self.data[base_y-2:end_y+2, base_x-3:end_x+3] = TerrainType.BOUND
-        self.data[base_y-1:end_y+1, base_x-1:end_x+1] = TerrainType.WALL
+        self.data[base_y - 2 : end_y + 2, base_x - 3 : end_x + 3] = TerrainType.BOUND
+        self.data[base_y - 1 : end_y + 1, base_x - 1 : end_x + 1] = TerrainType.WALL
         self.data[base_y:end_y, base_x:end_x] = TerrainType.GROUND
-        self.data[base_y+2, base_x:base_x+2] = TerrainType.WALL
-        self.data[base_y:base_y+3, end_x-1] = TerrainType.WALL
-        self.data[base_y - 2, base_x+2:base_x+5] = TerrainType.NONE
+        self.data[base_y + 2, base_x : base_x + 2] = TerrainType.WALL
+        self.data[base_y : base_y + 3, end_x - 1] = TerrainType.WALL
+        self.data[base_y - 2, base_x + 2 : base_x + 5] = TerrainType.NONE
 
         self.starting_tiles = [(base_x + x, base_y - 1) for x in range(2, 5)]
         self.player_starting_position = (
@@ -82,7 +83,9 @@ class ShipTerrain(BaseTerrain):
     def place_end_sprite(self, x, y):
         end_room_spr = pygame.sprite.Sprite()
         end_room_spr.image = ResourceManager().load_image(Resource.SHIP_END)
-        end_room_spr.image = pygame.transform.scale(end_room_spr.image, [a * 2 for a in end_room_spr.image.get_size()])
+        end_room_spr.image = pygame.transform.scale(
+            end_room_spr.image, [a * 2 for a in end_room_spr.image.get_size()]
+        )
         end_room_spr.rect = end_room_spr.image.get_rect()
         end_room_spr.rect.topleft = (
             (x - 1) * TILE_SIZE,

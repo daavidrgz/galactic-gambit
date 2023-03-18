@@ -82,7 +82,7 @@ class AnimatedSprite(pygame.sprite.Sprite):
         if frame_size != self.current_frame_size:
             self.current_frame_size = frame_size
             self.__buffer_image = pygame.Surface(frame_size, pygame.SRCALPHA)
-        
+
         self.frames = frames
         self.num_frames = len(frames)
 

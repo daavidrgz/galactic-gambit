@@ -5,6 +5,7 @@ from systems.resource_manager import Resource, ResourceManager
 
 import pygame
 
+
 class PlanetTerrain(BaseTerrain):
     def populate(self):
         self.data = np.full((171, 171), TerrainType.NONE, dtype=np.int16)
@@ -19,11 +20,21 @@ class PlanetTerrain(BaseTerrain):
                 elif distance_sqr < 12**2:
                     self.starting_tiles.append((x, y))
 
-        for x, y in [(81,84),(81,83),(81,82),
-                     (82,84),(82,83),(82,82),
-                     (83,84),(83,83),(83,82),
-                     (84,84),(84,83),(85,84),
-                     (85,83)]:
+        for x, y in [
+            (81, 84),
+            (81, 83),
+            (81, 82),
+            (82, 84),
+            (82, 83),
+            (82, 82),
+            (83, 84),
+            (83, 83),
+            (83, 82),
+            (84, 84),
+            (84, 83),
+            (85, 84),
+            (85, 83),
+        ]:
             self.data[y, x] = TerrainType.WALL
 
         self.player_starting_position = (TILE_SIZE * 85.5, TILE_SIZE * 85.5)

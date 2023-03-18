@@ -4,7 +4,16 @@ from systems.rng_system import Generator
 from utils.singleton import Singleton
 
 
-MAGIC_UPGRADES = [BiggerSize, Woobly, ShrinkAndGrow, SlowAndFast, Rainbow, Gravity, Ghost, Homing]
+MAGIC_UPGRADES = [
+    TitansMight,
+    SerpentStrike,
+    WaveformCannon,
+    CrushingStutter,
+    PrismaticAura,
+    PortableInstability,
+    GhostlyShot,
+    ViciousAim,
+]
 
 
 class MagicUpgradeSystem(UpgradeSystem, metaclass=Singleton):

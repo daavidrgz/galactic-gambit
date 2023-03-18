@@ -7,6 +7,7 @@ from ai.algorithms import wander, find_path, search_player
 import utils.math
 from constants.game_constants import TILE_SIZE
 
+
 class RangedAI(BaseAI):
     def __init__(self, vision_range, tracking_range, attack_range, melee_range):
         super().__init__()
@@ -22,7 +23,9 @@ class RangedAI(BaseAI):
         self.wander_timer = None
         self.wandering = False
 
-        self.desired_distance = self.melee_range + (self.attack_range-self.melee_range) / 2
+        self.desired_distance = (
+            self.melee_range + (self.attack_range - self.melee_range) / 2
+        )
 
         self.actions[EnemyState.IDLE] = self.idle
         self.actions[EnemyState.PREPARING] = self.preparing
@@ -59,15 +62,17 @@ class RangedAI(BaseAI):
         # If we haven't decided a direction from which to attack
         if self.angle_deviation is None:
             self.angle_deviation = self.rng.random() * 30 - 15
-        
+
         objective_pos = np.array(player.get_position(), dtype=np.float64)
         enemy_pos = np.array(enemy.get_position(), dtype=np.float64)
         ray = enemy_pos - objective_pos
         ray *= self.desired_distance / np.linalg.norm(ray)
         attack_from = utils.math.rotate_vector(ray, self.angle_deviation)
         for _ in range(360 // 15):
-            if search_player(objective_pos + attack_from, objective_pos, terrain, np.inf, 50):
-               break 
+            if search_player(
+                objective_pos + attack_from, objective_pos, terrain, np.inf, 50
+            ):
+                break
             attack_from = utils.math.rotate_vector(attack_from, 15)
 
         # Compute distance to player, if out of tracking range change to ALERT
@@ -80,23 +85,25 @@ class RangedAI(BaseAI):
         if distance <= 2 * TILE_SIZE:
             self.state = EnemyState.ATTACKING
             return
-        #if distance > self.tracking_range:
+        # if distance > self.tracking_range:
         #    self.state = EnemyState.ALERT
         #    return
 
         # Track player and avoid walls
-        self.previous_direction = find_path(enemy_pos, diff_vector, distance, self.previous_direction, terrain)
+        self.previous_direction = find_path(
+            enemy_pos, diff_vector, distance, self.previous_direction, terrain
+        )
 
         # TODO: Find direct line of sight
 
         enemy.set_target(enemy_pos + self.previous_direction)
-    
+
     def attacking(self, enemy, player, terrain, elapsed_time):
         # If distance inside attack range and > melee range attack
         # If distance inside attack range and < melee range PREPARING
         # If distance > attack range PREPARING
         # If no line of sight PREPARING
-         # Compute distance to player, if in attack range attack
+        # Compute distance to player, if in attack range attack
         # else change back to PREPARING state
         player_pos = np.array(player.get_position(), dtype=np.float64)
         enemy_pos = np.array(enemy.get_position(), dtype=np.float64)

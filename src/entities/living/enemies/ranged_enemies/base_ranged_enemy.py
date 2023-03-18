@@ -13,7 +13,9 @@ class BaseRangedEnemy(BaseEnemy):
 
         super().__init__(hp, initial_pos, initial_animation, ai, drag, speed)
 
-    def trigger_attack(self, image, damage, knockback, projectile_speed, lifetime, reload_speed):
+    def trigger_attack(
+        self, image, damage, knockback, projectile_speed, lifetime, reload_speed
+    ):
         if self.attack_timer > 0:
             return
         super().trigger_attack(reload_speed)
@@ -29,7 +31,6 @@ class BaseRangedEnemy(BaseEnemy):
             lifetime,
         )
         self.level.spawn_enemy_bullet(new_projectile)
-        
 
     def update(self, elapsed_time, walk_right, walk_left, idle_right, idle_left):
         super().update(elapsed_time)

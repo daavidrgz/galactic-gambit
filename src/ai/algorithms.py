@@ -90,7 +90,7 @@ def search_player(enemy_pos, player_pos, terrain, vision_range, steps=10):
 
     if distance > vision_range:
         return False
-    
+
     if distance == 0:
         return True
 
@@ -101,5 +101,5 @@ def search_player(enemy_pos, player_pos, terrain, vision_range, steps=10):
         ray_pos += diff_vector
         if not terrain.on_ground_point(ray_pos):
             return False
-        
+
     return True
