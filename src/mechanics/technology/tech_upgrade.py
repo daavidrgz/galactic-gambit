@@ -10,7 +10,7 @@ class TechUpgrade:
 
 class TripleShot(TechUpgrade):
     name = "Triple Shot"
-    icon = Resource.BLACKHOLE_ICON
+    icon = Resource.TRIPLE_SHOT_ICON
 
     def apply(gun):
         gun.n_bullets += 2
@@ -19,7 +19,7 @@ class TripleShot(TechUpgrade):
 
 class DoubleShot(TechUpgrade):
     name = "Double Shot"
-    icon = Resource.BLACKHOLE_ICON
+    icon = Resource.DOUBLE_SHOT_ICON
 
     def apply(gun):
         gun.n_bullets += 1

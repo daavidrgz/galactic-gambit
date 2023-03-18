@@ -170,6 +170,9 @@ class Resource(Enum):
     GHOST_ALT_ICON = "sprites/icons/ghost-alt.png"
     AIM_ICON = "sprites/icons/aim.png"
 
+    TRIPLE_SHOT_ICON = "sprites/icons/triple-shot.png"
+    DOUBLE_SHOT_ICON = "sprites/icons/double-shot.png"
+
     # Animations
     EXPLOSION = [
         ("sprites/effects/explosion/01.png", 2, 50, False),
