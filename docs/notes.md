@@ -184,3 +184,17 @@ Justificar en la memoria por qué el sistema de upgrades es un singleton externo
 # Bugs
 
 Balas en la nave atraviesan esquinas
+
+# Repartir
+
+Jan Balance
+
+Suso acabarlo
+
+Román Descripcion (2.1)
+
+En descripcion global de cada escena explicar el generador
+
+Diagrama de flujo -> Jorge
+
+Diagrama de arquitectura que dice como se comunican los sistemas, y después un diagrama de clases para cada uno de cada sistema
