@@ -8,8 +8,12 @@ import pygame
 
 
 class CaveTerrain(BaseTerrain):
+    X_SIZE = 171
+    Y_SIZE = 171
+
     def populate(self):
-        self.data = np.full((171, 171), TerrainType.NONE, dtype=np.int16)
+        self.data = np.full((self.Y_SIZE - 2, self.X_SIZE - 2), TerrainType.NONE, dtype=np.int16)
+        self.data = np.pad(self.data, ((1,1),(1,1)), mode='constant', constant_values=TerrainType.BOUND)
         self.height, self.width = self.data.shape
         self.starting_tiles = [(84, 7), (85, 7), (86, 7)]
 
@@ -22,6 +26,12 @@ class CaveTerrain(BaseTerrain):
         self.place_start_sprite(81, 0)
 
     def place_end(self, end_pos):
+        # Ensure the end doesn't go out of bounds
+        end_pos = (
+            np.clip(end_pos[0], 8, self.X_SIZE - 10),
+            np.clip(end_pos[1], 8, self.Y_SIZE - 10),
+        )
+
         # Make a small area for the end
         for x in range(end_pos[0] - 7, end_pos[0] + 8):
             for y in range(end_pos[1] - 7, end_pos[1] + 8):
@@ -34,11 +44,13 @@ class CaveTerrain(BaseTerrain):
         self.data[
             end_pos[1] : end_pos[1] + 2, end_pos[0] : end_pos[0] + 2
         ] = TerrainType.WALL
-        
+
         self.end_position = (
             (end_pos[0] + 0.5) * TILE_SIZE,
             (end_pos[1] + 0.5) * TILE_SIZE,
         )
+
+        self.place_end_sprite(end_pos[0], end_pos[1])
 
     def place_start_sprite(self, x, y):
         image = ResourceManager().load_image(Resource.CAVE_START)
@@ -46,3 +58,6 @@ class CaveTerrain(BaseTerrain):
             image, [a * 2 for a in image.get_size()]
         )
         self.place_top_sprite(x, y, image)
+
+    def place_end_sprite(self, x, y):
+        self.place_start_sprite(x, y)
