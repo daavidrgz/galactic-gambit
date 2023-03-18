@@ -14,6 +14,7 @@ from generation.enemy_spawning import spawn_enemies
 
 import pygame
 import numpy as np
+from itertools import chain
 
 from constants.game_constants import TILE_SIZE, BACKGROUND_DIMMING
 
@@ -53,6 +54,7 @@ class Level(Scene):
         )
 
         self.misc_entities = ScrollableGroup()
+        self.draw_living = ScrollableGroup()
 
         self.hud = Hud()
         self.scene_music = scene_music
@@ -177,13 +179,22 @@ class Level(Scene):
         screen.fill((0, 0, 0))
         self.background_group.draw(screen)
         self.terrain.draw(screen)
-        self.player_group.draw(screen)
-        self.enemy_group.draw(screen)
+
+        self.__draw_living(screen)
+
         self.misc_entities.draw(screen)
         self.player_bullets.draw(screen)
         self.enemy_bullets.draw(screen)
         self.animation_group.draw(screen)
         self.hud.draw(screen)
+
+    def __draw_living(self, screen):
+        self.draw_living.empty()
+        self.draw_living.add(sorted(
+            chain(self.player_group, self.enemy_group),
+            key=lambda a: a.y,
+        ))
+        self.draw_living.draw(screen)
 
     def pop_back(self):
         super().pop_back()
