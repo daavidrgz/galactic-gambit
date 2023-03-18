@@ -111,3 +111,13 @@ class BaseTerrain:
 
     def in_bounds(self, x, y):
         return x >= 0 and y >= 0 and x < self.width and y < self.height
+
+    def place_top_sprite(self, x, y, image):
+        spr = pygame.sprite.Sprite()
+        spr.image = image
+        spr.rect = image.get_rect()
+        spr.rect.topleft = (
+            x * TILE_SIZE,
+            y * TILE_SIZE,
+        )
+        self.sprites_top.add(spr)

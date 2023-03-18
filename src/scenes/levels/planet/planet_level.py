@@ -51,7 +51,7 @@ class PlanetLevel(Level):
         super().setup()
 
         rng = RngSystem().get_rng(Generator.MAP)
-        for _ in range(20):
+        for _ in range(1):
             x = y = -1000
             while (
                 not self.terrain.on_ground_point((x, y))

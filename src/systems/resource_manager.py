@@ -43,6 +43,7 @@ class Resource(Enum):
     SHIP_WALL_INNERLEFTDOWN = "sprites/tiles/ship_wall_innerleftdown.png"
     SHIP_WALL_INNERRIGHTDOWN = "sprites/tiles/ship_wall_innerrightdown.png"
 
+    PLANET_END = "sprites/level/planet_end.png"
     PLANET_START = "sprites/level/planet_start.png"
     PLANET_FLOOR = "sprites/tiles/planet_floor.png"
     PLANET_FLOOR_D1 = "sprites/tiles/planet_floord1.png"
