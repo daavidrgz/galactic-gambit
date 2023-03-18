@@ -100,6 +100,8 @@ class Level(Scene):
             self.background_group.add(background_sprite)
 
         self.hud.setup(self)
+
+        self.enemy_group.add_listener(self.terrain)
         super().setup()
 
     def __player_death(self):

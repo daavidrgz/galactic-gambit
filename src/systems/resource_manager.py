@@ -23,6 +23,7 @@ class Resource(Enum):
     ORANGE_SPACE_BG = "sprites/backgrounds/orange-space-bg.png"
 
     SHIP_END = "sprites/level/ship_end.png"
+    SHIP_END_OPEN = "sprites/level/ship_end_open.png"
     SHIP_START = "sprites/level/ship_start.png"
     SHIP_FLOOR = "sprites/tiles/ship_floor_b.png"
     SHIP_FLOOR_D1 = "sprites/tiles/ship_floord1_b.png"
@@ -44,6 +45,7 @@ class Resource(Enum):
     SHIP_WALL_INNERRIGHTDOWN = "sprites/tiles/ship_wall_innerrightdown.png"
 
     PLANET_END = "sprites/level/planet_end.png"
+    PLANET_END_OPEN = "sprites/level/planet_end_open.png"
     PLANET_START = "sprites/level/planet_start.png"
     PLANET_FLOOR = "sprites/tiles/planet_floor.png"
     PLANET_FLOOR_D1 = "sprites/tiles/planet_floord1.png"
@@ -60,6 +62,8 @@ class Resource(Enum):
     PLANET_WALL_INNERLEFTDOWN = "sprites/tiles/planet_wall_innerleftdown.png"
     PLANET_WALL_INNERRIGHTDOWN = "sprites/tiles/planet_wall_innerrightdown.png"
 
+    CAVE_END = "sprites/level/cave_end.png"
+    CAVE_END_OPEN = "sprites/level/cave_end_open.png"
     CAVE_START = "sprites/level/cave_start.png"
     CAVE_FLOOR = "sprites/tiles/cave_floor.png"
     CAVE_WALL_UP = "sprites/tiles/cave_wall_up.png"

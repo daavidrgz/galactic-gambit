@@ -7,8 +7,11 @@ import pygame
 
 
 class PlanetTerrain(BaseTerrain):
+    X_SIZE = 171
+    Y_SIZE = 171
+
     def populate(self):
-        self.data = np.full((171, 171), TerrainType.NONE, dtype=np.int16)
+        self.data = np.full((self.X_SIZE, self.Y_SIZE), TerrainType.NONE, dtype=np.int16)
         self.height, self.width = self.data.shape
         self.starting_tiles = []
 
@@ -42,6 +45,12 @@ class PlanetTerrain(BaseTerrain):
         self.player_starting_position = (TILE_SIZE * 85.5, TILE_SIZE * 85.5)
 
     def place_end(self, end_pos):
+        # Ensure the end doesn't go out of bounds
+        end_pos = (
+            np.clip(end_pos[0], 8, self.X_SIZE - 10),
+            np.clip(end_pos[1], 8, self.Y_SIZE - 10),
+        )
+
         # Make a small open area for the cave entrance
         for x in range(end_pos[0] - 7, end_pos[0] + 8):
             for y in range(end_pos[1] - 7, end_pos[1] + 8):
@@ -53,7 +62,8 @@ class PlanetTerrain(BaseTerrain):
 
         # Cave entrance collision
         self.data[end_pos[1]-1:end_pos[1]+2, end_pos[0]:end_pos[0]+2] = TerrainType.WALL
-        self.place_end_sprite(end_pos[0] - 2, end_pos[1] - 2)
+        self.end_sprite_pos = (end_pos[0] - 2, end_pos[1] - 2)
+        self.place_end_sprite()
 
         self.end_position = (
             (end_pos[0] + 0.5) * TILE_SIZE,
@@ -64,9 +74,17 @@ class PlanetTerrain(BaseTerrain):
         image = ResourceManager().load_image(Resource.PLANET_START)
         self.place_top_sprite(x, y, image)
 
-    def place_end_sprite(self, x, y):
+    def place_end_sprite(self,):
         image = ResourceManager().load_image(Resource.PLANET_END)
         image = pygame.transform.scale(
             image, [a * 2 for a in image.get_size()]
         )
-        self.place_top_sprite(x, y, image)
+        self.place_top_sprite(self.end_sprite_pos[0], self.end_sprite_pos[1], image)
+
+    def open_ending(self):
+        image = ResourceManager().load_image(Resource.PLANET_END_OPEN)
+        image = pygame.transform.scale(
+            image, [a * 2 for a in image.get_size()]
+        )
+        self.place_top_sprite(self.end_sprite_pos[0], self.end_sprite_pos[1], image)
+        super().open_ending()

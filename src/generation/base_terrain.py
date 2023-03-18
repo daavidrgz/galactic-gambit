@@ -1,5 +1,6 @@
 from generation.tile import Tile
 from systems.camera_manager import CameraManager
+from utils.observer import Observer
 import utils.math
 import utils.misc
 
@@ -21,7 +22,7 @@ class TerrainType(IntEnum):
     BOUND = -2
 
 
-class BaseTerrain:
+class BaseTerrain(Observer):
     def __init__(self):
         self.sprites = pygame.sprite.Group()
         self.sprites_top = pygame.sprite.Group()
@@ -121,3 +122,15 @@ class BaseTerrain:
             y * TILE_SIZE,
         )
         self.sprites_top.add(spr)
+
+    def open_ending(self):
+        end_sprite = None
+        for sprite in self.sprites_top:
+            end_sprite = sprite
+        if end_sprite is not None:
+            self.buffer.blit(end_sprite.image, end_sprite.rect.topleft)
+
+    def notify(self, enemies):
+        enemy_amount = len(enemies)
+        if enemy_amount < 1:
+            self.open_ending()

@@ -75,15 +75,24 @@ class ShipTerrain(BaseTerrain):
             (base_y + 1.5) * TILE_SIZE,
         )
 
-        self.place_end_sprite(base_x, base_y)
+        self.end_sprite_pos = (base_x, base_y)
+        self.place_end_sprite()
 
     def place_start_sprite(self, x, y):
         image = ResourceManager().load_image(Resource.SHIP_START)
         self.place_top_sprite(x, y, image)
 
-    def place_end_sprite(self, x, y):
+    def place_end_sprite(self):
         image = ResourceManager().load_image(Resource.SHIP_END)
         image = pygame.transform.scale(
             image, [a * 2 for a in image.get_size()]
         )
-        self.place_top_sprite(x, y, image)
+        self.place_top_sprite(self.end_sprite_pos[0], self.end_sprite_pos[1], image)
+
+    def open_ending(self):
+        image = ResourceManager().load_image(Resource.SHIP_END_OPEN)
+        image = pygame.transform.scale(
+            image, [a * 2 for a in image.get_size()]
+        )
+        self.place_top_sprite(self.end_sprite_pos[0], self.end_sprite_pos[1], image)
+        super().open_ending()

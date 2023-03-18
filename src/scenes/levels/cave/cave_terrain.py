@@ -32,7 +32,7 @@ class CaveTerrain(BaseTerrain):
             np.clip(end_pos[1], 8, self.Y_SIZE - 10),
         )
 
-        # Make a small area for the end
+        # Make a small area for the end thingy
         for x in range(end_pos[0] - 7, end_pos[0] + 8):
             for y in range(end_pos[1] - 7, end_pos[1] + 8):
                 distance_sqr = (x // 2 * 2 - end_pos[0]) ** 2 + (
@@ -41,16 +41,13 @@ class CaveTerrain(BaseTerrain):
                 if distance_sqr < 5**2:
                     self.data[y, x] = TerrainType.GROUND
 
-        self.data[
-            end_pos[1] : end_pos[1] + 2, end_pos[0] : end_pos[0] + 2
-        ] = TerrainType.WALL
-
         self.end_position = (
             (end_pos[0] + 0.5) * TILE_SIZE,
             (end_pos[1] + 0.5) * TILE_SIZE,
         )
-
-        self.place_end_sprite(end_pos[0], end_pos[1])
+        
+        self.end_sprite_pos = (end_pos[0] - 1, end_pos[1] - 1)
+        self.place_end_sprite()
 
     def place_start_sprite(self, x, y):
         image = ResourceManager().load_image(Resource.CAVE_START)
@@ -59,5 +56,17 @@ class CaveTerrain(BaseTerrain):
         )
         self.place_top_sprite(x, y, image)
 
-    def place_end_sprite(self, x, y):
-        self.place_start_sprite(x, y)
+    def place_end_sprite(self):
+        image = ResourceManager().load_image(Resource.CAVE_END)
+        image = pygame.transform.scale(
+            image, [a * 2 for a in image.get_size()]
+        )
+        self.place_top_sprite(self.end_sprite_pos[0], self.end_sprite_pos[1], image)
+
+    def open_ending(self):
+        image = ResourceManager().load_image(Resource.CAVE_END_OPEN)
+        image = pygame.transform.scale(
+            image, [a * 2 for a in image.get_size()]
+        )
+        self.place_top_sprite(self.end_sprite_pos[0], self.end_sprite_pos[1], image)
+        super().open_ending()
