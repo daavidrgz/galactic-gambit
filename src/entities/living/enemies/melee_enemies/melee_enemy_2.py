@@ -9,8 +9,6 @@ class MeleeEnemy2(BaseMeleeEnemy):
         self,
         initial_pos,
     ):
-        self.resource_manager = ResourceManager()
-
         self.hp = 6
         self.ai = MeleeAI(300, 500, 100)
         self.drag = 0.25

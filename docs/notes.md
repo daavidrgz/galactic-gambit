@@ -166,17 +166,35 @@ Puedo tener 3 listas con los distintos tipos de las updates,
 Que las updates tengan un metodo attach al player, y tener una jerarquia de clases de forma que cada tipo de update, en su attach al player, llame
 al append de la lista correspondiente
 
-## 
+##
+
 Justificar patron visitador para el jugador en el minimapa, igual es mejor usar el observer? Para los enemigos igual es mejor el observer
 Igual va mejor el patrón observer
 
 Para la barra de vida usar un observer
 
+##
+
+Idea para que sea más entretenido volver a jugar: Un timer que cuente el tiempo que llevas jugando. Guardar el mejor tiempo o
 
 ##
 
-Idea para que sea más entretenido volver a jugar: Un timer que cuente el tiempo que llevas jugando. Guardar el mejor tiempo o 
-
-## 
-
 Justificar en la memoria por qué el sistema de upgrades es un singleton externo y no se gestiona dentro del player
+
+# Bugs
+
+Balas en la nave atraviesan esquinas
+
+# Repartir
+
+Jan Balance
+
+Suso acabarlo
+
+Román Descripcion (2.1)
+
+En descripcion global de cada escena explicar el generador
+
+Diagrama de flujo -> Jorge
+
+Diagrama de arquitectura que dice como se comunican los sistemas, y después un diagrama de clases para cada uno de cada sistema
