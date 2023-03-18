@@ -10,9 +10,10 @@ from scenes.menus.upgrade_menu import UpgradeMenu
 from scenes.scene import Scene
 from scenes.transition import Transition
 from systems.camera_manager import CameraManager
-import numpy as np
+from generation.enemy_spawning import spawn_enemies
 
 import pygame
+import numpy as np
 
 from constants.game_constants import TILE_SIZE, BACKGROUND_DIMMING
 
@@ -73,37 +74,42 @@ class Level(Scene):
         )
 
         if self.background:
-            terrain_size = np.array((self.terrain.width, self.terrain.height))
-            middle_terrain_pos = terrain_size // 2
-            background_image = self.resource_manager.load_image(self.background)
-
-            bg_veil = pygame.Surface(background_image.get_size())
-            bg_veil.set_alpha(BACKGROUND_DIMMING)
-            background_image.blit(bg_veil, bg_veil.get_rect())
-
-            bg_width, bg_height = background_image.get_size()
-            size_ratio = max(
-                terrain_size[0] * TILE_SIZE / bg_width,
-                terrain_size[1] * TILE_SIZE / bg_height,
-            )
-            background_image = pygame.transform.scale(
-                background_image, (bg_width * size_ratio, bg_height * size_ratio)
-            )
-
-            # In order to simulate parallax background on the middle of the map,
-            # we must multiple the position with the parallax rate,
-            # so it seems to be 'centered' with the parallax 1.0
-            background_sprite = AnimatedSprite(
-                background_image,
-                middle_terrain_pos * TILE_SIZE * self.background_parallax_rate,
-            )
-            self.background_group.add(background_sprite)
+            self.__setup_bg()
 
         self.hud.setup(self)
 
         self.enemy_group.add_listener(self.terrain)
-        self.terrain.notify(self.enemy_group)
+
+        spawn_enemies(self, self.terrain, self.possible_enemy_spawns, self.enemy_spawn_level)
+
         super().setup()
+
+    def __setup_bg(self):
+        terrain_size = np.array((self.terrain.width, self.terrain.height))
+        middle_terrain_pos = terrain_size // 2
+        background_image = self.resource_manager.load_image(self.background)
+
+        bg_veil = pygame.Surface(background_image.get_size())
+        bg_veil.set_alpha(BACKGROUND_DIMMING)
+        background_image.blit(bg_veil, bg_veil.get_rect())
+
+        bg_width, bg_height = background_image.get_size()
+        size_ratio = max(
+            terrain_size[0] * TILE_SIZE / bg_width,
+            terrain_size[1] * TILE_SIZE / bg_height,
+        )
+        background_image = pygame.transform.scale(
+            background_image, (bg_width * size_ratio, bg_height * size_ratio)
+        )
+
+        # In order to simulate parallax background on the middle of the map,
+        # we must multiple the position with the parallax rate,
+        # so it seems to be 'centered' with the parallax 1.0
+        background_sprite = AnimatedSprite(
+            background_image,
+            middle_terrain_pos * TILE_SIZE * self.background_parallax_rate,
+        )
+        self.background_group.add(background_sprite)
 
     def __player_death(self):
         self.game_model.delete_save()
@@ -136,6 +142,7 @@ class Level(Scene):
         self.camera_mgr.update(elapsed_time)
 
         self.player.update(elapsed_time)
+        self.enemy_group.update(elapsed_time)
         self.player_bullets.update(elapsed_time)
         self.enemy_bullets.update(elapsed_time)
         self.animation_group.update(elapsed_time)

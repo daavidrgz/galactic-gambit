@@ -39,6 +39,10 @@ class PlanetLevel(Level):
         self.dust = ParallaxGroup((1.5, 1.5), dust_sprite)
 
         self.next_level = CaveLevel
+
+        self.possible_enemy_spawns = []
+        self.enemy_spawn_level = 0
+
         super().__init__(
             generator=generator,
             terrain=terrain,
@@ -50,26 +54,9 @@ class PlanetLevel(Level):
         self.scattered_sounds.play()
         super().setup()
 
-        rng = RngSystem().get_rng(Generator.MAP)
-        for _ in range(1):
-            x = y = -1000
-            while (
-                not self.terrain.on_ground_point((x, y))
-                or (x - 85 * TILE_SIZE) ** 2 + (y - 85 * TILE_SIZE) ** 2
-                < (11 * TILE_SIZE) ** 2
-            ):
-                x, y = rng.randint(0, TILE_SIZE * 171), rng.randint(0, TILE_SIZE * 171)
-            enemy_type = rng.randint(0, 1)
-            if enemy_type == 0:
-                enemy = RangedEnemy1((x, y))
-            else:
-                enemy = MeleeEnemy1((x, y))
-            self.spawn_enemy(enemy)
-
     def update(self, elapsed_time):
         self.scattered_sounds.update(elapsed_time)
         super().update(elapsed_time)
-        self.enemy_group.update(elapsed_time)
 
     def handle_events(self, events):
         for event in events:

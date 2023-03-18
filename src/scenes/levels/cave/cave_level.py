@@ -19,7 +19,12 @@ class CaveLevel(Level):
             Resource.SCATTERED_CAVE_SOUNDS,
             5000,
         )
+        
         self.next_level = WinMenu
+
+        self.possible_enemy_spawns = []
+        self.enemy_spawn_level = 0
+
         super().__init__(
             generator=generator,
             terrain=terrain,

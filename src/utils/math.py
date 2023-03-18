@@ -5,6 +5,10 @@ def square_norm(v):
     return np.inner(v, v)
 
 
+def manhattan_norm(v):
+    return sum((abs(x) for x in v))
+
+
 def point_rect_distance(point, rect):
     dx = abs(point[0] - rect.centerx) - rect.width
     dy = abs(point[1] - rect.centery) - rect.height
