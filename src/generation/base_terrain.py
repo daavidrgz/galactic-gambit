@@ -62,7 +62,9 @@ class BaseTerrain(Observer):
         )
         self.sprites.draw(self.buffer)
         self.sprites_top.draw(self.buffer)
+        self.generate_minimap()
 
+    def generate_minimap(self):
         self.minimap = pygame.transform.smoothscale(
             self.buffer, (MINIMAP_SIZE, MINIMAP_SIZE)
         )
