@@ -15,22 +15,18 @@ class ShipGenerator(BaseGenerator):
         self.floor_spriteC1 = rmgr.load_tile(Resource.SHIP_FLOOR_C1)
         self.floor_spriteC2 = rmgr.load_tile(Resource.SHIP_FLOOR_C2)
 
-        self.wall_sprite_up = rmgr.load_tile(Resource.SHIP_WALL_UP)
-        self.wall_sprite_down = rmgr.load_tile(Resource.SHIP_WALL_DOWN)
-        self.wall_sprite_left = rmgr.load_tile(Resource.SHIP_WALL_LEFT)
-        self.wall_sprite_right = rmgr.load_tile(Resource.SHIP_WALL_RIGHT)
-        self.wall_sprite_leftup = rmgr.load_tile(Resource.SHIP_WALL_LEFTUP)
-        self.wall_sprite_rightup = rmgr.load_tile(Resource.SHIP_WALL_RIGHTUP)
-        self.wall_sprite_leftdown = rmgr.load_tile(Resource.SHIP_WALL_LEFTDOWN)
-        self.wall_sprite_rightdown = rmgr.load_tile(Resource.SHIP_WALL_RIGHTDOWN)
-        self.wall_sprite_innerleftup = rmgr.load_tile(Resource.SHIP_WALL_INNERLEFTUP)
-        self.wall_sprite_innerrightup = rmgr.load_tile(Resource.SHIP_WALL_INNERRIGHTUP)
-        self.wall_sprite_innerleftdown = rmgr.load_tile(
-            Resource.SHIP_WALL_INNERLEFTDOWN
-        )
-        self.wall_sprite_innerrightdown = rmgr.load_tile(
-            Resource.SHIP_WALL_INNERRIGHTDOWN
-        )
+        self.wall_spr_up = rmgr.load_tile(Resource.SHIP_WALL_UP)
+        self.wall_spr_down = rmgr.load_tile(Resource.SHIP_WALL_DOWN)
+        self.wall_spr_left = rmgr.load_tile(Resource.SHIP_WALL_LEFT)
+        self.wall_spr_right = rmgr.load_tile(Resource.SHIP_WALL_RIGHT)
+        self.wall_spr_leftup = rmgr.load_tile(Resource.SHIP_WALL_LEFTUP)
+        self.wall_spr_rightup = rmgr.load_tile(Resource.SHIP_WALL_RIGHTUP)
+        self.wall_spr_leftdown = rmgr.load_tile(Resource.SHIP_WALL_LEFTDOWN)
+        self.wall_spr_rightdown = rmgr.load_tile(Resource.SHIP_WALL_RIGHTDOWN)
+        self.wall_spr_inleftup = rmgr.load_tile(Resource.SHIP_WALL_INNERLEFTUP)
+        self.wall_spr_inrightup = rmgr.load_tile(Resource.SHIP_WALL_INNERRIGHTUP)
+        self.wall_spr_inleftdown = rmgr.load_tile(Resource.SHIP_WALL_INNERLEFTDOWN)
+        self.wall_spr_inrightdown = rmgr.load_tile(Resource.SHIP_WALL_INNERRIGHTDOWN)
 
         self.var_offset_x, self.var_offset_y = (
             (self.rng.random() - 0.5) * 1000000,
@@ -41,37 +37,37 @@ class ShipGenerator(BaseGenerator):
         if surroundings[1, 1] == TerrainType.GROUND:
             return self.get_ground_sprite(x, y)
 
-        return self.get_wall_sprite(x, y, surroundings)
+        return self.get_wall_spr(x, y, surroundings)
 
-    def get_wall_sprite(self, x, y, surroundings):
+    def get_wall_spr(self, x, y, surroundings):
         if surroundings[2, 1] == TerrainType.GROUND:
             if surroundings[1, 2] == TerrainType.GROUND:
-                return self.wall_sprite_leftup
+                return self.wall_spr_leftup
             if surroundings[1, 0] == TerrainType.GROUND:
-                return self.wall_sprite_rightup
-            return self.wall_sprite_up
+                return self.wall_spr_rightup
+            return self.wall_spr_up
 
         if surroundings[0, 1] == TerrainType.GROUND:
             if surroundings[1, 2] == TerrainType.GROUND:
-                return self.wall_sprite_leftdown
+                return self.wall_spr_leftdown
             if surroundings[1, 0] == TerrainType.GROUND:
-                return self.wall_sprite_rightdown
-            return self.wall_sprite_down
+                return self.wall_spr_rightdown
+            return self.wall_spr_down
 
         if surroundings[1, 2] == TerrainType.GROUND:
-            return self.wall_sprite_left
+            return self.wall_spr_left
 
         if surroundings[1, 0] == TerrainType.GROUND:
-            return self.wall_sprite_right
+            return self.wall_spr_right
 
         if surroundings[0, 0] == TerrainType.GROUND:
-            return self.wall_sprite_innerrightdown
+            return self.wall_spr_inrightdown
         if surroundings[0, 2] == TerrainType.GROUND:
-            return self.wall_sprite_innerleftdown
+            return self.wall_spr_inleftdown
         if surroundings[2, 0] == TerrainType.GROUND:
-            return self.wall_sprite_innerrightup
+            return self.wall_spr_inrightup
         if surroundings[2, 2] == TerrainType.GROUND:
-            return self.wall_sprite_innerleftup
+            return self.wall_spr_inleftup
 
         return None
 

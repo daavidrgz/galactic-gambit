@@ -9,22 +9,18 @@ class CaveGenerator(BaseGenerator):
         rmgr = ResourceManager.get_instance()
         self.floor_sprite = rmgr.load_tile(Resource.CAVE_FLOOR)
 
-        self.wall_sprite_up = rmgr.load_tile(Resource.CAVE_WALL_UP)
-        self.wall_sprite_down = rmgr.load_tile(Resource.CAVE_WALL_DOWN)
-        self.wall_sprite_left = rmgr.load_tile(Resource.CAVE_WALL_LEFT)
-        self.wall_sprite_right = rmgr.load_tile(Resource.CAVE_WALL_RIGHT)
-        self.wall_sprite_leftup = rmgr.load_tile(Resource.CAVE_WALL_LEFTUP)
-        self.wall_sprite_rightup = rmgr.load_tile(Resource.CAVE_WALL_RIGHTUP)
-        self.wall_sprite_leftdown = rmgr.load_tile(Resource.CAVE_WALL_LEFTDOWN)
-        self.wall_sprite_rightdown = rmgr.load_tile(Resource.CAVE_WALL_RIGHTDOWN)
-        self.wall_sprite_innerleftup = rmgr.load_tile(Resource.CAVE_WALL_INNERLEFTUP)
-        self.wall_sprite_innerrightup = rmgr.load_tile(Resource.CAVE_WALL_INNERRIGHTUP)
-        self.wall_sprite_innerleftdown = rmgr.load_tile(
-            Resource.CAVE_WALL_INNERLEFTDOWN
-        )
-        self.wall_sprite_innerrightdown = rmgr.load_tile(
-            Resource.CAVE_WALL_INNERRIGHTDOWN
-        )
+        self.wall_spr_up = rmgr.load_tile(Resource.CAVE_WALL_UP)
+        self.wall_spr_down = rmgr.load_tile(Resource.CAVE_WALL_DOWN)
+        self.wall_spr_left = rmgr.load_tile(Resource.CAVE_WALL_LEFT)
+        self.wall_spr_right = rmgr.load_tile(Resource.CAVE_WALL_RIGHT)
+        self.wall_spr_leftup = rmgr.load_tile(Resource.CAVE_WALL_LEFTUP)
+        self.wall_spr_rightup = rmgr.load_tile(Resource.CAVE_WALL_RIGHTUP)
+        self.wall_spr_leftdown = rmgr.load_tile(Resource.CAVE_WALL_LEFTDOWN)
+        self.wall_spr_rightdown = rmgr.load_tile(Resource.CAVE_WALL_RIGHTDOWN)
+        self.wall_spr_inleftup = rmgr.load_tile(Resource.CAVE_WALL_INNERLEFTUP)
+        self.wall_spr_inrightup = rmgr.load_tile(Resource.CAVE_WALL_INNERRIGHTUP)
+        self.wall_spr_inleftdown = rmgr.load_tile( Resource.CAVE_WALL_INNERLEFTDOWN)
+        self.wall_spr_inrightdown = rmgr.load_tile(Resource.CAVE_WALL_INNERRIGHTDOWN)
 
         super().__init__((6.0, 6.0), (2, 2), terrain, (7000, 20000))
 
@@ -43,32 +39,32 @@ class CaveGenerator(BaseGenerator):
     def get_wall_sprite(self, x, y, surroundings):
         if surroundings[2, 1] == TerrainType.GROUND:
             if surroundings[1, 2] == TerrainType.GROUND:
-                return self.wall_sprite_leftup
+                return self.wall_spr_leftup
             if surroundings[1, 0] == TerrainType.GROUND:
-                return self.wall_sprite_rightup
-            return self.wall_sprite_up
+                return self.wall_spr_rightup
+            return self.wall_spr_up
 
         if surroundings[0, 1] == TerrainType.GROUND:
             if surroundings[1, 2] == TerrainType.GROUND:
-                return self.wall_sprite_leftdown
+                return self.wall_spr_leftdown
             if surroundings[1, 0] == TerrainType.GROUND:
-                return self.wall_sprite_rightdown
-            return self.wall_sprite_down
+                return self.wall_spr_rightdown
+            return self.wall_spr_down
 
         if surroundings[1, 2] == TerrainType.GROUND:
-            return self.wall_sprite_left
+            return self.wall_spr_left
 
         if surroundings[1, 0] == TerrainType.GROUND:
-            return self.wall_sprite_right
+            return self.wall_spr_right
 
         if surroundings[0, 0] == TerrainType.GROUND:
-            return self.wall_sprite_innerrightdown
+            return self.wall_spr_inrightdown
         if surroundings[0, 2] == TerrainType.GROUND:
-            return self.wall_sprite_innerleftdown
+            return self.wall_spr_inleftdown
         if surroundings[2, 0] == TerrainType.GROUND:
-            return self.wall_sprite_innerrightup
+            return self.wall_spr_inrightup
         if surroundings[2, 2] == TerrainType.GROUND:
-            return self.wall_sprite_innerleftup
+            return self.wall_spr_inleftup
 
         return None
 
