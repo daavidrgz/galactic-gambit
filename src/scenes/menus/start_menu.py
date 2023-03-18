@@ -6,6 +6,7 @@ from gui.components.buttons.text_button import TextButton
 from gui.components.title import Title
 from scenes.levels.ship.ship_level import ShipLevel
 from scenes.menus.configuration_menu import ConfigurationMenu
+from scenes.menus.confirmation_menu import ConfirmationMenu
 from scenes.menus.vertical_menu import VerticalMenu
 from scenes.transition import Transition
 from systems.resource_manager import Resource
@@ -26,7 +27,7 @@ class StartMenu(VerticalMenu):
         )
 
         veil = pygame.Surface((DESIGN_WIDTH, DESIGN_HEIGHT))
-        veil.set_alpha(200)
+        veil.set_alpha(40)
 
         background = pygame.Surface((DESIGN_WIDTH, DESIGN_HEIGHT))
         background.blit(background_image, (0, 0))
@@ -50,7 +51,10 @@ class StartMenu(VerticalMenu):
         self.director.push_scene(Transition(current_level()))
 
     def __leave_game(self):
-        self.director.leave_game()
+        def action():
+            self.director.leave_game()
+
+        self.director.push_scene(ConfirmationMenu(action, self.background))
 
     def __config_game(self):
         self.director.push_scene(ConfigurationMenu(self.background))

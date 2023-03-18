@@ -24,7 +24,7 @@ class WinMenu(VerticalMenu):
         )
 
         veil = pygame.Surface((DESIGN_WIDTH, DESIGN_HEIGHT))
-        veil.set_alpha(10)
+        veil.set_alpha(40)
 
         background = pygame.Surface((DESIGN_WIDTH, DESIGN_HEIGHT))
         background.blit(background_image, (0, 0))
