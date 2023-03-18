@@ -18,7 +18,6 @@ class TripleShot(TechUpgrade):
 
 
 class DoubleShot(TechUpgrade):
-
     name = "Double Shot"
     icon = Resource.BLACKHOLE_ICON
 
