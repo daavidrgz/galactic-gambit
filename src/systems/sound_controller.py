@@ -4,6 +4,7 @@ import pygame as pg
 from utils.singleton import Singleton
 from systems.resource_manager import ResourceManager
 import os
+import threading
 
 
 class RandomSounds:
@@ -67,8 +68,8 @@ class CycleSounds:
 
 
 class SoundController(metaclass=Singleton):
-    music_volume = 10
-    effects_volume = 10
+    music_volume = 100
+    effects_volume = 100
     relative_volume = 1
     volume_step = 1
 
@@ -128,14 +129,26 @@ class SoundController(metaclass=Singleton):
     def play_music(self, music):
         if self.current_music == music:
             return
+        
+        self.current_music = music
+
         if pg.mixer.music.get_busy():
-            self.pause()
+            thread = threading.Thread(target=self.__switch_music_internal, args=(music,))
+            thread.start()
+            return
+        
+        self.__play_music_internal(music)
+
+    def __switch_music_internal(self, music):
+        self.pause()
+        self.__play_music_internal(music)
+
+    def __play_music_internal(self, music):
         pg.mixer.music.load(
             os.path.join(self.resource_manager.BASE_PATH, music.value[0])
         )
         self.set_relative_volume_music(music.value[1])
         pg.mixer.music.play(-1)
-        self.current_music = music
 
     def play_sound(self, sound, max_time=0):
         loaded_sound = self.resource_manager.load_sound(sound)
