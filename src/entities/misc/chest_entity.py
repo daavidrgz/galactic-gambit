@@ -1,4 +1,5 @@
 from entities.entity import Entity
+from entities.misc.upgrade_entity import UpgradeEntity
 from systems.sound_controller import SoundController
 from systems.resource_manager import Resource, ResourceManager
 import utils.math
@@ -16,14 +17,14 @@ class ChestEntity(Entity):
         self.open = False
 
     def setup(self, level):
-        self.player_bullets = level.player_bullets
+        self.level = level
         super().setup(level)
 
     def update(self, elapsed_time):
         if self.open:
             return
 
-        for bullet in self.player_bullets:
+        for bullet in self.level.player_bullets:
             if utils.math.circle_rect_collision((bullet.x, bullet.y, bullet.size), self.rect):
                 bullet.kill()
                 self.do_open()
@@ -39,3 +40,5 @@ class ChestEntity(Entity):
         sound = SoundController()
         sound.play_sound(Resource.CHEST_OPEN_SOUND)
         sound.play_sound(Resource.ALIEN_HIT_SOUND)
+        
+        self.level.spawn_misc_entity(UpgradeEntity((self.x, self.y)))

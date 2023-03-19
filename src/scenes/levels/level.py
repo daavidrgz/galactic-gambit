@@ -163,7 +163,7 @@ class Level(Scene):
 
         self.director.push_scene(UpgradeMenu(upgrades, apply_upgrade))
 
-    def __player_tech_upgrade(self):
+    def player_tech_upgrade(self):
         def apply_upgrade(upgrade):
             self.tech_upgrade_system.pick_upgrade(upgrade)
             self.player.apply_tech_upgrade(upgrade)

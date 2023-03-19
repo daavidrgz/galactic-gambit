@@ -93,6 +93,8 @@ class Resource(Enum):
     LEVEL_UP_SOUND = ("sounds/player/level-up.mp3", 0.3)
     PLAYER_HIT_SOUND = ("sounds/player/player-hit.mp3", 0.25)
     PLAYER_DEATH_SOUND = ("sounds/player/player-death.mp3", 0.25)
+    PICKUP_SOUND_1 = ("sounds/pick-up-item.mp3", 0.4)
+    PICKUP_SOUND_2 = ("sounds/pick-up-item-alt.mp3", 0.4)
 
     # Alien sounds
     ALIEN_HIT_SOUND = ("sounds/alien/alien-hit.mp3", 0.25)
@@ -612,6 +614,38 @@ class Resource(Enum):
         ("sprites/xp/xp_3.png", 2, 50, False),
         ("sprites/xp/xp_4.png", 2, 50, False),
         ("sprites/xp/xp_5.png", 2, 50, False),
+    ]
+
+    # Wrench
+    WRENCH = [
+        ("sprites/wrench/1.png", 3, 40, False),
+        ("sprites/wrench/2.png", 3, 40, False),
+        ("sprites/wrench/3.png", 3, 40, False),
+        ("sprites/wrench/4.png", 3, 40, False),
+        ("sprites/wrench/5.png", 3, 40, False),
+        ("sprites/wrench/6.png", 3, 40, False),
+        ("sprites/wrench/7.png", 3, 40, False),
+        ("sprites/wrench/8.png", 3, 40, False),
+        ("sprites/wrench/7.png", 3, 40, True),
+        ("sprites/wrench/6.png", 3, 40, True),
+        ("sprites/wrench/5.png", 3, 40, True),
+        ("sprites/wrench/4.png", 3, 40, True),
+        ("sprites/wrench/3.png", 3, 40, True),
+        ("sprites/wrench/2.png", 3, 40, True),
+        ("sprites/wrench/1.png", 3, 40, True),
+        ("sprites/wrench/2.png", 3, 40, True),
+        ("sprites/wrench/3.png", 3, 40, True),
+        ("sprites/wrench/4.png", 3, 40, True),
+        ("sprites/wrench/5.png", 3, 40, True),
+        ("sprites/wrench/6.png", 3, 40, True),
+        ("sprites/wrench/7.png", 3, 40, True),
+        ("sprites/wrench/8.png", 3, 40, False),
+        ("sprites/wrench/7.png", 3, 40, False),
+        ("sprites/wrench/6.png", 3, 40, False),
+        ("sprites/wrench/5.png", 3, 40, False),
+        ("sprites/wrench/4.png", 3, 40, False),
+        ("sprites/wrench/3.png", 3, 40, False),
+        ("sprites/wrench/2.png", 3, 40, False),
     ]
 
 
