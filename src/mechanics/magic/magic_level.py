@@ -3,7 +3,7 @@ from utils.observable import Observable
 
 
 class MagicLevel(Observable):
-    __BASE_TARGET_EXP = 20
+    __BASE_TARGET_EXP = 100
     __LEVEL_STEP_EXP = 50
 
     def __init__(

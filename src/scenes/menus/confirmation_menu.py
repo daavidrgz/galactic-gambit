@@ -33,7 +33,6 @@ class ConfirmationMenu(HorizontalMenu):
     def setup(self):
         self.title = Title(
             text="Are you sure?",
-            font=self.resource_manager.load_font(Resource.FONT_XL),
             color=COLOR_BRIGHT,
             position=(DESIGN_WIDTH // 2, 100),
         )

@@ -1,12 +1,11 @@
 from gui.components.base_gui import BaseGui
+from gui.components.text import Text
+from systems.resource_manager import Resource, ResourceManager
 
 
-class Title(BaseGui):
-    def __init__(self, text, font, color, position):
-        self.text = text
-        self.font = font
-        self.color = color
-
-        self.font.set_bold(True)
-        self.image = self.font.render(text, True, color)
-        super().__init__(self.image, position)
+class Title(Text):
+    def __init__(self, text, color, position):
+        self.resource_manager = ResourceManager.get_instance()
+        font = self.resource_manager.load_font(Resource.FONT_XL)
+        font.set_bold(True)
+        super().__init__(text, font, color, position)

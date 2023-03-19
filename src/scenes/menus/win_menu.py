@@ -4,6 +4,7 @@ import pygame
 from constants.game_constants import DESIGN_HEIGHT, DESIGN_WIDTH
 from constants.gui_constants import COLOR_BRIGHT, COLOR_STANDARD, COLOR_SUBTLE
 from gui.components.buttons.text_button import TextButton
+from gui.components.text import Text
 from gui.components.title import Title
 from scenes.menus.vertical_menu import VerticalMenu
 from systems.resource_manager import Resource
@@ -75,6 +76,7 @@ class WinMenu(VerticalMenu):
         ]
 
     def __main_menu(self):
+        self.game_model.delete_save()
         RngSystem().new_seed()
         self.director.pop_scene()
 
@@ -98,12 +100,11 @@ class WinMenu(VerticalMenu):
     def setup(self):
         self.title = Title(
             text=f"{self.__get_random_title()} victory!",
-            font=self.resource_manager.load_font(Resource.FONT_XL),
             color=COLOR_BRIGHT,
             position=(DESIGN_WIDTH / 2, 150),
         )
 
-        self.subtitle = Title(
+        self.subtitle = Text(
             text=self.__get_random_subtitle(),
             font=self.resource_manager.load_font(Resource.FONT_MD),
             color=COLOR_STANDARD,

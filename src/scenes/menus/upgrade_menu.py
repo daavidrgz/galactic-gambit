@@ -43,7 +43,6 @@ class UpgradeMenu(HorizontalMenu):
     def setup(self):
         self.title = Title(
             text="Choose your upgrade!",
-            font=self.resource_manager.load_font(Resource.FONT_XL),
             color=COLOR_BRIGHT,
             position=(DESIGN_WIDTH // 2, 100),
         )
