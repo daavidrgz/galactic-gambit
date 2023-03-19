@@ -80,6 +80,7 @@ class BaseEnemy(LivingEntity):
 
     def alerted(self):
         self.level.spawn_misc_entity(AlertEntity(self.rect.topleft))
+        self.sound_controller.play_sound(Resource.ALIEN_ALERT)
 
     def set_target(self, point):
         if point is None:

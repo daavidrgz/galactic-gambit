@@ -102,6 +102,7 @@ class Resource(Enum):
     ALIEN_DEATH_SOUND_01 = ("sounds/alien/alien-death-01.mp3", 0.5)
     ALIEN_DEATH_SOUND_02 = ("sounds/alien/alien-death-02.mp3", 0.5)
     ALIEN_DEATH_SOUND_03 = ("sounds/alien/alien-death-03.mp3", 0.5)
+    ALIEN_ALERT = ("sounds/alien/alien_alert.mp3", 0.25)
 
     SCATTERED_SHIP_SOUNDS = [
         ("sounds/ambiance/ship/alien-sound.mp3", 0.5),
