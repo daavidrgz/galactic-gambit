@@ -4,6 +4,7 @@ from constants.game_constants import DESIGN_HEIGHT, DESIGN_WIDTH
 from constants.gui_constants import COLOR_BRIGHT, COLOR_SUBTLE
 from gui.components.buttons.text_button import TextButton
 from gui.components.title import Title
+from scenes.cinematic.story_intro import StoryIntro
 from scenes.levels.ship.ship_level import ShipLevel
 from scenes.menus.configuration_menu import ConfigurationMenu
 from scenes.menus.confirmation_menu import ConfirmationMenu
@@ -40,10 +41,9 @@ class StartMenu(VerticalMenu):
         # Reset current seed to initial state
         RngSystem().reset()
         self.game_model.init_model()
-        next_level = ShipLevel
-        self.game_model.level = next_level
+        self.game_model.level = ShipLevel
         self.game_model.save()
-        self.director.push_scene(Transition(next_level()))
+        self.director.push_scene(Transition(StoryIntro()))
 
     def __continue_game(self):
         self.game_model.load()
@@ -83,7 +83,6 @@ class StartMenu(VerticalMenu):
     def __generate_gui(self):
         self.title = Title(
             text="Space Mission",
-            font=self.resource_manager.load_font(Resource.FONT_XL),
             color=COLOR_BRIGHT,
             position=(DESIGN_WIDTH / 2, 100),
         )

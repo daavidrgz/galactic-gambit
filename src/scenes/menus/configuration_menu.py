@@ -53,7 +53,6 @@ class ConfigurationMenu(VerticalMenu):
 
         self.title = Title(
             text="Configuration",
-            font=self.resource_manager.load_font(Resource.FONT_XL),
             color=COLOR_BRIGHT,
             position=(DESIGN_WIDTH // 2, 100),
         )
