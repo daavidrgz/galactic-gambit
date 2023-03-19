@@ -8,16 +8,16 @@ class StrongRangedEnemy(BaseRangedEnemy):
         self,
         initial_pos,
     ):
-        self.hp = 2
+        self.hp = 3
         self.ai = RangedAI(500, 600, 400, 200)
         self.drag = 0.25
         self.speed = 0.7
 
         self.damage = 4
-        self.knockback = 10
-        self.projectile_speed = 8
+        self.knockback = 30
+        self.projectile_speed = 25
         self.attack_lifetime = 800
-        self.reload_speed = 1000
+        self.reload_speed = 250
 
         self.walk_right = Resource.RANGED3_WALK_RIGHT
         self.walk_left = Resource.RANGED3_WALK_LEFT

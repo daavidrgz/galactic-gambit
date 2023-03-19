@@ -10,17 +10,20 @@ from generation.enemy_spawning import EnemySpawnGroups
 
 import pygame
 
+
 class ShipLevel(Level):
     def __init__(self):
         terrain = ShipTerrain()
         generator = ShipGenerator(terrain)
 
         rng = RngSystem().get_rng(Generator.MAP)
-        background = rng.choice([
-            Resource.PURPLE_SPACE_BG,
-            Resource.ORANGE_SPACE_BG,
-            Resource.BLUE_SPACE_BG,
-        ])
+        background = rng.choice(
+            [
+                Resource.PURPLE_SPACE_BG,
+                Resource.ORANGE_SPACE_BG,
+                Resource.BLUE_SPACE_BG,
+            ]
+        )
 
         level_music = Resource.SHIP_LEVEL_MUSIC
         player_footsteps = Resource.SHIP_FOOTSTEPS
@@ -31,8 +34,12 @@ class ShipLevel(Level):
 
         self.next_level = PlanetLevel
 
-        self.possible_enemy_spawns = [EnemySpawnGroups.SHIP_MELEE]
-        self.enemy_spawn_level = 15
+        self.possible_enemy_spawns = [
+            EnemySpawnGroups.SHIP_MELEE,
+            EnemySpawnGroups.SHIP_RANGED,
+            EnemySpawnGroups.SHIP_MIXED,
+        ]
+        self.enemy_spawn_level = 25
 
         super().__init__(
             generator=generator,

@@ -9,15 +9,15 @@ class MediumRangedEnemy(BaseRangedEnemy):
         initial_pos,
     ):
         self.hp = 3
-        self.ai = RangedAI(500, 600, 400, 200)
+        self.ai = RangedAI(500, 600, 300, 200)
         self.drag = 0.25
-        self.speed = 0.7
+        self.speed = 0.9
 
-        self.damage = 2
-        self.knockback = 10
-        self.projectile_speed = 8
+        self.damage = 1
+        self.knockback = 7
+        self.projectile_speed = 6
         self.attack_lifetime = 800
-        self.reload_speed = 300
+        self.reload_speed = 30
 
         self.walk_right = Resource.RANGED2_WALK_RIGHT
         self.walk_left = Resource.RANGED2_WALK_LEFT

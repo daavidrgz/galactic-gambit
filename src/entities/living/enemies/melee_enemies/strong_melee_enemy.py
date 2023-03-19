@@ -8,16 +8,16 @@ class StrongMeleeEnemy(BaseMeleeEnemy):
         self,
         initial_pos,
     ):
-        self.hp = 2
+        self.hp = 6
         self.ai = MeleeAI(500, 600, 50)
         self.drag = 0.25
-        self.speed = 2.5
+        self.speed = 1.5
 
-        self.damage = 1
-        self.knockback = 10
+        self.damage = 3
+        self.knockback = 15
         self.projectile_speed = 5
         self.attack_lifetime = 100
-        self.reload_speed = 30
+        self.reload_speed = 40
 
         self.walk_right = Resource.MELEE3_WALK_RIGHT
         self.walk_left = Resource.MELEE3_WALK_LEFT

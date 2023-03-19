@@ -6,6 +6,7 @@ import pygame
 from scenes.menus.win_menu import WinMenu
 from systems.resource_manager import Resource
 from systems.sound_controller import RandomSounds
+from generation.enemy_spawning import EnemySpawnGroups
 
 
 class CaveLevel(Level):
@@ -22,8 +23,16 @@ class CaveLevel(Level):
         
         self.next_level = WinMenu
 
-        self.possible_enemy_spawns = []
-        self.enemy_spawn_level = 0
+        self.possible_enemy_spawns = [
+            EnemySpawnGroups.CAVE_MELEE,
+            EnemySpawnGroups.CAVE_RANGED,
+            EnemySpawnGroups.CAVE_MELEE_FULL,
+            EnemySpawnGroups.CAVE_MELEE_SUPPORT,
+            EnemySpawnGroups.CAVE_MIXED,
+            EnemySpawnGroups.CAVE_RANGED_MIX,
+            EnemySpawnGroups.CAVE_RANGED_SUPPORT,
+        ]
+        self.enemy_spawn_level = 45
 
         super().__init__(
             generator=generator,

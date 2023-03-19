@@ -94,8 +94,6 @@ class RangedAI(BaseAI):
             enemy_pos, diff_vector, distance, self.previous_direction, terrain
         )
 
-        # TODO: Find direct line of sight
-
         enemy.set_target(enemy_pos + self.previous_direction)
 
     def attacking(self, enemy, player, terrain, elapsed_time):

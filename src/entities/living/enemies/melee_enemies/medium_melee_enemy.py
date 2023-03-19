@@ -11,13 +11,13 @@ class MediumMeleeEnemy(BaseMeleeEnemy):
         self.hp = 6
         self.ai = MeleeAI(300, 500, 100)
         self.drag = 0.25
-        self.speed = 1
+        self.speed = 1.5
 
-        self.damage = 1
+        self.damage = 2
         self.knockback = 10
         self.projectile_speed = 5
         self.attack_lifetime = 100
-        self.reload_speed = 30
+        self.reload_speed = 40
 
         self.walk_right = Resource.MELEE2_WALK_RIGHT
         self.walk_left = Resource.MELEE2_WALK_LEFT

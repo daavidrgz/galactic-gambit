@@ -6,6 +6,7 @@ from scenes.levels.planet.planet_terrain import PlanetTerrain
 from scenes.levels.cave.cave_level import CaveLevel
 from scenes.menus.win_menu import WinMenu
 from systems.resource_manager import ResourceManager, Resource
+from generation.enemy_spawning import EnemySpawnGroups
 
 import pygame
 
@@ -37,8 +38,16 @@ class PlanetLevel(Level):
 
         self.next_level = CaveLevel
 
-        self.possible_enemy_spawns = []
-        self.enemy_spawn_level = 0
+        self.possible_enemy_spawns = [
+            EnemySpawnGroups.PLANET_MELEE,
+            EnemySpawnGroups.PLANET_RANGED,
+            EnemySpawnGroups.PLANET_MIXED,
+            EnemySpawnGroups.PLANET_MIXED_MELEE,
+            EnemySpawnGroups.PLANET_MIXED_RANGE,
+            EnemySpawnGroups.PLANET_FULL_MIXUP,
+            EnemySpawnGroups.PLANET_MELEE_SUPPORT,
+            ]
+        self.enemy_spawn_level = 35
 
         super().__init__(
             generator=generator,

@@ -446,7 +446,7 @@ class Resource(Enum):
     ]
 
     RANGED3_HURT_LEFT = [
-        ("sprites/enemies/ranged/ranged2_hurt2.png", 3, 200, True),
+        ("sprites/enemies/ranged/ranged3_hurt2.png", 3, 200, True),
     ]
 
     MELEE1_IDLE_RIGHT = [
@@ -596,7 +596,7 @@ class Resource(Enum):
     ]
 
     MELEE3_HURT_LEFT = [
-        ("sprites/enemies/melee/melee3_hurt3.png", 3, 200, True),
+        ("sprites/enemies/melee/melee3_hurt2.png", 3, 200, True),
     ]
 
     XP = [

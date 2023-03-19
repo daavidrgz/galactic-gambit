@@ -8,7 +8,7 @@ class WeakRangedEnemy(BaseRangedEnemy):
         self,
         initial_pos,
     ):
-        self.hp = 3
+        self.hp = 2
         self.ai = RangedAI(500, 600, 400, 200)
         self.drag = 0.25
         self.speed = 0.7

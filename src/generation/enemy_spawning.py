@@ -16,6 +16,56 @@ class EnemySpawnGroups(Enum):
     SHIP_MELEE = (5,
         [WeakMeleeEnemy, WeakMeleeEnemy]
     )
+    SHIP_RANGED = (3,
+        [WeakRangedEnemy, WeakRangedEnemy]                    
+    )
+    SHIP_MIXED = (7,
+        [WeakRangedEnemy, WeakRangedEnemy, WeakMeleeEnemy]              
+    )
+
+    PLANET_MELEE = (7,
+        [MediumMeleeEnemy, MediumMeleeEnemy]                
+    )
+    PLANET_RANGED = (5,
+        [MediumRangedEnemy, MediumRangedEnemy]
+    )
+    PLANET_MIXED = (9,
+        [MediumRangedEnemy, MediumRangedEnemy, MediumMeleeEnemy]
+    )
+    PLANET_MIXED_MELEE = (8,
+        [WeakMeleeEnemy, WeakMeleeEnemy, MediumMeleeEnemy]
+    )
+    PLANET_MIXED_RANGE = (6,
+        [WeakRangedEnemy, WeakRangedEnemy, MediumRangedEnemy]
+    )
+    PLANET_FULL_MIXUP = (11,
+        [WeakMeleeEnemy, WeakRangedEnemy, MediumMeleeEnemy, MediumRangedEnemy, MediumRangedEnemy]
+    )
+    PLANET_MELEE_SUPPORT = (7,
+        [MediumMeleeEnemy, WeakRangedEnemy, WeakRangedEnemy]
+    )
+
+    CAVE_MELEE = (9,
+        [StrongMeleeEnemy, StrongMeleeEnemy]
+    )
+    CAVE_RANGED = (7,
+        [StrongRangedEnemy, StrongRangedEnemy]
+    )
+    CAVE_MIXED = (13,
+        [StrongMeleeEnemy, StrongMeleeEnemy, StrongRangedEnemy]
+    )
+    CAVE_RANGED_MIX = (6, 
+        [MediumRangedEnemy, StrongRangedEnemy]
+    )
+    CAVE_MELEE_FULL = (9,
+        [WeakMeleeEnemy, MediumMeleeEnemy, StrongMeleeEnemy]
+    )
+    CAVE_MELEE_SUPPORT = (9,
+        [WeakRangedEnemy, WeakRangedEnemy, WeakRangedEnemy, StrongMeleeEnemy]
+    )
+    CAVE_RANGED_SUPPORT = (8,
+        [WeakMeleeEnemy, MediumMeleeEnemy, StrongRangedEnemy]
+    )
 
 def _spawn_group(level, group, x, y):
     x = (x + 0.5) * TILE_SIZE

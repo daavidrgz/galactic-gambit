@@ -9,7 +9,6 @@ class EnemyStrike(Projectile):
     ):
         self.resource_manager = ResourceManager.get_instance()
         image = self.resource_manager.load_image(attack_image)
-        self.timer = 200
 
         super().__init__(
             image, initial_pos, speed, direction, damage, knockback, lifetime

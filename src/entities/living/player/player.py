@@ -123,7 +123,7 @@ class Player(LivingEntity):
         if self.was_hit:
             return
         self.camera.set_shake(0.5)
-        super().hit(0, knockback)
+        super().hit(damage, knockback)
 
     def __update_attack(self, elapsed_time):
         self.gun.update_cooldown(elapsed_time)
