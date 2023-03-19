@@ -198,3 +198,6 @@ En descripcion global de cada escena explicar el generador
 Diagrama de flujo -> Jorge
 
 Diagrama de arquitectura que dice como se comunican los sistemas, y después un diagrama de clases para cada uno de cada sistema
+
+
+Diagramas-> Jorge
