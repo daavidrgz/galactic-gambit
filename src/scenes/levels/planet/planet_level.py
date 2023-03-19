@@ -25,17 +25,6 @@ class PlanetLevel(Level):
             10000,
         )
 
-        rmgr = ResourceManager()
-        dust_sprite = pygame.sprite.Sprite()
-        dust_sprite.image = pygame.transform.smoothscale(
-            rmgr.load_image(Resource.DUST), (TILE_SIZE * 100.0, TILE_SIZE * 100.0)
-        )
-        dust_sprite.image.set_alpha(150)
-        dust_sprite.rect = dust_sprite.image.get_rect()
-        dust_sprite.image_rect = dust_sprite.image.get_rect()
-        dust_sprite.x = dust_sprite.y = TILE_SIZE * 128.25
-        self.dust = ParallaxGroup((1.5, 1.5), dust_sprite)
-
         self.next_level = CaveLevel
 
         self.possible_enemy_spawns = [
