@@ -20,6 +20,7 @@ class Resource(Enum):
     CHEST = "sprites/chest/chest.png"
     CHEST_OPEN = "sprites/chest/chest_open.png"
     CHEST_MINI = "sprites/chest/chest_mini.png"
+    CHEST_OPEN_SOUND = ("sounds/chest_open.mp3", 1.0)
 
     # Backgrounds
     PLANETS_BG = "sprites/backgrounds/planets-bg.png"

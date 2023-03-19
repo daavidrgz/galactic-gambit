@@ -1,4 +1,5 @@
 from entities.entity import Entity
+from systems.sound_controller import SoundController
 from systems.resource_manager import Resource, ResourceManager
 import utils.math
 
@@ -25,10 +26,16 @@ class ChestEntity(Entity):
         for bullet in self.player_bullets:
             if utils.math.circle_rect_collision((bullet.x, bullet.y, bullet.size), self.rect):
                 bullet.kill()
-
-                self.open = True
-                image = ResourceManager().load_image(Resource.CHEST_OPEN)
-                image = pygame.transform.scale(image, [x*2 for x in image.get_size()])
-                self.set_image(image)
+                self.do_open()
 
         super().update(elapsed_time)
+
+    def do_open(self):
+        self.open = True
+        image = ResourceManager().load_image(Resource.CHEST_OPEN)
+        image = pygame.transform.scale(image, [x*2 for x in image.get_size()])
+        self.set_image(image)
+
+        sound = SoundController()
+        sound.play_sound(Resource.CHEST_OPEN_SOUND)
+        sound.play_sound(Resource.ALIEN_HIT_SOUND)
