@@ -7,5 +7,5 @@ class Text(BaseGui):
         self.font = font
         self.color = color
 
-        surface = self.font.render(text, True, color)
-        super().__init__(surface, position)
+        text_surface = self.font.render(text, True, color)
+        super().__init__(text_surface, position)
