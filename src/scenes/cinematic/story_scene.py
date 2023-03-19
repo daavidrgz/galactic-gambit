@@ -34,6 +34,7 @@ class StoryScene(Scene):
         self.argument = argument
         self.next_scene = next_scene
         self.gui_group = pygame.sprite.Group()
+        self.scene_music = Resource.STORY_MUSIC
 
     def setup(self):
         font = self.resource_manager.load_font(Resource.FONT_MD)
