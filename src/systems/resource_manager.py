@@ -14,7 +14,12 @@ class Resource(Enum):
     ALERT = "sprites/alert.png"
     LASER = "sprites/laser/11.png"
     LASER_ENEMY = "sprites/laser/35.png"
+
+    # Projectiles
     PLAYER_PROJECTILE = "sprites/player/laser-shot.png"
+    WEAK_ENEMY_PROJECTILE = "sprites/enemies/ranged/projectile1.png"
+    MEDIUM_ENEMY_PROJECTILE = "sprites/enemies/ranged/projectile2.png"
+    STRONG_ENEMY_PROJECTILE = "sprites/enemies/ranged/projectile3.png"
 
     # Chest
     CHEST = "sprites/chest/chest.png"
@@ -105,6 +110,7 @@ class Resource(Enum):
     ALIEN_DEATH_SOUND_02 = ("sounds/alien/alien-death-02.mp3", 0.5)
     ALIEN_DEATH_SOUND_03 = ("sounds/alien/alien-death-03.mp3", 0.5)
     ALIEN_ALERT = ("sounds/alien/alien_alert.mp3", 0.25)
+    ALIEN_SHOOT = ("sounds/alien/alien_shoot.mp3", 0.25)
 
     SCATTERED_SHIP_SOUNDS = [
         ("sounds/ambiance/ship/alien-sound.mp3", 0.5),

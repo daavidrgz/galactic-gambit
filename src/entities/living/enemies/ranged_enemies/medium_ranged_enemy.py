@@ -28,7 +28,7 @@ class MediumRangedEnemy(BaseRangedEnemy):
         self.dead_right = Resource.RANGED2_DEAD_RIGHT
         self.dead_left = Resource.RANGED2_DEAD_LEFT
 
-        self.attack_image = Resource.LASER
+        self.attack_image = Resource.MEDIUM_ENEMY_PROJECTILE
 
         super().__init__(
             self.hp, initial_pos, self.idle_right, self.ai, self.drag, self.speed

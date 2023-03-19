@@ -12,12 +12,10 @@ class EnemyBullet(Projectile):
     ):
         resource_manager = ResourceManager.get_instance()
         image = resource_manager.load_image(attack_image)
-        image = pygame.transform.scale(image, (50, 10))
 
         super().__init__(
             image, initial_pos, speed, direction, damage, knockback, lifetime
         )
-        self.add_image_modifier(self.__red_image_modifier)
 
     def collide(self, add_animation_func):
         explosion = ExplosionEffect(self.get_position())
@@ -27,7 +25,7 @@ class EnemyBullet(Projectile):
 
     def __red_image_modifier(
         self, image
-    ):  # TODO: This doesn't need to be dynamic, make it a sprite
+    ):
         color = (255, 0, 0)
         mask = pygame.Surface(image.get_size(), pygame.SRCALPHA)
         mask.fill(color)

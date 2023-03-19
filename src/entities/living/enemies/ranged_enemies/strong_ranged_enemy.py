@@ -28,7 +28,7 @@ class StrongRangedEnemy(BaseRangedEnemy):
         self.dead_right = Resource.RANGED3_DEAD_RIGHT
         self.dead_left = Resource.RANGED3_DEAD_LEFT
 
-        self.attack_image = Resource.LASER
+        self.attack_image = Resource.STRONG_ENEMY_PROJECTILE
 
         super().__init__(
             self.hp, initial_pos, self.idle_right, self.ai, self.drag, self.speed
