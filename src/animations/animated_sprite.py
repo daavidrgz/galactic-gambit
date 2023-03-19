@@ -11,19 +11,19 @@ class AnimatedSprite(pygame.sprite.Sprite):
     def __init__(self, frames, initial_pos):
         self.resource_manager = ResourceManager.get_instance()
         self.speed_multiplier = 1.0
+        self.x, self.y = initial_pos
+        self.modifiers = []
 
         if isinstance(frames, Resource):
             frames = self.resource_manager.load_animation(frames)
             self.current_anim = frames
         elif not isinstance(frames, list):
             frames = [AnimationFrame(frames, 0.1)]
-        self.modifiers = []
-        super().__init__()
-        self.x, self.y = initial_pos
 
         self.current_frame_size = None
-
         self.setup_frames(frames)
+
+        super().__init__()
 
     def on_animation_finished(self):
         pass
@@ -50,9 +50,9 @@ class AnimatedSprite(pygame.sprite.Sprite):
         next_frame_idx = self.__binary_search_time(self.total_elapsed_time)
         self.current_frame = self.frames[next_frame_idx]
         current_frame_image = self.current_frame.get_image()
+
         # Reset rect every frame, so modifications applied to the sprite does not affect the original rect
-        self.rect = current_frame_image.get_rect()
-        self.rect.center = (self.x, self.y)
+        self._rect = current_frame_image.get_rect()
 
         # Use a buffer image to blit current frame, and do not use self.image directly, because
         # other sources (e.g. upgrades) could modify self.image size. This way, we can keep the
@@ -86,8 +86,7 @@ class AnimatedSprite(pygame.sprite.Sprite):
         self.current_frame = self.frames[0]
         self.__buffer_image.blit(self.current_frame.get_image(), (0, 0))
         self.image = self.__buffer_image
-        self.rect = self.__buffer_image.get_rect()
-        self.rect.center = (self.x, self.y)
+        self._rect = self.__buffer_image.get_rect()
         self.total_elapsed_time = 0
 
         self.acc_times = [0]
@@ -109,3 +108,8 @@ class AnimatedSprite(pygame.sprite.Sprite):
         if not isinstance(image, list):
             image = [AnimationFrame(image, 0.1)]
         self.setup_frames(image)
+
+    @property
+    def rect(self):
+        self._rect.centerx, self._rect.centery = self.x, self.y
+        return self._rect

@@ -12,9 +12,6 @@ class Entity(AnimatedSprite):
 
         self.removed = False
 
-        self.rect.centerx = self.x
-        self.rect.centery = self.y
-
     def setup(self, level):
         self.level = level
 
@@ -26,7 +23,6 @@ class Entity(AnimatedSprite):
 
     def set_position(self, position):
         self.x, self.y = position
-        self.rect.centerx, self.rect.centery = self.x, self.y
 
     def move(self, delta_position):
         deltax, deltay = delta_position

@@ -20,12 +20,10 @@ class TitansMight(MagicUpgrade):
 
     def apply(self, bullet, elapsed_time):
         previous_image = bullet.image
-        # get pygme surface size
+        # Get pygme surface size
         previous_size = np.array(previous_image.get_size())
-        # scale the image
-        bullet.image = pygame.transform.scale(previous_image, previous_size * 1.3)
-        bullet.rect = bullet.image.get_rect()
-        bullet.rect.center = bullet.x, bullet.y
+        # Scale the image
+        bullet.set_image(pygame.transform.scale(previous_image, previous_size * 1.3))
 
     update_effect = apply
 
