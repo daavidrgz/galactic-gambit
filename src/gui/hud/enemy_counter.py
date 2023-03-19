@@ -1,7 +1,9 @@
-from constants.game_constants import DESIGN_HEIGHT
+from utils.observer import Observer
 from gui.hud.hud_element import HudElement
 from systems.resource_manager import Resource
-from utils.observer import Observer
+from systems.sound_controller import SoundController
+
+from constants.game_constants import DESIGN_HEIGHT
 
 
 class EnemyCounter(HudElement, Observer):
@@ -12,7 +14,6 @@ class EnemyCounter(HudElement, Observer):
     def setup(self, **kwargs):
         enemies = kwargs["enemies"]
         enemies.add_listener(self)
-        self.__update_counter(enemies)
 
     def draw(self, screen):
         screen.blit(self.counter, (20, DESIGN_HEIGHT - self.counter.get_height() - 40))
@@ -21,6 +22,7 @@ class EnemyCounter(HudElement, Observer):
         enemy_count = enemies.get_num_enemies()
         if enemy_count < 1:
             self.counter = self.font.render("Find the exit!", True, (255, 255, 255))
+            SoundController().play_sound(Resource.FINISH_LEVEL_SOUND)
             return
         
         self.counter = self.font.render(

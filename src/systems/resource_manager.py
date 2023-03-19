@@ -93,8 +93,10 @@ class Resource(Enum):
     LEVEL_UP_SOUND = ("sounds/player/level-up.mp3", 0.3)
     PLAYER_HIT_SOUND = ("sounds/player/player-hit.mp3", 0.25)
     PLAYER_DEATH_SOUND = ("sounds/player/player-death.mp3", 0.25)
-    PICKUP_SOUND_1 = ("sounds/pick-up-item.mp3", 0.4)
-    PICKUP_SOUND_2 = ("sounds/pick-up-item-alt.mp3", 0.4)
+
+    PICKUP_SOUND_1 = ("sounds/pick-up-item.mp3", 0.6)
+    PICKUP_SOUND_2 = ("sounds/pick-up-item-alt.mp3", 0.6)
+    FINISH_LEVEL_SOUND = ("sounds/finish_level.mp3", 0.8)
 
     # Alien sounds
     ALIEN_HIT_SOUND = ("sounds/alien/alien-hit.mp3", 0.25)
