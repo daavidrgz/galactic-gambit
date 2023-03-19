@@ -54,7 +54,7 @@ class HealthBar(HudElement, Observer):
             ),
         )
 
-        hp_text = self.font.render(f"{hp.get_hp()}", True, (255, 255, 255))
+        hp_text = self.font.render(f"{max(0, hp.get_hp())}", True, (255, 255, 255))
 
         self.bar.blit(
             hp_text,
