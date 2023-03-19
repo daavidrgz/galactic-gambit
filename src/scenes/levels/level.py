@@ -19,7 +19,7 @@ import pygame
 import numpy as np
 from itertools import chain
 
-from constants.game_constants import TILE_SIZE, BACKGROUND_DIMMING
+from constants.game_constants import TILE_SIZE, BACKGROUND_DIMMING, DESIGN_WIDTH, DESIGN_HEIGHT
 
 
 class Level(Scene):
@@ -51,7 +51,7 @@ class Level(Scene):
         self.enemy_group = EnemyGroup()
         self.enemy_bullets = ScrollableGroup()
 
-        self.background_parallax_rate = 0.3
+        self.background_parallax_rate = 0.2
         self.background_group = ParallaxGroup(
             (self.background_parallax_rate, self.background_parallax_rate)
         )
@@ -92,7 +92,7 @@ class Level(Scene):
         super().setup()
 
     def __setup_bg(self):
-        terrain_size = np.array((self.terrain.width, self.terrain.height))
+        terrain_size = np.array((self.terrain.width, self.terrain.height)) * TILE_SIZE
         middle_terrain_pos = terrain_size // 2
         background_image = self.resource_manager.load_image(self.background)
 
@@ -102,21 +102,26 @@ class Level(Scene):
 
         bg_width, bg_height = background_image.get_size()
         size_ratio = max(
-            terrain_size[0] * TILE_SIZE / bg_width,
-            terrain_size[1] * TILE_SIZE / bg_height,
+            (DESIGN_WIDTH + terrain_size[0] * self.background_parallax_rate) / bg_width,
+            (DESIGN_HEIGHT + terrain_size[1] * self.background_parallax_rate) / bg_height,
         )
+
+        bg_width *= size_ratio
+        bg_height *= size_ratio
         background_image = pygame.transform.scale(
-            background_image, (bg_width * size_ratio, bg_height * size_ratio)
+            background_image, (bg_width, bg_height)
         )
 
         # In order to simulate parallax background on the middle of the map,
-        # we must multiple the position with the parallax rate,
+        # we must multiply the position with the parallax rate,
         # so it seems to be 'centered' with the parallax 1.0
+        middle_terrain_pos = middle_terrain_pos * self.background_parallax_rate
         background_sprite = AnimatedSprite(
             background_image,
-            middle_terrain_pos * TILE_SIZE * self.background_parallax_rate,
+            middle_terrain_pos + np.array((DESIGN_WIDTH/2, DESIGN_HEIGHT/2)),
         )
         self.background_group.add(background_sprite)
+        print(background_image.get_size())
 
     def __spawn_chest_entity(self):
         rng = RngSystem().get_rng(Generator.MAP)

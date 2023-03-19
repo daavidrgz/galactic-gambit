@@ -50,6 +50,7 @@ class Director(metaclass=Singleton):
         while not self.__leave_scene:
             elapsed_time = self.clock.tick(TARGET_FRAMERATE)
             self.user_screen_size = pygame.display.get_window_size()
+
             # Intentional slowdown when under half the design framerate
             elapsed_time = min(2000 / DESIGN_FRAMERATE, elapsed_time)
 
