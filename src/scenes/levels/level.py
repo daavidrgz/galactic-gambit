@@ -121,7 +121,6 @@ class Level(Scene):
             middle_terrain_pos + np.array((DESIGN_WIDTH/2, DESIGN_HEIGHT/2)),
         )
         self.background_group.add(background_sprite)
-        print(background_image.get_size())
 
     def __spawn_chest_entity(self):
         rng = RngSystem().get_rng(Generator.MAP)
