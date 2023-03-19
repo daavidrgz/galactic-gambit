@@ -1,11 +1,9 @@
 from ai.base_ai import BaseAI, EnemyState
 from ai.algorithms import wander, find_path, search_player
 from systems.rng_system import RngSystem, Generator
+from utils.math import rotate_vector
 
 import numpy as np
-
-import utils.math
-from constants.game_constants import TILE_SIZE, ENEMY_TRACKING_ROTATION
 
 
 class MeleeAI(BaseAI):
@@ -55,7 +53,7 @@ class MeleeAI(BaseAI):
     def preparing(self, enemy, player, terrain, elapsed_time):
         # If we haven't decided a direction from which to attack
         if self.attack_from is None:
-            self.attack_from = utils.math.rotate_vector(
+            self.attack_from = rotate_vector(
                 np.array((self.melee_range, 0.0)), self.rng.random() * 360
             )
 

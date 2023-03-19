@@ -1,7 +1,7 @@
 from entities.entity import Entity
 from systems.rng_system import RngSystem, Generator
 from systems.resource_manager import Resource
-import utils.math
+from utils.math import rotate_vector
 
 import numpy as np
 from noise import pnoise1
@@ -27,7 +27,7 @@ class XpEntity(Entity):
         direction = np.array((player_x - self.x, player_y - self.y))
         distance = np.linalg.norm(direction)
         direction /= distance * 3
-        self.velocity = utils.math.rotate_vector(direction, 90.0 + 180.0 * rng.random())
+        self.velocity = rotate_vector(direction, 90.0 + 180.0 * rng.random())
 
     def update(self, elapsed_time):
         player_x, player_y = self.player.get_position()

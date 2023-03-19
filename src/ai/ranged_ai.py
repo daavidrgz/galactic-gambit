@@ -1,10 +1,10 @@
-import numpy as np
-
 from ai.base_ai import BaseAI, EnemyState
 from systems.rng_system import RngSystem, Generator
 from ai.algorithms import wander, find_path, search_player
+from utils.math import rotate_vector
 
-import utils.math
+import numpy as np
+
 from constants.game_constants import TILE_SIZE
 
 
@@ -67,13 +67,13 @@ class RangedAI(BaseAI):
         enemy_pos = np.array(enemy.get_position(), dtype=np.float64)
         ray = enemy_pos - objective_pos
         ray *= self.desired_distance / np.linalg.norm(ray)
-        attack_from = utils.math.rotate_vector(ray, self.angle_deviation)
+        attack_from = rotate_vector(ray, self.angle_deviation)
         for _ in range(360 // 15):
             if search_player(
                 objective_pos + attack_from, objective_pos, terrain, np.inf, 50
             ):
                 break
-            attack_from = utils.math.rotate_vector(attack_from, 15)
+            attack_from = rotate_vector(attack_from, 15)
 
         # Compute distance to player, if out of tracking range change to ALERT
         # and if in melee range change to ATTACK state

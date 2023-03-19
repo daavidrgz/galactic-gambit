@@ -1,7 +1,7 @@
 from entities.projectile.projectile import Projectile
 from systems.resource_manager import Resource, ResourceManager
 from animations.explosion_effect import ExplosionEffect
-import utils.math
+from utils.math import circle_rect_collision
 
 import pygame
 
@@ -36,7 +36,7 @@ class EnemyBullet(Projectile):
         super().update(elapsed_time)
 
         # Player collision
-        if utils.math.circle_rect_collision(
+        if circle_rect_collision(
             (self.x, self.y, 4), self.level.player.rect
         ):
             self.level.player.hit(self.damage, self.get_direction() * self.knockback)

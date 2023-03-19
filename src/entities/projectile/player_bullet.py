@@ -1,7 +1,7 @@
 from animations.explosion_effect import ExplosionEffect
 from entities.projectile.projectile import Projectile
 from systems.resource_manager import Resource, ResourceManager
-import utils.math
+from utils.math import circle_rect_collision
 
 
 class PlayerBullet(Projectile):
@@ -41,7 +41,7 @@ class PlayerBullet(Projectile):
 
         # Enemy collision
         for enemy in self.level.enemy_group:
-            if utils.math.circle_rect_collision((self.x, self.y, self.size), enemy.rect):
+            if circle_rect_collision((self.x, self.y, self.size), enemy.rect):
                 enemy.hit(self.damage, self.get_direction() * self.knockback)
                 self.kill()
                 break

@@ -2,10 +2,9 @@ from entities.entity import Entity
 from entities.misc.upgrade_entity import UpgradeEntity
 from systems.sound_controller import SoundController
 from systems.resource_manager import Resource, ResourceManager
-import utils.math
+from utils.math import circle_rect_collision
 
 import pygame
-import numpy as np
 
 
 class ChestEntity(Entity):
@@ -25,7 +24,7 @@ class ChestEntity(Entity):
             return
 
         for bullet in self.level.player_bullets:
-            if utils.math.circle_rect_collision((bullet.x, bullet.y, bullet.size), self.rect):
+            if circle_rect_collision((bullet.x, bullet.y, bullet.size), self.rect):
                 bullet.kill()
                 self.do_open()
 

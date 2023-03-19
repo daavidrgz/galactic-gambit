@@ -1,15 +1,15 @@
 from generation.tile import Tile
 from systems.camera_manager import CameraManager
 from utils.observer import Observer
-import utils.math
-import utils.misc
+from utils.math import circle_rect_collision_vector
+from utils.misc import add_border
+
+import pygame
+import numpy as np
+from enum import IntEnum
 
 from constants.game_constants import TILE_SIZE
 from constants.gui_constants import MINIMAP_SIZE
-
-from enum import IntEnum
-import numpy as np
-import pygame
 
 
 class TerrainType(IntEnum):
@@ -68,8 +68,8 @@ class BaseTerrain(Observer):
         self.minimap = pygame.transform.smoothscale(
             self.buffer, (MINIMAP_SIZE, MINIMAP_SIZE)
         )
-        utils.misc.add_border(self.minimap, (0, 0, 0, 255))
-        utils.misc.add_border(self.minimap, (255, 255, 255, 255))
+        add_border(self.minimap, (0, 0, 0, 255))
+        add_border(self.minimap, (255, 255, 255, 255))
 
     def get_minimap(self):
         return self.minimap
@@ -116,7 +116,7 @@ class BaseTerrain(Observer):
                 if self.data[y, x] == TerrainType.GROUND:
                     continue
                 r = pygame.Rect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE)
-                pos += utils.math.circle_rect_collision_vector(
+                pos += circle_rect_collision_vector(
                     (pos[0], pos[1], distance), r
                 )
         return pos

@@ -1,5 +1,5 @@
 from systems.resource_manager import Resource
-import utils.math
+from utils.math import rotate_vector, square_norm, rotate_vector_rad
 
 import math
 import numpy as np
@@ -51,7 +51,7 @@ class SerpentStrike(MagicUpgrade):
             2 * np.pi * self.state / self.period + self.phase
         )
 
-        bullet.velocity = utils.math.rotate_vector(
+        bullet.velocity = rotate_vector(
             bullet.velocity, modify_vector_module
         )
 
@@ -214,7 +214,7 @@ class ViciousAim(MagicUpgrade):
                 to_remove.append(i)
                 continue
 
-            distance = utils.math.square_norm(np.array(enemy.get_position()) - from_pos)
+            distance = square_norm(np.array(enemy.get_position()) - from_pos)
             if distance < min_distance:
                 min_distance = distance
                 target = enemy
@@ -232,7 +232,7 @@ class ViciousAim(MagicUpgrade):
             return
 
         angle = np.arctan2(bullet.velocity[1], bullet.velocity[0])
-        diff_vector = utils.math.rotate_vector_rad(
+        diff_vector = rotate_vector_rad(
             np.array(target.get_position()) - np.array(bullet.get_position()), -angle
         )
         angle = np.arctan2(diff_vector[1], diff_vector[0])
@@ -245,7 +245,7 @@ class ViciousAim(MagicUpgrade):
         if abs(angle) > 0.1 * elapsed_units:
             angle = np.sign(angle) * 0.1 * elapsed_units
 
-        bullet.velocity = utils.math.rotate_vector_rad(bullet.velocity, angle)
+        bullet.velocity = rotate_vector_rad(bullet.velocity, angle)
 
     def setup(self, bullet, level):
         bullet.velocity *= 0.75
@@ -254,7 +254,7 @@ class ViciousAim(MagicUpgrade):
         self.target = None
 
         def enemy_distance(enemy):
-            return utils.math.square_norm(np.array(enemy.get_position()) - from_pos)
+            return square_norm(np.array(enemy.get_position()) - from_pos)
 
         self.targets = heapq.nsmallest(5, level.enemy_group, enemy_distance)
 

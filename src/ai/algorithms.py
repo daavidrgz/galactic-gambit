@@ -1,4 +1,5 @@
-import utils.math
+from utils.math import square_norm, rotate_vector
+
 import numpy as np
 
 from constants.game_constants import TILE_SIZE, ENEMY_TRACKING_ROTATION
@@ -18,7 +19,7 @@ def find_path(current_position, diff_vector, distance, previous_direction, terra
 
     if check_path(terrain, current_position, previous_direction):
         while (
-            utils.math.square_norm(previous_direction - player_direction)
+            square_norm(previous_direction - player_direction)
             > TILE_SIZE**2
         ):
             next_direction = (previous_direction + player_direction) / 2
@@ -29,7 +30,7 @@ def find_path(current_position, diff_vector, distance, previous_direction, terra
                 break
     else:
         for i in range(360 // ENEMY_TRACKING_ROTATION):
-            previous_direction = utils.math.rotate_vector(
+            previous_direction = rotate_vector(
                 previous_direction,
                 i * ENEMY_TRACKING_ROTATION * (1 - 2 * (i & 1)),
             )
@@ -70,7 +71,7 @@ def wander(
 
     if wander_timer <= 0:
         sigma = rng.random() * 360
-        direction = utils.math.rotate_vector(np.array((TILE_SIZE / 2, 0.0)), sigma)
+        direction = rotate_vector(np.array((TILE_SIZE / 2, 0.0)), sigma)
         for i in range(rng.randint(1, 20)):
             current_position += direction
             if not terrain.on_ground_point(current_position):
