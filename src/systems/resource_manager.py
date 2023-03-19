@@ -160,6 +160,7 @@ class Resource(Enum):
     CAVE_LEVEL_MUSIC = ("music/cave_music.mp3", 0.9)
     WIN_MUSIC = ("music/win_music.mp3", 0.9)
     GAME_OVER_MUSIC = ("music/game_over_music.mp3", 0.9)
+    STORY_MUSIC = ("music/story_music.mp3", 0.9)
 
     # Fonts
     FONT_SM = ("fonts/GalacticaGrid.ttf", 10)

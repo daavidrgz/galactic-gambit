@@ -68,8 +68,8 @@ class CycleSounds:
 
 
 class SoundController(metaclass=Singleton):
-    music_volume = 100
-    effects_volume = 100
+    music_volume = 50
+    effects_volume = 80
     relative_volume = 1
     volume_step = 1
 
