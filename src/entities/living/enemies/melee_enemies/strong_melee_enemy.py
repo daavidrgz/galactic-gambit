@@ -16,7 +16,7 @@ class StrongMeleeEnemy(BaseMeleeEnemy):
         self.damage = 3
         self.knockback = 15
         self.projectile_speed = 5
-        self.attack_lifetime = 100
+        self.attack_lifetime = 150
         self.reload_speed = 40
 
         self.walk_right = Resource.MELEE3_WALK_RIGHT
@@ -28,7 +28,7 @@ class StrongMeleeEnemy(BaseMeleeEnemy):
         self.dead_right = Resource.MELEE3_DEAD_RIGHT
         self.dead_left = Resource.MELEE3_DEAD_LEFT
 
-        self.attack_image = Resource.LASER
+        self.attack_image = Resource.STRONG_ENEMY_STRIKE
 
         super().__init__(
             self.hp, initial_pos, self.idle_right, self.ai, self.drag, self.speed

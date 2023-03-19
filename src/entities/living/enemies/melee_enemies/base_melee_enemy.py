@@ -1,4 +1,5 @@
 import numpy as np
+from systems.resource_manager import Resource
 from entities.living.enemies.base_enemy import BaseEnemy
 from entities.projectile.enemy_strike import EnemyStrike
 
@@ -25,7 +26,9 @@ class BaseMeleeEnemy(BaseEnemy):
         new_projectile = EnemyStrike(
             self.attack_image, position, self.projectile_speed, direction, self.damage, self.knockback, self.attack_lifetime
         )
+
         self.level.spawn_enemy_bullet(new_projectile)
+        self.sound_controller.play_sound(Resource.ALIEN_STRIKE)
 
     def update_animation(self):
         alpha = np.arctan2(self.facing_vector[1], self.facing_vector[0])
