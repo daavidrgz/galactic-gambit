@@ -12,7 +12,7 @@ from scenes.director import Director
 def run():
     pygame.init()
 
-    initial_scene = Transition(CaveLevel())
+    initial_scene = Transition(StartMenu())
     director = Director.get_instance()
     director.push_scene(initial_scene)
     director.run()

@@ -1,16 +1,19 @@
 from animations.animated_sprite import AnimatedSprite
+from entities.misc.chest_entity import ChestEntity
 from entities.living.player.player import Player
-from gui.hud.hud import Hud
 from mechanics.magic.magic_upgrade_system import MagicUpgradeSystem
 from mechanics.technology.tech_upgrade_system import TechUpgradeSystem
 from scenes.levels.groups import EnemyGroup, ParallaxGroup, ScrollableGroup
 from scenes.menus.game_over_menu import GameOverMenu
-from scenes.menus.pause_menu import PauseMenu
 from scenes.menus.upgrade_menu import UpgradeMenu
-from scenes.scene import Scene
+from scenes.menus.pause_menu import PauseMenu
 from scenes.transition import Transition
+from scenes.scene import Scene
 from systems.camera_manager import CameraManager
+from systems.rng_system import Generator, RngSystem
 from generation.enemy_spawning import spawn_enemies
+from utils.math import manhattan_norm
+from gui.hud.hud import Hud
 
 import pygame
 import numpy as np
@@ -54,7 +57,7 @@ class Level(Scene):
         )
 
         self.misc_entities = ScrollableGroup()
-        self.draw_living = ScrollableGroup()
+        self.draw_ordered = ScrollableGroup()
 
         self.hud = Hud()
         self.scene_music = scene_music
@@ -62,6 +65,15 @@ class Level(Scene):
 
     def load(self):
         self.generator.generate()
+        self.__spawn_chest_entity()
+
+        self.hud.setup(self)
+
+        spawn_enemies(self, self.terrain, self.possible_enemy_spawns, self.enemy_spawn_level)
+
+        if self.background:
+            self.__setup_bg()
+
         super().load()
 
     def setup(self):
@@ -75,14 +87,7 @@ class Level(Scene):
             on_death=self.__player_death,
         )
 
-        if self.background:
-            self.__setup_bg()
-
-        self.hud.setup(self)
-
         self.enemy_group.add_listener(self.terrain)
-
-        spawn_enemies(self, self.terrain, self.possible_enemy_spawns, self.enemy_spawn_level)
 
         super().setup()
 
@@ -112,6 +117,33 @@ class Level(Scene):
             middle_terrain_pos * TILE_SIZE * self.background_parallax_rate,
         )
         self.background_group.add(background_sprite)
+
+    def __spawn_chest_entity(self):
+        rng = RngSystem().get_rng(Generator.MAP)
+        sx, sy = self.terrain.get_player_starting_position()
+        sx //= TILE_SIZE
+        sy //= TILE_SIZE
+
+        ex, ey = self.terrain.get_end_position()
+        ex //= TILE_SIZE
+        ey //= TILE_SIZE
+
+        min_distance = 100
+        while True:
+            x = rng.randrange(self.terrain.width) 
+            y = rng.randrange(self.terrain.height)
+
+            if not self.terrain.on_ground_area((range(x, x+2), range(y, y+2))):
+                continue
+
+            if min(manhattan_norm((x-sx, y-sy)), manhattan_norm((x-ex, y-ey))) < min_distance:
+                min_distance -= 1
+                continue
+            
+            break
+
+        self.chest_position = (x * TILE_SIZE, y * TILE_SIZE)
+        self.spawn_misc_entity(ChestEntity(self.chest_position))
 
     def __player_death(self):
         self.game_model.delete_save()
@@ -180,21 +212,20 @@ class Level(Scene):
         self.background_group.draw(screen)
         self.terrain.draw(screen)
 
-        self.__draw_living(screen)
+        self.__draw_ordered(screen)
 
-        self.misc_entities.draw(screen)
         self.player_bullets.draw(screen)
         self.enemy_bullets.draw(screen)
         self.animation_group.draw(screen)
         self.hud.draw(screen)
 
-    def __draw_living(self, screen):
-        self.draw_living.empty()
-        self.draw_living.add(sorted(
-            chain(self.player_group, self.enemy_group),
-            key=lambda a: a.y,
+    def __draw_ordered(self, screen):
+        self.draw_ordered.empty()
+        self.draw_ordered.add(sorted(
+            chain(self.player_group, self.enemy_group, self.misc_entities),
+            key=lambda a: a.rect.bottom,
         ))
-        self.draw_living.draw(screen)
+        self.draw_ordered.draw(screen)
 
     def pop_back(self):
         super().pop_back()

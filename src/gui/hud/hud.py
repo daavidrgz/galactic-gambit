@@ -19,6 +19,7 @@ class Hud:
             map_buffer=level.get_terrain().get_minimap(),
             terrain_size=level.get_terrain().get_size(),
             player=level.get_player(),
+            chest_position=level.chest_position
         )
         self.health_bar.setup(hp=level.get_player().hp)
         self.enemy_counter.setup(enemies=level.enemy_group)

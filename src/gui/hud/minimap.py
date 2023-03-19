@@ -1,5 +1,6 @@
 from utils.observer import Observer
 from gui.hud.hud_element import HudElement
+from systems.resource_manager import Resource, ResourceManager
 
 import pygame
 
@@ -15,12 +16,22 @@ class Minimap(HudElement, Observer):
         self.player_marker.fill((0, 255, 0))
         self.enemy_marker = pygame.Surface((3, 3))
         self.enemy_marker.fill((255, 0, 0))
+        self.chest_marker = ResourceManager().load_image(Resource.CHEST_MINI)
+        self.chest_marker = pygame.transform.scale(self.chest_marker, [x*2 for x in self.chest_marker.get_size()])
 
         self.enemy_positions = dict()
 
     def setup(self, **kwargs):
         self.map_buffer = kwargs["map_buffer"]
+
         self.terrain_size = kwargs["terrain_size"]
+        self.scaling_factor = (
+            MINIMAP_SIZE / (TILE_SIZE * self.terrain_size[0]),
+            MINIMAP_SIZE / (TILE_SIZE * self.terrain_size[1]),
+        )
+
+        self.chest_position_x = kwargs["chest_position"][0] * self.scaling_factor[0]
+        self.chest_position_y = kwargs["chest_position"][1] * self.scaling_factor[1]
 
         player = kwargs["player"]
         self.player_id = player.get_id()
@@ -35,10 +46,11 @@ class Minimap(HudElement, Observer):
         start_y = h - MINIMAP_SIZE
         screen.blit(self.map_buffer, (start_x, start_y, w, h))
 
-        self.draw_player(screen, start_x, start_y)
-
         for id in self.enemy_positions:
             self.draw_enemy(screen, id, start_x, start_y)
+
+        self.draw_chest(screen, start_x, start_y)
+        self.draw_player(screen, start_x, start_y)
 
     def draw_player(self, screen, start_x, start_y):
         screen.blit(
@@ -67,9 +79,18 @@ class Minimap(HudElement, Observer):
             ),
         )
 
+    def draw_chest(self, screen, start_x, start_y):
+        screen.blit(
+            self.chest_marker,
+            (
+                start_x + self.chest_position_x - 3,
+                start_y + self.chest_position_y - 3,
+            ),
+        )
+
     def set_entity_pos(self, id, position):
-        x = position[0] * MINIMAP_SIZE // (TILE_SIZE * self.terrain_size[0])
-        y = position[1] * MINIMAP_SIZE // (TILE_SIZE * self.terrain_size[1])
+        x = position[0] * self.scaling_factor[0]
+        y = position[1] * self.scaling_factor[1]
 
         if id == self.player_id:
             self.player_x = x

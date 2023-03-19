@@ -16,6 +16,11 @@ class Resource(Enum):
     LASER_ENEMY = "sprites/laser/35.png"
     PLAYER_PROJECTILE = "sprites/player/laser-shot.png"
 
+    # Chest
+    CHEST = "sprites/chest/chest.png"
+    CHEST_OPEN = "sprites/chest/chest_open.png"
+    CHEST_MINI = "sprites/chest/chest_mini.png"
+
     # Backgrounds
     PLANETS_BG = "sprites/backgrounds/planets-bg.png"
     PURPLE_SPACE_BG = "sprites/backgrounds/purple-space-bg.png"

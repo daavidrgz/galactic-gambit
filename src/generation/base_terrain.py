@@ -99,6 +99,12 @@ class BaseTerrain(Observer):
     
     def on_ground_tile(self, tile):
         return self.in_bounds(tile[0], tile[1]) and self.data[tile[1], tile[0]] == TerrainType.GROUND
+    
+    def on_ground_area(self, tiles):
+        try:
+            return (self.data[tiles[1], tiles[0]] == TerrainType.GROUND).all()
+        except Exception:
+            return False
 
     def get_collision_vector(self, point, distance):
         tile_pos_x, tile_pos_y = Tile.tile_to_logical_position(point)

@@ -1,6 +1,5 @@
 from entities.projectile.projectile import Projectile
-from systems.resource_manager import Resource, ResourceManager
-from animations.explosion_effect import ExplosionEffect
+from systems.resource_manager import ResourceManager
 
 
 class EnemyStrike(Projectile):

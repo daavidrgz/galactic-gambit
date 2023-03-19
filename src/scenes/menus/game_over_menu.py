@@ -49,7 +49,7 @@ class GameOverMenu(VerticalMenu):
 
     def setup(self):
         self.title = Title(
-            text="Game Over...",
+            text="Game Over",
             font=self.resource_manager.load_font(Resource.FONT_XL),
             color=COLOR_BRIGHT,
             position=(DESIGN_WIDTH / 2, 150),

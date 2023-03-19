@@ -18,6 +18,7 @@ class PlayerBullet(Projectile):
         self.resource_manager = ResourceManager.get_instance()
         image = self.resource_manager.load_image(Resource.PLAYER_PROJECTILE)
         self.upgrades = upgrades
+        self.size = 4
         super().__init__(
             image, initial_pos, speed, direction, damage, knockback, lifetime
         )
@@ -40,7 +41,7 @@ class PlayerBullet(Projectile):
 
         # Enemy collision
         for enemy in self.level.enemy_group:
-            if utils.math.circle_rect_collision((self.x, self.y, 4), enemy.rect):
+            if utils.math.circle_rect_collision((self.x, self.y, self.size), enemy.rect):
                 enemy.hit(self.damage, self.get_direction() * self.knockback)
                 self.kill()
                 break
