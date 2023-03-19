@@ -24,7 +24,6 @@ class TitansMight(MagicUpgrade):
         previous_size = np.array(previous_image.get_size())
         # scale the image
         bullet.image = pygame.transform.scale(previous_image, previous_size * 1.3)
-        bullet.image_rect = bullet.image.get_rect()
         bullet.rect = bullet.image.get_rect()
         bullet.rect.center = bullet.x, bullet.y
 
@@ -82,7 +81,6 @@ class WaveformCannon(MagicUpgrade):
         previous_size = np.array(previous_image.get_size())
         scaled_img = pygame.transform.scale(previous_image, previous_size * scale)
         bullet.image = scaled_img
-        bullet.image_rect = scaled_img.get_rect()
         bullet.rect = scaled_img.get_rect()
         bullet.rect.center = bullet.x, bullet.y
 

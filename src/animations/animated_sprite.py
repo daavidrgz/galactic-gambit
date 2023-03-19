@@ -51,8 +51,7 @@ class AnimatedSprite(pygame.sprite.Sprite):
         self.current_frame = self.frames[next_frame_idx]
         current_frame_image = self.current_frame.get_image()
         # Reset rect every frame, so modifications applied to the sprite does not affect the original rect
-        self.image_rect = current_frame_image.get_rect()
-        self.rect = self.image_rect
+        self.rect = current_frame_image.get_rect()
         self.rect.center = (self.x, self.y)
 
         # Use a buffer image to blit current frame, and do not use self.image directly, because
@@ -62,9 +61,6 @@ class AnimatedSprite(pygame.sprite.Sprite):
         self.__buffer_image.blit(current_frame_image, (0, 0))
         self.image = self.__buffer_image
         self.__apply_image_modifiers()
-        # TODO: image size might change after applying modifiers,
-        # using this should work?
-        # self.image_rect = self.image.get_rect()
 
     def add_image_modifier(self, modifier):
         self.modifiers.append(modifier)
@@ -90,8 +86,7 @@ class AnimatedSprite(pygame.sprite.Sprite):
         self.current_frame = self.frames[0]
         self.__buffer_image.blit(self.current_frame.get_image(), (0, 0))
         self.image = self.__buffer_image
-        self.image_rect = self.__buffer_image.get_rect()
-        self.rect = self.image_rect
+        self.rect = self.__buffer_image.get_rect()
         self.rect.center = (self.x, self.y)
         self.total_elapsed_time = 0
 

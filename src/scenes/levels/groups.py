@@ -21,7 +21,7 @@ class ScrollableGroup(pygame.sprite.Group):
         sprites = self.sprites()
 
         def calculate_rect(entity):
-            copy = entity.image_rect.copy()
+            copy = entity.rect.copy()
             copy.centerx = round(entity.x) - round(scrollx * self.parallax_x)
             copy.centery = round(entity.y) - round(scrolly * self.parallax_y)
             return copy
