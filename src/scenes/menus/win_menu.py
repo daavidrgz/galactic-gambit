@@ -75,6 +75,7 @@ class WinMenu(VerticalMenu):
         ]
 
     def __main_menu(self):
+        self.game_model.delete_save()
         RngSystem().new_seed()
         self.director.pop_scene()
 
