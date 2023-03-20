@@ -24,7 +24,7 @@ class ChestEntity(Entity):
             return
 
         for bullet in self.level.player_bullets:
-            if circle_rect_collision((bullet.x, bullet.y, bullet.size), self.rect):
+            if circle_rect_collision((bullet.position[0], bullet.position[1], bullet.size), self.rect):
                 bullet.kill()
                 self.do_open()
 
@@ -40,4 +40,4 @@ class ChestEntity(Entity):
         sound.play_sound(Resource.CHEST_OPEN_SOUND)
         sound.play_sound(Resource.ALIEN_HIT_SOUND)
         
-        self.level.spawn_misc_entity(UpgradeEntity((self.x, self.y)))
+        self.level.spawn_misc_entity(UpgradeEntity(self.position))

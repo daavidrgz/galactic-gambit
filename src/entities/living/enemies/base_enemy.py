@@ -41,7 +41,7 @@ class BaseEnemy(LivingEntity):
         super().on_death()
         self.kill()
         for _ in range(3):
-            self.level.spawn_misc_entity(XpEntity((self.x, self.y), 10))
+            self.level.spawn_misc_entity(XpEntity(self.position, 10))
 
     def on_death(self):
         self.death_timer = 30
@@ -109,7 +109,7 @@ class BaseEnemy(LivingEntity):
 
     def __update_movement(self, elapsed_units):
         if self.targeting:
-            move_vector = self.target - np.array(self.get_position(), dtype=np.float64)
+            move_vector = self.target - self.position
         else:
             move_vector = np.zeros(2)
 

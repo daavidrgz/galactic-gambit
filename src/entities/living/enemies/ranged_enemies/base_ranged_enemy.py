@@ -18,11 +18,11 @@ class BaseRangedEnemy(BaseEnemy):
         
         super().trigger_attack()
 
-        direction = np.array(self.player.get_position()) - np.array(self.get_position())
+        direction = self.player.position - self.position
         direction /= np.linalg.norm(direction)
         new_projectile = EnemyBullet(
             self.attack_image,
-            self.get_position(),
+            self.position,
             self.projectile_speed,
             direction,
             self.damage,

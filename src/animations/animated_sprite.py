@@ -1,8 +1,6 @@
-import copy
-
-import numpy as np
 from animations.animation_frame import AnimationFrame
 from systems.resource_manager import ResourceManager, Resource
+from utils.math import tvector2
 
 import pygame
 
@@ -11,7 +9,7 @@ class AnimatedSprite(pygame.sprite.Sprite):
     def __init__(self, frames, initial_pos):
         self.resource_manager = ResourceManager.get_instance()
         self.speed_multiplier = 1.0
-        self.x, self.y = initial_pos
+        self.position = tvector2(initial_pos)
         self.modifiers = []
 
         if isinstance(frames, Resource):
@@ -111,5 +109,5 @@ class AnimatedSprite(pygame.sprite.Sprite):
 
     @property
     def rect(self):
-        self._rect.centerx, self._rect.centery = self.x, self.y
+        self._rect.centerx, self._rect.centery = self.position
         return self._rect

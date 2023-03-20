@@ -20,6 +20,6 @@ class AlertEntity(Entity):
             self.kill()
             return
 
-        self.move((0, -0.15 * elapsed_time))
+        self.position -= (0, 0.15 * elapsed_time)
 
         super().update(elapsed_time)

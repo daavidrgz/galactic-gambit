@@ -22,8 +22,8 @@ class ScrollableGroup(pygame.sprite.Group):
 
         def calculate_rect(entity):
             copy = entity.rect.copy()
-            copy.centerx = round(entity.x) - round(scrollx * self.parallax_x)
-            copy.centery = round(entity.y) - round(scrolly * self.parallax_y)
+            copy.centerx = round(entity.position[0]) - round(scrollx * self.parallax_x)
+            copy.centery = round(entity.position[1]) - round(scrolly * self.parallax_y)
             return copy
 
         if hasattr(surface, "blits"):
@@ -37,8 +37,8 @@ class ScrollableGroup(pygame.sprite.Group):
                     surface.blits(
                         (spr.image, calculate_rect(spr))
                         for spr in sprites
-                        if abs(spr.x - (scrollx + half_width)) < width_clip
-                        and abs(spr.y - (scrolly + half_height)) < height_clip
+                        if abs(spr.position[0] - (scrollx + half_width)) < width_clip
+                        and abs(spr.position[1] - (scrolly + half_height)) < height_clip
                     )
                     if self.cull
                     else surface.blits(

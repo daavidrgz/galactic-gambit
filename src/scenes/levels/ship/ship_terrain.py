@@ -1,10 +1,11 @@
-import numpy as np
 from constants.game_constants import TILE_SIZE
 from generation.base_terrain import BaseTerrain, TerrainType
 from systems.rng_system import Generator, RngSystem
 from systems.resource_manager import Resource, ResourceManager
+from utils.math import vector2
 
 import pygame
+import numpy as np
 
 
 class ShipTerrain(BaseTerrain):
@@ -47,7 +48,7 @@ class ShipTerrain(BaseTerrain):
         self.data[base_y - 2, base_x + 2 : base_x + 5] = TerrainType.NONE
 
         self.starting_tiles = [(base_x + x, base_y - 1) for x in range(2, 5)]
-        self.player_starting_position = (
+        self.player_starting_position = vector2(
             TILE_SIZE * (base_x + 3.5),
             TILE_SIZE * (base_y + 2.5),
         )
@@ -70,7 +71,7 @@ class ShipTerrain(BaseTerrain):
         # Add floor to stand on
         self.data[base_y:end_y, base_x:end_x] = TerrainType.GROUND
 
-        self.end_position = (
+        self.end_position = vector2(
             (base_x + 2.5) * TILE_SIZE,
             (base_y + 1.5) * TILE_SIZE,
         )

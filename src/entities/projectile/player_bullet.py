@@ -24,7 +24,7 @@ class PlayerBullet(Projectile):
         )
 
     def collide(self, add_animation_func):
-        add_animation_func(ExplosionEffect(self.get_position()))
+        add_animation_func(ExplosionEffect(self.position))
         super().collide(add_animation_func)
 
     def setup(self, level):
@@ -41,7 +41,7 @@ class PlayerBullet(Projectile):
 
         # Enemy collision
         for enemy in self.level.enemy_group:
-            if circle_rect_collision((self.x, self.y, self.size), enemy.rect):
+            if circle_rect_collision((self.position[0], self.position[1], self.size), enemy.rect):
                 enemy.hit(self.damage, self.get_direction() * self.knockback)
                 self.kill()
                 break

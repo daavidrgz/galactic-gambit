@@ -27,8 +27,8 @@ class MeleeAI(BaseAI):
     def idle(self, enemy, player, terrain, elapsed_time):
         # Compute distance to player, if the player is in vision range
         # and there's direct line of sight change to PREPARING state
-        player_pos = np.array(player.get_position(), dtype=np.float64)
-        enemy_pos = np.array(enemy.get_position(), dtype=np.float64)
+        player_pos = player.position
+        enemy_pos = enemy.position
 
         if search_player(enemy_pos, player_pos, terrain, self.vision_range):
             self.state = EnemyState.PREPARING
@@ -59,10 +59,8 @@ class MeleeAI(BaseAI):
 
         # Compute distance to player, if out of tracking range change to ALERT
         # and if in melee range change to ATTACK state
-        player_pos = (
-            np.array(player.get_position(), dtype=np.float64) + self.attack_from
-        )
-        enemy_pos = np.array(enemy.get_position(), dtype=np.float64)
+        player_pos = player.position + self.attack_from
+        enemy_pos = enemy.position
 
         diff_vector = player_pos - enemy_pos
 
@@ -83,8 +81,8 @@ class MeleeAI(BaseAI):
     def attack(self, enemy, player, terrain, elapsed_time):
         # Compute distance to player, if in attack range attack
         # else change back to PREPARING state
-        player_pos = np.array(player.get_position(), dtype=np.float64)
-        enemy_pos = np.array(enemy.get_position(), dtype=np.float64)
+        player_pos = player.position
+        enemy_pos = enemy.position
 
         diff_vector = player_pos - enemy_pos
 
@@ -104,8 +102,8 @@ class MeleeAI(BaseAI):
     def alert(self, enemy, player, terrain, elapsed_time):
         # Compute distance to player, if in tracking range change
         # to PREPARING state
-        player_pos = np.array(player.get_position(), dtype=np.float64)
-        enemy_pos = np.array(enemy.get_position(), dtype=np.float64)
+        player_pos = player.position
+        enemy_pos = enemy.position
 
         diff_vector = player_pos - enemy_pos
 

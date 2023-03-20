@@ -35,8 +35,8 @@ class RangedAI(BaseAI):
     def idle(self, enemy, player, terrain, elapsed_time):
         # Compute distance to player, if the player is in vision range
         # and there's direct line of sight change to PREPARING state
-        player_pos = np.array(player.get_position(), dtype=np.float64)
-        enemy_pos = np.array(enemy.get_position(), dtype=np.float64)
+        player_pos = player.position
+        enemy_pos = enemy.position
 
         if search_player(enemy_pos, player_pos, terrain, self.vision_range):
             self.state = EnemyState.PREPARING
@@ -63,8 +63,8 @@ class RangedAI(BaseAI):
         if self.angle_deviation is None:
             self.angle_deviation = self.rng.random() * 30 - 15
 
-        objective_pos = np.array(player.get_position(), dtype=np.float64)
-        enemy_pos = np.array(enemy.get_position(), dtype=np.float64)
+        objective_pos = player.position.copy()
+        enemy_pos = enemy.position
         ray = enemy_pos - objective_pos
         ray *= self.desired_distance / np.linalg.norm(ray)
         attack_from = rotate_vector(ray, self.angle_deviation)
@@ -103,8 +103,8 @@ class RangedAI(BaseAI):
         # If no line of sight PREPARING
         # Compute distance to player, if in attack range attack
         # else change back to PREPARING state
-        player_pos = np.array(player.get_position(), dtype=np.float64)
-        enemy_pos = np.array(enemy.get_position(), dtype=np.float64)
+        player_pos = player.position
+        enemy_pos =enemy.position
 
         diff_vector = player_pos - enemy_pos
 
@@ -128,8 +128,8 @@ class RangedAI(BaseAI):
     def alert(self, enemy, player, terrain, elapsed_time):
         # Compute distance to player, if in tracking range change
         # to PREPARING state
-        player_pos = np.array(player.get_position(), dtype=np.float64)
-        enemy_pos = np.array(enemy.get_position(), dtype=np.float64)
+        player_pos = player.position
+        enemy_pos = enemy.position
 
         diff_vector = player_pos - enemy_pos
 

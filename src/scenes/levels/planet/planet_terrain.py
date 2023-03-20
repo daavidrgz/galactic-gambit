@@ -1,9 +1,10 @@
-import numpy as np
 from constants.game_constants import TILE_SIZE
 from generation.base_terrain import BaseTerrain, TerrainType
 from systems.resource_manager import Resource, ResourceManager
+from utils.math import vector2
 
 import pygame
+import numpy as np
 
 
 class PlanetTerrain(BaseTerrain):
@@ -42,7 +43,7 @@ class PlanetTerrain(BaseTerrain):
             self.data[y, x] = TerrainType.WALL
         self.place_start_sprite(81, 82)
 
-        self.player_starting_position = (TILE_SIZE * 85.5, TILE_SIZE * 85.5)
+        self.player_starting_position = vector2(TILE_SIZE * 85.5, TILE_SIZE * 85.5)
 
     def place_end(self, end_pos):
         # Ensure the end doesn't go out of bounds
@@ -65,7 +66,7 @@ class PlanetTerrain(BaseTerrain):
         self.end_sprite_pos = (end_pos[0] - 2, end_pos[1] - 2)
         self.place_end_sprite()
 
-        self.end_position = (
+        self.end_position = vector2(
             (end_pos[0] + 0.5) * TILE_SIZE,
             (end_pos[1] + 0.5) * TILE_SIZE,
         )

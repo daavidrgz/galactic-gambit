@@ -31,7 +31,7 @@ class LivingEntity(KinematicEntity):
         self.hp.setup(self.on_death)
         self.hit_sound = hit_sound
         self.death_sound = death_sound
-        self.observable_pos.update((self.x, self.y))
+        self.observable_pos.update(self.position)
         super().setup(level)
 
     def update(self, elapsed_time):
@@ -44,7 +44,7 @@ class LivingEntity(KinematicEntity):
         super().update(elapsed_time)
 
         if np.linalg.norm(self.velocity) > 0:
-            self.observable_pos.update((self.x, self.y))
+            self.observable_pos.update(self.position)
 
     def hit(self, damage, knockback=None):
         if self.was_hit:

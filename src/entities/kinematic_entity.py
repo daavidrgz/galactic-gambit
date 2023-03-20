@@ -1,4 +1,5 @@
 from entities.entity import Entity
+from utils.math import vector2
 
 import numpy as np
 
@@ -21,14 +22,9 @@ class KinematicEntity(Entity):
 
         self.velocity -= self.drag * elapsed_units * self.velocity
 
-        final_position = np.array(
-            [
-                self.x + self.velocity[0] * elapsed_units + self.collision[0],
-                self.y + self.velocity[1] * elapsed_units + self.collision[1],
-            ],
-            dtype=np.float64,
-        )
+        collision_offset = vector2(self.collision[0], self.collision[1])
+        final_position = self.position + self.velocity * elapsed_units + collision_offset
         pos = self.terrain.get_collision_vector(final_position, self.collision[2])
-        self.set_position((pos[0] - self.collision[0], pos[1] - self.collision[1]))
+        self.position = pos - collision_offset
 
         super().update(elapsed_time)

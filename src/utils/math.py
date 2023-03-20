@@ -1,7 +1,10 @@
 import numpy as np
 
 def vector2(x, y):
-    return np.array((x, y))
+    return np.array((x, y), dtype=np.float64)
+
+def tvector2(tuple):
+    return np.array(tuple, dtype=np.float64)
 
 
 def square_norm(v):

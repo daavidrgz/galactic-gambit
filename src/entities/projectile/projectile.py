@@ -44,10 +44,10 @@ class Projectile(Entity):
         elapsed_units = elapsed_time * DESIGN_FRAMERATE / 1000
 
         self.set_facing(np.rad2deg(np.arctan2(-self.velocity[1], self.velocity[0])))
-        self.move(self.velocity * elapsed_units)
+        self.position += self.velocity * elapsed_units
 
         if (
-            not self.level.terrain.on_ground_point((self.x, self.y))
+            not self.level.terrain.on_ground_point(self.position)
             and self.ground_collision
         ):
             self.collide(self.level.animation_group.add)

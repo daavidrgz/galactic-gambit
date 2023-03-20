@@ -35,7 +35,7 @@ class Minimap(HudElement, Observer):
 
         player = kwargs["player"]
         self.player_id = player.get_id()
-        self.set_entity_pos(self.player_id, player.get_position())
+        self.set_entity_pos(self.player_id, player.position)
         player.observable_pos.add_listener(self)
 
     def draw(self, screen):

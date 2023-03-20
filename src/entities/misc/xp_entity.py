@@ -23,15 +23,13 @@ class XpEntity(Entity):
         self.noise_seed = rng.randint(0, 10000)
 
         self.player = level.get_player()
-        player_x, player_y = self.player.get_position()
-        direction = np.array((player_x - self.x, player_y - self.y))
+        direction = self.player.position - self.position
         distance = np.linalg.norm(direction)
         direction /= distance * 3
         self.velocity = rotate_vector(direction, 90.0 + 180.0 * rng.random())
 
     def update(self, elapsed_time):
-        player_x, player_y = self.player.get_position()
-        direction = np.array((player_x - self.x, player_y - self.y))
+        direction = self.player.position - self.position
         distance = np.linalg.norm(direction)
         direction /= distance
 
@@ -43,16 +41,14 @@ class XpEntity(Entity):
 
         self.timer += elapsed_time
         noise_factor = distance**2 / 15**2 * 0.1 * elapsed_time
-        self.move(
-            (
-                pnoise1(self.timer / 1000.0 + self.noise_seed) * noise_factor,
-                pnoise1(self.timer / 1000.0 + self.noise_seed + 20711.0) * noise_factor,
-            )
+        self.position += (
+            pnoise1(self.timer / 1000.0 + self.noise_seed) * noise_factor,
+            pnoise1(self.timer / 1000.0 + self.noise_seed + 20711.0) * noise_factor,
         )
 
         self.velocity += (direction * 0.1) / distance**2 * elapsed_time
         self.velocity *= 1.0 - (0.001 * elapsed_time)
 
-        self.move(self.velocity * elapsed_time)
+        self.position += self.velocity * elapsed_time
 
         super().update(elapsed_time)

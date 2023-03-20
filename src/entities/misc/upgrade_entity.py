@@ -21,7 +21,7 @@ class UpgradeEntity(Entity):
     def update(self, elapsed_time):
         if self.moving:
             self.speed -= elapsed_time * 0.001
-            self.move((0, -self.speed * elapsed_time))
+            self.position -= (0, self.speed * elapsed_time)
             if self.speed < -0.35:
                 self.moving = False
 

@@ -72,6 +72,7 @@ def wander(
     if wander_timer <= 0:
         sigma = rng.random() * 360
         direction = rotate_vector(np.array((TILE_SIZE / 2, 0.0)), sigma)
+        current_position = current_position.copy()
         for i in range(rng.randint(1, 20)):
             current_position += direction
             if not terrain.on_ground_point(current_position):

@@ -12,7 +12,7 @@ from scenes.scene import Scene
 from systems.camera_manager import CameraManager
 from systems.rng_system import Generator, RngSystem
 from generation.enemy_spawning import spawn_enemies
-from utils.math import manhattan_norm
+from utils.math import manhattan_norm, square_norm
 from gui.hud.hud import Hud
 
 import pygame
@@ -80,7 +80,7 @@ class Level(Scene):
         if not self.load_completed:
             self.load()
 
-        self.player.set_position(self.terrain.get_player_starting_position())
+        self.player.position = self.terrain.player_starting_position
         self.player.setup(
             level=self,
             on_level_up=self.__player_level_up,
@@ -124,11 +124,11 @@ class Level(Scene):
 
     def __spawn_chest_entity(self):
         rng = RngSystem().get_rng(Generator.MAP)
-        sx, sy = self.terrain.get_player_starting_position()
+        sx, sy = self.terrain.player_starting_position
         sx //= TILE_SIZE
         sy //= TILE_SIZE
 
-        ex, ey = self.terrain.get_end_position()
+        ex, ey = self.terrain.end_position
         ex //= TILE_SIZE
         ey //= TILE_SIZE
 
@@ -190,9 +190,7 @@ class Level(Scene):
         if self.enemy_group.get_num_enemies() > 0:
             return
 
-        player_x, player_y = self.player.get_position()
-        end_x, end_y = self.terrain.get_end_position()
-        distance_sqr = (player_x - end_x) ** 2 + (player_y - end_y) ** 2
+        distance_sqr = square_norm(self.player.position - self.terrain.get_end_position())
         if distance_sqr < (3 * TILE_SIZE) ** 2:
             self.game_model.update_player(self.player)
             self.game_model.level = self.next_level

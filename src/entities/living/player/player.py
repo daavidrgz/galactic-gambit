@@ -52,8 +52,8 @@ class Player(LivingEntity):
         on_level_up()
 
     def setup(self, level, on_level_up, on_death):
-        self.camera.set_center(self.get_position())
-        self.camera.set_target_center(self.get_position())
+        self.camera.set_center(self.position)
+        self.camera.set_target_center(self.position)
         self.magic_level.setup(lambda: self.__on_level_up(on_level_up))
         self.on_death_cb = on_death
         self.footsteps = CycleSounds(
@@ -82,7 +82,7 @@ class Player(LivingEntity):
 
         # Camera
         self.camera.set_target_center(
-            self.get_position() + self.velocity * CAMERA_LOOK_AHEAD
+            self.position + self.velocity * CAMERA_LOOK_AHEAD
         )
 
         super().update(elapsed_time)
@@ -102,18 +102,14 @@ class Player(LivingEntity):
         self.gun.add_magical_upgrade(upgrade)
 
     def __get_screen_position(self):
-        scrollx, scrolly = self.camera.get_coords()
-        x = self.x - scrollx
-        y = self.y - scrolly
-        return x, y
+        return self.position - self.camera.get_coords()
 
     def shoot(self, mouse_pos):
         if not self.gun.is_ready():
             return
-        shoot_position = (self.x, self.y)
-        shoot_direction = np.array(mouse_pos) - np.array(self.__get_screen_position())
+        shoot_direction = np.array(mouse_pos) - self.__get_screen_position()
         shoot_direction /= np.linalg.norm(shoot_direction)
-        new_bullets = self.gun.shoot(shoot_position, shoot_direction)
+        new_bullets = self.gun.shoot(self.position, shoot_direction)
         self.laser_sound.play_once()
 
         for bullet in new_bullets:

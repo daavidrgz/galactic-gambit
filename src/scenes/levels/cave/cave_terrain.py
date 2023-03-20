@@ -1,10 +1,10 @@
-import numpy as np
 from constants.game_constants import TILE_SIZE
 from generation.base_terrain import BaseTerrain, TerrainType
-from generation.tile import Tile
 from systems.resource_manager import Resource, ResourceManager
+from utils.math import vector2
 
 import pygame
+import numpy as np
 
 
 class CaveTerrain(BaseTerrain):
@@ -21,7 +21,7 @@ class CaveTerrain(BaseTerrain):
         self.data[4:7, 84:87] = TerrainType.GROUND
         self.data[4, 80:90] = TerrainType.WALL
 
-        self.player_starting_position = (TILE_SIZE * 86.0, TILE_SIZE * 5.5)
+        self.player_starting_position = vector2(TILE_SIZE * 86.0, TILE_SIZE * 5.5)
 
         self.place_start_sprite(81, 0)
 
@@ -41,7 +41,7 @@ class CaveTerrain(BaseTerrain):
                 if distance_sqr < 5**2:
                     self.data[y, x] = TerrainType.GROUND
 
-        self.end_position = (
+        self.end_position = vector2(
             (end_pos[0] + 0.5) * TILE_SIZE,
             (end_pos[1] + 0.5) * TILE_SIZE,
         )

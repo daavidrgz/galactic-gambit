@@ -18,10 +18,10 @@ class BaseMeleeEnemy(BaseEnemy):
 
         super().trigger_attack()
 
-        direction = np.array(self.player.get_position()) - np.array(self.get_position())
+        direction = self.player.position - self.position
         direction /= np.linalg.norm(direction)
 
-        position = np.array(self.get_position() - direction * 20)
+        position = self.position - direction * 20
 
         new_projectile = EnemyStrike(
             self.attack_image, position, self.projectile_speed, direction, self.damage, self.knockback, self.attack_lifetime

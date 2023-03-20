@@ -18,7 +18,7 @@ class EnemyBullet(Projectile):
         )
 
     def collide(self, add_animation_func):
-        explosion = ExplosionEffect(self.get_position())
+        explosion = ExplosionEffect(self.position)
         explosion.add_image_modifier(self.__red_image_modifier)
         add_animation_func(explosion)
         super().collide(add_animation_func)
@@ -37,7 +37,7 @@ class EnemyBullet(Projectile):
 
         # Player collision
         if circle_rect_collision(
-            (self.x, self.y, 4), self.level.player.rect
+            (self.position[0], self.position[1], 4), self.level.player.rect
         ):
             self.level.player.hit(self.damage, self.get_direction() * self.knockback)
             self.kill()

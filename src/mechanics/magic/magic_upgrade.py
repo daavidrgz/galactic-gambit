@@ -157,10 +157,7 @@ class PortableInstability(MagicUpgrade):
             self.timer += elapsed_time
             return
 
-        bullet_x, bullet_y = bullet.get_position()
-        player_x, player_y = self.player.get_position()
-
-        direction = np.array((player_x - bullet_x, player_y - bullet_y))
+        direction = self.player.position - bullet.position
         distance = np.linalg.norm(direction)
         direction /= distance
 
@@ -198,7 +195,7 @@ class ViciousAim(MagicUpgrade):
     def choose_target(self, bullet):
         target = None
 
-        from_pos = np.array(bullet.get_position())
+        from_pos = bullet.position
 
         to_remove = []
         min_distance = np.inf
@@ -207,7 +204,7 @@ class ViciousAim(MagicUpgrade):
                 to_remove.append(i)
                 continue
 
-            distance = square_norm(np.array(enemy.get_position()) - from_pos)
+            distance = square_norm(enemy.position - from_pos)
             if distance < min_distance:
                 min_distance = distance
                 target = enemy
@@ -226,7 +223,7 @@ class ViciousAim(MagicUpgrade):
 
         angle = np.arctan2(bullet.velocity[1], bullet.velocity[0])
         diff_vector = rotate_vector_rad(
-            np.array(target.get_position()) - np.array(bullet.get_position()), -angle
+            target.position - bullet.position, -angle
         )
         angle = np.arctan2(diff_vector[1], diff_vector[0])
 
@@ -243,11 +240,11 @@ class ViciousAim(MagicUpgrade):
     def setup(self, bullet, level):
         bullet.velocity *= 0.75
 
-        from_pos = np.array(bullet.get_position())
+        from_pos = bullet.position
         self.target = None
 
         def enemy_distance(enemy):
-            return square_norm(np.array(enemy.get_position()) - from_pos)
+            return square_norm(enemy.position - from_pos)
 
         self.targets = heapq.nsmallest(5, level.enemy_group, enemy_distance)
 

@@ -1,11 +1,10 @@
 from generation.tile import Tile
 from systems.camera_manager import CameraManager
 from utils.observer import Observer
-from utils.math import circle_rect_collision_vector
+from utils.math import circle_rect_collision_vector, tvector2
 from utils.misc import add_border
 
 import pygame
-import numpy as np
 from enum import IntEnum
 
 from constants.game_constants import TILE_SIZE
@@ -42,12 +41,6 @@ class BaseTerrain(Observer):
         self.starting_tiles = None
         self.height = self.width = 0
         self.buffer = None
-
-    def get_player_starting_position(self):
-        return self.player_starting_position
-
-    def get_end_position(self):
-        return self.end_position
 
     def draw(self, screen):
         draw_area = self.buffer.get_rect().copy()
@@ -110,7 +103,7 @@ class BaseTerrain(Observer):
         tile_pos_x, tile_pos_y = Tile.tile_to_logical_position(point)
         tile_pos_x = int(tile_pos_x)
         tile_pos_y = int(tile_pos_y)
-        pos = np.array(point, dtype=np.float64)
+        pos = tvector2(point)
         for x in range(max(0, tile_pos_x - 1), min(self.width, tile_pos_x + 2)):
             for y in range(max(0, tile_pos_y - 1), min(self.height, tile_pos_y + 2)):
                 if self.data[y, x] == TerrainType.GROUND:
