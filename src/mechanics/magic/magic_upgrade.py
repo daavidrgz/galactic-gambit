@@ -77,10 +77,7 @@ class WaveformCannon(MagicUpgrade):
 
         previous_image = bullet.image
         previous_size = np.array(previous_image.get_size())
-        scaled_img = pygame.transform.scale(previous_image, previous_size * scale)
-        bullet.image = scaled_img
-        bullet.rect = scaled_img.get_rect()
-        bullet.rect.center = bullet.x, bullet.y
+        bullet.set_image(pygame.transform.scale(previous_image, previous_size * scale))
 
     update_effect = apply
 
