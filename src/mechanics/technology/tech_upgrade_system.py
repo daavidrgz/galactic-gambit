@@ -31,7 +31,7 @@ TECH_UPGRADES = [
 
 class TechUpgradeSystem(UpgradeSystem, metaclass=Singleton):
     def get_available_upgrades(self):
-        return TECH_UPGRADES
+        return list(TECH_UPGRADES)
 
     def get_random_generator(self):
         return Generator.TECHNOLOGY

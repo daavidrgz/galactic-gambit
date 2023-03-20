@@ -18,7 +18,7 @@ MAGIC_UPGRADES = [
 
 class MagicUpgradeSystem(UpgradeSystem, metaclass=Singleton):
     def get_available_upgrades(self):
-        return MAGIC_UPGRADES
+        return list(MAGIC_UPGRADES)
 
     def get_random_generator(self):
         return Generator.MAGIC

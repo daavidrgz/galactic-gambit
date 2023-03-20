@@ -10,6 +10,10 @@ class UpgradeSystem:
             self.get_random_generator()
         )
 
+    def reset(self):
+        self.available_upgrades = self.get_available_upgrades()
+        self.selected_upgrades = set()
+
     def set_state(self, state):
         self.available_upgrades, self.selected_upgrades = state
 
