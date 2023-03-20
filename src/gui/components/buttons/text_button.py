@@ -11,20 +11,15 @@ class TextButton(Button):
         color_hover,
         action,
         position,
-        background=None,
-        background_hover=None,
     ):
         self.text = text
         self.font = font
         self.color = color
         self.color_hover = color_hover
-        self.background = background
-        self.background_hover = background_hover
 
-        self.current_background = background
         self.current_color = color
 
-        self.text_surface = self.__render_font(text, color, background)
+        self.text_surface = self.__render_font(text, color)
 
         super().__init__(
             surface=self.text_surface,
@@ -34,19 +29,15 @@ class TextButton(Button):
             on_deselect=lambda: self.set_color(self.color),
         )
 
-    def __render_font(self, text, color, background):
-        return self.font.render(text, True, color, background)
+    def __render_font(self, text, color):
+        return self.font.render(text, True, color)
 
     def set_text(self, text):
         self.text = text
         self.set_surface(
-            self.__render_font(text, self.current_color, self.current_background)
+            self.__render_font(text, self.current_color)
         )
 
     def set_color(self, color):
         self.current_color = color
-        self.set_surface(self.__render_font(self.text, color, self.background))
-
-    def set_background(self, background):
-        self.current_background = background
-        self.set_surface(self.__render_font(self.text, self.current_color, background))
+        self.set_surface(self.__render_font(self.text, color))
