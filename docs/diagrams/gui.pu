@@ -1,0 +1,114 @@
+@startuml gui
+
+class gui.BaseGui extends pygame.sprite.Sprite {
+	+ image: pygame.Surface
+	+ rect: pygame.Rect
+	+ position: numpy.ndarray
+
+	+ set_surface(surface: pygame.Surface)
+	+ set_position(position: numpy.ndarray)
+	+ set_position_rel(position: numpy.ndarray)
+	+ is_inside(position: numpy.ndarray) -> bool
+}
+
+class gui.Button extends gui.BaseGui {
+	+ action: function
+	+ on_select: function
+	+ on_deselect: function
+	+ is_selected: bool
+	+ select_sound: Resource
+	+ confirm_sound: Resource
+
+	+ execute_action()
+	+ select()
+	+ deselect()
+}
+
+class gui.TextButton extends gui.Button {
+	+ text: string
+	+ font: pygame.Font
+	+ color: tuple
+	+ color_hover: tuple
+
+	- render_font(text: string, color: tuple) -> pygame.Surface
+	+ set_text(text: string)
+	+ set_color(color: tuple)
+}
+
+class gui.Text extends gui.BaseGui {
+	+ text: string
+	+ font: pygame.Font
+	+ color: tuple
+}
+
+class gui.Title extends gui.Text
+
+class gui.BlinkText extends gui.Text {
+	+ current_time: number
+	+ is_visible: bool
+	+ only_once: bool
+	- blink_time: number
+
+	+ update(elapsed_time: number)
+}
+
+class gui.FullScreenButton extends gui.TextButton {
+	+ full_screen: bool
+
+	- get_full_text() -> string
+	+ toggle_full_screen()
+}
+
+class gui.ActionButton extends gui.TextButton {
+	- previous_color: tuple
+
+	- action(action: function)
+	+ reset_color()
+}
+
+class gui.RebindButton extends gui.ActionButton {
+	+ action_text: string
+	+ bind_action: string
+	+ bind_key: string
+
+	- get_full_text() -> string
+	+ rebind_action(bind_key: pygame.Key)
+}
+
+class gui.SeedButton extends gui.ActionButton {
+	+ seed: string
+
+	- get_full_text() -> string
+	+ remove_last_char()
+	+ add_char(char: string)
+	+ set_seed(seed: string)
+	+ empty_seed()
+}
+
+class gui.VolumeButton extends gui.ActionButton {
+	+ volume_text: string
+	+ volume_level: number
+	+ increase_volume_cb: function
+	+ decrease_volume_cb: function
+
+	- get_full_text() -> string
+	+ set_volume(volume: number)
+}
+
+class gui.UpgradeCard extends gui.Button {
+	+ title: string
+	+ icon: pygame.Surface
+	+ font: pygame.Font
+	+ width: number
+	+ height: number
+
+	- render_card() -> pygame.Surface
+	+ on_select()
+	+ on_deselect()
+}
+
+gui.Button -left-> systems.SoundController
+gui.RebindButton -left-> systems.ControlSystem
+
+
+@enduml

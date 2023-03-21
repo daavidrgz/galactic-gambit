@@ -1,0 +1,194 @@
+@startuml menu
+
+class scenes.Scene {
+	+ load_completed: bool
+	+ scene_music: systems.Resource
+
+	+ Scene()
+	+ load()
+	+ setup()
+	+ pop_back()
+	{abstract} + update(elapsed_time: number)
+	{abstract} + handle_events(events: List[pygame.Event])
+	{abstract} + draw(screen: pygame.Surface)
+}
+
+class scenes.Menu extends scenes.Scene {
+	+ gui_group: pygame.sprite.Group
+	+ go_back_button: Button
+	+ current_button: number
+	+ buttons_len: number
+	+ background: pygame.Surface
+	+ disable_mouse: bool
+	+ clicked_button: Button
+
+	+ Menu()
+	+ setup()
+	+ get_selected_button(): Button
+	+ previous_button():
+	+ next_button():
+	+ handle_events(events: List[pygame.Event])
+	+ update(elapsed_time: number)
+	+ draw(screen: pygame.Surface)
+	- select_button(idx: number)
+}
+
+class scenes.VerticalMenu extends scenes.Menu {
+	+ VerticalMenu()
+	+ handle_events(events: List[pygame.Event])
+}
+
+class scenes.HorizontalMenu extends scenes.Menu {
+	+ HorizontalMenu()
+	+ handle_events(events: List[pygame.Event])
+}
+
+class scenes.StartMenu {
+	+ StartMenu()
+	+ setup()
+	+ pop_back()
+	- new_game()
+	- continue_game()
+	- leave_game()
+	- config_game()
+	- create_button()
+	- get_offsets
+	- generate_gui()
+}
+
+class scenes.ConfigurationMenu {
+	+ is_changing_seed: bool
+
+	+ ConfigurationMenu(background: pygame.Surface)
+	+ setup()
+	+ handle_events()
+	- create_button()
+	- keybindings_config()
+	- volume_config()
+	- change_seed()
+	- toggle_full_screen()
+	- go_back()
+}
+
+class scenes.VolumeMenu {
+	+ is_changing_volume: bool
+	+ input_timeout: number
+	+ current_timeout: number
+
+	+ VolumeMenu(background: pygame.Surface)
+	+ setup()
+	+ update(elapsed_time: number)
+	+ handle_events(events: List[pygame.Event])
+	- change_volume()
+	- go_back()
+	- volume_change_ready()
+	- update_timeout(elapsed_time: number)
+}
+
+class scenes.KeybindingsMenu {
+	+ is_changing_keybind: bool
+
+	+ KeybindingsMenu(background: pygame.Surface)
+	+ setup()
+	+ handle_events(events: List[pygame.Event])
+	+ update(elapsed_time: number)
+	- create_button()
+	- change_keybind()
+	- go_back()
+}
+
+class scenes.PauseMenu {
+	+ PauseMenu()
+	+ setup()
+	- create_button()
+	- resume_game()
+	- return_to_menu()
+	- quit_game()
+	- config_game()
+}
+
+class scenes.InGameConfigurationMenu {
+	+ InGameConfigurationMenu(background: pygame.Surface)
+	+ setup()
+	- create_button()
+	- keybindings_config()
+	- volume_config()
+	- toggle_full_screen()
+	- go_back()
+}
+
+class scenes.GameOverMenu {
+	+ GameOverMenu()
+	+ setup()
+	- create_button()
+	- return_to_menu()
+}
+
+class scenes.WinMenu {
+	+ title_words: List[string]
+	+ subtitle_phrases: List[string]
+	
+	+ WinMenu()
+	+ setup()
+	- create_button()
+	- return_to_menu()
+	- get_random_title()
+	- get_random_subtitle()
+}
+
+class scenes.UpgradeMenu extends scenes.HorizontalMenu {
+	+ apply_upgrade: function
+
+	+ UpgradeMenu(upgrades: List[MagicUpgrade], apply_upgrade: function)
+	+ setup()
+	- create_upgrade_card()
+	- select_upgrade()
+	- get_offsets()
+}
+
+class scenes.StoryScene extends scenes.Scene {
+	+ title: string
+	+ argument: List[string]
+	+ next_scene: Scene
+	+ gui_group: pygame.sprite.Group
+
+	+ StoryScene(title: string, argument: List[string], next_scene: Scene)
+	+ setup()
+	+ update(elapsed_time: number)
+	+ handle_events(events: List[pygame.Event])
+	+ draw(screen: pygame.Surface)
+}
+
+class scenes.TheBeginningStory extends scenes.StoryScene {
+	+ TheBeginningStory()
+}
+
+class scenes.TheMissionStory extends scenes.StoryScene {
+	+ TheMissionStory()
+}
+
+class scenes.GoodLuckStory extends scenes.StoryScene {
+	+ GoodLuckStory()
+}
+
+scenes.KeybindingsMenu -down-|> scenes.VerticalMenu
+scenes.StartMenu -down-|> scenes.VerticalMenu
+scenes.ConfigurationMenu -up-|> scenes.VerticalMenu
+scenes.VolumeMenu -up-|> scenes.VerticalMenu
+scenes.PauseMenu -right-|> scenes.VerticalMenu
+scenes.InGameConfigurationMenu -right-|> scenes.VerticalMenu
+scenes.GameOverMenu -up-|> scenes.VerticalMenu
+scenes.WinMenu -up-|> scenes.VerticalMenu
+
+scenes.Scene -up-> systems.ControlSystem
+scenes.Scene -up-> systems.Director
+scenes.Scene -up-> systems.SoundController
+scenes.Scene -up-> systems.ResourceManager
+scenes.Scene -up-> systems.GameModel
+scenes.Scene -up-> systems.RngSystem
+
+scenes.Menu "1" o-- "N" gui.Button
+
+scenes.UpgradeMenu o-- "0..3" mechanics.MagicUpgrade
+
+@enduml

@@ -75,7 +75,7 @@ class WinMenu(VerticalMenu):
             "Quite noisy in here, isn't it?",
         ]
 
-    def __main_menu(self):
+    def __return_to_menu(self):
         self.game_model.delete_save()
         RngSystem().new_seed()
         self.director.pop_scene()
@@ -111,7 +111,9 @@ class WinMenu(VerticalMenu):
             position=(DESIGN_WIDTH / 2, 220),
         )
 
-        self.buttons.append(self.__create_button("Back to menu", self.__main_menu, 0))
+        self.buttons.append(
+            self.__create_button("Back to menu", self.__return_to_menu, 0)
+        )
 
         self.gui_group.add(self.title, self.subtitle, self.buttons)
         super().setup()

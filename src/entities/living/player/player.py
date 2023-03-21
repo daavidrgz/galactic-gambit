@@ -22,13 +22,11 @@ class Player(LivingEntity):
     def __init__(self, hp, gun, magic_level, initial_pos):
         self.control = ControlSystem.get_instance()
         self.camera = CameraManager.get_instance()
-        self.sound_controller = SoundController.get_instance()
 
         self.laser_sound = CycleSounds(Resource.LASER_SHOTS, volume_variation=0.2)
         self.exp_sound = Resource.GET_EXP_SOUND
         self.level_up_sound = Resource.LEVEL_UP_SOUND
 
-        self.shoot_cooldown = 0.0
         self.gun = gun
         self.magic_level = magic_level
 
@@ -47,15 +45,15 @@ class Player(LivingEntity):
         player.hp = Hp.from_model_hp(player_model.hp)
         return player
 
-    def __on_level_up(self, on_level_up):
+    def __on_level_up(self, on_level_up_callback):
         self.sound_controller.play_sound(self.level_up_sound)
-        on_level_up()
+        on_level_up_callback()
 
     def setup(self, level, on_level_up, on_death):
         self.camera.set_center(self.position)
         self.camera.set_target_center(self.position)
         self.magic_level.setup(lambda: self.__on_level_up(on_level_up))
-        self.on_death_cb = on_death
+        self.on_death_callback = on_death
         self.footsteps = CycleSounds(
             level.player_footsteps, delay=400, volume_variation=0.2
         )
@@ -81,15 +79,13 @@ class Player(LivingEntity):
             self.footsteps.stop()
 
         # Camera
-        self.camera.set_target_center(
-            self.position + self.velocity * CAMERA_LOOK_AHEAD
-        )
+        self.camera.set_target_center(self.position + self.velocity * CAMERA_LOOK_AHEAD)
 
         super().update(elapsed_time)
 
     def on_death(self):
         super().on_death()
-        self.on_death_cb()
+        self.on_death_callback()
 
     def increase_exp(self, exp):
         self.sound_controller.play_sound(self.exp_sound)

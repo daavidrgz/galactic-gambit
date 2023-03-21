@@ -8,6 +8,3 @@ class ExplosionEffect(Effect):
         self.resource_manager = ResourceManager.get_instance()
         frames = self.resource_manager.load_animation(Resource.EXPLOSION)
         super().__init__(frames, position)
-
-    def on_animation_finished(self):
-        self.kill()

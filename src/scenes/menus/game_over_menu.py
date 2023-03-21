@@ -32,7 +32,7 @@ class GameOverMenu(VerticalMenu):
 
         self.scene_music = Resource.GAME_OVER_MUSIC
 
-    def __main_menu(self):
+    def __return_to_menu(self):
         RngSystem().new_seed()
         self.director.pop_scene()
 
@@ -54,7 +54,9 @@ class GameOverMenu(VerticalMenu):
             position=(DESIGN_WIDTH / 2, 150),
         )
 
-        self.buttons.append(self.__create_button("Back to menu", self.__main_menu, 0))
+        self.buttons.append(
+            self.__create_button("Back to menu", self.__return_to_menu, 0)
+        )
 
         self.gui_group.add(self.title, self.buttons)
         super().setup()

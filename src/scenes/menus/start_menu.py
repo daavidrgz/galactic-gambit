@@ -3,9 +3,8 @@ import pygame
 from constants.game_constants import DESIGN_HEIGHT, DESIGN_WIDTH
 from constants.gui_constants import COLOR_BRIGHT_START, COLOR_SUBTLE_START
 from gui.components.buttons.text_button import TextButton
-from gui.components.title import Title
 from gui.components.image import Image
-from scenes.cinematic.the_beginning import TheBeginning
+from scenes.cinematic.the_beginning_story import TheBeginningStory
 from scenes.levels.ship.ship_level import ShipLevel
 from scenes.menus.configuration_menu import ConfigurationMenu
 from scenes.menus.confirmation_menu import ConfirmationMenu
@@ -44,7 +43,7 @@ class StartMenu(VerticalMenu):
         self.game_model.reset_model()
         self.game_model.level = ShipLevel
         self.game_model.save()
-        self.director.push_scene(Transition(TheBeginning()))
+        self.director.push_scene(Transition(TheBeginningStory()))
 
     def __continue_game(self):
         self.game_model.load()
