@@ -1,4 +1,4 @@
-from model.game_model import GameModel
+from systems.game_model import GameModel
 from scenes.director import Director
 from systems.control_system import ControlSystem
 from systems.resource_manager import ResourceManager
