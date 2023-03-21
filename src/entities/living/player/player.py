@@ -45,9 +45,9 @@ class Player(LivingEntity):
         player.hp = Hp.from_model_hp(player_model.hp)
         return player
 
-    def __on_level_up(self, on_level_up):
+    def __on_level_up(self, on_level_up_callback):
         self.sound_controller.play_sound(self.level_up_sound)
-        on_level_up()
+        on_level_up_callback()
 
     def setup(self, level, on_level_up, on_death):
         self.camera.set_center(self.position)
