@@ -21,7 +21,7 @@ class BaseEnemy(LivingEntity):
         self.hit_stun = 0
         self.attack_timer = 0
 
-        super().__init__(image, initial_pos, drag, (0, 0, 20), hp, 200)
+        super().__init__(image, initial_pos, drag, (0, 12, 20), hp, 200)
 
     def setup(self, level):
         self.player = level.get_player()
