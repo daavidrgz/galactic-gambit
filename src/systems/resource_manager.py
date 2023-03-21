@@ -32,12 +32,10 @@ class Resource(Enum):
     MAIN_TITLE = "sprites/title/pixelated.png"
 
     # Backgrounds
-    PLANETS_BG = "sprites/backgrounds/planets-bg.png"
     MENU_BG = "sprites/backgrounds/menu.png"
     PURPLE_SPACE_BG = "sprites/backgrounds/purple-space-bg.png"
     BLUE_SPACE_BG = "sprites/backgrounds/blue-space-bg.png"
     ORANGE_SPACE_BG = "sprites/backgrounds/orange-space-bg.png"
-    PLANET_BG = "sprites/backgrounds/planet-bg.png"
 
     SHIP_END = "sprites/level/ship_end.png"
     SHIP_END_OPEN = "sprites/level/ship_end_open.png"

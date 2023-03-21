@@ -1,3 +1,4 @@
+from constants.gui_constants import COLOR_BRIGHT
 from systems.resource_manager import Resource
 from utils.observer import Observer
 from gui.hud.hud_element import HudElement
@@ -53,7 +54,7 @@ class ExperienceBar(HudElement, Observer):
             text = "Max level"
         else:
             text = f"Exp level {magic_level.get_level()}"
-        self.level = self.font.render(text, True, (255, 255, 255))
+        self.level = self.font.render(text, True, COLOR_BRIGHT)
 
     def notify(self, magic_level):
         self.__update_component(magic_level)

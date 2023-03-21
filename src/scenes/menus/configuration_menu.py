@@ -4,7 +4,7 @@ from gui.components.buttons.full_screen_button import FullScreenButton
 from gui.components.buttons.seed_button import SeedButton
 from gui.components.buttons.text_button import TextButton
 from gui.components.title import Title
-from constants.gui_constants import COLOR_BRIGHT_START, COLOR_SUBTLE_START
+from constants.gui_constants import COLOR_BRIGHT, COLOR_SUBTLE
 from scenes.menus.keybinds_menu import KeybindingsMenu
 from scenes.menus.vertical_menu import VerticalMenu
 from scenes.menus.volume_menu import VolumeMenu
@@ -22,17 +22,21 @@ class ConfigurationMenu(VerticalMenu):
         return TextButton(
             text=text,
             font=font,
-            color=COLOR_SUBTLE_START,
-            color_hover=COLOR_BRIGHT_START,
+            color=COLOR_SUBTLE,
+            color_hover=COLOR_BRIGHT,
             action=action,
             position=(DESIGN_WIDTH / 2, DESIGN_HEIGHT / 2 + offset),
         )
 
     def __keybindings_config(self):
-        self.director.push_scene(KeybindingsMenu(self.background, COLOR_SUBTLE_START, COLOR_BRIGHT_START))
+        self.director.push_scene(
+            KeybindingsMenu(self.background, COLOR_SUBTLE, COLOR_BRIGHT)
+        )
 
     def __volume_config(self):
-        self.director.push_scene(VolumeMenu(COLOR_SUBTLE_START, COLOR_BRIGHT_START, self.background))
+        self.director.push_scene(
+            VolumeMenu(COLOR_SUBTLE, COLOR_BRIGHT, self.background)
+        )
 
     def __change_seed(self):
         self.disable_mouse = True
@@ -51,15 +55,15 @@ class ConfigurationMenu(VerticalMenu):
 
         self.title = Title(
             text="Configuration",
-            color=COLOR_BRIGHT_START,
+            color=COLOR_BRIGHT,
             position=(DESIGN_WIDTH // 2, 100),
         )
 
         full_screen_button = FullScreenButton(
             full_screen=self.director.full_screen,
             font=font,
-            color=COLOR_SUBTLE_START,
-            color_hover=COLOR_BRIGHT_START,
+            color=COLOR_SUBTLE,
+            color_hover=COLOR_BRIGHT,
             action=self.__toggle_full_screen,
             position=(DESIGN_WIDTH / 2, DESIGN_HEIGHT / 2 - 120),
         )
@@ -73,8 +77,8 @@ class ConfigurationMenu(VerticalMenu):
         seed_button = SeedButton(
             seed=str(current_seed),
             font=font,
-            color=COLOR_SUBTLE_START,
-            color_hover=COLOR_BRIGHT_START,
+            color=COLOR_SUBTLE,
+            color_hover=COLOR_BRIGHT,
             action=self.__change_seed,
             position=(DESIGN_WIDTH / 2, DESIGN_HEIGHT / 2 + 120),
         )

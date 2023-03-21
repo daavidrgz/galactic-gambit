@@ -1,4 +1,5 @@
 import pygame
+from constants.gui_constants import COLOR_BRIGHT
 
 from gui.hud.hud_element import HudElement
 from systems.resource_manager import Resource
@@ -44,7 +45,7 @@ class HealthBar(HudElement, Observer):
 
             self.bar.blit(hp_bar, (0, 0))
 
-        health_text = self.font.render("Health", True, (255, 255, 255))
+        health_text = self.font.render("Health", True, COLOR_BRIGHT)
 
         self.bar.blit(
             health_text,
@@ -54,7 +55,7 @@ class HealthBar(HudElement, Observer):
             ),
         )
 
-        hp_text = self.font.render(f"{max(0, hp.get_hp())}", True, (255, 255, 255))
+        hp_text = self.font.render(f"{max(0, hp.get_hp())}", True, COLOR_BRIGHT)
 
         self.bar.blit(
             hp_text,

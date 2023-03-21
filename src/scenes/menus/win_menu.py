@@ -14,7 +14,7 @@ from systems.rng_system import RngSystem
 class WinMenu(VerticalMenu):
     def __init__(self):
         super().__init__()
-        background_image = self.resource_manager.load_image(Resource.PLANETS_BG)
+        background_image = self.resource_manager.load_image(Resource.MENU_BG)
         bg_width, bg_height = background_image.get_size()
         background_image = pygame.transform.scale(
             background_image,
@@ -25,7 +25,7 @@ class WinMenu(VerticalMenu):
         )
 
         veil = pygame.Surface((DESIGN_WIDTH, DESIGN_HEIGHT))
-        veil.set_alpha(40)
+        veil.set_alpha(140)
 
         background = pygame.Surface((DESIGN_WIDTH, DESIGN_HEIGHT))
         background.blit(background_image, (0, 0))

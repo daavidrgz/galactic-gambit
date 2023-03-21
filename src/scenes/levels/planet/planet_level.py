@@ -25,8 +25,6 @@ class PlanetLevel(Level):
             10000,
         )
 
-        background = Resource.PLANET_BG
-
         self.next_level = CaveLevel
 
         self.possible_enemy_spawns = [
@@ -45,7 +43,6 @@ class PlanetLevel(Level):
             terrain=terrain,
             scene_music=level_music,
             player_footsteps=player_footsteps,
-            background=background,
         )
 
     def setup(self):

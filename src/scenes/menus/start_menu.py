@@ -1,7 +1,7 @@
 import pygame
 
 from constants.game_constants import DESIGN_HEIGHT, DESIGN_WIDTH
-from constants.gui_constants import COLOR_BRIGHT_START, COLOR_SUBTLE_START
+from constants.gui_constants import COLOR_BRIGHT, COLOR_SUBTLE
 from gui.components.buttons.text_button import TextButton
 from gui.components.image import Image
 from scenes.cinematic.the_beginning_story import TheBeginningStory
@@ -28,7 +28,7 @@ class StartMenu(VerticalMenu):
         )
 
         veil = pygame.Surface((DESIGN_WIDTH, DESIGN_HEIGHT))
-        veil.set_alpha(40)
+        veil.set_alpha(140)
 
         background = pygame.Surface((DESIGN_WIDTH, DESIGN_HEIGHT))
         background.blit(background_image, (0, 0))
@@ -64,8 +64,8 @@ class StartMenu(VerticalMenu):
         return TextButton(
             text=text,
             font=font,
-            color=COLOR_SUBTLE_START,
-            color_hover=COLOR_BRIGHT_START,
+            color=COLOR_SUBTLE,
+            color_hover=COLOR_BRIGHT,
             action=action,
             position=(DESIGN_WIDTH / 2, DESIGN_HEIGHT / 2 + offset),
         )

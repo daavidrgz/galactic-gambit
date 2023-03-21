@@ -2,7 +2,7 @@ import pygame
 from constants.game_constants import DESIGN_HEIGHT, DESIGN_WIDTH
 from gui.components.buttons.text_button import TextButton
 from gui.components.title import Title
-from constants.gui_constants import COLOR_BRIGHT, COLOR_SUBTLE
+from constants.gui_constants import BACKGROUND_COLOR, COLOR_BRIGHT, COLOR_SUBTLE
 from scenes.menus.confirmation_menu import ConfirmationMenu
 from scenes.menus.in_game_configuration_menu import InGameConfigurationMenu
 from scenes.menus.vertical_menu import VerticalMenu
@@ -15,7 +15,8 @@ class PauseMenu(VerticalMenu):
         super().__init__()
         background = self.director.virtual_screen.copy()
         veil = pygame.Surface((DESIGN_WIDTH, DESIGN_HEIGHT))
-        veil.set_alpha(220)
+        veil.fill(BACKGROUND_COLOR)
+        veil.set_alpha(210)
         background.blit(veil, (0, 0))
         self.background = background
 
