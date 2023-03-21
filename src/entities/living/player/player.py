@@ -53,7 +53,7 @@ class Player(LivingEntity):
         self.camera.set_center(self.position)
         self.camera.set_target_center(self.position)
         self.magic_level.setup(lambda: self.__on_level_up(on_level_up))
-        self.on_death_cb = on_death
+        self.on_death_callback = on_death
         self.footsteps = CycleSounds(
             level.player_footsteps, delay=400, volume_variation=0.2
         )
@@ -85,7 +85,7 @@ class Player(LivingEntity):
 
     def on_death(self):
         super().on_death()
-        self.on_death_cb()
+        self.on_death_callback()
 
     def increase_exp(self, exp):
         self.sound_controller.play_sound(self.exp_sound)
