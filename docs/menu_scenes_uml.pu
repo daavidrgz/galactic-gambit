@@ -78,13 +78,34 @@ class scenes.VolumeMenu extends scenes.VerticalMenu {
 	- update_timeout(elapsed_time: Integer)
 }
 
+class scenes.KeybindingsMenu extends scenes.VerticalMenu {
+	+ is_changing_keybind: Boolean
+
+	+ setup()
+	+ handle_events(events: List<pygame.Event>)
+	+ update(elapsed_time: Integer)
+	- create_button()
+	- change_keybind()
+	- go_back()
+}
+
+class scenes.PauseMenu extends scenes.VerticalMenu {
+	+ setup()
+	+ pop_back()
+	- create_button()
+	- continue_game()
+	- save_game()
+	- load_game()
+	- config_game()
+	- leave_game()
+}
+
 scenes.Scene --> systems.ControlSystem
 scenes.Scene --> systems.Director
 scenes.Scene --> systems.SoundController
 scenes.Scene --> systems.ResourceManager
 scenes.Scene --> systems.GameModel
-
-scenes.ConfigurationMenu --> systems.RngSystem
+scenes.Scene --> systems.RngSystem
 
 scenes.Menu "1" o-- "N" gui.components.Button
 

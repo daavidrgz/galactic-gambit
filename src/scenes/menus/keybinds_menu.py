@@ -13,21 +13,21 @@ class KeybindingsMenu(VerticalMenu):
     def __init__(self, background):
         super().__init__()
         self.background = background
-        self.is_rebinding = False
+        self.is_changing_keybind = False
 
-    def __select_rebind_button(self):
+    def __change_keybind(self):
         self.disable_mouse = True
-        self.is_rebinding = True
+        self.is_changing_keybind = True
 
     def __go_back(self):
         self.director.pop_scene()
 
     def update(self, elapsed_time):
         super().update(elapsed_time)
-        if not self.is_rebinding:
+        if not self.is_changing_keybind:
             return
 
-    def create_action_button(self, text, action, offset):
+    def __create_button(self, text, action, offset):
         font = self.resource_manager.load_font(Resource.FONT_MD)
         return RebindButton(
             action_text=text,
@@ -36,7 +36,7 @@ class KeybindingsMenu(VerticalMenu):
             font=font,
             color=COLOR_SUBTLE,
             color_hover=COLOR_BRIGHT,
-            action=self.__select_rebind_button,
+            action=self.__change_keybind,
             position=(DESIGN_WIDTH // 2, DESIGN_HEIGHT // 2 + offset),
         )
 
@@ -47,10 +47,10 @@ class KeybindingsMenu(VerticalMenu):
             position=(DESIGN_WIDTH // 2, 100),
         )
 
-        self.buttons.append(self.create_action_button("Move Up", Action.UP, -100))
-        self.buttons.append(self.create_action_button("Move Left", Action.LEFT, -50))
-        self.buttons.append(self.create_action_button("Move Down", Action.DOWN, 0))
-        self.buttons.append(self.create_action_button("Move Right", Action.RIGHT, 50))
+        self.buttons.append(self.__create_button("Move Up", Action.UP, -100))
+        self.buttons.append(self.__create_button("Move Left", Action.LEFT, -50))
+        self.buttons.append(self.__create_button("Move Down", Action.DOWN, 0))
+        self.buttons.append(self.__create_button("Move Right", Action.RIGHT, 50))
 
         self.go_back_button = TextButton(
             text="Go back",
@@ -67,13 +67,13 @@ class KeybindingsMenu(VerticalMenu):
         super().setup()
 
     def handle_events(self, events):
-        if not self.is_rebinding:
+        if not self.is_changing_keybind:
             super().handle_events(events)
             return
 
         for event in events:
             if event.type == pygame.KEYDOWN:
-                self.is_rebinding = False
+                self.is_changing_keybind = False
                 self.disable_mouse = False
                 if event.key == pygame.K_ESCAPE or event.key == pygame.K_RETURN:
                     self.get_selected_button().reset_color()
