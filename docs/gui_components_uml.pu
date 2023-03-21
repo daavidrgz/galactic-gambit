@@ -1,4 +1,4 @@
-@startuml c4-code
+@startuml gui_components_uml
 
 class gui.components.BaseGui extends pygame.sprite.Sprite {
 	+ image: pygame.Surface
@@ -93,6 +93,18 @@ class gui.components.VolumeButton extends gui.components.ActionButton {
 
 	- get_full_text() -> String
 	+ set_volume(volume: Integer)
+}
+
+class gui.components.UpgradeCard extends gui.components.Button {
+	+ title: String
+	+ icon: pygame.Surface
+	+ font: pygame.Font
+	+ width: Integer
+	+ height: Integer
+
+	- render_card() -> pygame.Surface
+	+ on_select()
+	+ on_deselect()
 }
 
 gui.components.Button --> systems.SoundController

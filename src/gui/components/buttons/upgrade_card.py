@@ -7,10 +7,10 @@ from systems.resource_manager import Resource, ResourceManager
 class UpgradeCard(Button):
     ICON_SIZE = 90
 
-    def __init__(self, title, icon, position, width, height, action):
-        self.resource_manager = ResourceManager.get_instance()
+    def __init__(self, title, icon, font, position, width, height, action):
         self.title = title
         self.icon = icon
+        self.font = font
         self.width = width
         self.height = height
 
@@ -36,7 +36,7 @@ class UpgradeCard(Button):
         card = pygame.Surface((self.width, self.height))
         card.fill((0, 0, 0))
 
-        title_surface = self.__get_title(self.title)
+        title_surface = self.font.render(self.title, True, COLOR_BRIGHT)
         card.blit(title_surface, (self.width // 2 - title_surface.get_width() // 2, 25))
 
         card.blit(
@@ -64,7 +64,3 @@ class UpgradeCard(Button):
         self.veil_alpha = 100
         self.border_color = TRANSPARENT
         self.image = self.__render_card()
-
-    def __get_title(self, title):
-        font = self.resource_manager.load_font(Resource.FONT_MD)
-        return font.render(title, True, COLOR_BRIGHT)

@@ -1,0 +1,81 @@
+@startuml menu_scenes_uml
+
+class scenes.Scene {
+	+ load_completed: Boolean
+	+ scene_music: Resource
+
+	+ load()
+	+ setup()
+	+ pop_back()
+	{abstract} + update(elapsed_time: Integer)
+	{abstract} + handle_events(events: List<pygame.Event>)
+	{abstract} + draw(screen: pygame.Surface)
+}
+
+class scenes.Menu extends scenes.Scene {
+	+ gui_group: pygame.sprite.Group
+	+ go_back_button: Button
+	+ current_button: Integer
+	+ buttons_len: Integer
+	+ background: pygame.Surface
+	+ disable_mouse: Boolean
+	+ clicked_button: Button
+
+	+ setup()
+	+ get_selected_button(): Button
+	+ previous_button():
+	+ next_button():
+	- select_button(idx: Integer)
+	+ handle_events(events: List<pygame.Event>)
+	+ update(elapsed_time: Integer)
+	+ draw(screen: pygame.Surface)
+}
+
+class scenes.VerticalMenu extends scenes.Menu {
+	+ handle_events(events: List<pygame.Event>)
+}
+
+class scenes.HorizontalMenu extends scenes.Menu {
+	+ handle_events(events: List<pygame.Event>)
+}
+
+class scenes.StartMenu extends scenes.VerticalMenu {
+	+ setup()
+	+ pop_back()
+	- new_game()
+	- continue_game()
+	- leave_game()
+	- config_game()
+	- create_button()
+	- get_offsets
+	- generate_gui()
+}
+
+class scenes.ConfigurationMenu extends scenes.VerticalMenu {
+	+ is_changing_seed: Boolean
+
+	+ setup()
+	+ handle_events()
+	- create_button()
+	- keybindings_config()
+	- volume_config()
+	_ change_seed()
+	- toggle_full_screen()
+	- go_back()
+}
+
+class scenes.VolumeMenu extends scenes.VerticalMenu {
+	+ is_changing_volume: Boolean
+}
+
+scenes.Scene --> systems.ControlSystem
+scenes.Scene --> systems.Director
+scenes.Scene --> systems.SoundController
+scenes.Scene --> systems.ResourceManager
+scenes.Scene --> systems.GameModel
+
+scenes.ConfigurationMenu --> systems.RngSystem
+
+scenes.Menu "1" o-- "N" gui.components.Button
+
+@enduml
