@@ -24,6 +24,8 @@ class TitansMight(MagicUpgrade):
         previous_size = np.array(previous_image.get_size())
         # Scale the image
         bullet.set_image(pygame.transform.scale(previous_image, previous_size * 1.3))
+        # Increase logical size
+        bullet.size *= 1.3
 
     init_effect = apply
 
@@ -75,9 +77,13 @@ class WaveformCannon(MagicUpgrade):
             + self.amplitude_delta
         )
 
+        # Scale sprite
         previous_image = bullet.image
         previous_size = np.array(previous_image.get_size())
         bullet.set_temp_image(pygame.transform.scale(previous_image, previous_size * scale))
+
+        # Increase logical size
+        bullet.size *= scale
 
     update_effect = apply
 
