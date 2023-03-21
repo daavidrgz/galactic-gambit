@@ -2,6 +2,7 @@ from model.game_model import GameModel
 from scenes.director import Director
 from systems.control_system import ControlSystem
 from systems.resource_manager import ResourceManager
+from systems.rng_system import RngSystem
 from systems.sound_controller import SoundController
 
 
@@ -12,6 +13,7 @@ class Scene:
         self.sound_controller = SoundController.get_instance()
         self.resource_manager = ResourceManager.get_instance()
         self.game_model = GameModel.get_instance()
+        self.rng_system = RngSystem.get_instance()
         self.load_completed = False
         self.scene_music = None
 

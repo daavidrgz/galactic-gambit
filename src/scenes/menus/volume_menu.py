@@ -16,7 +16,7 @@ class VolumeMenu(VerticalMenu):
         self.input_timeout = 50
         self.current_timeout = 0
 
-    def __change_volume_state(self):
+    def __change_volume(self):
         self.disable_mouse = True
         self.is_changing_volume = True
 
@@ -38,7 +38,7 @@ class VolumeMenu(VerticalMenu):
                 volume_level=self.sound_controller.get_effects_volume(),
                 increase_volume_cb=self.sound_controller.increase_effects_volume,
                 decrease_volume_cb=self.sound_controller.decrease_effects_volume,
-                action=self.__change_volume_state,
+                action=self.__change_volume,
                 position=(DESIGN_WIDTH // 2, DESIGN_HEIGHT // 2 - 80),
                 font=font,
                 color=COLOR_SUBTLE,
@@ -52,7 +52,7 @@ class VolumeMenu(VerticalMenu):
                 volume_level=self.sound_controller.get_music_volume(),
                 increase_volume_cb=self.sound_controller.increase_music_volume,
                 decrease_volume_cb=self.sound_controller.decrease_music_volume,
-                action=self.__change_volume_state,
+                action=self.__change_volume,
                 position=(DESIGN_WIDTH // 2, DESIGN_HEIGHT // 2),
                 font=font,
                 color=COLOR_SUBTLE,

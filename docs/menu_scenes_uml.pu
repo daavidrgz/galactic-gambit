@@ -66,6 +66,16 @@ class scenes.ConfigurationMenu extends scenes.VerticalMenu {
 
 class scenes.VolumeMenu extends scenes.VerticalMenu {
 	+ is_changing_volume: Boolean
+	+ input_timeout: Integer
+	+ current_timeout: Integer
+
+	+ setup()
+	+ update(elapsed_time: Integer)
+	+ handle_events(events: List<pygame.Event>)
+	- change_volume()
+	- go_back()
+	- volume_change_ready()
+	- update_timeout(elapsed_time: Integer)
 }
 
 scenes.Scene --> systems.ControlSystem

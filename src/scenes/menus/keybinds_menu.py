@@ -5,7 +5,7 @@ from constants.gui_constants import COLOR_BRIGHT, COLOR_SUBTLE
 from gui.components.buttons.rebind_button import RebindButton
 from gui.components.title import Title
 from scenes.menus.vertical_menu import VerticalMenu
-from systems.control_system import Action, ControlSystem
+from systems.control_system import Action
 from systems.resource_manager import Resource
 
 
@@ -13,7 +13,6 @@ class KeybindingsMenu(VerticalMenu):
     def __init__(self, background):
         super().__init__()
         self.background = background
-        self.control_system = ControlSystem.get_instance()
         self.is_rebinding = False
 
     def __select_rebind_button(self):
