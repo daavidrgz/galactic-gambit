@@ -27,7 +27,6 @@ class Player(LivingEntity):
         self.exp_sound = Resource.GET_EXP_SOUND
         self.level_up_sound = Resource.LEVEL_UP_SOUND
 
-        self.shoot_cooldown = 0.0
         self.gun = gun
         self.magic_level = magic_level
 
