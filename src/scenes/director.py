@@ -18,10 +18,13 @@ class Director(metaclass=Singleton):
         self.screen = pygame.display.set_mode(
             (INITIAL_USER_WIDTH, INITIAL_USER_HEIGHT), vsync=True
         )
+        rmgr = ResourceManager()
+
         self.full_screen = False
         self.virtual_screen = pygame.Surface((DESIGN_WIDTH, DESIGN_HEIGHT))
-        self.crosshair = ResourceManager().load_image(Resource.CROSSHAIR)
-        pygame.display.set_caption("Space Mission")
+        self.crosshair = rmgr.load_image(Resource.CROSSHAIR)
+        pygame.display.set_caption("Galactic Gambit: A Scientist's Tale")
+        pygame.display.set_icon(rmgr.load_image(Resource.CHEST))
         pygame.mouse.set_visible(False)
         # Scenes stack
         self.scenes = []

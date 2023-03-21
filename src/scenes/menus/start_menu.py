@@ -82,7 +82,7 @@ class StartMenu(VerticalMenu):
 
     def __generate_gui(self):
         self.title = Title(
-            text="Space Mission",
+            text="Galactic Gambit",
             color=COLOR_BRIGHT,
             position=(DESIGN_WIDTH / 2, 100),
         )
