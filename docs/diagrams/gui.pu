@@ -1,4 +1,4 @@
-@startuml gui_components_uml
+@startuml gui
 
 class gui.BaseGui extends pygame.sprite.Sprite {
 	+ image: pygame.Surface
@@ -107,8 +107,8 @@ class gui.UpgradeCard extends gui.Button {
 	+ on_deselect()
 }
 
-gui.Button --> systems.SoundController
-gui.RebindButton --> systems.ControlSystem
+gui.Button -left-> systems.SoundController
+gui.RebindButton -left-> systems.ControlSystem
 
 
 @enduml

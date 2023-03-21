@@ -1,4 +1,4 @@
-@startuml menu_scenes_uml
+@startuml menu
 
 class scenes.Scene {
 	+ load_completed: bool
