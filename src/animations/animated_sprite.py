@@ -80,7 +80,6 @@ class AnimatedSprite(pygame.sprite.Sprite):
         self.frames = frames
         self.num_frames = len(frames)
 
-        self.current_frame_idx = 0
         self.current_frame = self.frames[0]
         self.__buffer_image.blit(self.current_frame.get_image(), (0, 0))
         self.image = self.__buffer_image
