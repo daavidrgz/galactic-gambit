@@ -22,7 +22,6 @@ class Player(LivingEntity):
     def __init__(self, hp, gun, magic_level, initial_pos):
         self.control = ControlSystem.get_instance()
         self.camera = CameraManager.get_instance()
-        self.sound_controller = SoundController.get_instance()
 
         self.laser_sound = CycleSounds(Resource.LASER_SHOTS, volume_variation=0.2)
         self.exp_sound = Resource.GET_EXP_SOUND
@@ -81,9 +80,7 @@ class Player(LivingEntity):
             self.footsteps.stop()
 
         # Camera
-        self.camera.set_target_center(
-            self.position + self.velocity * CAMERA_LOOK_AHEAD
-        )
+        self.camera.set_target_center(self.position + self.velocity * CAMERA_LOOK_AHEAD)
 
         super().update(elapsed_time)
 
