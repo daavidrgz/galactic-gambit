@@ -8,7 +8,7 @@ class gui.BaseGui extends pygame.sprite.Sprite {
 	+ set_surface(surface: pygame.Surface)
 	+ set_position(position: numpy.ndarray)
 	+ set_position_rel(position: numpy.ndarray)
-	+ is_inside(position: numpy.ndarray) -> bool
+	+ is_inside(position: numpy.ndarray): bool
 }
 
 class gui.Button extends gui.BaseGui {
@@ -55,7 +55,7 @@ class gui.BlinkText extends gui.Text {
 class gui.FullScreenButton extends gui.TextButton {
 	+ full_screen: bool
 
-	- get_full_text() -> string
+	- get_full_text(): string
 	+ toggle_full_screen()
 }
 
@@ -71,14 +71,14 @@ class gui.RebindButton extends gui.ActionButton {
 	+ bind_action: string
 	+ bind_key: string
 
-	- get_full_text() -> string
+	- get_full_text(): string
 	+ rebind_action(bind_key: pygame.Key)
 }
 
 class gui.SeedButton extends gui.ActionButton {
 	+ seed: string
 
-	- get_full_text() -> string
+	- get_full_text(): string
 	+ remove_last_char()
 	+ add_char(char: string)
 	+ set_seed(seed: string)
@@ -91,7 +91,7 @@ class gui.VolumeButton extends gui.ActionButton {
 	+ increase_volume_cb: function
 	+ decrease_volume_cb: function
 
-	- get_full_text() -> string
+	- get_full_text(): string
 	+ set_volume(volume: number)
 }
 
@@ -102,7 +102,7 @@ class gui.UpgradeCard extends gui.Button {
 	+ width: number
 	+ height: number
 
-	- render_card() -> pygame.Surface
+	- render_card(): pygame.Surface
 	+ on_select()
 	+ on_deselect()
 }
