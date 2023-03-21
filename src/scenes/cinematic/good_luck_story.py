@@ -2,7 +2,7 @@ from scenes.cinematic.story_scene import StoryScene
 from scenes.levels.ship.ship_level import ShipLevel
 
 
-class GoodLuck(StoryScene):
+class GoodLuckStory(StoryScene):
     def __init__(self):
         title = "Good Luck"
         argument = [

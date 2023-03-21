@@ -1,21 +1,21 @@
 @startuml gui_components_uml
 
-class gui.components.BaseGui extends pygame.sprite.Sprite {
+class gui.BaseGui extends pygame.sprite.Sprite {
 	+ image: pygame.Surface
 	+ rect: pygame.Rect
-	+ position: Tuple
+	+ position: numpy.ndarray
 
 	+ set_surface(surface: pygame.Surface)
-	+ set_position(position: Tuple)
-	+ set_position_rel(position: Tuple)
-	+ is_inside(position: Tuple) -> Boolean
+	+ set_position(position: numpy.ndarray)
+	+ set_position_rel(position: numpy.ndarray)
+	+ is_inside(position: numpy.ndarray) -> bool
 }
 
-class gui.components.Button extends gui.components.BaseGui {
-	+ action: Function
-	+ on_select: Function
-	+ on_deselect: Function
-	+ is_selected: Boolean
+class gui.Button extends gui.BaseGui {
+	+ action: function
+	+ on_select: function
+	+ on_deselect: function
+	+ is_selected: bool
 	+ select_sound: Resource
 	+ confirm_sound: Resource
 
@@ -24,91 +24,91 @@ class gui.components.Button extends gui.components.BaseGui {
 	+ deselect()
 }
 
-class gui.components.TextButton extends gui.components.Button {
-	+ text: String
+class gui.TextButton extends gui.Button {
+	+ text: string
 	+ font: pygame.Font
-	+ color: Color
-	+ color_hover: Color
+	+ color: tuple
+	+ color_hover: tuple
 
-	- render_font(text: String, color: Color) -> pygame.Surface
-	+ set_text(text: String)
-	+ set_color(color: Color)
+	- render_font(text: string, color: tuple) -> pygame.Surface
+	+ set_text(text: string)
+	+ set_color(color: tuple)
 }
 
-class gui.components.Text extends gui.components.BaseGui {
-	+ text: String
+class gui.Text extends gui.BaseGui {
+	+ text: string
 	+ font: pygame.Font
-	+ color: Color
+	+ color: tuple
 }
 
-class gui.components.Title extends gui.components.Text
+class gui.Title extends gui.Text
 
-class gui.components.BlinkText extends gui.components.Text {
-	+ blink_time: Integer
-	+ current_time: Float
-	+ is_visible: Boolean
-	+ only_once: Boolean
+class gui.BlinkText extends gui.Text {
+	+ blink_time: number
+	+ current_time: number
+	+ is_visible: bool
+	+ only_once: bool
 
-	+ update(dt: Float)
+	+ update(elapsed_time: number)
 }
 
-class gui.components.FullScreenButton extends gui.components.TextButton {
-	+ full_screen: Boolean
+class gui.FullScreenButton extends gui.TextButton {
+	+ full_screen: bool
 
-	- get_full_text() -> String
+	- get_full_text() -> string
 	+ toggle_full_screen()
 }
 
-class gui.components.ActionButton extends gui.components.TextButton {
-	+ previous_color: Color
+class gui.ActionButton extends gui.TextButton {
+	+ previous_color: tuple
 
-	- action(action: Function)
+	- action(action: function)
 	+ reset_color()
 }
 
-class gui.components.RebindButton extends gui.components.ActionButton {
-	+ action_text: String
-	+ bind_action: String
-	+ bind_key: String
+class gui.RebindButton extends gui.ActionButton {
+	+ action_text: string
+	+ bind_action: string
+	+ bind_key: string
 
-	- get_full_text() -> String
+	- get_full_text() -> string
 	+ rebind_action(bind_key: pygame.Key)
 }
 
-class gui.components.SeedButton extends gui.components.ActionButton {
-	+ seed: String
+class gui.SeedButton extends gui.ActionButton {
+	+ seed: string
 
-	- get_full_text() -> String
+	- get_full_text() -> string
 	+ remove_last_char()
-	+ add_char(char: String)
-	+ set_seed(seed: String)
+	+ add_char(char: string)
+	+ set_seed(seed: string)
 	+ empty_seed()
 }
 
-class gui.components.VolumeButton extends gui.components.ActionButton {
-	+ volume_text: String
-	+ volume_level: Integer
-	+ increase_volume_cb: Function
-	+ decrease_volume_cb: Function
+class gui.VolumeButton extends gui.ActionButton {
+	+ volume_text: string
+	+ volume_level: number
+	+ increase_volume_cb: function
+	+ decrease_volume_cb: function
 
-	- get_full_text() -> String
-	+ set_volume(volume: Integer)
+	- get_full_text() -> string
+	+ set_volume(volume: number)
 }
 
-class gui.components.UpgradeCard extends gui.components.Button {
-	+ title: String
+class gui.UpgradeCard extends gui.Button {
+	+ title: string
 	+ icon: pygame.Surface
 	+ font: pygame.Font
-	+ width: Integer
-	+ height: Integer
+	+ width: number
+	+ height: number
 
 	- render_card() -> pygame.Surface
 	+ on_select()
 	+ on_deselect()
 }
 
-gui.components.Button --> systems.SoundController
-gui.components.RebindButton --> systems.ControlSystem
+gui.Button --> systems.SoundController
+gui.RebindButton --> systems.ControlSystem
 
 
 @enduml
