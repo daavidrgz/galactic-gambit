@@ -8,14 +8,12 @@ from scenes.menus.keybinds_menu import KeybindingsMenu
 from scenes.menus.vertical_menu import VerticalMenu
 from scenes.menus.volume_menu import VolumeMenu
 from systems.resource_manager import Resource
-from systems.rng_system import RngSystem
 
 
 class InGameConfigurationMenu(VerticalMenu):
     def __init__(self, background):
         super().__init__()
         self.background = background
-        self.rng_system = RngSystem()
 
     def __create_button(self, text, action, offset):
         font = self.resource_manager.load_font(Resource.FONT_LG)
@@ -42,22 +40,22 @@ class InGameConfigurationMenu(VerticalMenu):
         self.director.pop_scene()
 
     def setup(self):
-        font = self.resource_manager.load_font(Resource.FONT_LG)
-
         self.title = Title(
             text="Configuration",
             color=COLOR_BRIGHT,
             position=(DESIGN_WIDTH // 2, 100),
         )
+
         full_screen_button = FullScreenButton(
             full_screen=self.director.full_screen,
-            font=font,
+            font=self.resource_manager.load_font(Resource.FONT_LG),
             color=COLOR_SUBTLE,
             color_hover=COLOR_BRIGHT,
             action=self.__toggle_full_screen,
             position=(DESIGN_WIDTH / 2, DESIGN_HEIGHT / 2 - 120),
         )
         self.buttons.append(full_screen_button)
+
         self.buttons.append(self.__create_button("Volume", self.__volume_config, -40))
         self.buttons.append(
             self.__create_button("Keybindings", self.__keybindings_config, 40)

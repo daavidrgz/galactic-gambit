@@ -25,7 +25,7 @@ class TitansMight(MagicUpgrade):
         # Scale the image
         bullet.set_image(pygame.transform.scale(previous_image, previous_size * 1.3))
 
-    update_effect = apply
+    init_effect = apply
 
 
 # UPDATE UPGRADES
@@ -77,7 +77,7 @@ class WaveformCannon(MagicUpgrade):
 
         previous_image = bullet.image
         previous_size = np.array(previous_image.get_size())
-        bullet.set_image(pygame.transform.scale(previous_image, previous_size * scale))
+        bullet.set_temp_image(pygame.transform.scale(previous_image, previous_size * scale))
 
     update_effect = apply
 

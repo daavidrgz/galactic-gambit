@@ -25,6 +25,8 @@ class PlanetLevel(Level):
             10000,
         )
 
+        background = Resource.PLANET_BG
+
         self.next_level = CaveLevel
 
         self.possible_enemy_spawns = [
@@ -35,7 +37,7 @@ class PlanetLevel(Level):
             EnemySpawnGroups.PLANET_MIXED_RANGE,
             EnemySpawnGroups.PLANET_FULL_MIXUP,
             EnemySpawnGroups.PLANET_MELEE_SUPPORT,
-            ]
+        ]
         self.enemy_spawn_level = 35
 
         super().__init__(
@@ -43,6 +45,7 @@ class PlanetLevel(Level):
             terrain=terrain,
             scene_music=level_music,
             player_footsteps=player_footsteps,
+            background=background,
         )
 
     def setup(self):

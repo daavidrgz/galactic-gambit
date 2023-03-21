@@ -107,6 +107,10 @@ class AnimatedSprite(pygame.sprite.Sprite):
             image = [AnimationFrame(image, 0.1)]
         self.setup_frames(image)
 
+    def set_temp_image(self, image):
+        self.image = image
+        self._rect = image.get_rect()
+
     @property
     def rect(self):
         self._rect.centerx, self._rect.centery = self.position

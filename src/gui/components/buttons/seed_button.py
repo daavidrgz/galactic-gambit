@@ -1,7 +1,7 @@
-from gui.components.buttons.text_button import TextButton
+from gui.components.buttons.action_button import ActionButton
 
 
-class SeedButton(TextButton):
+class SeedButton(ActionButton):
     MAX_SEED_LENGTH = 9
 
     def __init__(
@@ -14,7 +14,6 @@ class SeedButton(TextButton):
         position,
     ):
         self.seed = seed
-        self.previous_color = color
 
         full_text = self.__get_full_text()
         super().__init__(
@@ -22,17 +21,12 @@ class SeedButton(TextButton):
             font=font,
             color=color,
             color_hover=color_hover,
-            action=lambda: self.__action(action),
+            action=action,
             position=position,
         )
 
     def __get_full_text(self):
         return f"Seed: {self.seed}"
-
-    def __action(self, action):
-        self.previous_color = self.current_color
-        self.set_color((255, 255, 0))
-        action()
 
     def remove_last_char(self):
         self.seed = self.seed[:-1]
@@ -51,6 +45,3 @@ class SeedButton(TextButton):
     def empty_seed(self):
         self.seed = ""
         self.set_text(self.__get_full_text())
-
-    def reset_color(self):
-        self.set_color(self.previous_color)

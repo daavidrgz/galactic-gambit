@@ -190,7 +190,7 @@ class Level(Scene):
         if self.enemy_group.get_num_enemies() > 0:
             return
 
-        distance_sqr = square_norm(self.player.position - self.terrain.get_end_position())
+        distance_sqr = square_norm(self.player.position - self.terrain.end_position)
         if distance_sqr < (3 * TILE_SIZE) ** 2:
             self.game_model.update_player(self.player)
             self.game_model.level = self.next_level

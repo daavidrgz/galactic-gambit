@@ -1,0 +1,114 @@
+@startuml gui_components_uml
+
+class gui.components.BaseGui extends pygame.sprite.Sprite {
+	+ image: pygame.Surface
+	+ rect: pygame.Rect
+	+ position: Tuple
+
+	+ set_surface(surface: pygame.Surface)
+	+ set_position(position: Tuple)
+	+ set_position_rel(position: Tuple)
+	+ is_inside(position: Tuple) -> Boolean
+}
+
+class gui.components.Button extends gui.components.BaseGui {
+	+ action: Function
+	+ on_select: Function
+	+ on_deselect: Function
+	+ is_selected: Boolean
+	+ select_sound: Resource
+	+ confirm_sound: Resource
+
+	+ execute_action()
+	+ select()
+	+ deselect()
+}
+
+class gui.components.TextButton extends gui.components.Button {
+	+ text: String
+	+ font: pygame.Font
+	+ color: Color
+	+ color_hover: Color
+
+	- render_font(text: String, color: Color) -> pygame.Surface
+	+ set_text(text: String)
+	+ set_color(color: Color)
+}
+
+class gui.components.Text extends gui.components.BaseGui {
+	+ text: String
+	+ font: pygame.Font
+	+ color: Color
+}
+
+class gui.components.Title extends gui.components.Text
+
+class gui.components.BlinkText extends gui.components.Text {
+	+ blink_time: Integer
+	+ current_time: Float
+	+ is_visible: Boolean
+	+ only_once: Boolean
+
+	+ update(dt: Float)
+}
+
+class gui.components.FullScreenButton extends gui.components.TextButton {
+	+ full_screen: Boolean
+
+	- get_full_text() -> String
+	+ toggle_full_screen()
+}
+
+class gui.components.ActionButton extends gui.components.TextButton {
+	+ previous_color: Color
+
+	- action(action: Function)
+	+ reset_color()
+}
+
+class gui.components.RebindButton extends gui.components.ActionButton {
+	+ action_text: String
+	+ bind_action: String
+	+ bind_key: String
+
+	- get_full_text() -> String
+	+ rebind_action(bind_key: pygame.Key)
+}
+
+class gui.components.SeedButton extends gui.components.ActionButton {
+	+ seed: String
+
+	- get_full_text() -> String
+	+ remove_last_char()
+	+ add_char(char: String)
+	+ set_seed(seed: String)
+	+ empty_seed()
+}
+
+class gui.components.VolumeButton extends gui.components.ActionButton {
+	+ volume_text: String
+	+ volume_level: Integer
+	+ increase_volume_cb: Function
+	+ decrease_volume_cb: Function
+
+	- get_full_text() -> String
+	+ set_volume(volume: Integer)
+}
+
+class gui.components.UpgradeCard extends gui.components.Button {
+	+ title: String
+	+ icon: pygame.Surface
+	+ font: pygame.Font
+	+ width: Integer
+	+ height: Integer
+
+	- render_card() -> pygame.Surface
+	+ on_select()
+	+ on_deselect()
+}
+
+gui.components.Button --> systems.SoundController
+gui.components.RebindButton --> systems.ControlSystem
+
+
+@enduml

@@ -40,7 +40,7 @@ class StartMenu(VerticalMenu):
     def __new_game(self):
         # Reset current seed to initial state
         RngSystem().reset()
-        self.game_model.init_model()
+        self.game_model.reset_model()
         self.game_model.level = ShipLevel
         self.game_model.save()
         self.director.push_scene(Transition(TheBeginning()))

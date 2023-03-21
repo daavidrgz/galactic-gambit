@@ -52,6 +52,11 @@ class GameModel(metaclass=Singleton):
         self.player = initial_player
         self.level = None
 
+    def reset_model(self):
+        self.init_model()
+        self.tech_upgrade_system.reset()
+        self.magic_upgrade_system.reset()
+
     def __update_model(self, model):
         self.player = model.player
         self.level = model.level

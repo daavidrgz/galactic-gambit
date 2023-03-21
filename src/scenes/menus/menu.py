@@ -13,16 +13,16 @@ class Menu(Scene):
         self.buttons_len = 0
         self.background = None
         self.disable_mouse = False
-        self.clicked_element = None
-
-    def get_selected_button(self):
-        return self.buttons[self.current_button]
+        self.clicked_button = None
 
     def setup(self):
         self.buttons_len = len(self.buttons)
         if self.buttons_len > 0:
             self.buttons[0].select()
         super().setup()
+
+    def get_selected_button(self):
+        return self.buttons[self.current_button]
 
     def previous_button(self):
         if self.current_button != 0:
@@ -45,17 +45,17 @@ class Menu(Scene):
                 event_pos = self.control_system.user_pos_to_design(
                     event.pos[0], event.pos[1]
                 )
-                self.clicked_element = None
+                self.clicked_button = None
                 for element in self.gui_group:
                     if element.is_inside(event_pos):
-                        self.clicked_element = element
+                        self.clicked_button = element
                         break
             if event.type == pygame.MOUSEBUTTONUP:
                 event_pos = self.control_system.user_pos_to_design(
                     event.pos[0], event.pos[1]
                 )
                 for element in self.gui_group:
-                    if element.is_inside(event_pos) and element == self.clicked_element:
+                    if element.is_inside(event_pos) and element == self.clicked_button:
                         element.execute_action()
                         break
             if event.type == pygame.KEYDOWN:

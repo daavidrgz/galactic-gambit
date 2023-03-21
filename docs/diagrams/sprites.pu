@@ -1,0 +1,29 @@
+
+@startuml sprites
+class pygame.sprite.Sprite{}
+
+class AnimatedSprite extends pygame.sprite.Sprite{
+    +AnimatedSprite(frames: list[AnimationFrame], position: np.array)
+    
+}
+
+AnimatedSprite --> Systems.ResourceManager
+
+class AnimationFrame{
+    + AnimationFrame(image: pygame, duration: number)
+    + get_image(): pygame
+    + get_duration(): number 
+}
+
+AnimatedSprite "1" o-- "N" AnimationFrame
+
+class Effect extends AnimatedSprite{
+
+}
+
+class ExplosionEffect extends Effect{
+    +ExplosionEffect(position: np.array)
+}
+class Entity extends AnimatedSprite
+
+@enduml

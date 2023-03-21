@@ -1,7 +1,7 @@
 import pygame
 from constants.game_constants import DESIGN_HEIGHT, DESIGN_WIDTH
 from gui.components.title import Title
-from gui.components.upgrade_card import UpgradeCard
+from gui.components.buttons.upgrade_card import UpgradeCard
 from constants.gui_constants import COLOR_BRIGHT
 from scenes.menus.horizontal_menu import HorizontalMenu
 from systems.resource_manager import Resource
@@ -18,10 +18,11 @@ class UpgradeMenu(HorizontalMenu):
         self.upgrades = upgrades
         self.apply_upgrade = apply_upgrade
 
-    def __create_upgrade_card(self, title, icon, action, offset):
+    def __create_upgrade_card(self, title, icon, font, action, offset):
         return UpgradeCard(
             title=title,
             icon=icon,
+            font=font,
             position=(DESIGN_WIDTH // 2 + offset, DESIGN_HEIGHT // 2 + 20),
             width=250,
             height=340,
@@ -41,6 +42,8 @@ class UpgradeMenu(HorizontalMenu):
             return [0]
 
     def setup(self):
+        font = self.resource_manager.load_font(Resource.FONT_MD)
+
         self.title = Title(
             text="Choose your upgrade!",
             color=COLOR_BRIGHT,
@@ -53,6 +56,7 @@ class UpgradeMenu(HorizontalMenu):
                 self.__create_upgrade_card(
                     title=upgrade.name,
                     icon=self.resource_manager.load_image(upgrade.icon),
+                    font=font,
                     action=lambda up=upgrade: self.__select_upgrade(up),
                     offset=offsets[i],
                 )

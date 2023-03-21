@@ -9,7 +9,6 @@ from scenes.menus.keybinds_menu import KeybindingsMenu
 from scenes.menus.vertical_menu import VerticalMenu
 from scenes.menus.volume_menu import VolumeMenu
 from systems.resource_manager import Resource
-from systems.rng_system import RngSystem
 
 
 class ConfigurationMenu(VerticalMenu):
@@ -17,7 +16,6 @@ class ConfigurationMenu(VerticalMenu):
         super().__init__()
         self.background = background
         self.is_changing_seed = False
-        self.rng_system = RngSystem()
 
     def __create_button(self, text, action, offset):
         font = self.resource_manager.load_font(Resource.FONT_LG)
