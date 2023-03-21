@@ -1,4 +1,5 @@
 from animations.animated_sprite import AnimatedSprite
+from constants.gui_constants import COLOR_STANDARD, COLOR_SUBTLE
 from entities.misc.chest_entity import ChestEntity
 from entities.living.player.player import Player
 from mechanics.magic.magic_upgrade_system import MagicUpgradeSystem
@@ -19,7 +20,12 @@ import pygame
 import numpy as np
 from itertools import chain
 
-from constants.game_constants import TILE_SIZE, BACKGROUND_DIMMING, DESIGN_WIDTH, DESIGN_HEIGHT
+from constants.game_constants import (
+    TILE_SIZE,
+    BACKGROUND_DIMMING,
+    DESIGN_WIDTH,
+    DESIGN_HEIGHT,
+)
 
 
 class Level(Scene):
@@ -63,13 +69,19 @@ class Level(Scene):
         self.scene_music = scene_music
         self.player_footsteps = player_footsteps
 
+        self.color_veil = pygame.Surface((DESIGN_WIDTH, DESIGN_HEIGHT))
+        self.color_veil.fill(COLOR_SUBTLE)
+        self.color_veil.set_alpha(30)
+
     def load(self):
         self.generator.generate()
         self.__spawn_chest_entity()
 
         self.hud.setup(self)
 
-        spawn_enemies(self, self.terrain, self.possible_enemy_spawns, self.enemy_spawn_level)
+        spawn_enemies(
+            self, self.terrain, self.possible_enemy_spawns, self.enemy_spawn_level
+        )
 
         if self.background:
             self.__setup_bg()
@@ -103,7 +115,8 @@ class Level(Scene):
         bg_width, bg_height = background_image.get_size()
         size_ratio = max(
             (DESIGN_WIDTH + terrain_size[0] * self.background_parallax_rate) / bg_width,
-            (DESIGN_HEIGHT + terrain_size[1] * self.background_parallax_rate) / bg_height,
+            (DESIGN_HEIGHT + terrain_size[1] * self.background_parallax_rate)
+            / bg_height,
         )
 
         bg_width *= size_ratio
@@ -118,7 +131,7 @@ class Level(Scene):
         middle_terrain_pos = middle_terrain_pos * self.background_parallax_rate
         background_sprite = AnimatedSprite(
             background_image,
-            middle_terrain_pos + np.array((DESIGN_WIDTH/2, DESIGN_HEIGHT/2)),
+            middle_terrain_pos + np.array((DESIGN_WIDTH / 2, DESIGN_HEIGHT / 2)),
         )
         self.background_group.add(background_sprite)
 
@@ -134,16 +147,19 @@ class Level(Scene):
 
         min_distance = 100
         while True:
-            x = rng.randrange(self.terrain.width) 
+            x = rng.randrange(self.terrain.width)
             y = rng.randrange(self.terrain.height)
 
-            if not self.terrain.on_ground_area((range(x, x+2), range(y, y+2))):
+            if not self.terrain.on_ground_area((range(x, x + 2), range(y, y + 2))):
                 continue
 
-            if min(manhattan_norm((x-sx, y-sy)), manhattan_norm((x-ex, y-ey))) < min_distance:
+            if (
+                min(manhattan_norm((x - sx, y - sy)), manhattan_norm((x - ex, y - ey)))
+                < min_distance
+            ):
                 min_distance -= 1
                 continue
-            
+
             break
 
         self.chest_position = (x * TILE_SIZE, y * TILE_SIZE)
@@ -220,13 +236,16 @@ class Level(Scene):
         self.enemy_bullets.draw(screen)
         self.animation_group.draw(screen)
         self.hud.draw(screen)
+        screen.blit(self.color_veil, (0, 0))
 
     def __draw_ordered(self, screen):
         self.draw_ordered.empty()
-        self.draw_ordered.add(sorted(
-            chain(self.player_group, self.enemy_group, self.misc_entities),
-            key=lambda a: a.rect.bottom,
-        ))
+        self.draw_ordered.add(
+            sorted(
+                chain(self.player_group, self.enemy_group, self.misc_entities),
+                key=lambda a: a.rect.bottom,
+            )
+        )
         self.draw_ordered.draw(screen)
 
     def pop_back(self):
