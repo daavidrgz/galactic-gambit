@@ -9,12 +9,14 @@ from systems.resource_manager import Resource
 
 
 class VolumeMenu(VerticalMenu):
-    def __init__(self, background=pygame.Surface((DESIGN_WIDTH, DESIGN_HEIGHT))):
+    def __init__(self, subtle, bright, background=pygame.Surface((DESIGN_WIDTH, DESIGN_HEIGHT))):
         super().__init__()
         self.background = background
         self.is_changing_volume = False
         self.input_timeout = 50
         self.current_timeout = 0
+        self.subtle = subtle
+        self.bright = bright
 
     def __change_volume(self):
         self.disable_mouse = True
@@ -28,7 +30,7 @@ class VolumeMenu(VerticalMenu):
 
         self.title = Title(
             text="Volume",
-            color=COLOR_BRIGHT,
+            color=self.bright,
             position=(DESIGN_WIDTH // 2, 100),
         )
 
@@ -41,8 +43,8 @@ class VolumeMenu(VerticalMenu):
                 action=self.__change_volume,
                 position=(DESIGN_WIDTH // 2, DESIGN_HEIGHT // 2 - 80),
                 font=font,
-                color=COLOR_SUBTLE,
-                color_hover=COLOR_BRIGHT,
+                color=self.subtle,
+                color_hover=self.bright,
             )
         )
 
@@ -55,16 +57,16 @@ class VolumeMenu(VerticalMenu):
                 action=self.__change_volume,
                 position=(DESIGN_WIDTH // 2, DESIGN_HEIGHT // 2),
                 font=font,
-                color=COLOR_SUBTLE,
-                color_hover=COLOR_BRIGHT,
+                color=self.subtle,
+                color_hover=self.bright,
             )
         )
 
         self.go_back_button = TextButton(
             text="Go back",
             font=self.resource_manager.load_font(Resource.FONT_LG),
-            color=COLOR_SUBTLE,
-            color_hover=COLOR_BRIGHT,
+            color=self.subtle,
+            color_hover=self.bright,
             action=self.__go_back,
             position=(DESIGN_WIDTH // 2, DESIGN_HEIGHT // 2 + 80),
         )

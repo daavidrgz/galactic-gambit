@@ -27,10 +27,10 @@ class InGameConfigurationMenu(VerticalMenu):
         )
 
     def __keybindings_config(self):
-        self.director.push_scene(KeybindingsMenu(self.background))
+        self.director.push_scene(KeybindingsMenu(self.background, COLOR_SUBTLE, COLOR_BRIGHT))
 
     def __volume_config(self):
-        self.director.push_scene(VolumeMenu(self.background))
+        self.director.push_scene(VolumeMenu(COLOR_SUBTLE, COLOR_BRIGHT, self.background))
 
     def __toggle_full_screen(self):
         self.get_selected_button().toggle_full_screen()

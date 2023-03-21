@@ -10,10 +10,12 @@ from systems.resource_manager import Resource
 
 
 class KeybindingsMenu(VerticalMenu):
-    def __init__(self, background):
+    def __init__(self, background, subtle, bright):
         super().__init__()
         self.background = background
         self.is_changing_keybind = False
+        self.subtle = subtle
+        self.bright = bright
 
     def __change_keybind(self):
         self.disable_mouse = True
@@ -34,8 +36,8 @@ class KeybindingsMenu(VerticalMenu):
             bind_action=action,
             bind_key=self.control_system.get_action_key(action),
             font=font,
-            color=COLOR_SUBTLE,
-            color_hover=COLOR_BRIGHT,
+            color=self.subtle,
+            color_hover=self.bright,
             action=self.__change_keybind,
             position=(DESIGN_WIDTH // 2, DESIGN_HEIGHT // 2 + offset),
         )
@@ -43,7 +45,7 @@ class KeybindingsMenu(VerticalMenu):
     def setup(self):
         self.title = Title(
             text="Keybindings",
-            color=COLOR_BRIGHT,
+            color=self.bright,
             position=(DESIGN_WIDTH // 2, 100),
         )
 
@@ -55,8 +57,8 @@ class KeybindingsMenu(VerticalMenu):
         self.go_back_button = TextButton(
             text="Go back",
             font=self.resource_manager.load_font(Resource.FONT_MD),
-            color=COLOR_SUBTLE,
-            color_hover=COLOR_BRIGHT,
+            color=self.subtle,
+            color_hover=self.bright,
             action=self.__go_back,
             position=(DESIGN_WIDTH // 2, DESIGN_HEIGHT // 2 + 100),
         )
