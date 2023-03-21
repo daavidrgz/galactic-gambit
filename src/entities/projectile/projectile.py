@@ -23,7 +23,7 @@ class Projectile(Entity):
     def setup(self, level):
         super().setup(level)
 
-    def collide(self):
+    def collide(self,add_animation_func):
         self.kill()
 
     def set_facing(self, angle):
