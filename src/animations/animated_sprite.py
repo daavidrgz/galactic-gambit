@@ -14,7 +14,7 @@ class AnimatedSprite(pygame.sprite.Sprite):
 
         if isinstance(frames, Resource):
             frames = self.resource_manager.load_animation(frames)
-            self.current_anim = frames
+            self.current_animation = frames
         elif not isinstance(frames, list):
             frames = [AnimationFrame(frames, 0.1)]
 
@@ -92,9 +92,9 @@ class AnimatedSprite(pygame.sprite.Sprite):
             self.acc_times.append(self.acc_times[-1] + frame.get_duration())
 
     def set_animation(self, identifier):
-        if identifier == self.current_anim:
+        if identifier == self.current_animation:
             return
-        self.current_anim = identifier
+        self.current_animation = identifier
         frames = self.resource_manager.load_animation(identifier)
         self.setup_frames(frames)
 
@@ -102,7 +102,7 @@ class AnimatedSprite(pygame.sprite.Sprite):
         self.speed_multiplier = value
 
     def set_image(self, image):
-        self.current_anim = None
+        self.current_animation = None
         if not isinstance(image, list):
             image = [AnimationFrame(image, 0.1)]
         self.setup_frames(image)
