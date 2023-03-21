@@ -126,6 +126,3 @@ class BaseEnemy(LivingEntity):
         else:
             self.velocity = np.zeros(2)
             self.velocity_norm = 0.0
-
-    def __update_animation(self):
-        pass
