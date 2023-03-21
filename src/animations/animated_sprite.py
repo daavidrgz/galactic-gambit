@@ -13,8 +13,8 @@ class AnimatedSprite(pygame.sprite.Sprite):
         self.modifiers = []
 
         if isinstance(frames, Resource):
-            frames = self.resource_manager.load_animation(frames)
             self.current_animation = frames
+            frames = self.resource_manager.load_animation(frames)
         elif not isinstance(frames, list):
             frames = [AnimationFrame(frames, 0.1)]
 
