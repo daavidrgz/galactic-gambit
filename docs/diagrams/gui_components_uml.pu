@@ -44,10 +44,10 @@ class gui.Text extends gui.BaseGui {
 class gui.Title extends gui.Text
 
 class gui.BlinkText extends gui.Text {
-	+ blink_time: number
 	+ current_time: number
 	+ is_visible: bool
 	+ only_once: bool
+	- blink_time: number
 
 	+ update(elapsed_time: number)
 }
@@ -60,7 +60,7 @@ class gui.FullScreenButton extends gui.TextButton {
 }
 
 class gui.ActionButton extends gui.TextButton {
-	+ previous_color: tuple
+	- previous_color: tuple
 
 	- action(action: function)
 	+ reset_color()

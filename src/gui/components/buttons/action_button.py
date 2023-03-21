@@ -11,7 +11,7 @@ class ActionButton(TextButton):
         action,
         position,
     ):
-        self.previous_color = color
+        self.__previous_color = color
 
         super().__init__(
             text=text,
@@ -23,9 +23,9 @@ class ActionButton(TextButton):
         )
 
     def __action(self, action):
-        self.previous_color = self.current_color
+        self.__previous_color = self.current_color
         self.set_color((255, 255, 0))
         action()
 
     def reset_color(self):
-        self.set_color(self.previous_color)
+        self.set_color(self.__previous_color)
