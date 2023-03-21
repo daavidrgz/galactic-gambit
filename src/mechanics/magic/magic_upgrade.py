@@ -26,6 +26,8 @@ class TitansMight(MagicUpgrade):
         bullet.set_image(pygame.transform.scale(previous_image, previous_size * 1.3))
         # Increase logical size
         bullet.size *= 1.3
+        # Make it knock things harder
+        bullet.knockback *= 3
 
     init_effect = apply
 
@@ -54,7 +56,12 @@ class SerpentStrike(MagicUpgrade):
             bullet.velocity, modify_vector_module
         )
 
+    def setup(self, bullet, level):
+        bullet.knockback *= 1.2
+        bullet.damage += 1.0
+
     update_effect = apply
+    init_effect = setup
 
 
 class WaveformCannon(MagicUpgrade):
@@ -82,8 +89,12 @@ class WaveformCannon(MagicUpgrade):
         previous_size = np.array(previous_image.get_size())
         bullet.set_temp_image(pygame.transform.scale(previous_image, previous_size * scale))
 
-        # Increase logical size
+        # Scale logical size
         bullet.size *= scale
+
+        # Wobble stats
+        bullet.damage *= scale
+        bullet.knockback *= scale
 
     update_effect = apply
 
@@ -143,6 +154,9 @@ class PrismaticAura(MagicUpgrade):
     def setup(self, bullet, level):
         bullet.add_image_modifier(self.__rainbow_modifier)
 
+        # +20% damage
+        bullet.damage *= 1.2
+
     def __rainbow_modifier(self, image):
         color = pygame.Color(0)
         color.hsva = ((self.state / self.laps) % 360, 50, 100, 100)
@@ -159,7 +173,7 @@ class PortableInstability(MagicUpgrade):
     icon = Resource.BLACKHOLE_ICON
 
     def apply(self, bullet, elapsed_time):
-        if self.timer < 100:
+        if self.timer < 170:
             self.timer += elapsed_time
             return
 
@@ -169,7 +183,8 @@ class PortableInstability(MagicUpgrade):
 
         distance = np.clip(distance / TILE_SIZE / 2.0, 1, 20)
 
-        bullet.velocity += (direction * elapsed_time * 0.1) / distance**2
+        # Pull towards player
+        bullet.velocity += (direction * elapsed_time * 0.14) / distance**1.5
 
     def setup(self, bullet, level):
         self.timer = 0
@@ -185,8 +200,14 @@ class GhostlyShot(MagicUpgrade):
     icon = Resource.GHOST_ALT_ICON
 
     def setup(self, bullet, level):
+        # No collision
         bullet.ground_collision = False
+
+        # Translucent
         bullet.add_image_modifier(self.__translucent_modifier)
+
+        # Reduced range
+        bullet.lifetime *= 0.8
 
     def __translucent_modifier(self, image):
         image.set_alpha(127)
@@ -238,13 +259,15 @@ class ViciousAim(MagicUpgrade):
 
         angle /= sqr_dist / TILE_SIZE / 10
 
-        if abs(angle) > 0.1 * elapsed_units:
-            angle = np.sign(angle) * 0.1 * elapsed_units
+        if abs(angle) > 0.15 * elapsed_units:
+            angle = np.sign(angle) * 0.15 * elapsed_units
 
+        #Home in on enemies
         bullet.velocity = rotate_vector_rad(bullet.velocity, angle)
 
     def setup(self, bullet, level):
-        bullet.velocity *= 0.75
+        bullet.velocity *= 0.7
+        bullet.lifetime /= 0.7
 
         from_pos = bullet.position
         self.target = None
