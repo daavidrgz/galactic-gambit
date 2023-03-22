@@ -31,6 +31,9 @@ class ChestEntity(Entity):
         super().update(elapsed_time)
 
     def do_open(self):
+        if self.open:
+            return
+
         self.open = True
         image = ResourceManager().load_image(Resource.CHEST_OPEN)
         image = pygame.transform.scale(image, [x*2 for x in image.get_size()])
