@@ -1,0 +1,198 @@
+
+@startuml entities
+
+class entities.Entity extends animations.AnimatedSprite{
+    + id:number
+    + removed:boolean
+
+    + Entity(image: pygame.Surface,initial_pos: numpy.ndarray)
+    + setup(level: scenes.Level)
+    + update(elapsed_time: number)
+    + collide(on_collide: function)
+    + kill()
+    + get_id(): number
+}
+
+class entities.KinematicEntity extends entities.Entity{
+    + drag:number
+    + collision: numpy.ndarray
+    + velocity: numpy.ndarray
+
+    + KinematicEntity(image: pygame.Surface, initial_pos: numpy.ndarray,
+        drag: number, collision: numpy.ndarray)
+    + setup(level: scenes.Level)
+    + update(elapsed_time: number)
+}
+entities.KinematicEntity --> generation.BaseTerrain
+
+class entities.LivingEntity extends entities.KinematicEntity{
+    + was_hit:boolean
+    + hit_timer:number
+    + invulnerability_time:number
+    + hit_sound: systems.Resource
+    + death_sound: systems.Resource
+
+    + LivingEntity(image: pygame.Surface, initial_pos: numpy.ndarray,\n drag: number, collision: numpy.ndarray, hp: number, 
+        invulnerability_time: number)
+    + setup(level: scenes.Level,death_sound: systems.Resource,
+        hit_sound: systems.Resource)
+    + update(elapsed_time: number)
+    + hit(damage:number,knockback: numpy.ndarray)
+    + on_death()
+    - hit_sprite_modifier(image: pygame.Surface)
+}
+
+entities.LivingEntity "1" o-->"1" entities.Hp
+entities.LivingEntity "1" o-->"1" entities.ObservablePosition
+entities.LivingEntity --> systems.SoundController
+
+class entities.Hp extends utils.Observable{
+    + max_hp:number
+    + hp:number
+    + on_death:function
+
+    + Hp(max_hp: number)
+    + from_model_hp(model_hp: systems.ModelHp)
+    + setup(on_death: function)
+    + get_hp(): number
+    + get_max_hp(): number
+    + reduce(amount: number)
+    + increase(amount: number)
+}
+
+class entities.ObservablePosition extends utils.Observable{
+    + entity_id
+    + update(position: numpy.ndarray)
+}
+
+class utils.Observable{
+    + Observable()
+    + add_listener(observer: utils.Observer)
+    + remove_listener(observer: utils.Observer)
+    + notify_listeners()
+}
+
+class utils.Observer{
+    + notify()
+}
+utils.Observable "1" o--> "N" utils.Observer: observers
+
+class entities.Player extends entities.LivingEntity{
+    + laser_sound: systems.Resouce
+    + exp_sound: systems.Resource
+    + level_up_sound: systems.Resource
+    + facing_vector: numpy.ndarray
+    + on_death_callback: function
+
+    + Player(hp: number, gun: mechanics.Gun, 
+    magic_level: mechanics.MagicLevel, initial_pos: numpy.ndarray)
+    + from_player_model(player_model: systems.PlayerModel, 
+        initial_pos: numpy.ndarray)
+    + setup(level: scenes.Level, on_level_up: function,
+        on_death: function)
+    + update(elapsed_time: number)
+    + on_death()
+    + increase_exp(exp:number)
+    + apply_tech_upgrade(upgrade: mechanics.TechUpgrade)
+    + apply_magical_upgrade(upgrade: mechanics.MagicUpgrade)
+    + shoot(mouse_pos: tuple[number,number])
+    + hit(damage:number,knockback: numpy.ndarray)
+
+
+    - on_level_up(on_level_up_callback:function)
+    - get_screen_position()
+    - update_attack(elapsed_time: number)
+    - update_movement(elapsed_time: number)
+    - update_animation(elapsed_time: number)
+}
+
+entities.Player --> systems.ControlSystem
+entities.Player --> systems.CameraManager
+entities.Player "1" o--> "1" mechanics.Gun
+entities.Player "1" o--> "1" mechanics.MagicLevel 
+
+class entities.BaseEnemy extends entities.LivingEntity{}
+class entities.Projectile extends entities.Entity{
+    + base_image: pygame.Surface
+    + velocity: numpy.ndarray
+    + damage: number
+    + knockback: number
+    + ground_collision: boolean
+    + lifetime: number
+    + previous_facing: numpy.ndarray
+
+    + Projectile(image: pygame.Surface,initial_pos: numpy.ndarray,\n speed: number,direction:numpy.ndarray,
+        damage:number,knockback:number, lifetime:number)
+    + setup(level: scenes.Level)
+    + collide()
+    + set_facing(angle: number)
+    + get_direction(): numpy.ndarray
+    + update(elapsed_time: number)
+}
+
+class entities.PlayerBullet extends entities.Projectile{
+    + PlayerBullet(image: pygame.Surface,initial_pos: numpy.ndarray,\n speed: number,direction:numpy.ndarray, damage:number,
+        knockback:number, lifetime:number)
+    + collide(add_animation_func: function)
+    + setup(level: scenes.Level)
+    + update(elapsed_time: number)
+}
+
+entities.PlayerBullet "1" o-->"N" mechanics.MagicUpgrade: upgrades
+
+class entities.EnemyStrike extends entities.Projectile{
+    + EnemyStrike(image: pygame.Surface,initial_pos: numpy.ndarray,\n speed: number,direction:numpy.ndarray, damage:number,
+        knockback:number, lifetime:number)
+    + update(elapsed_time: number)
+}
+class entities.EnemyBullet extends entities.Projectile{
+    + EnemyBullet(image: pygame.Surface,initial_pos: numpy.ndarray,\n speed: number,direction:numpy.ndarray, damage:number,
+        knockback:number, lifetime:number)
+    + update(elapsed_time: number)
+    + collide(add_animation_func: function)
+    - red_image_modifier(image: pygame.Surface)
+}
+
+class entities.XpEntity extends entities.Entity{
+    + amount: number
+    + velocity: numpy.ndarray
+    + timer: number
+
+    + XpEntity(initial_pos: numpy.ndarray,amount: number)
+    + setup(level: scenes.Level)
+    + update(elapsed_time: number)
+}
+
+entities.XpEntity --> systems.RngSystem
+
+class entities.AlertEntity extends entities.Entity{
+    +timer:number
+
+    + AlertEntity(initial_pos: numpy.ndarray)
+    + update(elapsed_time: number)
+}
+
+class entities.ChestEntity extends entities.Entity{
+    + open: boolean
+
+    + ChestEntity(initial_pos: numpy.ndarray)
+    + setup(level: scenes.Level)
+    + update(elapsed_time: number)
+    + do_open()
+}
+
+entities.ChestEntity --> systems.SoundController
+
+class entities.UpgradeEntity extends entities.Entity{
+    + velocity: numpy.ndarray
+    + timer: number
+
+    + UpgradeEntity(initial_pos: numpy.ndarray)
+    + setup(level: scenes.Level)
+    + update(elapsed_time: number)
+    + pickup()
+}
+
+
+
+@enduml

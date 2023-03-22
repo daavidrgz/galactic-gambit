@@ -41,7 +41,9 @@ class PlayerBullet(Projectile):
 
         # Enemy collision
         for enemy in self.level.enemy_group:
-            if circle_rect_collision((self.position[0], self.position[1], self.size), enemy.rect):
+            if circle_rect_collision(
+                (self.position[0], self.position[1], self.size), enemy.rect
+            ):
                 enemy.hit(self.damage, self.get_direction() * self.knockback)
                 self.kill()
                 break

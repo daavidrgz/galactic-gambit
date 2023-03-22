@@ -1,0 +1,28 @@
+
+@startuml enemies
+class entities.BaseEnemy extends entities.LivingEntity{
+    + ai: ai.BaseAI
+    + speed: number
+    + target: numpy.ndarray
+    + targeting: boolean
+    + death: booolean
+    + death_timer: number
+    + hit_stun: number
+    + attack_timer:number
+
+    + BaseEnemy(hp:number,initial_pos:numpy.ndarray,image:pygame.Surface,ai:ai.BaseAI,drag:number,speed:number)
+    + setup(level: scenes.Level)
+    + finish_dedath_animation()
+    + on_death()
+    + update(elapsed_time: number)
+    + trigger_attack()
+    + alerted()
+    + set_target(point: numpy.ndarray)
+    + get_target(): numpy.ndarray
+    + attack()
+    + hit(damage:number,knockback: numpy.ndarray)
+    - update_movement(elapsed_time: number)
+    - update_animation(elapsed_time: number)
+}
+
+@enduml
