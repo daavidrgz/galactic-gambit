@@ -77,7 +77,7 @@ class StoryScene(Scene):
             font=self.resource_manager.load_font(Resource.FONT_SM),
             color=COLOR_STANDARD,
             position=(0, 0),
-            blink_time=4000,
+            blink_time=0,
             only_once=True,
         )
         skip_to_exit.set_position(
