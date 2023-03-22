@@ -106,8 +106,7 @@ class Level(Scene):
         bg_width, bg_height = background_image.get_size()
         size_ratio = max(
             (DESIGN_WIDTH + terrain_size[0] * self.parallax_rate) / bg_width,
-            (DESIGN_HEIGHT + terrain_size[1] * self.parallax_rate)
-            / bg_height,
+            (DESIGN_HEIGHT + terrain_size[1] * self.parallax_rate) / bg_height,
         )
 
         bg_width *= size_ratio
@@ -221,7 +220,6 @@ class Level(Scene):
         self.enemy_bullets.draw(screen)
         self.animation_group.draw(screen)
         self.hud.draw(screen)
-        screen.blit(self.color_veil, (0, 0))
 
     def __draw_ordered(self, screen):
         self.draw_ordered.empty()

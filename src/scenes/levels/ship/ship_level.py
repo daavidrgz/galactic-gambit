@@ -8,8 +8,6 @@ from systems.rng_system import Generator, RngSystem
 from systems.sound_controller import RandomSounds
 from generation.enemy_spawning import EnemySpawnGroups
 
-import pygame
-
 
 class ShipLevel(Level):
     def __init__(self):
