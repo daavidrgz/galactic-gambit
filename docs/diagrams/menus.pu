@@ -184,6 +184,7 @@ scenes.Scene -up-> systems.SoundController
 scenes.Scene -up-> systems.ResourceManager
 scenes.Scene -up-> systems.GameModel
 scenes.Scene -up-> systems.RngSystem
+scenes.Scene -up-> systems.CameraManager
 
 scenes.Menu o--> gui.gui.Button
 scenes.StoryScene o--> gui.Text

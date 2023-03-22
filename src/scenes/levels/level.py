@@ -105,8 +105,8 @@ class Level(Scene):
 
         bg_width, bg_height = background_image.get_size()
         size_ratio = max(
-            (DESIGN_WIDTH + terrain_size[0] * self.background_parallax_rate) / bg_width,
-            (DESIGN_HEIGHT + terrain_size[1] * self.background_parallax_rate)
+            (DESIGN_WIDTH + terrain_size[0] * self.parallax_rate) / bg_width,
+            (DESIGN_HEIGHT + terrain_size[1] * self.parallax_rate)
             / bg_height,
         )
 
@@ -119,7 +119,7 @@ class Level(Scene):
         # In order to simulate parallax background on the middle of the map,
         # we must multiply the position with the parallax rate,
         # so it seems to be 'centered' with the parallax 1.0
-        middle_terrain_pos = middle_terrain_pos * self.background_parallax_rate
+        middle_terrain_pos = middle_terrain_pos * self.parallax_rate
         background_sprite = AnimatedSprite(
             background_image,
             middle_terrain_pos + np.array((DESIGN_WIDTH / 2, DESIGN_HEIGHT / 2)),

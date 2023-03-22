@@ -1,9 +1,5 @@
 @startuml levels
 
-skinparam class {
-  BackgroundColor #bee1e6
-}
-
 class scenes.Scene {
 	+ load_completed: bool
 	+ scene_music: systems.Resource
@@ -18,8 +14,7 @@ class scenes.Scene {
 }
 
 class scenes.Level extends scenes.Scene {
-  + magic_upgrade_system: mechanics.MagicUpgradeSystem
-  + tech_upgrade_system: mechanics.TechUpgradeSystem  
+
 }
 
 class generation.BaseGenerator {
@@ -59,7 +54,8 @@ scenes.ScrollableGroup --> systems.CameraManager
 
 scenes.Level "1" o--> "1" entities.Player
 
-
+scenes.Level --> mechanics.MagicUpgradeSystem
+scenes.Level --> mechanics.TechUpgradeSystem
 scenes.Level --> scenes.ScrollableGroup
 scenes.Level "1" o--> "1" generation.BaseGenerator
 generation.BaseTerrain "1" <--o "1" generation.BaseGenerator
