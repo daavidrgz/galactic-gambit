@@ -1,9 +1,7 @@
 from entities.projectile.player_bullet import PlayerBullet
-from utils.prioritized_item import PrioritizedItem
 
 import math
 import numpy as np
-from queue import PriorityQueue
 
 
 class Gun:
@@ -27,10 +25,11 @@ class Gun:
         self.n_bullets = n_bullets
         self.bullet_knockback = bullet_knockback
         self.bullet_lifetime = bullet_lifetime
-        self.upgrades = PriorityQueue()
+        self.upgrades = []
 
     def add_magical_upgrade(self, upgrade):
-        self.upgrades.append(PrioritizedItem(upgrade.order, upgrade))
+        self.upgrades.append(upgrade)
+        self.upgrades.sort(key=lambda a: a.order)
 
     def is_ready(self):
         return self.current_cooldown == 0.0
