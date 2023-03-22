@@ -13,6 +13,7 @@ class HealthBar(HudElement, Observer):
     def __init__(self):
         super().__init__()
         self.font = self.resource_manager.load_font(Resource.FONT_SM)
+        self.bar = None
 
     def setup(self, **kwargs):
         hp = kwargs["hp"]

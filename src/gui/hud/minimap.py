@@ -17,7 +17,9 @@ class Minimap(HudElement, Observer):
         self.enemy_marker = pygame.Surface((3, 3))
         self.enemy_marker.fill((255, 0, 0))
         self.chest_marker = ResourceManager().load_image(Resource.CHEST_MINI)
-        self.chest_marker = pygame.transform.scale(self.chest_marker, [x*2 for x in self.chest_marker.get_size()])
+        self.chest_marker = pygame.transform.scale(
+            self.chest_marker, [x * 2 for x in self.chest_marker.get_size()]
+        )
 
         self.enemy_positions = dict()
 
@@ -35,7 +37,7 @@ class Minimap(HudElement, Observer):
 
         player = kwargs["player"]
         self.player_id = player.get_id()
-        self.set_entity_pos(self.player_id, player.position)
+        self.__set_entity_pos(self.player_id, player.position)
         player.observable_pos.add_listener(self)
 
     def draw(self, screen):
@@ -47,12 +49,12 @@ class Minimap(HudElement, Observer):
         screen.blit(self.map_buffer, (start_x, start_y, w, h))
 
         for id in self.enemy_positions:
-            self.draw_enemy(screen, id, start_x, start_y)
+            self.__draw_enemy(screen, id, start_x, start_y)
 
-        self.draw_chest(screen, start_x, start_y)
-        self.draw_player(screen, start_x, start_y)
+        self.__draw_chest(screen, start_x, start_y)
+        self.__draw_player(screen, start_x, start_y)
 
-    def draw_player(self, screen, start_x, start_y):
+    def __draw_player(self, screen, start_x, start_y):
         screen.blit(
             self.player_marker,
             (
@@ -63,7 +65,7 @@ class Minimap(HudElement, Observer):
             ),
         )
 
-    def draw_enemy(self, screen, enemy_id, start_x, start_y):
+    def __draw_enemy(self, screen, enemy_id, start_x, start_y):
         try:
             x, y = self.enemy_positions[enemy_id]
         except KeyError:
@@ -79,7 +81,7 @@ class Minimap(HudElement, Observer):
             ),
         )
 
-    def draw_chest(self, screen, start_x, start_y):
+    def __draw_chest(self, screen, start_x, start_y):
         screen.blit(
             self.chest_marker,
             (
@@ -88,7 +90,7 @@ class Minimap(HudElement, Observer):
             ),
         )
 
-    def set_entity_pos(self, id, position):
+    def __set_entity_pos(self, id, position):
         x = position[0] * self.scaling_factor[0]
         y = position[1] * self.scaling_factor[1]
 
@@ -106,4 +108,4 @@ class Minimap(HudElement, Observer):
             self.enemy_positions.pop(id)
             return
 
-        self.set_entity_pos(id, position)
+        self.__set_entity_pos(id, position)

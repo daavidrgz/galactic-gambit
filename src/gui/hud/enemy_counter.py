@@ -11,6 +11,7 @@ class EnemyCounter(HudElement, Observer):
     def __init__(self):
         super().__init__()
         self.font = self.resource_manager.load_font(Resource.FONT_MD)
+        self.counter = None
 
     def setup(self, **kwargs):
         enemies = kwargs["enemies"]
