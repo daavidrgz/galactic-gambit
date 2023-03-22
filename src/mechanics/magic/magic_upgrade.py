@@ -1,5 +1,5 @@
 from systems.resource_manager import Resource
-from utils.math import rotate_vector, square_norm, rotate_vector_rad
+from utils.math import rotate_vector, square_norm, rotate_vector_rad, tvector2
 
 import math
 import numpy as np
@@ -17,15 +17,16 @@ class MagicUpgrade:
 class TitansMight(MagicUpgrade):
     name = "Titan's Might"
     icon = Resource.BIGGER_SIZE_ICON
+    order = 0
 
     def apply(self, bullet, elapsed_time):
         previous_image = bullet.image
         # Get pygme surface size
-        previous_size = np.array(previous_image.get_size())
+        previous_size = tvector2(previous_image.get_size())
         # Scale the image
-        bullet.set_image(pygame.transform.scale(previous_image, previous_size * 1.3))
+        bullet.set_image(pygame.transform.scale(previous_image, previous_size * 1.7))
         # Increase logical size
-        bullet.size *= 1.3
+        bullet.size *= 1.7
         # Make it knock things harder
         bullet.knockback *= 3
 
@@ -36,6 +37,7 @@ class TitansMight(MagicUpgrade):
 class SerpentStrike(MagicUpgrade):
     name = "Serpent Strike"
     icon = Resource.SNAKE_ICON
+    order = 5
 
     def __init__(self):
         self.state = 0.0
@@ -67,6 +69,7 @@ class SerpentStrike(MagicUpgrade):
 class WaveformCannon(MagicUpgrade):
     name = "Waveform Cannon"
     icon = Resource.WAVEFORM_ICON
+    order = 6
 
     def __init__(self):
         self.state = 0.0
@@ -86,22 +89,29 @@ class WaveformCannon(MagicUpgrade):
 
         # Scale sprite
         previous_image = bullet.image
-        previous_size = np.array(previous_image.get_size())
-        bullet.set_temp_image(pygame.transform.scale(previous_image, previous_size * scale))
+        size = tvector2(previous_image.get_size()) * scale
+        bullet.set_temp_image(pygame.transform.scale(previous_image, size))
 
         # Scale logical size
-        bullet.size *= scale
+        bullet.size = self.initial_size * scale
 
         # Wobble stats
-        bullet.damage *= scale
-        bullet.knockback *= scale
+        bullet.damage = self.initial_damage * scale
+        bullet.knockback = self.initial_knockback * scale
+
+    def setup(self, bullet, level):
+        self.initial_size = bullet.size
+        self.initial_damage = bullet.damage
+        self.initial_knockback = bullet.knockback
 
     update_effect = apply
+    init_effect = setup
 
 
 class CrushingStutter(MagicUpgrade):
     name = "Crushing Stutter"
     icon = Resource.SLOW_AND_FAST_ICON
+    order = 4
 
     def __init__(self):
         self.state = 0.0
@@ -142,6 +152,7 @@ class CrushingStutter(MagicUpgrade):
 class PrismaticAura(MagicUpgrade):
     name = "Prismatic Aura"
     icon = Resource.PRISM_ICON
+    order = 7
 
     def __init__(self):
         self.state = 0.0
@@ -171,6 +182,7 @@ class PrismaticAura(MagicUpgrade):
 class PortableInstability(MagicUpgrade):
     name = "Portable Instability"
     icon = Resource.BLACKHOLE_ICON
+    order = 2
 
     def apply(self, bullet, elapsed_time):
         if self.timer < 170:
@@ -198,6 +210,7 @@ class PortableInstability(MagicUpgrade):
 class GhostlyShot(MagicUpgrade):
     name = "Ghostly Shot"
     icon = Resource.GHOST_ALT_ICON
+    order = 1
 
     def setup(self, bullet, level):
         # No collision
@@ -218,6 +231,7 @@ class GhostlyShot(MagicUpgrade):
 class ViciousAim(MagicUpgrade):
     name = "Vicious Aim"
     icon = Resource.AIM_ICON
+    order = 3
 
     def choose_target(self, bullet):
         target = None

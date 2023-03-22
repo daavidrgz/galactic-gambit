@@ -1,8 +1,9 @@
-import math
-
-import numpy as np
-from constants.game_constants import SPEED_EPSILON
 from entities.projectile.player_bullet import PlayerBullet
+from utils.prioritized_item import PrioritizedItem
+
+import math
+import numpy as np
+from queue import PriorityQueue
 
 
 class Gun:
@@ -26,10 +27,10 @@ class Gun:
         self.n_bullets = n_bullets
         self.bullet_knockback = bullet_knockback
         self.bullet_lifetime = bullet_lifetime
-        self.upgrades = []
+        self.upgrades = PriorityQueue()
 
     def add_magical_upgrade(self, upgrade):
-        self.upgrades.append(upgrade)
+        self.upgrades.append(PrioritizedItem(upgrade.order, upgrade))
 
     def is_ready(self):
         return self.current_cooldown == 0.0
@@ -45,8 +46,6 @@ class Gun:
         return [upgrade() for upgrade in self.upgrades]
 
     def generate_bullets(self, shoot_position, facing_vector):
-        # TODO: If spread angle is negative, it should have negative spread?
-        # or just take max(0,spread)?
         bullets = []
         half_spread = self.spread / 2
 
