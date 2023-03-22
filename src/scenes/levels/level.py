@@ -40,38 +40,29 @@ class Level(Scene):
         super().__init__()
         self.magic_upgrade_system = MagicUpgradeSystem.get_instance()
         self.tech_upgrade_system = TechUpgradeSystem.get_instance()
-        self.player_bullets = ScrollableGroup()
-
-        player_model = self.game_model.get_player()
-        self.player = Player.from_player_model(player_model, (0, 0))
 
         self.generator = generator
         self.terrain = terrain
         self.background = background
+        self.scene_music = scene_music
+        self.player_footsteps = player_footsteps
+
+        player_model = self.game_model.get_player()
+        self.player = Player.from_player_model(player_model, (0, 0))
 
         self.player_group = ScrollableGroup(self.player)
-
-        self.camera_mgr = CameraManager.get_instance()
-
         self.animation_group = ScrollableGroup()
         self.enemy_group = EnemyGroup()
+        self.player_bullets = ScrollableGroup()
         self.enemy_bullets = ScrollableGroup()
 
-        self.background_parallax_rate = 0.2
-        self.background_group = ParallaxGroup(
-            (self.background_parallax_rate, self.background_parallax_rate)
-        )
+        self.parallax_rate = 0.2
+        self.background_group = ParallaxGroup((self.parallax_rate, self.parallax_rate))
 
         self.misc_entities = ScrollableGroup()
         self.draw_ordered = ScrollableGroup()
 
         self.hud = Hud()
-        self.scene_music = scene_music
-        self.player_footsteps = player_footsteps
-
-        self.color_veil = pygame.Surface((DESIGN_WIDTH, DESIGN_HEIGHT))
-        self.color_veil.fill(COLOR_SUBTLE)
-        self.color_veil.set_alpha(30)
 
     def load(self):
         self.generator.generate()

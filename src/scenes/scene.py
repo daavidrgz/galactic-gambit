@@ -1,3 +1,4 @@
+from systems.camera_manager import CameraManager
 from systems.game_model import GameModel
 from scenes.director import Director
 from systems.control_system import ControlSystem
@@ -14,6 +15,7 @@ class Scene:
         self.resource_manager = ResourceManager.get_instance()
         self.game_model = GameModel.get_instance()
         self.rng_system = RngSystem.get_instance()
+        self.camera_mgr = CameraManager.get_instance()
         self.load_completed = False
         self.scene_music = None
 

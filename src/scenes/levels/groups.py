@@ -77,8 +77,8 @@ class EnemyGroup(ScrollableGroup, Observable):
         self.num_sprites -= 1
         self.notify_listeners(self)
 
-    def empty(self, *sprites):
-        super().empty(*sprites)
+    def empty(self):
+        super().empty()
         self.num_sprites = 0
         self.notify_listeners(self)
 

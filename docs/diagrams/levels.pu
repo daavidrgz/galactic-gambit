@@ -1,5 +1,9 @@
 @startuml levels
 
+skinparam class {
+  BackgroundColor #bee1e6
+}
+
 class scenes.Scene {
 	+ load_completed: bool
 	+ scene_music: systems.Resource
@@ -23,6 +27,35 @@ class generation.BaseGenerator {
 
 class generation.BaseTerrain {
 }
+
+class scenes.ScrollableGroup extends pygame.sprite.Group {
+  + parallax_x: float
+  + parallax_y: float
+  + cull: bool
+
+  + ScrollableGroup(sprites: List[pygame.sprite.Sprite])
+  + draw(surface: pygame.Surface)
+}
+
+class scenes.ParallaxGroup extends scenes.ScrollableGroup {
+  + ParallaxGroup(parallax: float, sprites: List[pygame.sprite.Sprite])
+}
+
+class scenes.EnemyGroup {
+  + num_sprites: number
+
+  + EnemyGroup(sprites: List[pygame.sprite.Sprite])
+  + add_internal(sprite: pygame.sprite.Sprite)
+  + remove_internal(sprite: pygame.sprite.Sprite)
+  + empty()
+  + get_num_enemies()
+}
+
+scenes.EnemyGroup -up-|> scenes.ScrollableGroup
+scenes.EnemyGroup --|> utils.Observable
+
+
+scenes.ScrollableGroup --> systems.CameraManager
 
 scenes.Level "1" o--> "1" entities.Player
 
