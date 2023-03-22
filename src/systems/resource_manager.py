@@ -29,10 +29,10 @@ class Resource(Enum):
     CHEST_OPEN_SOUND = ("sounds/chest_open.mp3", 1.0)
 
     # Title
-    MAIN_TITLE = "sprites/title/pixelated.png"
+    MAIN_TITLE = "sprites/title/pixelated-blue.png"
 
     # Backgrounds
-    MENU_BG = "sprites/backgrounds/menu.png"
+    MENU_BG = "sprites/backgrounds/menu-blue.png"
     PURPLE_SPACE_BG = "sprites/backgrounds/purple-space-bg.png"
     BLUE_SPACE_BG = "sprites/backgrounds/blue-space-bg.png"
     ORANGE_SPACE_BG = "sprites/backgrounds/orange-space-bg.png"
