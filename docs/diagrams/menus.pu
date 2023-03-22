@@ -15,16 +15,16 @@ class scenes.Scene {
 
 class scenes.Menu extends scenes.Scene {
 	+ gui_group: pygame.sprite.Group
-	+ go_back_button: Button
+	+ go_back_button: gui.Button
 	+ current_button: number
 	+ buttons_len: number
 	+ background: pygame.Surface
 	+ disable_mouse: bool
-	+ clicked_button: Button
+	+ clicked_button: gui.Button
 
 	+ Menu()
 	+ setup()
-	+ get_selected_button(): Button
+	+ get_selected_button(): gui.Button
 	+ previous_button():
 	+ next_button():
 	+ handle_events(events: List[pygame.Event])
@@ -185,12 +185,9 @@ scenes.Scene -up-> systems.ResourceManager
 scenes.Scene -up-> systems.GameModel
 scenes.Scene -up-> systems.RngSystem
 
-scenes.Menu o--> gui.Button : buttons
-scenes.Menu o--> gui.Title : title
-
-scenes.StoryScene o--> gui.Text : lines
-scenes.StoryScene o--> gui.BlinkText
-scenes.StoryScene o--> gui.Title : title
+scenes.Menu o--> gui.gui.Button
+scenes.StoryScene o--> gui.Text
+scenes.Menu o--> gui.Text
 
 scenes.UpgradeMenu o--> mechanics.MagicUpgrade : upgrades
 
