@@ -56,11 +56,3 @@ class ShipLevel(Level):
     def setup(self):
         self.scattered_sounds.play()
         super().setup()
-
-    def handle_events(self, events):
-        for event in events:
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_SPACE:
-                    Director().switch_scene(ShipLevel())
-
-        super().handle_events(events)

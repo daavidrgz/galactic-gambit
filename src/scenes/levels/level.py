@@ -218,12 +218,6 @@ class Level(Scene):
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     self.director.push_scene(PauseMenu())
-                if event.key == pygame.K_m:
-                    self.__player_tech_upgrade()
-                if event.key == pygame.K_n:
-                    self.__player_level_up()
-                if event.key == pygame.K_h:
-                    self.player.hp.reduce(1)
 
     def draw(self, screen):
         screen.fill((0, 0, 0))

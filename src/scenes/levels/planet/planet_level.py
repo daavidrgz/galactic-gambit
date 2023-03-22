@@ -51,13 +51,3 @@ class PlanetLevel(Level):
     def update(self, elapsed_time):
         self.scattered_sounds.update(elapsed_time)
         super().update(elapsed_time)
-
-    def handle_events(self, events):
-        for event in events:
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_SPACE:
-                    Director().switch_scene(PlanetLevel())
-                if event.key == pygame.K_e:
-                    Director().switch_scene(WinMenu())
-
-        super().handle_events(events)
