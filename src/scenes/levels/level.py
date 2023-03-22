@@ -152,7 +152,7 @@ class Level(Scene):
 
             break
 
-        self.chest_position = (x * TILE_SIZE, y * TILE_SIZE)
+        self.chest_position = ((x + 1) * TILE_SIZE, (y + 1) * TILE_SIZE)
         self.spawn_misc_entity(ChestEntity(self.chest_position))
 
     def __player_death(self):
