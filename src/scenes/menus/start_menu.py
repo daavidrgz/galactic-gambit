@@ -28,7 +28,7 @@ class StartMenu(VerticalMenu):
         )
 
         veil = pygame.Surface((DESIGN_WIDTH, DESIGN_HEIGHT))
-        veil.set_alpha(140)
+        veil.set_alpha(120)
 
         background = pygame.Surface((DESIGN_WIDTH, DESIGN_HEIGHT))
         background.blit(background_image, (0, 0))
