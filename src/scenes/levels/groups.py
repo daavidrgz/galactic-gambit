@@ -11,7 +11,7 @@ from utils.observable import Observable
 
 class ScrollableGroup(pygame.sprite.Group):
     def __init__(self, *sprites):
-        self.camera_mgr = CameraManager()
+        self.camera_mgr = CameraManager.get_instance()
         self.parallax_x = self.parallax_y = 1.0
         self.cull = True
         super().__init__(sprites)

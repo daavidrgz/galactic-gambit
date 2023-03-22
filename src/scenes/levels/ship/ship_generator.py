@@ -1,5 +1,5 @@
 from generation.base_terrain import TerrainType
-from generation.generator import BaseGenerator
+from generation.base_generator import BaseGenerator
 from systems.resource_manager import Resource, ResourceManager
 
 
