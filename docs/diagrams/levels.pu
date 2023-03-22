@@ -14,7 +14,9 @@ class scenes.Scene {
 }
 
 class scenes.Level extends scenes.Scene {
-
+  + background: systems.Resource
+  + scene_music: systems.Resource
+  + player_footsteps: systems.Resource
 }
 
 class generation.BaseGenerator {
@@ -54,6 +56,7 @@ scenes.ScrollableGroup --> systems.CameraManager
 
 scenes.Level "1" o--> "1" entities.Player
 
+scenes.Level "1" o-left-> "1" gui.Hud
 scenes.Level --> mechanics.MagicUpgradeSystem
 scenes.Level --> mechanics.TechUpgradeSystem
 scenes.Level --> scenes.ScrollableGroup

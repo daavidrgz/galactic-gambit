@@ -13,6 +13,8 @@ class ExperienceBar(HudElement, Observer):
     def __init__(self):
         super().__init__()
         self.font = self.resource_manager.load_font(Resource.FONT_SM)
+        self.level_text = None
+        self.bar = None
 
     def setup(self, **kwargs):
         magic_level = kwargs["magic_level"]
@@ -21,7 +23,8 @@ class ExperienceBar(HudElement, Observer):
 
     def draw(self, screen):
         screen.blit(
-            self.level, (screen.get_width() / 2 - self.level.get_width() / 2, 10)
+            self.level_text,
+            (screen.get_width() / 2 - self.level_text.get_width() / 2, 10),
         )
 
         screen.blit(
@@ -54,7 +57,7 @@ class ExperienceBar(HudElement, Observer):
             text = "Max level"
         else:
             text = f"Exp level {magic_level.get_level()}"
-        self.level = self.font.render(text, True, COLOR_BRIGHT)
+        self.level_text = self.font.render(text, True, COLOR_BRIGHT)
 
     def notify(self, magic_level):
         self.__update_component(magic_level)

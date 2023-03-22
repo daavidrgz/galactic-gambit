@@ -1,0 +1,88 @@
+@startuml hud 
+
+skinparam groupInheritance 2
+
+class utils.Observer {
+  + notify()
+}
+
+class gui.Hud {
+	+ Hud()
+	+ setup(level: scenes.Level)
+	+ draw(screen: pygame.Surface)
+}
+gui.Hud "1" o-down-> "N" gui.HudElement
+scenes.Level "1" o--> "1" gui.Hud
+
+class gui.HudElement {
+	+ HudElement()
+	{abstract} + setup()	
+	{abstract} + draw(screen: pygame.Surface)
+}
+gui.HudElement -left-> systems.ResourceManager
+
+class gui.EnemyCounter {
+	+ font: pygame.Font
+	+ counter: pygame.Surface
+
+	+ EnemyCounter()
+	+ setup()
+	+ draw(screen: pygame.Surface)
+	+ notify(enemies: scenes.EnemyGroup)
+	- update_counter(enemies: scenes.EnemyGroup)
+}
+gui.EnemyCounter --> scenes.EnemyGroup
+gui.EnemyCounter -up-|> gui.HudElement
+gui.EnemyCounter -up-|> utils.Observer
+
+class gui.ExperienceBar {
+	+ font: pygame.Font
+	+ level_text: pygame.Surface
+	+ bar: pygame.Surface
+
+	+ ExperienceBar()
+	+ setup()
+	+ draw(screen: pygame.Surface)
+	+ notify(magic_level: mechanics.MagicLevel)
+	- update_component(magic_level: mechanics.MagicLevel)
+	- update_bar(magic_level: mechanics.MagicLevel)
+	- update_level(magic_level: mechanics.MagicLevel)
+}
+gui.ExperienceBar --> mechanics.MagicLevel
+gui.ExperienceBar -up-|> gui.HudElement
+gui.ExperienceBar -up-|> utils.Observer
+
+class gui.HealthBar {
+	+ font: pygame.Font
+	+ bar: pygame.Surface
+
+	+ HealthBar()
+	+ setup()
+	+ draw(screen: pygame.Surface)
+	+ notify(hp: entities.Hp)
+	- get_bar_color(percentage_hp: float) -> tuple
+	- update_bar(hp: entities.Hp)
+}
+gui.HealthBar --> entities.Hp
+gui.HealthBar -up-|> gui.HudElement
+gui.HealthBar -up-|> utils.Observer
+
+class gui.Minimap {
+	+ player_marker: pygame.Surface
+	+ enemy_marker: pygame.Surface
+	+ chest_marker: pygame.Surface
+	+ enemy_positions: dict
+
+	+ setup()
+	+ draw(screen: pygame.Surface)
+	+ notify(id: number, pos: numpy.ndarray)
+	- draw_player(screen: pygame.Surface, start_x: number, start_y: number)
+	- draw_enemies(screen: pygame.Surface, start_x: number, start_y: number)
+	- draw_chest(screen: pygame.Surface, start_x: number, start_y: number)
+	- set_entity_pos(id: number, pos: numpy.ndarray)
+}
+gui.Minimap --> entities.ObservablePosition
+gui.Minimap -up-|> gui.HudElement
+gui.Minimap -up-|> utils.Observer
+
+@enduml
