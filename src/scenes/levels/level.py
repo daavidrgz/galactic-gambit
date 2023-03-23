@@ -1,5 +1,4 @@
 from animations.animated_sprite import AnimatedSprite
-from constants.gui_constants import COLOR_STANDARD, COLOR_SUBTLE
 from entities.misc.chest_entity import ChestEntity
 from entities.living.player.player import Player
 from mechanics.magic.magic_upgrade_system import MagicUpgradeSystem
@@ -10,7 +9,6 @@ from scenes.menus.upgrade_menu import UpgradeMenu
 from scenes.menus.pause_menu import PauseMenu
 from scenes.transition import Transition
 from scenes.scene import Scene
-from systems.camera_manager import CameraManager
 from systems.rng_system import Generator, RngSystem
 from generation.enemy_spawning import spawn_enemies
 from utils.math import manhattan_norm, square_norm
@@ -86,7 +84,7 @@ class Level(Scene):
         self.player.position = self.terrain.player_starting_position
         self.player.setup(
             level=self,
-            on_level_up=self.__player_level_up,
+            on_level_up=self.player_magic_upgrade,
             on_death=self.__player_death,
         )
 
@@ -159,7 +157,7 @@ class Level(Scene):
         self.game_model.delete_save()
         self.director.switch_scene(Transition(GameOverMenu()))
 
-    def __player_level_up(self):
+    def player_magic_upgrade(self):
         def apply_upgrade(upgrade):
             self.magic_upgrade_system.pick_upgrade(upgrade)
             self.player.apply_magical_upgrade(upgrade)
@@ -179,6 +177,17 @@ class Level(Scene):
 
         self.director.push_scene(UpgradeMenu(upgrades, apply_upgrade))
 
+    def __check_player_reached_end(self):
+        if self.enemy_group.get_num_enemies() > 0:
+            return
+
+        distance_sqr = square_norm(self.player.position - self.terrain.end_position)
+        if distance_sqr < (3 * TILE_SIZE) ** 2:
+            self.game_model.update_player(self.player)
+            self.game_model.level = self.next_level
+            self.game_model.save()
+            self.director.switch_scene(Transition(self.next_level()))
+
     def update(self, elapsed_time):
         # Check level end condition
         self.__check_player_reached_end()
@@ -191,17 +200,6 @@ class Level(Scene):
         self.enemy_bullets.update(elapsed_time)
         self.animation_group.update(elapsed_time)
         self.misc_entities.update(elapsed_time)
-
-    def __check_player_reached_end(self):
-        if self.enemy_group.get_num_enemies() > 0:
-            return
-
-        distance_sqr = square_norm(self.player.position - self.terrain.end_position)
-        if distance_sqr < (3 * TILE_SIZE) ** 2:
-            self.game_model.update_player(self.player)
-            self.game_model.level = self.next_level
-            self.game_model.save()
-            self.director.switch_scene(Transition(self.next_level()))
 
     def handle_events(self, events):
         for event in events:
