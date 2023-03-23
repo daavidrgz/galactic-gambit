@@ -1,15 +1,9 @@
 from scenes.levels.level import Level
-from scenes.director import Director
 from scenes.levels.planet.planet_generator import PlanetGenerator
 from scenes.levels.planet.planet_terrain import PlanetTerrain
 from scenes.levels.cave.cave_level import CaveLevel
-from scenes.menus.win_menu import WinMenu
 from systems.resource_manager import Resource
 from generation.enemy_spawning import EnemySpawnGroups
-
-import pygame
-
-from constants.game_constants import TILE_SIZE
 from systems.sound_controller import RandomSounds
 
 

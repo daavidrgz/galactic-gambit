@@ -1,5 +1,4 @@
 from scenes.levels.level import Level
-from scenes.director import Director
 from scenes.levels.ship.ship_generator import ShipGenerator
 from scenes.levels.ship.ship_terrain import ShipTerrain
 from scenes.levels.planet.planet_level import PlanetLevel

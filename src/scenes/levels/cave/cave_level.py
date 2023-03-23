@@ -1,8 +1,6 @@
 from scenes.levels.cave.cave_generator import CaveGenerator
 from scenes.levels.cave.cave_terrain import CaveTerrain
 from scenes.levels.level import Level
-from scenes.director import Director
-import pygame
 from scenes.menus.win_menu import WinMenu
 from systems.resource_manager import Resource
 from systems.sound_controller import RandomSounds
