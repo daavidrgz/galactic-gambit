@@ -1,5 +1,5 @@
 from mechanics.magic.magic_upgrade import *
-from mechanics.upgrade_system import UpgradeSystem
+from systems.upgrade_system import UpgradeSystem
 from systems.rng_system import Generator
 from utils.singleton import Singleton
 
