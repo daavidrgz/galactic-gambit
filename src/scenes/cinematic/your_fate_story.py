@@ -2,15 +2,16 @@ from scenes.cinematic.story_scene import StoryScene
 from scenes.levels.ship.ship_level import ShipLevel
 
 
-class GoodLuckStory(StoryScene):
+class YourFateStory(StoryScene):
     def __init__(self):
-        title = "Mission Briefing"
+        title = "Your Fate"
         argument = [
             "He was not sufficiently trained.",
             "He was not courageous, nor strong.",
             "He was, unfortunately, our only chance.",
             "",
-            "Elcien T. Ifico, your mission is to find the origin of the extraneous signal.",
+            "Elcien T. Ifico,",
+            "your mission is to find the origin of the extraneous signal.",
             "But first, what's that noise coming from the spacecraft exterior?",
             "...",
             "May the odds be in your favor.",
