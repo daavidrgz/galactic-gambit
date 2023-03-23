@@ -41,7 +41,6 @@ class SerpentStrike(MagicUpgrade):
 
     def __init__(self):
         self.state = 0.0
-        self.previous_modify_vector = [0, 0]
         self.period = 300
         self.amplitude = 3
         self.phase = np.pi / 2
@@ -54,9 +53,7 @@ class SerpentStrike(MagicUpgrade):
             2 * np.pi * self.state / self.period + self.phase
         )
 
-        bullet.velocity = rotate_vector(
-            bullet.velocity, modify_vector_module
-        )
+        bullet.velocity = rotate_vector(bullet.velocity, modify_vector_module)
 
     def setup(self, bullet, level):
         bullet.knockback *= 1.2
@@ -73,7 +70,6 @@ class WaveformCannon(MagicUpgrade):
 
     def __init__(self):
         self.state = 0.0
-        self.previous_scale = 0
         self.period = 400
         # Scale between 0.8 and 1.4
         self.amplitude = 0.3
@@ -263,9 +259,7 @@ class ViciousAim(MagicUpgrade):
             return
 
         angle = np.arctan2(bullet.velocity[1], bullet.velocity[0])
-        diff_vector = rotate_vector_rad(
-            target.position - bullet.position, -angle
-        )
+        diff_vector = rotate_vector_rad(target.position - bullet.position, -angle)
         angle = np.arctan2(diff_vector[1], diff_vector[0])
 
         if angle > np.pi:
@@ -276,7 +270,7 @@ class ViciousAim(MagicUpgrade):
         if abs(angle) > 0.15 * elapsed_units:
             angle = np.sign(angle) * 0.15 * elapsed_units
 
-        #Home in on enemies
+        # Home in on enemies
         bullet.velocity = rotate_vector_rad(bullet.velocity, angle)
 
     def setup(self, bullet, level):
