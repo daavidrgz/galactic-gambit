@@ -1,4 +1,4 @@
-from mechanics.magic.magic_upgrade_system import MagicUpgradeSystem
+from systems.magic_upgrade_system import MagicUpgradeSystem
 from utils.observable import Observable
 
 

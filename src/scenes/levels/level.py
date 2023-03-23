@@ -1,8 +1,8 @@
 from animations.animated_sprite import AnimatedSprite
 from entities.misc.chest_entity import ChestEntity
 from entities.living.player.player import Player
-from mechanics.magic.magic_upgrade_system import MagicUpgradeSystem
-from mechanics.technology.tech_upgrade_system import TechUpgradeSystem
+from systems.magic_upgrade_system import MagicUpgradeSystem
+from systems.tech_upgrade_system import TechUpgradeSystem
 from scenes.levels.groups import EnemyGroup, ParallaxGroup, ScrollableGroup
 from scenes.menus.game_over_menu import GameOverMenu
 from scenes.menus.upgrade_menu import UpgradeMenu

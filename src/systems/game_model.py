@@ -15,8 +15,8 @@ from entities.living.hp import Hp
 from entities.living.player.player import Player
 from mechanics.gun import Gun
 from mechanics.magic.magic_level import MagicLevel
-from mechanics.magic.magic_upgrade_system import MagicUpgradeSystem
-from mechanics.technology.tech_upgrade_system import TechUpgradeSystem
+from systems.magic_upgrade_system import MagicUpgradeSystem
+from systems.tech_upgrade_system import TechUpgradeSystem
 from systems.rng_system import RngSystem
 from utils.singleton import Singleton
 
