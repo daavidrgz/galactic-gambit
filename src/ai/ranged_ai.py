@@ -1,4 +1,4 @@
-from ai.base_ai import BaseAI, EnemyState
+from ai.base_ai import BaseAI, AIState
 from systems.rng_system import RngSystem, Generator
 from ai.algorithms import wander, find_path, search_player
 from utils.math import rotate_vector
@@ -27,10 +27,10 @@ class RangedAI(BaseAI):
             self.melee_range + (self.attack_range - self.melee_range) / 2
         )
 
-        self.actions[EnemyState.IDLE] = self.idle
-        self.actions[EnemyState.PREPARING] = self.prepare
-        self.actions[EnemyState.ATTACKING] = self.attack
-        self.actions[EnemyState.ALERT] = self.alert
+        self.actions[AIState.IDLE] = self.idle
+        self.actions[AIState.PREPARING] = self.prepare
+        self.actions[AIState.ATTACKING] = self.attack
+        self.actions[AIState.ALERT] = self.alert
 
     def idle(self, enemy, player, terrain, elapsed_time):
         # Compute distance to player, if the player is in vision range
@@ -39,7 +39,7 @@ class RangedAI(BaseAI):
         enemy_pos = enemy.position
 
         if search_player(enemy_pos, player_pos, terrain, self.vision_range):
-            self.state = EnemyState.PREPARING
+            self.state = AIState.PREPARING
             enemy.alerted()
             self.previous_direction = None
             self.attack_from = None
@@ -83,10 +83,10 @@ class RangedAI(BaseAI):
 
         distance = np.linalg.norm(diff_vector)
         if distance <= 2 * TILE_SIZE:
-            self.state = EnemyState.ATTACKING
+            self.state = AIState.ATTACKING
             return
         # if distance > self.tracking_range:
-        #    self.state = EnemyState.ALERT
+        #    self.state = AIState.ALERT
         #    return
 
         # Track player and avoid walls
@@ -110,12 +110,12 @@ class RangedAI(BaseAI):
 
         distance = np.linalg.norm(diff_vector)
         if distance < self.melee_range:
-            self.state = EnemyState.PREPARING
+            self.state = AIState.PREPARING
             self.previous_direction = None
             self.attack_from = None
             return
         if distance > self.attack_range:
-            self.state = EnemyState.PREPARING
+            self.state = AIState.PREPARING
             self.previous_direction = None
             self.attack_from = None
 
@@ -135,7 +135,7 @@ class RangedAI(BaseAI):
 
         distance = np.linalg.norm(diff_vector)
         if distance < self.tracking_range:
-            self.state = EnemyState.PREPARING
+            self.state = AIState.PREPARING
             self.previous_direction = None
             self.attack_from = None
             return
