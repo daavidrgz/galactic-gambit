@@ -1,7 +1,5 @@
 @startuml hud 
 
-skinparam groupInheritance 2
-
 class utils.Observer {
   + notify()
 }
@@ -19,7 +17,7 @@ class gui.HudElement {
 	{abstract} + setup()	
 	{abstract} + draw(screen: pygame.Surface)
 }
-gui.HudElement -left-> systems.ResourceManager
+gui.HudElement -up-> systems.ResourceManager
 
 class gui.EnemyCounter {
 	+ font: pygame.Font
@@ -33,7 +31,7 @@ class gui.EnemyCounter {
 }
 gui.EnemyCounter --> scenes.EnemyGroup
 gui.EnemyCounter -up-|> gui.HudElement
-gui.EnemyCounter -up-|> utils.Observer
+gui.EnemyCounter -down-|> utils.Observer
 
 class gui.ExperienceBar {
 	+ font: pygame.Font
@@ -48,9 +46,9 @@ class gui.ExperienceBar {
 	- update_bar(magic_level: mechanics.MagicLevel)
 	- update_level(magic_level: mechanics.MagicLevel)
 }
-gui.ExperienceBar --> mechanics.MagicLevel
+gui.ExperienceBar -left-> mechanics.MagicLevel
 gui.ExperienceBar -up-|> gui.HudElement
-gui.ExperienceBar -up-|> utils.Observer
+gui.ExperienceBar -down-|> utils.Observer
 
 class gui.HealthBar {
 	+ font: pygame.Font
@@ -65,7 +63,7 @@ class gui.HealthBar {
 }
 gui.HealthBar --> entities.Hp
 gui.HealthBar -up-|> gui.HudElement
-gui.HealthBar -up-|> utils.Observer
+gui.HealthBar -down-|> utils.Observer
 
 class gui.Minimap {
 	+ player_marker: pygame.Surface
@@ -83,6 +81,8 @@ class gui.Minimap {
 }
 gui.Minimap --> entities.ObservablePosition
 gui.Minimap -up-|> gui.HudElement
-gui.Minimap -up-|> utils.Observer
+gui.Minimap -down-|> utils.Observer
+
+mechanics.MagicLevel -[hidden]- utils.Observer
 
 @enduml
