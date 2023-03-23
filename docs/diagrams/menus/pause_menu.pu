@@ -1,0 +1,13 @@
+@startuml pause_menu
+
+class scenes.PauseMenu extends scenes.VerticalMenu{
+	+ PauseMenu()
+	+ setup()
+	- create_button()
+	- resume_game()
+	- return_to_menu()
+	- quit_game()
+	- config_game()
+}
+
+@enduml

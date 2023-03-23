@@ -1,0 +1,18 @@
+@startuml volume_menu
+
+class scenes.VolumeMenu extends scenes.VerticalMenu {
+	+ is_changing_volume: bool
+	+ input_timeout: number
+	+ current_timeout: number
+
+	+ VolumeMenu(background: pygame.Surface)
+	+ setup()
+	+ update(elapsed_time: number)
+	+ handle_events(events: List[pygame.Event])
+	- change_volume()
+	- go_back()
+	- volume_change_ready()
+	- update_timeout(elapsed_time: number)
+}
+
+@enduml

@@ -4,12 +4,12 @@ from constants.game_constants import DESIGN_HEIGHT, DESIGN_WIDTH
 from constants.gui_constants import COLOR_BRIGHT, COLOR_SUBTLE
 from gui.components.buttons.text_button import TextButton
 from gui.components.title import Title
-from scenes.menus.vertical_menu import VerticalMenu
+from scenes.menus.horizontal_menu import HorizontalMenu
 from systems.resource_manager import Resource
 from systems.rng_system import RngSystem
 
 
-class GameOverMenu(VerticalMenu):
+class GameOverMenu(HorizontalMenu):
     def __init__(self):
         super().__init__()
         background_image = self.resource_manager.load_image(Resource.MENU_BG)
