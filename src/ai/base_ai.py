@@ -1,7 +1,7 @@
 from enum import Enum, auto
 
 
-class EnemyState(Enum):
+class AIState(Enum):
     IDLE = auto()
     PREPARING = auto()
     ATTACKING = auto()
@@ -10,7 +10,7 @@ class EnemyState(Enum):
 
 class BaseAI:
     def __init__(self):
-        self.state = EnemyState.IDLE
+        self.state = AIState.IDLE
         self.actions = dict()
         self.actions.setdefault(self.return_to_idle)
 
@@ -18,7 +18,7 @@ class BaseAI:
         self.actions.get(self.state)(enemy, player, terrain, elapsed_time)
 
     def return_to_idle(self, enemy, player, terrain, elapsed_time):
-        self.state = EnemyState.IDLE
+        self.state = AIState.IDLE
 
     def notify(self):
-        self.state = EnemyState.PREPARING
+        self.state = AIState.PREPARING

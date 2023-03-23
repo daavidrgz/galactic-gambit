@@ -3,7 +3,7 @@ from entities.living.living_entity import LivingEntity
 from entities.misc.xp_entity import XpEntity
 from entities.misc.alert_entity import AlertEntity
 from constants.game_constants import DESIGN_FRAMERATE, SPEED_EPSILON
-from ai.base_ai import EnemyState
+from ai.base_ai import AIState
 
 import numpy as np
 
@@ -102,7 +102,7 @@ class BaseEnemy(LivingEntity):
         if self.hit_stun > 0:
             return
         self.hit_stun = 20
-        if self.ai.state == EnemyState.IDLE:
+        if self.ai.state == AIState.IDLE:
             self.ai.notify()
             self.alerted()
         super().hit(damage, knockback)

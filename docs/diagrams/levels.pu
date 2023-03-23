@@ -1,5 +1,6 @@
 @startuml levels
 
+
 class scenes.Scene {
 	+ load_completed: bool
 	+ scene_music: systems.Resource
@@ -17,15 +18,38 @@ class scenes.Level extends scenes.Scene {
   + background: systems.Resource
   + scene_music: systems.Resource
   + player_footsteps: systems.Resource
-}
 
-class generation.BaseGenerator {
+  + load()
+  + setup()
+  + update(elapsed_time: number)
+  + handle_events(events: List[pygame.Event])'
+  + draw(screen: pygame.Surface)
+  + pop_back()
+  + player_magic_upgrade()
+  + player_tech_upgrade()
+  + get_terrain()
+  + get_player()
+  + spawn_enemy(enemy: entities.BaseEnemy)
+  + spawn_misc_entity(entity: entities.Entity)
+  + spawn_player_bullet(bullet: entities.Projectile)
+  + spawn_enemy_bullet(bullet: entities.Projectile)
+  - player_death()
 }
+scenes.Level o--> "1" entities.Player
+scenes.Level o--> "N" entities.BaseEnemy
+scenes.Level o--> "N" entities.Projectile
 
-class generation.BaseTerrain {
-}
+scenes.Level o-left-> "1" gui.Hud
+scenes.Level -right-> mechanics.MagicUpgradeSystem
+scenes.Level -right-> mechanics.TechUpgradeSystem
+scenes.Level --> scenes.ScrollableGroup
+scenes.Level o-up-> "1" generation.BaseGenerator
 
-class scenes.ScrollableGroup extends pygame.sprite.Group {
+class generation.BaseGenerator 
+class generation.BaseTerrain 
+generation.BaseTerrain "1" <--o generation.BaseGenerator
+
+class scenes.ScrollableGroup {
   + parallax_x: float
   + parallax_y: float
   + cull: bool
@@ -33,10 +57,13 @@ class scenes.ScrollableGroup extends pygame.sprite.Group {
   + ScrollableGroup(sprites: List[pygame.sprite.Sprite])
   + draw(surface: pygame.Surface)
 }
+scenes.ScrollableGroup -up-|> pygame.sprite.Group
+scenes.ScrollableGroup --> systems.CameraManager
 
-class scenes.ParallaxGroup extends scenes.ScrollableGroup {
+class scenes.ParallaxGroup {
   + ParallaxGroup(parallax: float, sprites: List[pygame.sprite.Sprite])
 }
+scenes.ParallaxGroup -up-|> scenes.ScrollableGroup
 
 class scenes.EnemyGroup {
   + num_sprites: number
@@ -48,19 +75,15 @@ class scenes.EnemyGroup {
   + get_num_enemies()
 }
 
+class utils.Observable {
+  + observers: List[utils.Observer]
+
+  + add_listener(observer: utils.Observer)
+  + remove_listener(observer: utils.Observer)
+  + notify_listeners()
+}
+
 scenes.EnemyGroup -up-|> scenes.ScrollableGroup
 scenes.EnemyGroup --|> utils.Observable
-
-
-scenes.ScrollableGroup --> systems.CameraManager
-
-scenes.Level "1" o--> "1" entities.Player
-
-scenes.Level "1" o-left-> "1" gui.Hud
-scenes.Level --> mechanics.MagicUpgradeSystem
-scenes.Level --> mechanics.TechUpgradeSystem
-scenes.Level --> scenes.ScrollableGroup
-scenes.Level "1" o--> "1" generation.BaseGenerator
-generation.BaseTerrain "1" <--o "1" generation.BaseGenerator
 
 @enduml

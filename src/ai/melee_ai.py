@@ -1,4 +1,4 @@
-from ai.base_ai import BaseAI, EnemyState
+from ai.base_ai import BaseAI, AIState
 from ai.algorithms import wander, find_path, search_player
 from systems.rng_system import RngSystem, Generator
 from utils.math import rotate_vector
@@ -19,10 +19,10 @@ class MeleeAI(BaseAI):
         self.wander_timer = None
         self.wandering = False
 
-        self.actions[EnemyState.IDLE] = self.idle
-        self.actions[EnemyState.PREPARING] = self.preparing
-        self.actions[EnemyState.ATTACKING] = self.attack
-        self.actions[EnemyState.ALERT] = self.alert
+        self.actions[AIState.IDLE] = self.idle
+        self.actions[AIState.PREPARING] = self.prepare
+        self.actions[AIState.ATTACKING] = self.attack
+        self.actions[AIState.ALERT] = self.alert
 
     def idle(self, enemy, player, terrain, elapsed_time):
         # Compute distance to player, if the player is in vision range
@@ -31,7 +31,7 @@ class MeleeAI(BaseAI):
         enemy_pos = enemy.position
 
         if search_player(enemy_pos, player_pos, terrain, self.vision_range):
-            self.state = EnemyState.PREPARING
+            self.state = AIState.PREPARING
             enemy.alerted()
             self.previous_direction = None
             self.attack_from = None
@@ -50,7 +50,7 @@ class MeleeAI(BaseAI):
         )
         enemy.set_target(new_target)
 
-    def preparing(self, enemy, player, terrain, elapsed_time):
+    def prepare(self, enemy, player, terrain, elapsed_time):
         # If we haven't decided a direction from which to attack
         if self.attack_from is None:
             self.attack_from = rotate_vector(
@@ -66,10 +66,10 @@ class MeleeAI(BaseAI):
 
         distance = np.linalg.norm(diff_vector)
         if distance < self.melee_range:
-            self.state = EnemyState.ATTACKING
+            self.state = AIState.ATTACKING
             return
         if distance > self.tracking_range:
-            self.state = EnemyState.ALERT
+            self.state = AIState.ALERT
             return
 
         # Track player and avoid walls
@@ -88,7 +88,7 @@ class MeleeAI(BaseAI):
 
         distance = np.linalg.norm(diff_vector)
         if distance > self.melee_range:
-            self.state = EnemyState.PREPARING
+            self.state = AIState.PREPARING
             self.previous_direction = None
             self.attack_from = None
             return
@@ -109,7 +109,7 @@ class MeleeAI(BaseAI):
 
         distance = np.linalg.norm(diff_vector)
         if distance < self.tracking_range:
-            self.state = EnemyState.PREPARING
+            self.state = AIState.PREPARING
             self.previous_direction = None
             self.attack_from = None
             return

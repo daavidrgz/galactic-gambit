@@ -1,0 +1,16 @@
+@startuml start_menu
+
+class scenes.StartMenu extends scenes.VerticalMenu {
+	+ StartMenu()
+	+ setup()
+	+ pop_back()
+	- new_game()
+	- continue_game()
+	- leave_game()
+	- config_game()
+	- create_button()
+	- get_offsets()
+	- generate_gui()
+}
+
+@enduml

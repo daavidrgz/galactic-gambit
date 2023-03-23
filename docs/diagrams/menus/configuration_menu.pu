@@ -1,0 +1,27 @@
+@startuml configuration_menu
+
+class scenes.ConfigurationMenu extends scenes.VerticalMenu {
+	+ is_changing_seed: bool
+
+	+ ConfigurationMenu(background: pygame.Surface)
+	+ setup()
+	+ handle_events()
+	- create_button()
+	- keybindings_config()
+	- volume_config()
+	- change_seed()
+	- toggle_full_screen()
+	- go_back()
+}
+
+class scenes.InGameConfigurationMenu extends scenes.VerticalMenu {
+	+ InGameConfigurationMenu(background: pygame.Surface)
+	+ setup()
+	- create_button()
+	- keybindings_config()
+	- volume_config()
+	- toggle_full_screen()
+	- go_back()
+}
+
+@enduml

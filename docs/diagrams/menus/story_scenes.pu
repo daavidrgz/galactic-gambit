@@ -1,0 +1,15 @@
+@startuml story_scenes
+
+class scenes.TheBeginningStory extends scenes.StoryScene {
+	+ TheBeginningStory()
+}
+
+class scenes.TheMissionStory extends scenes.StoryScene {
+	+ TheMissionStory()
+}
+
+class scenes.GoodLuckStory extends scenes.StoryScene {
+	+ GoodLuckStory()
+}
+
+@enduml

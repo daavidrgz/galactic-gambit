@@ -1,0 +1,22 @@
+@startuml game_over_and_win_menu
+
+class scenes.GameOverMenu extends scenes.HorizontalMenu {
+	+ GameOverMenu()
+	+ setup()
+	- create_button()
+	- return_to_menu()
+}
+
+class scenes.WinMenu extends scenes.HorizontalMenu {
+	+ title_words: List[string]
+	+ subtitle_phrases: List[string]
+	
+	+ WinMenu()
+	+ setup()
+	- create_button()
+	- return_to_menu()
+	- get_random_title()
+	- get_random_subtitle()
+}
+
+@enduml

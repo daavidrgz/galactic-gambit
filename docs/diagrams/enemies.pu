@@ -1,7 +1,73 @@
 
 @startuml enemies
+
+
+class ai.BaseAI{
+    + actions: dict
+
+    + BaseAI()
+    + run(enemy: entities.BaseEnemy, player: entities.Player, 
+        terrain: generation.BaseTerrain, elapsed_time: number)
+    + return_to_idle(enemy: entities.BaseEnemy, player: entities.Player, 
+        terrain: generation.BaseTerrain, elapsed_time: number)
+    + notify()
+}
+ai.BaseAI "1" o-- "1" ai.AIState
+
+
+class ai.MeleeAI extends ai.BaseAI{
+    + vision_range: number
+    + tracking_range: number
+    + melee_range: number
+    + previous_direction: numpy.ndarray
+    + attack_from: numpy.ndarray
+    + wander_timer: number
+    + wandering: boolean
+
+    + MeleeAI(vision_range: number, tracking_range: number,
+         melee_range: number)
+    + idle(enemy: entities.BaseEnemy, player: entities.Player, 
+        terrain: generation.BaseTerrain, elapsed_time: number)
+    + prepare(enemy: entities.BaseEnemy, player: entities.Player, 
+        terrain: generation.BaseTerrain, elapsed_time: number)
+    + attack(enemy: entities.BaseEnemy, player: entities.Player, 
+        terrain: generation.BaseTerrain, elapsed_time: number)
+    + alert(enemy: entities.BaseEnemy, player: entities.Player, 
+        terrain: generation.BaseTerrain, elapsed_time: number)
+}
+
+ai.MeleeAI --> systems.RngSystem
+
+class ai.RangedAI extends ai.BaseAI{
+    + vision_range: number
+    + tracking_range: number
+    + attack_range: number
+    + melee_range: number
+    + attack_timer: number
+    + previous_direction: numpy.ndarray
+    + angle_deviation: number
+    + wander_timer: number
+    + wandering: boolean
+    + desired_distance: number
+
+    + MeleeAI(vision_range: number, tracking_range: number,
+        attack_range:number melee_range: number)
+    + idle(enemy: entities.BaseEnemy, player: entities.Player, 
+        terrain: generation.BaseTerrain, elapsed_time: number)
+    + prepare(enemy: entities.BaseEnemy, player: entities.Player, 
+        terrain: generation.BaseTerrain, elapsed_time: number)
+    + attack(enemy: entities.BaseEnemy, player: entities.Player, 
+        terrain: generation.BaseTerrain, elapsed_time: number)
+    + alert(enemy: entities.BaseEnemy, player: entities.Player, 
+        terrain: generation.BaseTerrain, elapsed_time: number)
+}
+
+ai.RangedAI --> systems.RngSystem
+
+
+class ai.AIState extends Enum{}
+
 class entities.BaseEnemy extends entities.LivingEntity{
-    + ai: ai.BaseAI
     + speed: number
     + target: numpy.ndarray
     + targeting: boolean
@@ -10,7 +76,8 @@ class entities.BaseEnemy extends entities.LivingEntity{
     + hit_stun: number
     + attack_timer:number
 
-    + BaseEnemy(hp:number,initial_pos:numpy.ndarray,image:pygame.Surface,ai:ai.BaseAI,drag:number,speed:number)
+    + BaseEnemy(hp: number, initial_pos: numpy.ndarray,\n image: pygame.Surface, ai: ai.BaseAI,
+        drag: number, speed: number)
     + setup(level: scenes.Level)
     + finish_dedath_animation()
     + on_death()
@@ -20,9 +87,72 @@ class entities.BaseEnemy extends entities.LivingEntity{
     + set_target(point: numpy.ndarray)
     + get_target(): numpy.ndarray
     + attack()
-    + hit(damage:number,knockback: numpy.ndarray)
+    + hit(damage: number, knockback: numpy.ndarray)
     - update_movement(elapsed_time: number)
     - update_animation(elapsed_time: number)
 }
+
+entities.BaseEnemy "1" o-- "1" ai.BaseAI
+
+class entities.BaseRangedEnemy extends entities.BaseEnemy{
+    + facing_vector: numpy.ndarray
+    + damage: number
+    + knockback: number
+    + projectile_speed: number
+    + attack_lifetime: number
+    + reload_speed: number
+
+    + BaseRangedEnemy(hp: number, initial_pos: numpy.ndarray, \n initial_animation: systems.Resource, ai: ai.BaseAI,
+        speed: number)
+    + trigger_attack()
+    + update_animation()
+    + hit(damage: number, knockback: numpy.ndarray)
+    + on_death()
+}
+
+
+class entities.WeakRangedEnemy extends entities.BaseRangedEnemy{
+    + WeakRangedEnemy(initial_pos: numpy.ndarray)
+}
+
+class entities.MediumRangedEnemy extends entities.BaseRangedEnemy{
+    + MediumRangedEnemy(initial_pos: numpy.ndarray)
+}
+
+class entities.StrongRangedEnemy extends entities.BaseRangedEnemy{
+    + StrongRangedEnemy(initial_pos: numpy.ndarray)
+}
+
+class entities.BaseMeleeEnemy{
+    + facing_vector: numpy.ndarray
+    + damage: number
+    + knockback: number
+    + projectile_speed: number
+    + attack_lifetime: number
+    + reload_speed: number
+
+    + BaseMeleeEnemy(hp: number, initial_pos: numpy.ndarray,\n initial_animation: systems.Resource, ai: ai.BaseAI,
+        speed: number)
+    + trigger_attack()
+    + update_animation()
+    + hit(damage: number, knockback: numpy.ndarray)
+    + on_death()
+}
+
+entities.BaseMeleeEnemy -right-|> entities.BaseEnemy
+
+class entities.WeakMeleeEnemy extends entities.BaseMeleeEnemy{
+    + WeakMeleeEnemy(initial_pos: numpy.ndarray)
+}
+
+class entities.MediumMeleeEnemy extends entities.BaseMeleeEnemy{
+    + MediumMeleeEnemy(initial_pos: numpy.ndarray)
+}
+
+class entities.StrongMeleeEnemy extends entities.BaseMeleeEnemy{
+    + StrongMeleeEnemy(initial_pos: numpy.ndarray)
+}
+
+
 
 @enduml

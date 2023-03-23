@@ -1,4 +1,4 @@
-from ai.base_ai import BaseAI, EnemyState
+from ai.base_ai import BaseAI, AIState
 from systems.rng_system import RngSystem, Generator
 from ai.algorithms import wander, find_path, search_player
 from utils.math import rotate_vector
@@ -27,10 +27,10 @@ class RangedAI(BaseAI):
             self.melee_range + (self.attack_range - self.melee_range) / 2
         )
 
-        self.actions[EnemyState.IDLE] = self.idle
-        self.actions[EnemyState.PREPARING] = self.preparing
-        self.actions[EnemyState.ATTACKING] = self.attacking
-        self.actions[EnemyState.ALERT] = self.alert
+        self.actions[AIState.IDLE] = self.idle
+        self.actions[AIState.PREPARING] = self.prepare
+        self.actions[AIState.ATTACKING] = self.attack
+        self.actions[AIState.ALERT] = self.alert
 
     def idle(self, enemy, player, terrain, elapsed_time):
         # Compute distance to player, if the player is in vision range
@@ -39,7 +39,7 @@ class RangedAI(BaseAI):
         enemy_pos = enemy.position
 
         if search_player(enemy_pos, player_pos, terrain, self.vision_range):
-            self.state = EnemyState.PREPARING
+            self.state = AIState.PREPARING
             enemy.alerted()
             self.previous_direction = None
             self.attack_from = None
@@ -58,7 +58,7 @@ class RangedAI(BaseAI):
         )
         enemy.set_target(new_target)
 
-    def preparing(self, enemy, player, terrain, elapsed_time):
+    def prepare(self, enemy, player, terrain, elapsed_time):
         # If we haven't decided a direction from which to attack
         if self.angle_deviation is None:
             self.angle_deviation = self.rng.random() * 30 - 15
@@ -83,10 +83,10 @@ class RangedAI(BaseAI):
 
         distance = np.linalg.norm(diff_vector)
         if distance <= 2 * TILE_SIZE:
-            self.state = EnemyState.ATTACKING
+            self.state = AIState.ATTACKING
             return
         # if distance > self.tracking_range:
-        #    self.state = EnemyState.ALERT
+        #    self.state = AIState.ALERT
         #    return
 
         # Track player and avoid walls
@@ -96,7 +96,7 @@ class RangedAI(BaseAI):
 
         enemy.set_target(enemy_pos + self.previous_direction)
 
-    def attacking(self, enemy, player, terrain, elapsed_time):
+    def attack(self, enemy, player, terrain, elapsed_time):
         # If distance inside attack range and > melee range attack
         # If distance inside attack range and < melee range PREPARING
         # If distance > attack range PREPARING
@@ -104,18 +104,18 @@ class RangedAI(BaseAI):
         # Compute distance to player, if in attack range attack
         # else change back to PREPARING state
         player_pos = player.position
-        enemy_pos =enemy.position
+        enemy_pos = enemy.position
 
         diff_vector = player_pos - enemy_pos
 
         distance = np.linalg.norm(diff_vector)
         if distance < self.melee_range:
-            self.state = EnemyState.PREPARING
+            self.state = AIState.PREPARING
             self.previous_direction = None
             self.attack_from = None
             return
         if distance > self.attack_range:
-            self.state = EnemyState.PREPARING
+            self.state = AIState.PREPARING
             self.previous_direction = None
             self.attack_from = None
 
@@ -135,7 +135,7 @@ class RangedAI(BaseAI):
 
         distance = np.linalg.norm(diff_vector)
         if distance < self.tracking_range:
-            self.state = EnemyState.PREPARING
+            self.state = AIState.PREPARING
             self.previous_direction = None
             self.attack_from = None
             return
