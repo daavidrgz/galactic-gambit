@@ -5,6 +5,7 @@ from systems.resource_manager import Resource, ResourceManager
 
 class ShipGenerator(BaseGenerator):
     def __init__(self, terrain):
+        # Use a 7x5 block scale to emulate rooms and hallways
         super().__init__((10, 20), (7, 5), terrain, (4500, 7000))
 
         rmgr = ResourceManager.get_instance()
@@ -28,6 +29,7 @@ class ShipGenerator(BaseGenerator):
         self.wall_spr_inleftdown = rmgr.load_tile(Resource.SHIP_WALL_INNERLEFTDOWN)
         self.wall_spr_inrightdown = rmgr.load_tile(Resource.SHIP_WALL_INNERRIGHTDOWN)
 
+        # Get a noise offset based on seed for visual tile variation
         self.var_offset_x, self.var_offset_y = (
             (self.rng.random() - 0.5) * 1000000,
             (self.rng.random() - 0.5) * 1000000,
@@ -39,6 +41,7 @@ class ShipGenerator(BaseGenerator):
 
         return self.get_wall_spr(x, y, surroundings)
 
+    # Decide wall countour shape
     def get_wall_spr(self, x, y, surroundings):
         if surroundings[2, 1] == TerrainType.GROUND:
             if surroundings[1, 2] == TerrainType.GROUND:
@@ -71,6 +74,7 @@ class ShipGenerator(BaseGenerator):
 
         return None
 
+    # Ground gets random variations
     def get_ground_sprite(self, x, y):
         n = self.noise(x / 10 + self.var_offset_x, y / 10 + self.var_offset_y)
 
@@ -88,8 +92,7 @@ class ShipGenerator(BaseGenerator):
 
         return self.floor_sprite
 
-    def noise_wall_condition(self, n, x, y):
-        return n > 0.0
-
+    # Y is weighted more heavily for distance in the ship level.
+    # This leads to exits being at the top of the map
     def distance_function(self, x0, y0, x1, y1, depth):
         return abs(y0 - y1) + abs(x0 - x1) / 5

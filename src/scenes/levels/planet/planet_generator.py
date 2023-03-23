@@ -25,11 +25,13 @@ class PlanetGenerator(BaseGenerator):
         self.wall_spr_inleftdown = rmgr.load_tile(Resource.PLANET_WALL_INNERLEFTDOWN)
         self.wall_spr_inrightdown = rmgr.load_tile(Resource.PLANET_WALL_INNERRIGHTDOWN)
 
+        # Get a noise offset based on seed for visual tile variation
         self.var_offset_x, self.var_offset_y = (
             (self.rng.random() - 0.5) * 1000000,
             (self.rng.random() - 0.5) * 1000000,
         )
 
+    # Use polar coordinates for noise to cause ring-shaped levels
     def coordinate_transform(self, x, y):
         x -= 85
         y -= 85
@@ -41,6 +43,7 @@ class PlanetGenerator(BaseGenerator):
 
         return self.get_wall_spr(x, y, surroundings)
 
+    # Decide wall countour shape
     def get_wall_spr(self, x, y, surroundings):
         if surroundings[2, 1] == TerrainType.GROUND:
             if surroundings[1, 2] == TerrainType.GROUND:
@@ -73,6 +76,7 @@ class PlanetGenerator(BaseGenerator):
 
         return None
 
+    # Ground gets random variations
     def get_ground_sprite(self, x, y):
         n = self.noise(x / 60 + self.var_offset_x, y / 60 + self.var_offset_y)
 
@@ -81,8 +85,10 @@ class PlanetGenerator(BaseGenerator):
 
         return self.floor_sprite
 
+    # Walls are more likely the further we go from the center
     def noise_wall_condition(self, n, x, y):
         return n < (x / 114) ** 3
 
+    # Merely use depth for distance on the planet level
     def distance_function(self, x0, y0, x1, y1, depth):
         return depth

@@ -24,6 +24,8 @@ class CaveGenerator(BaseGenerator):
 
         super().__init__((6.0, 6.0), (2, 2), terrain, (7000, 20000))
 
+    # Warp noise sampling coordinates with noise. Noise influence is determined by Y
+    # coordinate -> deeper down = more distortion
     def coordinate_transform(self, x, y):
         return (
             x + snoise2(x * 10 + 2711, y * 10 - 14144) * y / 10,
@@ -36,6 +38,7 @@ class CaveGenerator(BaseGenerator):
 
         return self.get_wall_sprite(x, y, surroundings)
 
+    # Decide wall countour shape
     def get_wall_sprite(self, x, y, surroundings):
         if surroundings[2, 1] == TerrainType.GROUND:
             if surroundings[1, 2] == TerrainType.GROUND:
@@ -71,11 +74,14 @@ class CaveGenerator(BaseGenerator):
     def get_ground_sprite(self, x, y):
         return self.floor_sprite
 
+    # Further from the center horizontally, as well as further down vertically, walls are more likely.
+    # A quadratic curve defines the entrance to the cave
     def noise_wall_condition(self, n, x, y):
         x_dist = abs(x - 85) / 85
         y_dist = y / 170
         x_factor = n - x_dist
         return x_factor < y_dist - 1.0 or x_dist / 5.0 - 0.008 > y_dist**2
 
+    # Distance as a combination of position and depth
     def distance_function(self, x0, y0, x1, y1, depth):
         return abs(x0 - x1) / 6 - abs(y0 - y1) + depth * 2

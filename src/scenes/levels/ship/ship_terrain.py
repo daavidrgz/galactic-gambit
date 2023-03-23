@@ -14,6 +14,7 @@ class ShipTerrain(BaseTerrain):
     Y_ROOM = 30
     X_ROOM = 22
 
+    # Starting room is at the borrom of the level with a random X coordinate
     def populate(self):
         data = np.full(
             (self.Y_SIZE * self.Y_ROOM, self.X_SIZE * self.X_ROOM),
