@@ -28,8 +28,8 @@ class RangedAI(BaseAI):
         )
 
         self.actions[EnemyState.IDLE] = self.idle
-        self.actions[EnemyState.PREPARING] = self.preparing
-        self.actions[EnemyState.ATTACKING] = self.attacking
+        self.actions[EnemyState.PREPARING] = self.prepare
+        self.actions[EnemyState.ATTACKING] = self.attack
         self.actions[EnemyState.ALERT] = self.alert
 
     def idle(self, enemy, player, terrain, elapsed_time):
@@ -58,7 +58,7 @@ class RangedAI(BaseAI):
         )
         enemy.set_target(new_target)
 
-    def preparing(self, enemy, player, terrain, elapsed_time):
+    def prepare(self, enemy, player, terrain, elapsed_time):
         # If we haven't decided a direction from which to attack
         if self.angle_deviation is None:
             self.angle_deviation = self.rng.random() * 30 - 15
@@ -96,7 +96,7 @@ class RangedAI(BaseAI):
 
         enemy.set_target(enemy_pos + self.previous_direction)
 
-    def attacking(self, enemy, player, terrain, elapsed_time):
+    def attack(self, enemy, player, terrain, elapsed_time):
         # If distance inside attack range and > melee range attack
         # If distance inside attack range and < melee range PREPARING
         # If distance > attack range PREPARING
@@ -104,7 +104,7 @@ class RangedAI(BaseAI):
         # Compute distance to player, if in attack range attack
         # else change back to PREPARING state
         player_pos = player.position
-        enemy_pos =enemy.position
+        enemy_pos = enemy.position
 
         diff_vector = player_pos - enemy_pos
 

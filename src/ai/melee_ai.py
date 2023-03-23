@@ -20,7 +20,7 @@ class MeleeAI(BaseAI):
         self.wandering = False
 
         self.actions[EnemyState.IDLE] = self.idle
-        self.actions[EnemyState.PREPARING] = self.preparing
+        self.actions[EnemyState.PREPARING] = self.prepare
         self.actions[EnemyState.ATTACKING] = self.attack
         self.actions[EnemyState.ALERT] = self.alert
 
@@ -50,7 +50,7 @@ class MeleeAI(BaseAI):
         )
         enemy.set_target(new_target)
 
-    def preparing(self, enemy, player, terrain, elapsed_time):
+    def prepare(self, enemy, player, terrain, elapsed_time):
         # If we haven't decided a direction from which to attack
         if self.attack_from is None:
             self.attack_from = rotate_vector(
