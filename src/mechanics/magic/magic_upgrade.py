@@ -229,7 +229,7 @@ class ViciousAim(MagicUpgrade):
     icon = Resource.AIM_ICON
     order = 3
 
-    def choose_target(self, bullet):
+    def __choose_target(self, bullet):
         target = None
 
         from_pos = bullet.position
@@ -253,7 +253,7 @@ class ViciousAim(MagicUpgrade):
 
     def apply(self, bullet, elapsed_time):
         elapsed_units = elapsed_time * DESIGN_FRAMERATE / 1000
-        target, sqr_dist = self.choose_target(bullet)
+        target, sqr_dist = self.__choose_target(bullet)
 
         if not target:
             return
