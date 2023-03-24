@@ -92,7 +92,7 @@ class entities.BaseEnemy extends entities.LivingEntity{
     - update_animation(elapsed_time: number)
 }
 
-entities.BaseEnemy "1" o-- "1" ai.BaseAI
+entities.BaseEnemy "1" o-down- "1" ai.BaseAI
 
 class entities.BaseRangedEnemy extends entities.BaseEnemy{
     + facing_vector: numpy.ndarray
@@ -139,15 +139,17 @@ class entities.BaseMeleeEnemy{
     + on_death()
 }
 
-entities.BaseMeleeEnemy -right-|> entities.BaseEnemy
+entities.BaseMeleeEnemy -left-|> entities.BaseEnemy
 
 class entities.WeakMeleeEnemy extends entities.BaseMeleeEnemy{
     + WeakMeleeEnemy(initial_pos: numpy.ndarray)
 }
 
-class entities.MediumMeleeEnemy extends entities.BaseMeleeEnemy{
+class entities.MediumMeleeEnemy{
     + MediumMeleeEnemy(initial_pos: numpy.ndarray)
 }
+
+entities.MediumMeleeEnemy -down-|> entities.BaseMeleeEnemy
 
 class entities.StrongMeleeEnemy extends entities.BaseMeleeEnemy{
     + StrongMeleeEnemy(initial_pos: numpy.ndarray)

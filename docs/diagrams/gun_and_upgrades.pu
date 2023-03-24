@@ -90,27 +90,27 @@ class mechanics.TechUpgrade{
     + {static} name: string
     + {static} icon: systems.Resource
 
-    + apply(gun: mechanics.Gun)
+    + {static} apply(gun: mechanics.Gun)
 }
 
 class mechanics.TripleShot extends mechanics.TechUpgrade{
     + TripleShot()
-    + apply(gun: mechanics.Gun)
+    + {static} apply(gun: mechanics.Gun)
 }
 
 class mechanics.HardBullets extends mechanics.TechUpgrade{
     + HardBullets()
-    + apply(gun: mechanics.Gun)
+    + {static} apply(gun: mechanics.Gun)
 }
 
 class mechanics.Shotgun extends mechanics.TechUpgrade{
     + Shotgun()
-    + apply(gun: mechanics.Gun)
+    + {static} apply(gun: mechanics.Gun)
 }
 
 class mechanics.RailwayCannon extends mechanics.TechUpgrade{
     + RailwayCannon()
-    + apply(gun: mechanics.Gun)
+    + {static} apply(gun: mechanics.Gun)
 }
 
 mechanics.TechUpgrade --> mechanics.Gun
