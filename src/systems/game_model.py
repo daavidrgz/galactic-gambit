@@ -11,10 +11,8 @@ from constants.game_constants import (
     INITIAL_GUN_KNOCKBACK,
     INITIAL_GUN_LIFETIME,
 )
-from entities.living.hp import Hp
 from entities.living.player.player import Player
 from mechanics.gun import Gun
-from mechanics.magic.magic_level import MagicLevel
 from systems.magic_upgrade_system import MagicUpgradeSystem
 from systems.tech_upgrade_system import TechUpgradeSystem
 from systems.rng_system import RngSystem
