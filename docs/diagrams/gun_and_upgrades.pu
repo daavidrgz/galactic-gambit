@@ -1,0 +1,121 @@
+
+@startuml gun_and_upgrades
+
+entities.Player "1" o-left- "1" mechanics.MagicLevel
+entities.Player "1" o-- "1" mechanics.Gun
+class mechanics.Gun{
+    + cooldown: number
+    + current_cooldown: number
+    + gun_offset: number
+    + n_bullets: number
+    + spread: number
+    + bullet_damage: number
+    + bullet_speed: number
+    + bullet_knockback: number
+    + bullet_lifetime: number
+
+    + Gun(bullet_damage: number, cooldown: number, bullet_speed: number,\n gun_offset: number, spread: number, n_bullets:number,
+        bullet_knockback: number, bullet_lifetime: number)
+    + add_magic_upgrade(upgrade: mechanics.MagicUpgrade)
+    + is_ready(): boolean
+    + update_cooldown(elapsed_time: number)
+    + shoot(shoot_position: numpy.ndarray, facing_vector: numpy.ndarray)
+    + generate_bullets(shoot_position: numpy.ndarray, 
+        facing_vector: numpy.ndarray): list[entities.PlayerBullet]
+    - intantiate_upgrades(): list[MagicUpgrade]
+}
+
+class entities.PlayerBullet{}
+
+class mechanics.MagicLevel extends utils.Observable{
+    + level: number
+    + experience: number
+    + max_level: number
+
+    + MagicLevel()
+    + setup(on_level_up: function)
+    + increase_exp(amount: number)
+    + get_level(): number
+    + is_max_level(): boolean
+    + get_exp(): number
+    + get_next_level_exp(): number
+    + from_model_magic_level(systems.ModelMagicLevel): MagicLevel
+}
+
+class mechanics.MagicUpgrade{
+    + {static} name: string
+    + {static} icon: systems.Resource
+    + {static} order: number
+
+    + apply(bullet: entities.PlayerBullet, elapsed_time: number)
+    + setup(bullet: entities.PlayerBullet, level: scenes.Level)
+}
+
+class mechanics.SerpentStrike extends mechanics.MagicUpgrade{
+    + state: number
+    + period: number
+    + amplitude: number
+    + phase: number
+
+    + SerpentStrike()
+    + apply(bullet: entities.PlayerBullet, elapsed_time: number)
+    + setup(bullet: entities.PlayerBullet, level: scenes.Level)
+}
+
+class mechanics.WaveformCannon extends mechanics.MagicUpgrade{
+    + state: number
+    + period: number
+    + amplitude: number
+    + phase: number
+
+    + WaveformCannon()
+    + apply(bullet: entities.PlayerBullet, elapsed_time: number)
+    + setup(bullet: entities.PlayerBullet, level: scenes.Level)
+}
+
+class mechanics.ViciousAim extends mechanics.MagicUpgrade{
+    + ViciousAim()
+    + apply(bullet: entities.PlayerBullet, elapsed_time: number)
+    + setup(bullet: entities.PlayerBullet, level: scenes.Level)
+    - choose_target(bullet: entities.PlayerBullet)
+}
+
+class mechanics.GhostlyShot extends mechanics.MagicUpgrade{
+    + GhostlyShot()
+    + setup(bullet: entities.PlayerBullet, level: scenes.Level)
+    - translucent_modifier(iamge: pygame.Surface)
+}
+
+class mechanics.TechUpgrade{
+    + {static} name: string
+    + {static} icon: systems.Resource
+
+    + apply(gun: mechanics.Gun)
+}
+
+class mechanics.TripleShot extends mechanics.TechUpgrade{
+    + TripleShot()
+    + apply(gun: mechanics.Gun)
+}
+
+class mechanics.HardBullets extends mechanics.TechUpgrade{
+    + HardBullets()
+    + apply(gun: mechanics.Gun)
+}
+
+class mechanics.Shotgun extends mechanics.TechUpgrade{
+    + Shotgun()
+    + apply(gun: mechanics.Gun)
+}
+
+class mechanics.RailwayCannon extends mechanics.TechUpgrade{
+    + RailwayCannon()
+    + apply(gun: mechanics.Gun)
+}
+
+mechanics.TechUpgrade --> mechanics.Gun
+
+entities.PlayerBullet "1" o-- "N" mechanics.MagicUpgrade
+mechanics.Gun "1" o-- "N" mechanics.MagicUpgrade
+mechanics.Gun --> entities.PlayerBullet
+@enduml

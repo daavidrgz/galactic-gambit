@@ -1,0 +1,171 @@
+@startuml systems
+
+
+class utils.Singleton{
+    + getInstance()
+}
+class systems.CameraManager extends utils.Singleton{
+    + x: number
+    + y: number
+    + target_x: number
+    + target_y: number
+    + shake: number
+
+    + CameraManager()
+    + update(elapsed_time: number)
+    + set_coords(coords: tuple[number, number])
+    + get_coords(): tuple[number, number]
+    + set_center(coords: tuple[number, number])
+    + get_center(): tuple[number, number]
+    + set_target_center(coords: tuple[number, number])
+    + set_shake(shake: number)
+}
+
+class systems.ControlSystem{
+    + actions: dict[systems.Action, number]
+    - pressed_keys: list[boolean]
+
+    + ControlSystem()
+    + is_active_action(action: systems.Action): boolean
+    + is_key_pressed(key: number): boolean
+    + refresh_pressed_keys()
+    + rebind_action(action: systems.Action, key: number)
+    + get_action_key(action: systems.Action): number
+    + is_mouse_pressed(): boolean
+    + get_mouse_pos(): tuple[number, number]
+    + user_pos_to_design(x: number, y: number ): tuple[number, number]
+}
+
+systems.ControlSystem "1" o-- "N" systems.Action
+class systems.Action extends Enum{
+    + {static} UP
+    + {static} DOWN
+    + {static} LEFT
+    + {static} RIGHT
+}
+
+class systems.GameModel extends utils.Singleton{
+
+    + GameModel()
+    + init_model()
+    + reset_model()
+    + update_player(player_entity: entities.Player)
+    + get_player(): systems.PlayerModel
+    + update_level(level: scenes.Level)
+    + get_level(): scenes.Level
+    + save()
+    + load()
+    + save_exists(): boolean
+    + delete_save()
+    - update_model(self, other: systems.GameModel)
+}
+
+systems.GameModel "1" o-- "1" systems.PlayerModel
+systems.GameModel --> systems.TechUpgradeSystem
+systems.GameModel --> systems.MagicUpgradeSystem
+systems.GameModel --> systems.RngSystem
+
+class systems.PlayerModel{
+    + PlayerModel(hp: systems.HpModel, gun: mechanics.Gun, magic_level: systems.MagicLevelModel)
+    + from_sprite(player_entity: entities.Player): PlayerModel
+}
+
+
+systems.PlayerModel "1" o-- "1" mechanics.Gun
+systems.PlayerModel "1" o-- "1" systems.MagicLevelModel
+systems.PlayerModel "1" o-- "1" systems.HpModel
+
+class systems.HpModel{
+    + hp: number
+    + max_hp: number
+
+    + HpModel(hp: number, max_hp: number)
+    + from_game_hp(game_hp: entities.Hp): HpModel
+}
+
+class systems.MagicLevelModel{
+    + level: number
+    + experience: number
+
+    + MagicLevelModel(level: number, experience: number)
+    + from_game_magic_level(game_magic_level: mechanics.MagicLevel): MagicLevelModel
+}
+
+class systems.UpgradeSystem{
+    + num_upgrades: number
+    + selected_upgrades: set
+    + available_upgrades: list
+
+    + UpgradeSystem()
+    + reset()
+    + set_state(state: dict)
+    + get_state(): dict
+    + get_random_upgrades(): list
+    + pick_upgrade(upgrade): boolean
+    + get_num_upgrades(): number
+    + get_available_upgrades(): list
+    + get_random_generator(): systems.Generator
+}
+
+class systems.TechUpgradeSystem extends systems.UpgradeSystem{
+    + TechUpgradeSystem()
+    + get_available_upgrades(): list[mechanics.TechUpgrade]
+    + get_random_generator(): systems.Generator
+}
+systems.TechUpgradeSystem --|> utils.Singleton
+systems.TechUpgradeSystem --> systems.RngSystem
+
+class systems.MagicUpgradeSystem extends systems.UpgradeSystem{
+    + MagicUpgradeSystem()
+    + get_available_upgrades(): list[mechanics.MagicUpgrade]
+    + get_random_generator(): systems.Generator
+}
+
+systems.MagicUpgradeSystem --|> utils.Singleton
+systems.MagicUpgradeSystem --> systems.RngSystem
+
+class systems.Generator extends Enum{
+    + {static} MAP
+    + {static} ENEMIES
+    + {static} PLAYER
+    + {static} TECHNOLOGY
+    + {static} MAGIC
+}
+
+class systems.RngSystem extends utils.Singleton{
+    - max_seed_number: number
+    - global_rng: random.Random
+    + initial_seed: number
+    + rngs: dict[systems.Generator, random.Random]
+
+    + RngSystem()
+    + set_state(states: dict)
+    + get_state(): dict
+    + reset()
+    + new_seed()
+    + seed(seed: number)
+    + get_seed(): number
+    + get_rng(generator: systems.Generator): random.Random
+    + random(generator: systems.Generator): number
+    + randbytes(generator: systems.Generator, n: number): number
+    - seed_generators()
+}
+
+systems.RngSystem --> systems.Generator
+
+class systems.ResourceManager extends utils.Singleton{
+
+    + ResourceManager()
+    + load_image(image_resource: systems.Resource): pygame.Surface
+    + load_sound(sound_resource: systems.Resource): pygame.mixer.Sound
+    + load_sounds(sound_resources: systems.Resource): list[pygame.mixer.Sound]
+    + load_tile(tile_resource: systems.Resource): pygame.Surface
+    + load_font(font_resource: systems.Resource): pygame.font.Font
+    + load_animation(animation_resource: systems.Resource): list[animation.AnimationFrame]
+    - load_sprite(rel_path: string, scale: number, flip: boolean): pygame.Surface
+    - load_sound(rel_path: string): pygame.mixer.Sound
+}
+systems.ResourceManager "1" o-- "N" systems.Resource
+
+class systems.Resource extends Enum{}
+@enduml

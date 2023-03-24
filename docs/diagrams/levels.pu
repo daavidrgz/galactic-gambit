@@ -35,19 +35,19 @@ class scenes.Level extends scenes.Scene {
   + spawn_enemy_bullet(bullet: entities.Projectile)
   - player_death()
 }
-scenes.Level o--> "1" entities.Player
-scenes.Level o--> "N" entities.BaseEnemy
-scenes.Level o--> "N" entities.Projectile
+scenes.Level "1" o--> "1" entities.Player
+scenes.Level "1" o--> "N" entities.BaseEnemy
+scenes.Level "1" o--> "N" entities.Projectile
 
-scenes.Level o-left-> "1" gui.Hud
-scenes.Level -right-> mechanics.MagicUpgradeSystem
-scenes.Level -right-> mechanics.TechUpgradeSystem
+scenes.Level "1" o-left-> "1" gui.Hud
+scenes.Level -right-> systems.MagicUpgradeSystem
+scenes.Level -right-> systems.TechUpgradeSystem
 scenes.Level --> scenes.ScrollableGroup
-scenes.Level o-up-> "1" generation.BaseGenerator
+scenes.Level "1" o-up-> "1" generation.BaseGenerator
 
 class generation.BaseGenerator 
 class generation.BaseTerrain 
-generation.BaseTerrain "1" <--o generation.BaseGenerator
+generation.BaseTerrain "1" <--o "1" generation.BaseGenerator
 
 class scenes.ScrollableGroup {
   + parallax_x: float
