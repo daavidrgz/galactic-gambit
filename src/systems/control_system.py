@@ -31,7 +31,6 @@ class ControlSystem(metaclass=Singleton):
             Action.RIGHT: pygame.K_d,
             Action.UP: pygame.K_w,
             Action.DOWN: pygame.K_s,
-            Action.PAUSE: pygame.K_ESCAPE,
         }
 
     # Function that gets the value of an enum and returns if the key associated
