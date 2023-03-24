@@ -21,20 +21,21 @@ class systems.GameModel extends utils.Singleton{
     - update_model(self, other: systems.GameModel)
 }
 
-systems.GameModel "1" o-- "1" systems.PlayerModel
+systems.GameModel o--> systems.PlayerModel
 systems.GameModel --> systems.TechUpgradeSystem
 systems.GameModel --> systems.MagicUpgradeSystem
 systems.GameModel --> systems.RngSystem
 
 class systems.PlayerModel{
-    + PlayerModel(hp: systems.HpModel, gun: mechanics.Gun, magic_level: systems.MagicLevelModel)
+    + PlayerModel(hp: systems.HpModel, gun: mechanics.Gun,
+    magic_level: systems.MagicLevelModel)
     + from_sprite(player_entity: entities.Player): PlayerModel
 }
 
 
-systems.PlayerModel "1" o-- "1" mechanics.Gun
-systems.PlayerModel "1" o-- "1" systems.MagicLevelModel
-systems.PlayerModel "1" o-- "1" systems.HpModel
+systems.PlayerModel o--> mechanics.Gun
+systems.PlayerModel o--> systems.MagicLevelModel
+systems.PlayerModel o-- systems.HpModel
 
 class systems.HpModel{
     + hp: number
@@ -49,7 +50,8 @@ class systems.MagicLevelModel{
     + experience: number
 
     + MagicLevelModel(level: number, experience: number)
-    + from_game_magic_level(game_magic_level: mechanics.MagicLevel): MagicLevelModel
+    + from_game_magic_level(
+    game_magic_level: mechanics.MagicLevel): MagicLevelModel
 }
 
 class systems.UpgradeSystem{
@@ -85,13 +87,15 @@ class systems.MagicUpgradeSystem extends systems.UpgradeSystem{
 systems.MagicUpgradeSystem --|> utils.Singleton
 systems.MagicUpgradeSystem --> systems.RngSystem
 
-class systems.Generator extends Enum{
+class systems.Generator {
     + {static} MAP
     + {static} ENEMIES
     + {static} PLAYER
     + {static} TECHNOLOGY
     + {static} MAGIC
 }
+
+systems.Generator -left-|> Enum
 
 class systems.RngSystem extends utils.Singleton{
     - max_seed_number: number
@@ -112,7 +116,7 @@ class systems.RngSystem extends utils.Singleton{
     - seed_generators()
 }
 
-systems.RngSystem --> systems.Generator
+systems.RngSystem -left-> systems.Generator
 
 
 @enduml

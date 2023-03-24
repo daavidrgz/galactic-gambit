@@ -36,13 +36,14 @@ class systems.ControlSystem extends utils.Singleton{
     + user_pos_to_design(x: number, y: number ): tuple[number, number]
 }
 
-systems.ControlSystem "1" o-- "N" systems.Action
-class systems.Action extends Enum{
+systems.ControlSystem "1" o-down-> "N" systems.Action
+class systems.Action {
     + {static} UP
     + {static} DOWN
     + {static} LEFT
     + {static} RIGHT
 }
+systems.Action -down-|> Enum
 
 class systems.ResourceManager extends utils.Singleton{
 
@@ -58,7 +59,8 @@ class systems.ResourceManager extends utils.Singleton{
 }
 systems.ResourceManager "1" o-- "N" systems.Resource
 
-class systems.Resource extends Enum{}
+class systems.Resource
+systems.Resource -down-|> Enum
 
 class systems.RandomSounds{
     + sounds: list[pygame.mixer.Sound]

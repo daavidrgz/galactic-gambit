@@ -8,7 +8,7 @@ class scenes.Level extends scenes.Scene {
   + load()
   + setup()
   + update(elapsed_time: number)
-  + handle_events(events: List[pygame.Event])
+  + handle_events(events: list[pygame.Event])
   + draw(screen: pygame.Surface)
   + pop_back()
   + player_magic_upgrade()
@@ -100,14 +100,15 @@ class scenes.ScrollableGroup {
   + parallax_y: number
   + cull: bool
 
-  + ScrollableGroup(sprites: List[pygame.sprite.Sprite])
+  + ScrollableGroup(sprites: list[pygame.sprite.Sprite])
   + draw(surface: pygame.Surface)
 }
 scenes.ScrollableGroup -up-|> pygame.sprite.Group
 scenes.ScrollableGroup --> systems.CameraManager
 
 class scenes.ParallaxGroup {
-  + ParallaxGroup(parallax: number, sprites: List[pygame.sprite.Sprite])
+  + ParallaxGroup(parallax: number,
+  sprites: list[pygame.sprite.Sprite])
 }
 scenes.ParallaxGroup -up-|> scenes.ScrollableGroup
 
