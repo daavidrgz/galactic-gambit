@@ -46,15 +46,15 @@ class generation.BaseGenerator{
     + push(pos_queue: list[tuple[number,number,number]],
         x: number, y: number, depth: number)
     + place_sprites()
-    + noise(x: number, y: number)
-    + noise_wall_condition(n:number, x: number, y: number)
-    + coordinate_transform(x: number, y: number)
+    + noise(x: number, y: number): number
+    + noise_wall_condition(n:number, x: number, y: number): bool
+    + coordinate_transform(x: number, y: number): tuple[number, number]
     + distance_function(x0: number, y0: number,
-        x1: number, y1: number, depth: number)
+        x1: number, y1: number, depth: number): number
     + get_tile(x: number, y: number,
-        surroundings: list[tuple[number,number]])
+        surroundings: list[tuple[number,number]]): generation.Tile
     + {abstract} get_sprite(x: number, y: number,
-        surroundings: list[tuple[number,number]])
+        surroundings: list[tuple[number,number]]): pygame.sprite.Sprite
 } 
 class generation.BaseTerrain extends utils.Observer{
     + buffer: pygame.Surface

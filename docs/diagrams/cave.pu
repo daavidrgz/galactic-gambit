@@ -1,26 +1,29 @@
-@startuml ship
+@startuml cave
 
 
-class scenes.ShipLevel extends scenes.Level{
-    + ShipLevel()
+class scenes.CaveLevel extends scenes.Level{
+    + CaveLevel()
     + update(elapsed_time: number)
     + setup()
 }
 
-class scenes.ShipGenerator extends generation.BaseGenerator{
-    + ShipGenerator(terrain: scenes.ShipTerrain)
+class scenes.CaveGenerator extends generation.BaseGenerator{
+
+    + CaveGenerator(terrain: scenes.CaveTerrain)
+    + coordinate_transform(x: number, y: number): tuple[number,number]
     + get_sprite(x: number, y: number,
         surroundings: list[tuple[number,number]]): pygame.sprite.Sprite
     + get_wall_sprite(x: number, y: number,
         surroundings: list[tuple[number,number]]): pygame.sprite.Sprite
     + get_ground_sprite(x: number, y: number): pygame.sprite.Sprite
+    + noise_wall_condition(n: number, x: number, y: number): bool
     + distance_function(x0: number, y0: number, x1: number,
         y1: number, depth: number): number
 }
 
-class scenes.ShipTerrain extends generation.BaseTerrain{
+class scenes.CaveTerrain extends generation.BaseTerrain{
 
-    + ShipTerrain()
+    + CaveTerrain()
     + populate()
     + place_end(end_coords: tuple[number,number])
     + place_start_sprite(x: number, y: number)
