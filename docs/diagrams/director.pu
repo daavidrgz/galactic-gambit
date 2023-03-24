@@ -1,0 +1,62 @@
+@startuml director
+
+
+
+class scenes.Director extends utils.Singleton{
+    + screen: pygame.Surface
+    + full_screen: boolean
+    + virtual_screen: pygame.Surface
+    + crosshair: pygame.Surface
+    + clock: pygame.time.Clock
+    - leave_scene: boolean
+    - do_setup: boolean
+    - do_pop_back: boolean
+
+    + Director()
+    + toggle_full_screen()
+    + run()
+    + push_scene(scene: scenes.Scene, do_setup: boolean)
+    + pop_scene(scene: scenes.Scene, do_pop_back: boolean)
+    + switch_scene(scene: scenes.Scene, do_setup: boolean)
+    + leave_game()
+    + clear_scenes()
+    - loop(self, scene: scenes.Scene)
+
+}
+
+scenes.Director --> systems.ResourceManager
+scenes.Director --> systems.ControlSystem
+
+scenes.Director "1" o-left- "N" scenes.Scene: scenes
+
+class scenes.Scene {
+	+ load_completed: bool
+	+ scene_music: systems.Resource
+
+	+ Scene()
+	+ load()
+	+ setup()
+	+ pop_back()
+	{abstract} + update(elapsed_time: number)
+	{abstract} + handle_events(events: List[pygame.Event])
+	{abstract} + draw(screen: pygame.Surface)
+}
+
+
+
+class scenes.Menu extends scenes.Scene{}
+class scenes.Level extends scenes.Scene{}
+class scenes.Transition extends scenes.Scene{
+    + done_loading: boolean
+    + animation_time: number
+
+    + Transition(transition_to: scenes.Scene)
+    + setup()
+    + update(elapsed_time: number)
+    + handle_events(events: list[pygame.Event])
+    + draw(screen: pygame.Surface)
+}
+scenes.Transition o-- scenes.Scene
+
+
+@enduml

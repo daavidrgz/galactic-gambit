@@ -1,47 +1,8 @@
-@startuml systems
+@startuml internal_systems
 
 
 class utils.Singleton{
     + getInstance()
-}
-class systems.CameraManager extends utils.Singleton{
-    + x: number
-    + y: number
-    + target_x: number
-    + target_y: number
-    + shake: number
-
-    + CameraManager()
-    + update(elapsed_time: number)
-    + set_coords(coords: tuple[number, number])
-    + get_coords(): tuple[number, number]
-    + set_center(coords: tuple[number, number])
-    + get_center(): tuple[number, number]
-    + set_target_center(coords: tuple[number, number])
-    + set_shake(shake: number)
-}
-
-class systems.ControlSystem{
-    + actions: dict[systems.Action, number]
-    - pressed_keys: list[boolean]
-
-    + ControlSystem()
-    + is_active_action(action: systems.Action): boolean
-    + is_key_pressed(key: number): boolean
-    + refresh_pressed_keys()
-    + rebind_action(action: systems.Action, key: number)
-    + get_action_key(action: systems.Action): number
-    + is_mouse_pressed(): boolean
-    + get_mouse_pos(): tuple[number, number]
-    + user_pos_to_design(x: number, y: number ): tuple[number, number]
-}
-
-systems.ControlSystem "1" o-- "N" systems.Action
-class systems.Action extends Enum{
-    + {static} UP
-    + {static} DOWN
-    + {static} LEFT
-    + {static} RIGHT
 }
 
 class systems.GameModel extends utils.Singleton{
@@ -153,19 +114,5 @@ class systems.RngSystem extends utils.Singleton{
 
 systems.RngSystem --> systems.Generator
 
-class systems.ResourceManager extends utils.Singleton{
 
-    + ResourceManager()
-    + load_image(image_resource: systems.Resource): pygame.Surface
-    + load_sound(sound_resource: systems.Resource): pygame.mixer.Sound
-    + load_sounds(sound_resources: systems.Resource): list[pygame.mixer.Sound]
-    + load_tile(tile_resource: systems.Resource): pygame.Surface
-    + load_font(font_resource: systems.Resource): pygame.font.Font
-    + load_animation(animation_resource: systems.Resource): list[animation.AnimationFrame]
-    - load_sprite(rel_path: string, scale: number, flip: boolean): pygame.Surface
-    - load_sound(rel_path: string): pygame.mixer.Sound
-}
-systems.ResourceManager "1" o-- "N" systems.Resource
-
-class systems.Resource extends Enum{}
 @enduml

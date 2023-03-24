@@ -1,18 +1,6 @@
 @startuml levels
 
 
-class scenes.Scene {
-	+ load_completed: bool
-	+ scene_music: systems.Resource
-
-	+ Scene()
-	+ load()
-	+ setup()
-	+ pop_back()
-	{abstract} + update(elapsed_time: number)
-	{abstract} + handle_events(events: List[pygame.Event])
-	{abstract} + draw(screen: pygame.Surface)
-}
 
 class scenes.Level extends scenes.Scene {
   + background: systems.Resource
