@@ -22,7 +22,7 @@ class ai.MeleeAI extends ai.BaseAI{
     + previous_direction: numpy.ndarray
     + attack_from: numpy.ndarray
     + wander_timer: number
-    + wandering: boolean
+    + wandering: bool
 
     + MeleeAI(vision_range: number, tracking_range: number,
          melee_range: number)
@@ -47,7 +47,7 @@ class ai.RangedAI extends ai.BaseAI{
     + previous_direction: numpy.ndarray
     + angle_deviation: number
     + wander_timer: number
-    + wandering: boolean
+    + wandering: bool
     + desired_distance: number
 
     + MeleeAI(vision_range: number, tracking_range: number,
@@ -70,7 +70,7 @@ class ai.AIState extends Enum{}
 class entities.BaseEnemy extends entities.LivingEntity{
     + speed: number
     + target: numpy.ndarray
-    + targeting: boolean
+    + targeting: bool
     + death: booolean
     + death_timer: number
     + hit_stun: number

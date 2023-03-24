@@ -4,20 +4,20 @@
 
 class scenes.Director extends utils.Singleton{
     + screen: pygame.Surface
-    + full_screen: boolean
+    + full_screen: bool
     + virtual_screen: pygame.Surface
     + crosshair: pygame.Surface
     + clock: pygame.time.Clock
-    - leave_scene: boolean
-    - do_setup: boolean
-    - do_pop_back: boolean
+    - leave_scene: bool
+    - do_setup: bool
+    - do_pop_back: bool
 
     + Director()
     + toggle_full_screen()
     + run()
-    + push_scene(scene: scenes.Scene, do_setup: boolean)
-    + pop_scene(scene: scenes.Scene, do_pop_back: boolean)
-    + switch_scene(scene: scenes.Scene, do_setup: boolean)
+    + push_scene(scene: scenes.Scene, do_setup: bool)
+    + pop_scene(scene: scenes.Scene, do_pop_back: bool)
+    + switch_scene(scene: scenes.Scene, do_setup: bool)
     + leave_game()
     + clear_scenes()
     - loop(self, scene: scenes.Scene)
@@ -47,7 +47,7 @@ class scenes.Scene {
 class scenes.Menu extends scenes.Scene{}
 class scenes.Level extends scenes.Scene{}
 class scenes.Transition extends scenes.Scene{
-    + done_loading: boolean
+    + done_loading: bool
     + animation_time: number
 
     + Transition(transition_to: scenes.Scene)

@@ -1,7 +1,5 @@
 @startuml levels
 
-
-
 class scenes.Level extends scenes.Scene {
   + background: systems.Resource
   + scene_music: systems.Resource
@@ -10,7 +8,7 @@ class scenes.Level extends scenes.Scene {
   + load()
   + setup()
   + update(elapsed_time: number)
-  + handle_events(events: List[pygame.Event])'
+  + handle_events(events: List[pygame.Event])
   + draw(screen: pygame.Surface)
   + pop_back()
   + player_magic_upgrade()
@@ -27,19 +25,79 @@ scenes.Level "1" o--> "1" entities.Player
 scenes.Level "1" o--> "N" entities.BaseEnemy
 scenes.Level "1" o--> "N" entities.Projectile
 
-scenes.Level "1" o-left-> "1" gui.Hud
+scenes.Level "1" o-up-> "1" gui.Hud
 scenes.Level -right-> systems.MagicUpgradeSystem
 scenes.Level -right-> systems.TechUpgradeSystem
 scenes.Level --> scenes.ScrollableGroup
 scenes.Level "1" o-up-> "1" generation.BaseGenerator
 
-class generation.BaseGenerator 
-class generation.BaseTerrain 
-generation.BaseTerrain "1" <--o "1" generation.BaseGenerator
+class generation.BaseGenerator{
+    + noise_scale_x: number
+    + noise_scale_y: number
+    + block_scale_x: number
+    + block_scale_y: number
+    + explored_tiles: number
+    + min_tiles: number
+    + max_tiles: number
+
+    + BaseGenerator(noise_scale: tuple[number, number],\n block_scale: tuple[number, number], terrain:
+    generation.Terrain, desired_area: tuple[number, number])
+    + explore_graph()
+    + push(pos_queue: list[tuple[number,number,number]],
+        x: number, y: number, depth: number)
+    + place_sprites()
+    + noise(x: number, y: number)
+    + noise_wall_condition(n:number, x: number, y: number)
+    + coordinate_transform(x: number, y: number)
+    + distance_function(x0: number, y0: number,
+        x1: number, y1: number, depth: number)
+    + get_tile(x: number, y: number,
+        surroundings: list[tuple[number,number]])
+    + {abstract} get_sprite(x: number, y: number,
+        surroundings: list[tuple[number,number]])
+} 
+class generation.BaseTerrain extends utils.Observer{
+    + buffer: pygame.Surface
+    
+    + BaseTerrain()
+    + {abstract} populate()
+    + {abstract} place_end(end_coords: tuple[number, number])
+    + clear()
+    + draw(screen: pygame.Surface)
+    + generate_buffer()
+    + generate_minimap()
+    + get_minimap(): pygame.Surface
+    + get_size(): tuple[number, number]
+    + on_ground(rect: pygame.Rect): bool
+    + on_ground_point(point: tuple[number, number]): bool
+    + on_ground_area(tiles: list[tuple[number, number]]): bool
+    + get_collision_vector(point: tuple[number,number],
+        distance: number): numpy.ndarray
+    + in_bounds(x: number, y: number): bool
+    + place_top_sprite(x: number, y: number,
+        image: pygame.Surface)
+    + open_ending()
+    + notify(enemies: EnemyGroup)
+}
+
+
+
+generation.BaseGenerator --> systems.RngSystem
+generation.BaseTerrain "1" --o "1" generation.BaseGenerator
+generation.BaseTerrain --> systems.CameraManager
+generation.BaseTerrain "1" o-up-> "N" generation.Tile: tiles
+class generation.Tile extends pygame.sprite.Sprite{
+    
+    + Tile(x: number, y: number, image: pygame.Surface)
+    + get_tile_position(logical_position: tuple[number, number]):
+        tuple[number, number]
+    + tile_to_logical_position(tile_position: tuple[number, number]):
+        tuple[number, number]
+}
 
 class scenes.ScrollableGroup {
-  + parallax_x: float
-  + parallax_y: float
+  + parallax_x: number
+  + parallax_y: number
   + cull: bool
 
   + ScrollableGroup(sprites: List[pygame.sprite.Sprite])
@@ -49,14 +107,14 @@ scenes.ScrollableGroup -up-|> pygame.sprite.Group
 scenes.ScrollableGroup --> systems.CameraManager
 
 class scenes.ParallaxGroup {
-  + ParallaxGroup(parallax: float, sprites: List[pygame.sprite.Sprite])
+  + ParallaxGroup(parallax: number, sprites: List[pygame.sprite.Sprite])
 }
 scenes.ParallaxGroup -up-|> scenes.ScrollableGroup
 
 class scenes.EnemyGroup {
   + num_sprites: number
 
-  + EnemyGroup(sprites: List[pygame.sprite.Sprite])
+  + EnemyGroup(sprites: list[pygame.sprite.Sprite])
   + add_internal(sprite: pygame.sprite.Sprite)
   + remove_internal(sprite: pygame.sprite.Sprite)
   + empty()
@@ -64,12 +122,16 @@ class scenes.EnemyGroup {
 }
 
 class utils.Observable {
-  + observers: List[utils.Observer]
-
+  + Observable()
   + add_listener(observer: utils.Observer)
   + remove_listener(observer: utils.Observer)
   + notify_listeners()
 }
+class utils.Observer{
+    + notify()
+}
+utils.Observable "1" o--> "N" utils.Observer: observers
+
 
 scenes.EnemyGroup -up-|> scenes.ScrollableGroup
 scenes.EnemyGroup --|> utils.Observable

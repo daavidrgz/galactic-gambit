@@ -1,0 +1,19 @@
+@startuml ship
+
+
+class scenes.ShipLevel extends scenes.Level{
+
+    + ShipLevel()
+    + update(elapsed_time: number)
+    + setup()
+}
+
+class scenes.ShipGenerator extends generation.BaseGenerator{
+
+    + ShipGenerator(terrain: scenes.ShipTerrain)
+    + get_sprite(x: number, y: number,
+        surroundings: list[tuple[number,number]])
+    + get_wall_prite(x: number, y: number,
+        surroundings: list[tuple[number,number]])
+}
+@enduml

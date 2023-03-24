@@ -17,7 +17,7 @@ class mechanics.Gun{
     + Gun(bullet_damage: number, cooldown: number, bullet_speed: number,\n gun_offset: number, spread: number, n_bullets:number,
         bullet_knockback: number, bullet_lifetime: number)
     + add_magic_upgrade(upgrade: mechanics.MagicUpgrade)
-    + is_ready(): boolean
+    + is_ready(): bool
     + update_cooldown(elapsed_time: number)
     + shoot(shoot_position: numpy.ndarray, facing_vector: numpy.ndarray)
     + generate_bullets(shoot_position: numpy.ndarray, 
@@ -36,7 +36,7 @@ class mechanics.MagicLevel extends utils.Observable{
     + setup(on_level_up: function)
     + increase_exp(amount: number)
     + get_level(): number
-    + is_max_level(): boolean
+    + is_max_level(): bool
     + get_exp(): number
     + get_next_level_exp(): number
     + from_model_magic_level(systems.ModelMagicLevel): MagicLevel

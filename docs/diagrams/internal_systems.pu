@@ -16,7 +16,7 @@ class systems.GameModel extends utils.Singleton{
     + get_level(): scenes.Level
     + save()
     + load()
-    + save_exists(): boolean
+    + save_exists(): bool
     + delete_save()
     - update_model(self, other: systems.GameModel)
 }
@@ -62,7 +62,7 @@ class systems.UpgradeSystem{
     + set_state(state: dict)
     + get_state(): dict
     + get_random_upgrades(): list
-    + pick_upgrade(upgrade): boolean
+    + pick_upgrade(upgrade): bool
     + get_num_upgrades(): number
     + get_available_upgrades(): list
     + get_random_generator(): systems.Generator
