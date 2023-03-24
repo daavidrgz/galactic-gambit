@@ -1,18 +1,5 @@
 @startuml menus
 
-class scenes.Scene {
-	+ load_completed: bool
-	+ scene_music: systems.Resource
-
-	+ Scene()
-	+ load()
-	+ setup()
-	+ pop_back()
-	{abstract} + update(elapsed_time: number)
-	{abstract} + handle_events(events: List[pygame.Event])
-	{abstract} + draw(screen: pygame.Surface)
-}
-
 class scenes.Menu {
 	+ gui_group: pygame.sprite.Group
 	+ go_back_button: gui.Button
@@ -27,7 +14,7 @@ class scenes.Menu {
 	+ get_selected_button(): gui.Button
 	+ previous_button():
 	+ next_button():
-	+ handle_events(events: List[pygame.Event])
+	+ handle_events(events: list[pygame.Event])
 	+ update(elapsed_time: number)
 	+ draw(screen: pygame.Surface)
 	- select_button(idx: number)
@@ -35,37 +22,29 @@ class scenes.Menu {
 
 class scenes.VerticalMenu {
 	+ VerticalMenu()
-	+ handle_events(events: List[pygame.Event])
+	+ handle_events(events: list[pygame.Event])
 }
 
 class scenes.HorizontalMenu {
 	+ HorizontalMenu()
-	+ handle_events(events: List[pygame.Event])
+	+ handle_events(events: list[pygame.Event])
 }
 
 class scenes.StoryScene extends scenes.Scene {
 	+ next_scene: Scene
 	+ gui_group: pygame.sprite.Group
 
-	+ StoryScene(title: string, argument: List[string], next_scene: Scene)
+	+ StoryScene(title: string, argument: list[string], next_scene: Scene)
 	+ setup()
 	+ update(elapsed_time: number)
-	+ handle_events(events: List[pygame.Event])
+	+ handle_events(events: list[pygame.Event])
 	+ draw(screen: pygame.Surface)
 }
 
-scenes.Menu -left-|> scenes.Scene
+scenes.Menu -right-|> scenes.Scene
 
 scenes.VerticalMenu -up-|> scenes.Menu
 scenes.HorizontalMenu -up-|> scenes.Menu
-
-scenes.Scene -up-> systems.ControlSystem
-scenes.Scene -up-> systems.Director
-scenes.Scene -up-> systems.SoundController
-scenes.Scene -up-> systems.ResourceManager
-scenes.Scene -up-> systems.GameModel
-scenes.Scene -up-> systems.RngSystem
-scenes.Scene -up-> systems.CameraManager
 
 scenes.Menu o--> "N" gui.Button
 scenes.StoryScene o--> "N" gui.Text

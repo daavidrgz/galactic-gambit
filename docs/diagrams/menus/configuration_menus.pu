@@ -1,0 +1,59 @@
+@startuml configuration_menus
+
+class scenes.ConfigurationMenu {
+	+ is_changing_seed: bool
+
+	+ ConfigurationMenu(background: pygame.Surface)
+	+ setup()
+	+ handle_events()
+	- create_button()
+	- keybindings_config()
+	- volume_config()
+	- change_seed()
+	- toggle_full_screen()
+	- go_back()
+}
+
+class scenes.InGameConfigurationMenu {
+	+ InGameConfigurationMenu(background: pygame.Surface)
+	+ setup()
+	- create_button()
+	- keybindings_config()
+	- volume_config()
+	- toggle_full_screen()
+	- go_back()
+}
+
+class scenes.VolumeMenu {
+	+ is_changing_volume: bool
+	+ input_timeout: number
+	+ current_timeout: number
+
+	+ VolumeMenu(background: pygame.Surface)
+	+ setup()
+	+ update(elapsed_time: number)
+	+ handle_events(events: list[pygame.Event])
+	- change_volume()
+	- go_back()
+	- volume_change_ready()
+	- update_timeout(elapsed_time: number)
+}
+
+class scenes.KeybindingsMenu {
+	+ is_changing_keybind: bool
+
+	+ KeybindingsMenu(background: pygame.Surface)
+	+ setup()
+	+ handle_events(events: list[pygame.Event])
+	+ update(elapsed_time: number)
+	- create_button()
+	- change_keybind()
+	- go_back()
+}
+
+scenes.ConfigurationMenu -left-|> scenes.VerticalMenu
+scenes.InGameConfigurationMenu -right-|> scenes.VerticalMenu
+scenes.VolumeMenu --|> scenes.VerticalMenu
+scenes.KeybindingsMenu --|> scenes.VerticalMenu
+
+@enduml

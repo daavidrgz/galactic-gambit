@@ -3,7 +3,7 @@
 class scenes.UpgradeMenu extends scenes.HorizontalMenu {
 	+ apply_upgrade: function
 
-	+ UpgradeMenu(upgrades: List[MagicUpgrade], apply_upgrade: function)
+	+ UpgradeMenu(upgrades: list[MagicUpgrade], apply_upgrade: function)
 	+ setup()
 	- create_upgrade_card()
 	- select_upgrade()

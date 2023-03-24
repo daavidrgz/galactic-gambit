@@ -5,6 +5,7 @@ class gui.BaseGui extends pygame.sprite.Sprite {
 	+ rect: pygame.Rect
 	+ position: numpy.ndarray
 
+	+ BaseGui(surface: pygame.Surface, position: numpy.ndarray)
 	+ set_surface(surface: pygame.Surface)
 	+ set_position(position: numpy.ndarray)
 	+ set_position_rel(position: numpy.ndarray)
@@ -19,6 +20,8 @@ class gui.Button extends gui.BaseGui {
 	+ select_sound: Resource
 	+ confirm_sound: Resource
 
+	+ Button(surface: pygame.Surface, action: function,
+	on_select: function, on_deselect: function, position: numpy.ndarray)
 	+ execute_action()
 	+ select()
 	+ deselect()
@@ -30,18 +33,25 @@ class gui.TextButton extends gui.Button {
 	+ color: tuple
 	+ color_hover: tuple
 
-	- render_font(text: string, color: tuple) -> pygame.Surface
+	+ TextButton(text: string, font: pygame.Font, color: tuple,
+	color_hover: tuple, action: function, position: numpy.ndarray)
 	+ set_text(text: string)
 	+ set_color(color: tuple)
+	- render_font(text: string, color: tuple) -> pygame.Surface
 }
 
 class gui.Text extends gui.BaseGui {
+	+ Text(text: string, font: pygame.Font, color: tuple, 
+	position: numpy.ndarray)
 	+ text: string
 	+ font: pygame.Font
 	+ color: tuple
 }
 
-class gui.Title extends gui.Text
+class gui.Title extends gui.Text {
+	+ Title(text: string, color: tuple,
+	position: numpy.ndarray)
+}
 
 class gui.BlinkText extends gui.Text {
 	+ current_time: number
@@ -49,12 +59,16 @@ class gui.BlinkText extends gui.Text {
 	+ only_once: bool
 	- blink_time: number
 
+	+ BlinkText(text: string, font: pygame.Font,\ncolor: tuple, position: numpy.ndarray,
+	blink_time: number, only_once: bool)
 	+ update(elapsed_time: number)
 }
 
 class gui.FullScreenButton extends gui.TextButton {
 	+ full_screen: bool
 
+	+ FullScreenButton(full_screen: bool, font: pygame.Font, color: tuple,
+	color_hover: tuple, action: function, position: numpy.ndarray)
 	- get_full_text(): string
 	+ toggle_full_screen()
 }
@@ -62,6 +76,8 @@ class gui.FullScreenButton extends gui.TextButton {
 class gui.ActionButton extends gui.TextButton {
 	- previous_color: tuple
 
+	+ ActionButton(text: string, font: pygame.Font, color: tuple,
+	color_hover: tuple, action: function, position: numpy.ndarray)
 	- action(action: function)
 	+ reset_color()
 }
@@ -71,6 +87,8 @@ class gui.RebindButton extends gui.ActionButton {
 	+ bind_action: string
 	+ bind_key: string
 
+	+ RebindButton(action_text: string, bind_action: string, bind_key: string,\nfont: pygame.Font, color: tuple, color_hover: tuple,
+	action: function, position: numpy.ndarray)
 	- get_full_text(): string
 	+ rebind_action(bind_key: pygame.Key)
 }
@@ -78,6 +96,8 @@ class gui.RebindButton extends gui.ActionButton {
 class gui.SeedButton extends gui.ActionButton {
 	+ seed: string
 
+	+ SeedButton(seed: string, font: pygame.Font, color: tuple,
+	color_hover: tuple, action: function, position: numpy.ndarray)
 	- get_full_text(): string
 	+ remove_last_char()
 	+ add_char(char: string)
@@ -91,6 +111,8 @@ class gui.VolumeButton extends gui.ActionButton {
 	+ increase_volume_cb: function
 	+ decrease_volume_cb: function
 
+	+ VolumeButton(volume_text: string, volume_level: number,\nincrease_volume_cb: function, decrease_volume_cb: function,\nfont: pygame.Font, color: tuple,color_hover: tuple,
+	action: function, position: numpy.ndarray)
 	- get_full_text(): string
 	+ set_volume(volume: number)
 }
@@ -102,6 +124,8 @@ class gui.UpgradeCard extends gui.Button {
 	+ width: number
 	+ height: number
 
+	+ UpgradeCard(title: string, icon: pygame.Surface, font: pygame.Font,
+	width: number, height: number, action: function, position: numpy.ndarray)
 	- render_card(): pygame.Surface
 	+ on_select()
 	+ on_deselect()

@@ -8,8 +8,8 @@ class scenes.GameOverMenu extends scenes.HorizontalMenu {
 }
 
 class scenes.WinMenu extends scenes.HorizontalMenu {
-	+ title_words: List[string]
-	+ subtitle_phrases: List[string]
+	+ title_words: list[string]
+	+ subtitle_phrases: list[string]
 	
 	+ WinMenu()
 	+ setup()
