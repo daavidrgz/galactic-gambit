@@ -35,6 +35,8 @@ The game is divided into three levels, each one with a different locations and d
 
 </details>
 
+#
+
 <details open>
 <summary><strong>RUNNING THE GAME</strong></summary>
 <br>
@@ -46,13 +48,15 @@ pip install -r requirements.txt
 python3 run_game.py
 ```
 
-</details>
-
 **Dependencies**
 
 - [pygame](https://www.pygame.org)
 - [numpy](https://numpy.org)
 - [noise](https://pypi.org/project/noise/)
+
+</details>
+
+#
 
 <details open>
 <summary><strong>CREDITS</strong></summary>
