@@ -11,21 +11,21 @@ A **2D roguelike videogame** made with [Pygame](https://www.pygame.org/) for an 
 
 # Description
 
-The game is a **top-down shooter** where the protagonist is an astronaut who has to fight against aliens in order to find a strange singal emitter in a remote planet.
+The game is a **top-down shooter** where the protagonist is an astronaut who has to fight against aliens in order to find a strange singal emitter in a remote planet. 🪐
 
-Our hero will try to survive while he gets more powerful through a **system of tech and magic upgrades**.
+Our hero will try to survive while he gets more powerful through a **system of tech and magic upgrades**. 🚀
 
 The game is divided into three levels, each one with a different locations and different enemies:
 
-### Spaceship 🚀
+### Spaceship
 
 ![Spaceship](screenshots/firstlevel.png)
 
-### Planet 🪐
+### Planet
 
 ![Planet](screenshots/secondlevel.png)
 
-### Cave 🕳️
+### Cave
 
 ![Cave](screenshots/thirdlevel.png)
 
