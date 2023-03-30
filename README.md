@@ -1,8 +1,33 @@
-# Documentation
+<div align="center">
+	<h1><strong>GALACTIC GAMBIT</strong></h1>
+</div>
+<div align="center">
 
-Diagrams can be found in the `docs` directory.
+A **2D roguelike videogame** made with love with [Pygame](https://www.pygame.org/) for an university project. 🎮🐍
 
-Assets and its licenses can be found in the `assets` directory.
+![Galactic Gambit](screenshots/title.png)
+
+</div>
+
+# Description
+
+The game is a **top-down shooter** where the protagonist is an astronaut who has to fight against aliens in order to find a strange singal emitter in a remote planet.
+
+Out hero will try to survive while he gets more power through a **system of tech and magic upgrades**.
+
+The game is divided into three levels, each one with a different locations and different enemies:
+
+## Spaceship 🚀
+
+![Spaceship](screenshots/firstlevel.png)
+
+## Planet 🪐
+
+![Planet](screenshots/secondlevel.png)
+
+## Cave 🕳️
+
+![Cave](screenshots/thirdlevel.png)
 
 # Running the game
 
@@ -15,12 +40,13 @@ python3 run_game.py
 
 ## Dependencies
 
-- pygame
-- numpy
-- noise
+- [pygame](https://www.pygame.org)
+- [numpy](https://numpy.org)
+- [noise](https://pypi.org/project/noise/)
 
-Manual installation of dependencies:
+# Credits
 
-```
-pip install pygame numpy noise
-```
+Many thanks to all the artist who made the assets (including the sprites, the music and the fonts) available to all of us for free.
+Mention to:
+- [Freepik](https://www.freepik.com)
+- [Flaticon](https://www.flaticon.com)
