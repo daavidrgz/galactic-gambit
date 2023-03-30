@@ -21,15 +21,15 @@ Our hero will try to survive while he gets more powerful through a **system of t
 
 The game is divided into three levels, each one with a different locations and different enemies:
 
-→ Spaceship
+**→ Spaceship**
 
 ![Spaceship](screenshots/firstlevel.png)
 
-→ Planet
+**→ Planet**
 
 ![Planet](screenshots/secondlevel.png)
 
-→ Cave
+**→ Cave**
 
 ![Cave](screenshots/thirdlevel.png)
 
@@ -48,7 +48,7 @@ python3 run_game.py
 
 </details>
 
-Dependencies
+**Dependencies**
 
 - [pygame](https://www.pygame.org)
 - [numpy](https://numpy.org)
